@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
+import { getSettings } from "@/lib/settingsStore";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -62,11 +63,12 @@ const schema = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const settings = await getSettings();
   return (
     <html lang="en">
       <head>
@@ -86,7 +88,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <SiteChrome>{children}</SiteChrome>
+        <SiteChrome settings={settings}>{children}</SiteChrome>
       </body>
     </html>
   );

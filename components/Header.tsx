@@ -4,18 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { site, telLink } from "@/lib/site";
+import { site } from "@/lib/site";
+import { defaultSettings, telHref, type SiteSettings } from "@/lib/settings";
 
 const nav = [
   { href: "/", label: "Home" },
   { href: "/packages", label: "Packages" },
+  { href: "/tickets", label: "Flight Deals" },
   { href: "/visa-services", label: "Visa Services" },
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Header() {
+export default function Header({
+  settings = defaultSettings,
+}: {
+  settings?: SiteSettings;
+}) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -52,7 +58,7 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
-          <a href={telLink()} className="btn-orange ml-3 !py-2.5 text-sm">
+          <a href={telHref(settings.phone)} className="btn-orange ml-3 !py-2.5 text-sm">
             Call Now
           </a>
         </nav>
@@ -98,8 +104,8 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
-          <a href={telLink()} className="btn-orange mt-3 w-full">
-            Call {site.phone}
+          <a href={telHref(settings.phone)} className="btn-orange mt-3 w-full">
+            Call {settings.phone}
           </a>
         </nav>
       )}
