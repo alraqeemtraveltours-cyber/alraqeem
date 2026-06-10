@@ -1,9 +1,16 @@
-import { waLink } from "@/lib/site";
+import { defaultSettings, waHref, type SiteSettings } from "@/lib/settings";
 
-export default function WhatsAppFloat() {
+export default function WhatsAppFloat({
+  settings = defaultSettings,
+}: {
+  settings?: SiteSettings;
+}) {
   return (
     <a
-      href={waLink("Assalam o Alaikum, I am interested in your travel packages.")}
+      href={waHref(
+        settings.whatsapp,
+        "Assalam o Alaikum, I am interested in your travel packages."
+      )}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
       "Umrah and Hajj packages, international tours and visa services across Pakistan. Head office in Charsadda.",
     images: ["/logo.png"],
   },
-  icons: { icon: "/logo.png" },
+  icons: { icon: "/favicon.png", shortcut: "/favicon.png", apple: "/favicon.png" },
 };
 
 export const viewport: Viewport = {

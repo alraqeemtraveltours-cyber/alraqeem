@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { type TravelPackage } from "@/lib/packages";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 type MediaItem = { name: string; path: string; url: string };
 
@@ -26,9 +27,11 @@ export default function PackageForm({
     image: initial?.image ?? "",
     expiryDate: initial?.expiryDate ?? "",
     description: initial?.description ?? "",
-    highlights: (initial?.highlights ?? []).join("\n"),
     featured: initial?.featured ?? false,
   });
+  const [highlights, setHighlights] = useState<string[]>(
+    initial?.highlights?.length ? initial.highlights : [""]
+  );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [media, setMedia] = useState<MediaItem[]>([]);
@@ -48,6 +51,16 @@ export default function PackageForm({
     setError("");
   }
 
+  function setHighlight(i: number, v: string) {
+    setHighlights((h) => h.map((x, idx) => (idx === i ? v : x)));
+  }
+  function addHighlight() {
+    setHighlights((h) => [...h, ""]);
+  }
+  function removeHighlight(i: number) {
+    setHighlights((h) => (h.length === 1 ? [""] : h.filter((_, idx) => idx !== i)));
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
@@ -60,7 +73,10 @@ export default function PackageForm({
       const res = await fetch(url, {
         method: mode === "create" ? "POST" : "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          highlights: highlights.map((h) => h.trim()).filter(Boolean),
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to save.");
@@ -73,7 +89,7 @@ export default function PackageForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-3xl space-y-5">
+    <form onSubmit={handleSubmit} className="w-full space-y-5">
       {!configured && (
         <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800">
           Supabase isn&apos;t connected, so saving is disabled. Add your keys and

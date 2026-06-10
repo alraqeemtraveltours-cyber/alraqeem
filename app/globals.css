@@ -96,6 +96,40 @@ label {
   @apply mb-1.5 block text-sm font-semibold text-slate-700;
 }
 
+/* Rich-text (Quill) editor + rendered output */
+.rich-editor .ql-container {
+  @apply rounded-b-xl border-slate-300 bg-white font-body text-base;
+  min-height: 160px;
+}
+.rich-editor .ql-toolbar {
+  @apply rounded-t-xl border-slate-300 bg-paper;
+}
+
+.prose-site {
+  @apply text-base leading-relaxed text-slate-700;
+}
+.prose-site h2 {
+  @apply mt-6 font-display text-2xl text-brand-blue-deep;
+}
+.prose-site h3 {
+  @apply mt-5 font-display text-xl text-brand-blue-deep;
+}
+.prose-site p {
+  @apply mt-3;
+}
+.prose-site ul {
+  @apply mt-3 list-disc space-y-1 pl-5;
+}
+.prose-site ol {
+  @apply mt-3 list-decimal space-y-1 pl-5;
+}
+.prose-site a {
+  @apply font-semibold text-brand-blue underline;
+}
+.prose-site strong {
+  @apply font-semibold text-brand-blue-deep;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

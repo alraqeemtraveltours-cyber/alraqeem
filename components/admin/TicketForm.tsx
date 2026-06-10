@@ -2,9 +2,19 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { tripTypes, type Ticket } from "@/lib/tickets";
+import { tripTypes, type Ticket, type TripType } from "@/lib/tickets";
+import { airlines } from "@/lib/airlines";
+import { airports } from "@/lib/airports";
+import SearchSelect from "@/components/admin/SearchSelect";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 type MediaItem = { name: string; path: string; url: string };
+
+function splitSector(sector?: string): { from: string; to: string } {
+  if (!sector) return { from: "", to: "" };
+  const parts = sector.split("→").map((s) => s.trim());
+  return { from: parts[0] ?? "", to: parts[1] ?? "" };
+}
 
 export default function TicketForm({
   mode,
@@ -18,11 +28,13 @@ export default function TicketForm({
   categoryOptions: string[];
 }) {
   const router = useRouter();
+  const seed = splitSector(initial?.sector);
   const [form, setForm] = useState({
     airline: initial?.airline ?? "",
-    sector: initial?.sector ?? "",
+    from: seed.from,
+    to: seed.to,
     category: initial?.category ?? categoryOptions[0] ?? "",
-    tripType: initial?.tripType ?? "Return",
+    tripType: (initial?.tripType ?? "Return") as TripType,
     fare: initial?.fare != null ? String(initial.fare) : "",
     baggage: initial?.baggage ?? "",
     image: initial?.image ?? "",
@@ -51,15 +63,23 @@ export default function TicketForm({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!form.from || !form.to) {
+      setError("Please choose both From and To.");
+      return;
+    }
     setSaving(true);
     setError("");
+    const payload = {
+      ...form,
+      sector: `${form.from} → ${form.to}`,
+    };
     try {
       const url =
         mode === "create" ? "/api/tickets" : `/api/tickets/${initial!.slug}`;
       const res = await fetch(url, {
         method: mode === "create" ? "POST" : "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to save.");
@@ -72,32 +92,42 @@ export default function TicketForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-3xl space-y-5">
+    <form onSubmit={handleSubmit} className="w-full space-y-5">
       {!configured && (
         <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800">
           Supabase isn&apos;t connected, so saving is disabled.
         </div>
       )}
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-3">
         <div>
           <label htmlFor="airline">Airline</label>
-          <input
+          <SearchSelect
             id="airline"
             value={form.airline}
-            onChange={(e) => update("airline", e.target.value)}
-            placeholder="e.g. Saudia"
-            required
+            onChange={(v) => update("airline", v)}
+            options={airlines}
+            placeholder="Search airline…"
           />
         </div>
         <div>
-          <label htmlFor="sector">Sector / Route</label>
-          <input
-            id="sector"
-            value={form.sector}
-            onChange={(e) => update("sector", e.target.value)}
-            placeholder="e.g. Islamabad → Jeddah"
-            required
+          <label htmlFor="from">From</label>
+          <SearchSelect
+            id="from"
+            value={form.from}
+            onChange={(v) => update("from", v)}
+            options={airports}
+            placeholder="e.g. Peshawar (PEW)"
+          />
+        </div>
+        <div>
+          <label htmlFor="to">To</label>
+          <SearchSelect
+            id="to"
+            value={form.to}
+            onChange={(v) => update("to", v)}
+            options={airports}
+            placeholder="e.g. Jeddah (JED)"
           />
         </div>
       </div>
@@ -118,18 +148,23 @@ export default function TicketForm({
           </select>
         </div>
         <div>
-          <label htmlFor="tripType">Trip type</label>
-          <select
-            id="tripType"
-            value={form.tripType}
-            onChange={(e) => update("tripType", e.target.value as typeof form.tripType)}
-          >
+          <label>Trip type</label>
+          <div className="flex gap-2 pt-1">
             {tripTypes.map((t) => (
-              <option key={t} value={t}>
+              <button
+                type="button"
+                key={t}
+                onClick={() => update("tripType", t)}
+                className={`flex-1 rounded-xl border px-4 py-3 text-sm font-semibold transition ${
+                  form.tripType === t
+                    ? "border-brand-blue bg-brand-blue text-white"
+                    : "border-slate-300 bg-white text-slate-600 hover:border-brand-blue"
+                }`}
+              >
                 {t}
-              </option>
+              </button>
             ))}
-          </select>
+          </div>
         </div>
       </div>
 
@@ -182,7 +217,7 @@ export default function TicketForm({
           </button>
         </div>
         {showPicker && (
-          <div className="mt-3 grid max-h-56 grid-cols-3 gap-2 overflow-y-auto rounded-xl border border-black/10 bg-white p-3 sm:grid-cols-4">
+          <div className="mt-3 grid max-h-56 grid-cols-3 gap-2 overflow-y-auto rounded-xl border border-black/10 bg-white p-3 sm:grid-cols-6">
             {media.length === 0 && (
               <p className="col-span-full text-sm text-slate-500">
                 No images yet. Upload some on the Media page.
@@ -206,12 +241,10 @@ export default function TicketForm({
       </div>
 
       <div>
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          rows={3}
+        <label>Description</label>
+        <RichTextEditor
           value={form.description}
-          onChange={(e) => update("description", e.target.value)}
+          onChange={(html) => update("description", html)}
         />
       </div>
 

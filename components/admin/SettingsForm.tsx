@@ -57,14 +57,14 @@ export default function SettingsForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-3xl space-y-5">
+    <form onSubmit={handleSubmit} className="w-full space-y-5">
       {!configured && (
         <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800">
           Connect Supabase (and create the <code>site_settings</code> table) to
           save changes.
         </div>
       )}
-      <div className="grid gap-x-5 gap-y-4 sm:grid-cols-2">
+      <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
         {fields.map((f) => (
           <div key={f.key}>
             <label htmlFor={f.key}>{f.label}</label>
