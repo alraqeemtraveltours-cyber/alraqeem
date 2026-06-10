@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import { site } from "@/lib/site";
-import { packages } from "@/lib/packages";
 
-export default function InquiryForm() {
+export default function InquiryForm({
+  packageOptions = [],
+}: {
+  packageOptions?: string[];
+}) {
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -92,11 +95,9 @@ export default function InquiryForm() {
             <option>Hajj Package</option>
             <option>Visa Services</option>
             <option>Air Ticketing</option>
-            {packages
-              .filter((p) => p.category !== "Umrah & Hajj")
-              .map((p) => (
-                <option key={p.slug}>{p.title}</option>
-              ))}
+            {packageOptions.map((title) => (
+              <option key={title}>{title}</option>
+            ))}
             <option>Something else</option>
           </select>
         </div>
