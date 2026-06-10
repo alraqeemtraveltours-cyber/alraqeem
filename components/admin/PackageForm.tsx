@@ -205,24 +205,41 @@ export default function PackageForm({
       </div>
 
       <div>
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          rows={3}
+        <label>Description</label>
+        <RichTextEditor
           value={form.description}
-          onChange={(e) => update("description", e.target.value)}
-          required
+          onChange={(html) => update("description", html)}
         />
       </div>
 
       <div>
-        <label htmlFor="highlights">Highlights (one per line)</label>
-        <textarea
-          id="highlights"
-          rows={5}
-          value={form.highlights}
-          onChange={(e) => update("highlights", e.target.value)}
-        />
+        <label>Highlights</label>
+        <div className="space-y-2">
+          {highlights.map((h, i) => (
+            <div key={i} className="flex gap-2">
+              <input
+                value={h}
+                onChange={(e) => setHighlight(i, e.target.value)}
+                placeholder={`Highlight ${i + 1}`}
+              />
+              <button
+                type="button"
+                onClick={() => removeHighlight(i)}
+                aria-label="Remove highlight"
+                className="shrink-0 rounded-xl border border-slate-300 px-3 text-slate-500 transition hover:border-red-400 hover:text-red-600"
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={addHighlight}
+          className="mt-2 text-sm font-semibold text-brand-blue hover:underline"
+        >
+          + Add highlight
+        </button>
       </div>
 
       <label className="flex items-center gap-2 !text-sm">

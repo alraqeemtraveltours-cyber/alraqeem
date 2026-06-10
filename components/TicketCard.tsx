@@ -1,4 +1,5 @@
 import { formatFare, type Ticket } from "@/lib/tickets";
+import RichText from "@/components/RichText";
 import { waLink } from "@/lib/site";
 
 export default function TicketCard({ ticket }: { ticket: Ticket }) {
@@ -28,9 +29,7 @@ export default function TicketCard({ ticket }: { ticket: Ticket }) {
         </div>
 
         {ticket.description && (
-          <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            {ticket.description}
-          </p>
+          <RichText html={ticket.description} className="mt-3 !text-sm" />
         )}
 
         <div className="mt-auto flex items-end justify-between pt-5">

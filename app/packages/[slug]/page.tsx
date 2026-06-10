@@ -5,6 +5,7 @@ import { getPackage, getPackages } from "@/lib/packagesStore";
 import { formatPrice } from "@/lib/packages";
 import { packageImage } from "@/lib/images";
 import { CtaBand } from "@/components/Shared";
+import RichText from "@/components/RichText";
 import { site, waLink, telLink } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
@@ -60,9 +61,6 @@ export default async function PackageDetailPage({
           <h1 className="mt-3 max-w-3xl text-4xl leading-[1.1] text-white sm:text-5xl">
             {pkg.title}
           </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-200 sm:text-lg">
-            {pkg.description}
-          </p>
         </div>
       </section>
 
@@ -71,6 +69,14 @@ export default async function PackageDetailPage({
         <div className="container-site grid gap-12 lg:grid-cols-3">
           {/* What's included */}
           <div className="lg:col-span-2">
+            {pkg.description && (
+              <div className="mb-10">
+                <p className="eyebrow">Overview</p>
+                <h2 className="mt-2 text-3xl">About this package</h2>
+                <div className="gold-rule mt-5" />
+                <RichText html={pkg.description} className="mt-6" />
+              </div>
+            )}
             <p className="eyebrow">What's included</p>
             <h2 className="mt-2 text-3xl">Package highlights</h2>
             <div className="gold-rule mt-5" />
