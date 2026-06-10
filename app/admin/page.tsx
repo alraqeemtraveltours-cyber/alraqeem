@@ -1,69 +1,64 @@
-import type { Metadata } from "next";
-import AdminClient from "@/components/AdminClient";
+import Link from "next/link";
 import { getPackages, isSupabaseConfigured } from "@/lib/packagesStore";
+import { listMedia } from "@/lib/mediaStore";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Admin · Manage Packages",
-  robots: { index: false, follow: false },
-};
-
-export default async function AdminPage() {
+export default async function AdminDashboard() {
   const packages = await getPackages();
+  const media = await listMedia();
+
+  const featured = packages.filter((p) => p.featured).length;
+  const expiringSoon = packages.filter((p) => {
+    if (!p.expiryDate) return false;
+    const days = (new Date(p.expiryDate).getTime() - Date.now()) / 86400000;
+    return days >= 0 && days <= 14;
+  }).length;
+
+  const stats = [
+    { label: "Packages", value: packages.length, href: "/admin/packages" },
+    { label: "Featured", value: featured, href: "/admin/packages" },
+    { label: "Expiring ≤14 days", value: expiringSoon, href: "/admin/packages" },
+    { label: "Media files", value: media.length, href: "/admin/media" },
+  ];
 
   return (
-    <section className="py-14 sm:py-20">
-      <div className="container-site">
-        <p className="eyebrow">Admin</p>
-        <h1 className="mt-2 text-3xl sm:text-4xl">Manage packages</h1>
-        <p className="mt-3 max-w-2xl text-slate-600">
-          Add new tour and Umrah packages or remove existing ones. Changes are
-          saved to your Supabase database and appear on the site immediately.
-        </p>
-        <div className="gold-rule mt-5" />
+    <div>
+      <p className="eyebrow">Dashboard</p>
+      <h1 className="mt-2 text-3xl">Welcome back</h1>
+      <div className="gold-rule mt-5" />
 
-        <div className="mt-12">
-          <AdminClient
-            configured={isSupabaseConfigured}
-            initialPackages={packages}
-          />
+      {!isSupabaseConfigured && (
+        <div className="mt-8 rounded-2xl border border-amber-300 bg-amber-50 p-5 text-sm text-amber-800">
+          <strong>Supabase isn&apos;t connected yet.</strong> The dashboard is
+          showing seed data. Add your keys to <code>.env.local</code> (or Vercel
+          env) and run <code>supabase/schema.sql</code> to go live.
         </div>
+      )}
 
-        {!isSupabaseConfigured && (
-          <div className="mt-14 rounded-2xl border border-black/5 bg-white p-7 shadow-card">
-            <h2 className="text-xl">Connect Supabase (one-time setup)</h2>
-            <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-slate-700">
-              <li>
-                Create a project at{" "}
-                <a
-                  href="https://supabase.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-brand-blue underline"
-                >
-                  supabase.com
-                </a>
-                .
-              </li>
-              <li>
-                In the Supabase SQL editor, run the contents of{" "}
-                <code>supabase/schema.sql</code> (creates the{" "}
-                <code>packages</code> table and seeds it).
-              </li>
-              <li>
-                Copy <code>.env.local.example</code> to <code>.env.local</code>{" "}
-                and fill in your Project URL, anon key and service-role key (from
-                Supabase → Project Settings → API).
-              </li>
-              <li>
-                Restart the dev server. This page will then read and write your
-                database.
-              </li>
-            </ol>
-          </div>
-        )}
+      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((s) => (
+          <Link
+            key={s.label}
+            href={s.href}
+            className="rounded-2xl border border-black/5 bg-white p-6 shadow-card transition hover:-translate-y-0.5 hover:shadow-lift"
+          >
+            <p className="font-display text-4xl text-brand-blue-deep">
+              {s.value}
+            </p>
+            <p className="mt-1 text-sm text-slate-500">{s.label}</p>
+          </Link>
+        ))}
       </div>
-    </section>
+
+      <div className="mt-10 flex flex-wrap gap-3">
+        <Link href="/admin/packages/new" className="btn-orange">
+          + Add Package
+        </Link>
+        <Link href="/admin/media" className="btn-outline">
+          Manage Media
+        </Link>
+      </div>
+    </div>
   );
 }

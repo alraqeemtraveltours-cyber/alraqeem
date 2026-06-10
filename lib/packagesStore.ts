@@ -10,6 +10,7 @@ import {
   type TravelPackage,
   type Category,
 } from "@/lib/packages";
+import type { PackageInput } from "@/lib/packageInput";
 
 // Shape of a row in the Supabase `packages` table.
 type Row = {
@@ -80,8 +81,6 @@ export function slugify(title: string): string {
     .replace(/-+/g, "-")
     .slice(0, 60);
 }
-
-export type PackageInput = Omit<TravelPackage, "slug"> & { slug?: string };
 
 /** Insert a new package. Requires the service-role client. */
 export async function addPackage(input: PackageInput): Promise<TravelPackage> {
