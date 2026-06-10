@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import InquiryForm from "@/components/InquiryForm";
 import { PageHero } from "@/components/Shared";
+import { getPackages } from "@/lib/packagesStore";
 import { images } from "@/lib/images";
 import { site, telLink, waLink } from "@/lib/site";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -10,7 +13,11 @@ export const metadata: Metadata = {
     "Contact Al Raqeem Travel & Tours in Charsadda. Call, WhatsApp or visit our office for Umrah packages, tours and visa services.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const packageOptions = (await getPackages())
+    .filter((p) => p.category !== "Umrah & Hajj")
+    .map((p) => p.title);
+
   return (
     <>
       <PageHero
@@ -66,7 +73,7 @@ export default function ContactPage() {
           </div>
 
           <div className="lg:col-span-3">
-            <InquiryForm />
+            <InquiryForm packageOptions={packageOptions} />
           </div>
         </div>
       </section>
