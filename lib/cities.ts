@@ -51,7 +51,7 @@ export const cities: City[] = [
     popular: [
       "Assisted Umrah for senior parents",
       "Dubai visit visas with hotel bookings",
-      "Northern Pakistan tours for families",
+      "Family Umrah and Gulf tour packages",
     ],
   },
   {

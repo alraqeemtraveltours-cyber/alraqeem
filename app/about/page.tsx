@@ -59,7 +59,7 @@ export default function AboutPage() {
           </p>
           <p className="mt-5 leading-relaxed text-slate-600">
             Whether it is a parent's first Umrah, a honeymoon in Turkey, or a
-            family trip to Hunza, our approach never changes: clear pricing,
+            family holiday in Dubai, our approach never changes: clear pricing,
             complete arrangements, and support that lasts until you are home
             safely.
           </p>

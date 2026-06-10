@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cities, getCity } from "@/lib/cities";
-import { packages } from "@/lib/packages";
+import { getFeatured } from "@/lib/packagesStore";
 import PackageCard from "@/components/PackageCard";
 import SectionHeading from "@/components/SectionHeading";
 import { CtaBand } from "@/components/Shared";
@@ -36,7 +36,7 @@ export default async function CityPage({
   const city = getCity(citySlug);
   if (!city) notFound();
 
-  const featured = packages.filter((p) => p.featured).slice(0, 3);
+  const featured = await getFeatured(3);
   const otherCities = cities.filter((c) => c.slug !== city.slug);
 
   return (

@@ -73,12 +73,12 @@ const steps = [
 
 const stats = [
   { value: "7+", label: "Cities served" },
-  { value: "12+", label: "Curated packages" },
+  { value: "8+", label: "Curated packages" },
   { value: "100%", label: "Upfront pricing" },
 ];
 
-export default function HomePage() {
-  const featured = packages.filter((p) => p.featured);
+export default async function HomePage() {
+  const featured = await getFeatured(4);
 
   return (
     <>
@@ -142,7 +142,7 @@ export default function HomePage() {
             description="Four services, one standard: nothing left for you to chase."
             align="center"
           />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s) => (
               <Link
                 key={s.title}
@@ -195,7 +195,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Featured packages"
             title="Where will you go first?"
-            description="Our most booked journeys across Umrah, international escapes and northern Pakistan."
+            description="Our most booked journeys across Umrah, Hajj and international escapes."
           />
           <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-4">
             {featured.map((p) => (
@@ -204,7 +204,7 @@ export default function HomePage() {
           </div>
           <div className="mt-12 text-center">
             <Link href="/packages" className="btn-outline">
-              View All 12 Packages
+              View All Packages
             </Link>
           </div>
         </div>

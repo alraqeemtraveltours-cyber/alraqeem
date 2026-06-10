@@ -25,22 +25,6 @@ export const posts: Post[] = [
     ],
   },
   {
-    slug: "best-time-to-visit-hunza-valley",
-    title: "Best Time to Visit Hunza Valley: Month by Month",
-    excerpt:
-      "Cherry blossoms in April, golden autumn in October, or snow in January? Here is when Hunza is at its best for every kind of traveler.",
-    date: "2026-04-03",
-    readMinutes: 5,
-    body: [
-      "Hunza changes its character completely four times a year, and the right month depends entirely on what you want to see. There is no single best time, only the best time for you.",
-      "April and early May bring the famous cherry and apricot blossoms. Villages from Aliabad to Gulmit turn pink and white against snow-covered peaks. This is the most photographed season and hotels fill quickly, so book at least a month ahead.",
-      "June to August is peak summer season. The Khunjerab Pass is fully open, Attabad Lake boating runs all day, and families travel comfortably with children. Days are warm, nights are pleasant, and every restaurant and hotel is operating. Expect crowds at major viewpoints.",
-      "October is autumn, and many travelers consider it Hunza's finest hour. The entire valley turns gold, orange and red. The light is softer, crowds are thinner, and prices drop slightly. For photographers, late October is unbeatable.",
-      "November to March is winter. Heavy snow closes Khunjerab Pass and some hotels shut down, but Hunza under snow is silent, dramatic and deeply peaceful. Only experienced travelers should attempt it, and road conditions must be checked daily.",
-      "Our Hunza packages run from April through October, with custom winter trips arranged for small groups on request. Whichever month you choose, plan for at least five days, since the journey itself through the Karakoram Highway is half the experience.",
-    ],
-  },
-  {
     slug: "dubai-visit-visa-requirements-pakistan",
     title: "Dubai Visit Visa for Pakistanis: Requirements and Process",
     excerpt:
