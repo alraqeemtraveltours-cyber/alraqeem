@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-emerald: #1c6b53;
+  --brand-gold: #c5a253;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-paper text-slate-700 font-body antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  @apply font-display text-brand-blue-deep;
+  letter-spacing: -0.01em;
+}
+
+.container-site {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide transition-all duration-200 active:scale-95;
+}
+
+/* Primary CTA — gold on deep green text reads premium */
+.btn-orange {
+  @apply btn bg-brand-orange text-brand-blue-deep font-bold shadow-[0_8px_24px_rgba(197,162,83,0.35)] hover:bg-brand-orange-dark hover:shadow-[0_10px_30px_rgba(168,133,58,0.45)];
+}
+
+.btn-blue {
+  @apply btn bg-brand-blue text-white hover:bg-brand-blue-dark;
+}
+
+.btn-outline {
+  @apply btn border border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white;
+}
+
+/* ---------- Accents ---------- */
+.eyebrow {
+  @apply text-xs font-bold uppercase tracking-luxe text-brand-orange-dark;
+}
+
+/* Thin gold rule used under section headings */
+.gold-rule {
+  @apply h-px w-16 bg-brand-orange;
+}
+
+/* Gradient overlays for images */
+.overlay-dark {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 33, 26, 0.15) 0%,
+    rgba(10, 33, 26, 0.55) 55%,
+    rgba(10, 33, 26, 0.92) 100%
+  );
+}
+
+.overlay-hero {
+  background: linear-gradient(
+    105deg,
+    rgba(10, 33, 26, 0.92) 0%,
+    rgba(10, 33, 26, 0.72) 45%,
+    rgba(10, 33, 26, 0.35) 100%
+  );
+}
+
+/* Subtle decorative top hairline in gold */
+.rule-gradient {
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    var(--brand-gold),
+    transparent
+  );
+  height: 1px;
+}
+
+/* ---------- Forms ---------- */
+input,
+select,
+textarea {
+  @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20;
+}
+
+label {
+  @apply mb-1.5 block text-sm font-semibold text-slate-700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
