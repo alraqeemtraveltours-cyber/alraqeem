@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 import SiteChrome from "@/components/SiteChrome";
 import { getSettings } from "@/lib/settingsStore";
 import { site } from "@/lib/site";
@@ -88,6 +89,13 @@ export default async function RootLayout({
         />
       </head>
       <body>
+        <NextTopLoader
+          color="#C5A253"
+          height={3}
+          showSpinner={false}
+          shadow="0 0 10px #C5A253, 0 0 5px #C5A253"
+          zIndex={1600}
+        />
         <SiteChrome settings={settings}>{children}</SiteChrome>
       </body>
     </html>
