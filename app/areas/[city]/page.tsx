@@ -27,6 +27,7 @@ export async function generateMetadata({
     title: `Travel Agency in ${city.name} | Umrah & Tour Packages`,
     description: city.intro,
     alternates: { canonical: `/areas/${city.slug}` },
+    openGraph: { url: `/areas/${city.slug}` },
   };
 }
 

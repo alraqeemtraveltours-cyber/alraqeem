@@ -25,6 +25,7 @@ export async function generateMetadata({
     title: `${pkg.title} — ${pkg.duration}`,
     description: pkg.description,
     alternates: { canonical: `/packages/${pkg.slug}` },
+    openGraph: { url: `/packages/${pkg.slug}` },
   };
 }
 
