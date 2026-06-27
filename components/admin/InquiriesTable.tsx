@@ -25,6 +25,7 @@ export default function InquiriesTable({
   const [service, setService] = useState("all");
   const [range, setRange] = useState<DateRange>("all");
   const [busy, setBusy] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Inquiry | null>(null);
 
   const services = useMemo(() => {
     return Array.from(new Set(inquiries.map((i) => i.service))).sort();
@@ -111,34 +112,35 @@ export default function InquiriesTable({
       </div>
 
       <div className="overflow-x-auto rounded-2xl border border-black/5 bg-white shadow-card">
-        <table className="w-full min-w-[980px] text-left text-sm">
+        <table className="w-full min-w-[760px] text-left text-sm">
           <thead className="bg-paper/70 text-[11px] uppercase tracking-wide text-slate-500">
             <tr>
               <th className="px-5 py-3">Date</th>
               <th className="px-5 py-3">Name</th>
-              <th className="px-5 py-3">Phone</th>
-              <th className="px-5 py-3">Email</th>
-              <th className="px-5 py-3">City</th>
               <th className="px-5 py-3">Service</th>
-              <th className="px-5 py-3">Message</th>
+              <th className="px-5 py-3">Contact</th>
               <th className="px-5 py-3 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-black/5">
             {filtered.map((i) => (
-              <tr key={i.id} className="align-top">
+              <tr
+                key={i.id}
+                className="cursor-pointer align-top transition hover:bg-paper/40"
+                onClick={() => setSelected(i)}
+              >
                 <td className="px-5 py-3 text-slate-600">{formatDate(i.createdAt)}</td>
                 <td className="px-5 py-3 font-semibold text-slate-800">{i.name}</td>
-                <td className="px-5 py-3 text-slate-700">{i.phone}</td>
-                <td className="px-5 py-3 text-slate-700">{i.email || "-"}</td>
-                <td className="px-5 py-3 text-slate-700">{i.city || "-"}</td>
                 <td className="px-5 py-3 text-slate-700">{i.service}</td>
-                <td className="max-w-[280px] px-5 py-3 text-slate-700">{i.message || "-"}</td>
+                <td className="px-5 py-3 text-slate-700">{i.phone}</td>
                 <td className="px-5 py-3">
                   <div className="flex justify-end">
                     <button
                       type="button"
-                      onClick={() => handleDelete(i.id, i.name)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(i.id, i.name);
+                      }}
                       disabled={!configured || busy === i.id}
                       className="rounded-lg p-2 text-red-600 transition hover:bg-red-50 disabled:opacity-40"
                       title="Delete"
@@ -160,6 +162,58 @@ export default function InquiriesTable({
           <p className="px-5 py-8 text-center text-sm text-slate-500">No matching submissions found.</p>
         )}
       </div>
+
+      {selected && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4"
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-lift"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="eyebrow">Inquiry details</p>
+                <h2 className="mt-1 text-2xl">{selected.name}</h2>
+                <p className="mt-1 text-sm text-slate-500">{formatDate(selected.createdAt)}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelected(null)}
+                className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+                title="Close"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl bg-paper/60 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</p>
+                <p className="mt-1 text-slate-800">{selected.phone}</p>
+              </div>
+              <div className="rounded-xl bg-paper/60 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</p>
+                <p className="mt-1 text-slate-800">{selected.email || "-"}</p>
+              </div>
+              <div className="rounded-xl bg-paper/60 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">City</p>
+                <p className="mt-1 text-slate-800">{selected.city || "-"}</p>
+              </div>
+              <div className="rounded-xl bg-paper/60 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Service</p>
+                <p className="mt-1 text-slate-800">{selected.service}</p>
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-xl bg-paper/60 p-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Message</p>
+              <p className="mt-1 whitespace-pre-wrap text-slate-800">{selected.message || "-"}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
