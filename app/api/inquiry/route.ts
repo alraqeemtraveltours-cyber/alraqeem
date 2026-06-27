@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { revalidatePath } from "next/cache";
+import { addInquiry } from "@/lib/inquiriesStore";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -106,6 +108,8 @@ export async function POST(request: Request) {
   `;
 
   try {
+    await addInquiry(payload);
+
     await transport.sendMail({
       from,
       to,
@@ -146,6 +150,9 @@ export async function POST(request: Request) {
         html: userHtml,
       });
     }
+
+    revalidatePath("/admin");
+    revalidatePath("/admin/inquiries");
 
     return NextResponse.json({ ok: true });
   } catch {

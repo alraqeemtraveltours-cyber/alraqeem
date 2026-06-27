@@ -241,3 +241,18 @@ values (1, 'Al Raqeem Travel & Tours', 'Your trusted partner for Umrah, Hajj and
         'Main Bazaar Road, Charsadda, Khyber Pakhtunkhwa, Pakistan',
         'Monday to Saturday, 9:00 AM to 8:00 PM')
 on conflict (id) do nothing;
+
+-- =====================================================================
+-- INQUIRIES (contact form submissions)
+-- =====================================================================
+create table if not exists public.inquiries (
+  id         uuid primary key default gen_random_uuid(),
+  name       text not null,
+  phone      text not null,
+  city       text,
+  email      text,
+  service    text not null,
+  message    text,
+  created_at timestamptz not null default now()
+);
+alter table public.inquiries enable row level security;

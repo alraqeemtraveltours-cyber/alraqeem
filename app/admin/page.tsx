@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { getPackages, isSupabaseConfigured } from "@/lib/packagesStore";
 import { listMedia } from "@/lib/mediaStore";
+import { getInquiries } from "@/lib/inquiriesStore";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
   const packages = await getPackages();
   const media = await listMedia();
+  const inquiries = await getInquiries();
 
   const featured = packages.filter((p) => p.featured).length;
   const expiringSoon = packages.filter((p) => {
@@ -19,6 +21,7 @@ export default async function AdminDashboard() {
     { label: "Packages", value: packages.length, href: "/admin/packages" },
     { label: "Featured", value: featured, href: "/admin/packages" },
     { label: "Expiring ≤14 days", value: expiringSoon, href: "/admin/packages" },
+    { label: "Inquiries", value: inquiries.length, href: "/admin/inquiries" },
     { label: "Media files", value: media.length, href: "/admin/media" },
   ];
 
@@ -36,7 +39,7 @@ export default async function AdminDashboard() {
         </div>
       )}
 
-      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
         {stats.map((s) => (
           <Link
             key={s.label}
