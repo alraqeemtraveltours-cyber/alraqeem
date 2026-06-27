@@ -78,7 +78,9 @@ export async function POST(request: Request) {
   }
 
   const to = process.env.INQUIRY_TO_EMAIL ?? "info@alraqeem.com.pk";
-  const from = process.env.INQUIRY_FROM_EMAIL ?? "info@alraqeem.com.pk";
+  const fromAddress = process.env.INQUIRY_FROM_EMAIL ?? "info@alraqeem.com.pk";
+  const fromName = process.env.INQUIRY_FROM_NAME ?? "Al Raqeem Travel & Tours";
+  const from = `${fromName} <${fromAddress}>`;
 
   const text = [
     "New website inquiry",
@@ -110,7 +112,7 @@ export async function POST(request: Request) {
       subject: `New Inquiry: ${payload.service}`,
       text,
       html,
-      replyTo: payload.email || from,
+      replyTo: payload.email || fromAddress,
     });
 
     if (payload.email) {
