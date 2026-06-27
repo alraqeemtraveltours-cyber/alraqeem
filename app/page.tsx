@@ -143,6 +143,51 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Trusted Partners */}
+      <section className="overflow-hidden border-y border-black/5 bg-white py-14">
+        <div className="container-site mb-10 text-center">
+          <p className="eyebrow">Airline Partners</p>
+          <h2 className="mt-2 font-display text-2xl text-brand-blue-deep sm:text-3xl">
+            Flights with airlines you trust
+          </h2>
+        </div>
+        {/* Infinite marquee strip */}
+        <div
+          className="relative overflow-hidden"
+          style={{ maskImage: "linear-gradient(to right, transparent, black 12%, black 88%, transparent)" }}
+        >
+          <div className="animate-marquee flex w-max items-center gap-14">
+            {[
+              { src: "/partners/qatar-airways.jpg", alt: "Qatar Airways",    big: true },
+              { src: "/partners/airblue.png",       alt: "Airblue",          xl: true },
+              { src: "/partners/airsial.png",       alt: "AirSial" },
+              { src: "/partners/etihad.png",        alt: "Etihad Airways",   medium: true },
+              { src: "/partners/saudia.png",        alt: "Saudia",           big: true },
+              { src: "/partners/pia.png",           alt: "PIA",              big: true },
+              /* duplicate for seamless loop */
+              { src: "/partners/qatar-airways.jpg", alt: "Qatar Airways 2",  big: true },
+              { src: "/partners/airblue.png",       alt: "Airblue 2",        xl: true },
+              { src: "/partners/airsial.png",       alt: "AirSial 2" },
+              { src: "/partners/etihad.png",        alt: "Etihad Airways 2", medium: true },
+              { src: "/partners/saudia.png",        alt: "Saudia 2",         big: true },
+              { src: "/partners/pia.png",           alt: "PIA 2",            big: true },
+            ].map((p) => (
+              <div
+                key={p.alt}
+                className="flex h-16 w-40 shrink-0 items-center justify-center rounded-2xl border border-black/5 bg-paper px-5 shadow-card"
+              >
+                <img
+                  src={p.src}
+                  alt={p.alt.replace(" 2", "")}
+                  loading="lazy"
+                  className={`max-w-full object-contain mix-blend-multiply ${p.xl ? "max-h-18" : p.big ? "max-h-14" : p.medium ? "max-h-12" : "max-h-10"}`}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Services */}
       <section className="py-20 sm:py-28">
         <div className="container-site">
