@@ -27,6 +27,7 @@ import {
   documentsFor,
   bookingSteps,
   itinerary,
+  detailFaqs,
 } from "@/lib/packageDetail";
 
 export const dynamic = "force-dynamic";
@@ -637,7 +638,7 @@ export default async function PackageDetailPage({
                   title="Common questions"
                 />
                 <FaqAccordion
-                  items={detail.faqs}
+                  items={detailFaqs(pkg)}
                   idBase={`pkg-${pkg.slug}`}
                   accent
                 />

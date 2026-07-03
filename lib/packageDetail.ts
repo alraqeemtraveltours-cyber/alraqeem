@@ -40,7 +40,7 @@ export const detailContent: Record<string, DetailContent> = {
         a: "Economy Umrah covers return airfare from Peshawar or Islamabad, hotels within walking distance of the Haram, the Saudi e-visa, ground transport between Makkah and Madinah, and guided Ziyarat at both holy sites. Our desk confirms every inclusion in writing before you pay, so nothing on the journey surprises you.",
       },
       {
-        q: "How far are the hotels from the Haram?",
+        q: "How close are the Economy Umrah hotels to the Haram?",
         a: "Economy Umrah books hotels within walking distance of the Haram, a short walk to the mataf for your daily prayers. Our team names the exact hotel for your travel dates before you confirm, since availability changes through the year and the closest options book early.",
       },
       {
@@ -115,8 +115,8 @@ export const detailContent: Record<string, DetailContent> = {
     faqs: [
       pricingFaq("Hajj Package"),
       {
-        q: "How do I apply for Hajj from Pakistan?",
-        a: "Hajj from Pakistan runs through two routes. The Government scheme opens on the Ministry of Religious Affairs portal at mora.gov.pk, where you register free during the announced window. Our private Hajj package forms the second route, with documents, trained group leaders, and Mina and Arafat camp services arranged for you.",
+        q: "How do I register for Hajj on the Hajj Package?",
+        a: "Registration for the Hajj Package starts with our desk. We guide you through the government scheme on the official MORA portal, and reserve your place on the private Hajj route with documents, trained group leaders, and Mina and Arafat camp services. Message our team early, since Hajj quotas fill quickly each year.",
       },
       {
         q: "What does the Hajj Package include?",
@@ -401,6 +401,154 @@ export function itinerary(
         "Transfer to the airport for your return flight to Pakistan.",
     },
   ];
+}
+
+// Build a full 10 to 15 FAQ set for a detail page: the package-specific
+// questions, plus tailored questions built from that package's real data.
+// Generated questions are skipped when the base already covers the topic, so
+// nothing repeats within the page, and every answer stays grounded in the repo.
+export function detailFaqs(pkg: TravelPackage): Faq[] {
+  const name = pkg.title;
+  const isUmrah = /umrah/i.test(pkg.slug) || /umrah/i.test(pkg.title);
+  const isHajj = /hajj/i.test(pkg.slug);
+  const isPilg = pkg.category === "Umrah & Hajj";
+  const hotel = hotelHighlight(pkg);
+  const deps = departureCities(pkg).join(" and ");
+  const whoForList = detailContent[pkg.slug]?.whoFor ?? [];
+  const base = detailContent[pkg.slug]?.faqs ?? [pricingFaq(name)];
+  const baseText = base.map((f) => f.q.toLowerCase()).join(" ");
+  const has = (re: RegExp) => re.test(baseText);
+  const nearness =
+    hotel && /walking/i.test(hotel)
+      ? "within walking distance of the Haram"
+      : hotel && /facing/i.test(hotel)
+        ? "facing the Haram"
+        : hotel && /haram/i.test(hotel)
+          ? "near the Haram"
+          : null;
+
+  const cand: { when: boolean; f: Faq }[] = [
+    {
+      when: !has(/includ|cover/),
+      f: {
+        q: `What is included in the ${name}?`,
+        a: `Every inclusion in the ${name} is listed above under what is included, from flights and the visa to hotels, ground transport, and guided ${isPilg ? "Ziyarat" : "sightseeing"}. Our desk confirms each item in writing before you pay, so the journey holds no surprises.`,
+      },
+    },
+    {
+      when: !has(/not included|exclud/),
+      f: {
+        q: `What is not included in the ${name}?`,
+        a: `The ${name} excludes personal expenses such as shopping, anything not listed under what is included, optional excursions and upgrades, and travel insurance unless stated in your quote. Our team spells out every cost before you pay, so nothing appears later.`,
+      },
+    },
+    {
+      when: isPilg && !!nearness && !has(/hotel|haram|close|far|stay/),
+      f: {
+        q: `How close are the hotels to the Haram on the ${name}?`,
+        a: `Hotels on the ${name} sit ${nearness}, so you reach your prayers with a short walk. Exact hotel names, star level, and room sharing are confirmed for your travel dates before you pay, since the closest options fill early.`,
+      },
+    },
+    {
+      when: isUmrah && !has(/sharing|room/),
+      f: {
+        q: `What room sharing options come with the ${name}?`,
+        a: `Room sharing on the ${name} follows your group size and budget, arranged as quad, triple, or double to fit. Tell our desk how many travelers share a room, and we quote hotels near the Haram to match, confirmed for your dates before you pay.`,
+      },
+    },
+    {
+      when: isPilg && deps.length > 0 && !has(/cities|depart|fly from|peshawar/),
+      f: {
+        q: `Which cities does the ${name} depart from?`,
+        a: `The ${name} departs from ${deps}, whichever carries the better fare and schedule for your dates. Our team arranges onward ground transport, and travelers from nearby towns coordinate airport pickup when they book.`,
+      },
+    },
+    {
+      when: isPilg && !has(/visa/),
+      f: {
+        q: `Does the ${name} include the Saudi visa?`,
+        a: `Yes. The ${name} includes the Saudi ${isHajj ? "Hajj" : "Umrah e-"}visa, prepared and filed by our team. Verify the current rules at the official Saudi source before you travel, and our desk checks every page of your file so it clears without avoidable delays.`,
+      },
+    },
+    {
+      when: isUmrah && !has(/ziyarat/),
+      f: {
+        q: `Is guided Ziyarat part of the ${name}?`,
+        a: `Guided Ziyarat in Makkah and Madinah is part of the ${name}. Our team plans visits to the historical sites around your prayers at Masjid al-Haram and Masjid an-Nabawi, with the exact schedule confirmed for your travel dates.`,
+      },
+    },
+    {
+      when: !isPilg && !has(/visa|flight/),
+      f: {
+        q: `Does the ${name} include the visa and flights?`,
+        a: `Yes. The ${name} includes the visit visa and return flights, prepared and booked by our team. Hotels and sightseeing arrive in the same booking, and our desk checks every document before filing, so your visa clears without avoidable delays.`,
+      },
+    },
+    {
+      when: !isPilg && !has(/best|time|month|season/),
+      f: {
+        q: `What is the best time to travel on the ${name}?`,
+        a: `The best time for the ${name} depends on weather, crowds, and budget. Cooler, quieter months keep sightseeing comfortable, while peak season books earliest. Tell our team your window, and our desk builds the trip around the dates that suit you.`,
+      },
+    },
+    {
+      when: whoForList.length > 0 && !has(/suited|for\?|families/),
+      f: {
+        q: `Who is the ${name} best for?`,
+        a: `The ${name} suits ${whoForList
+          .slice(0, 3)
+          .join(", ")
+          .toLowerCase()}. Share your group size and any needs with our desk, and we shape the arrangements around them, from connected rooms to airport assistance for elders.`,
+      },
+    },
+    {
+      when: !has(/duration|how long|days/),
+      f: {
+        q: `How long is the ${name}?`,
+        a: `The ${name} runs ${pkg.duration}, ${isPilg ? "split across Makkah and Madinah" : "across the destinations in your itinerary"}. The exact day split is confirmed for your travel dates. See the sample itinerary above for the typical flow, from arrival to your safe return home.`,
+      },
+    },
+    {
+      when: true,
+      f: {
+        q: `What documents do I need for the ${name}?`,
+        a: `The ${name} needs a passport valid for at least six months, your national identity card, passport photographs, and the ${isPilg ? "Umrah or Hajj visa" : "visit visa"}, which our desk prepares and files.${isPilg ? " A vaccination certificate applies where Saudi authorities require it." : ""} Our team checks every page before submission.`,
+      },
+    },
+    {
+      when: !has(/book|how do i get/),
+      f: {
+        q: `How do I book the ${name}?`,
+        a: `Booking the ${name} starts with one WhatsApp message or a visit to the Charsadda office. Our team sends options and a quote for your exact dates, a deposit secures your seats and rooms, and the balance settles before departure, every amount confirmed in writing.`,
+      },
+    },
+    {
+      when: !has(/pay|deposit/),
+      f: {
+        q: `How do payments and deposits work on the ${name}?`,
+        a: `Payment for the ${name} runs through bank transfer or in person at the Charsadda office. A deposit holds your seats and rooms once you confirm, and the balance settles before departure, with no hidden charges added later and every amount confirmed in writing.`,
+      },
+    },
+    {
+      when: true,
+      f: {
+        q: `What support do I get during the ${name}?`,
+        a: `Our desk stays with you throughout the ${name}, on WhatsApp from your first inquiry to your safe return. ${isPilg ? "Trained group leaders travel with pilgrimage groups, and o" : "O"}ur Charsadda office answers questions in person, so support never depends on a distant call center.`,
+      },
+    },
+  ];
+
+  const out: Faq[] = [...base];
+  const seen = new Set(base.map((f) => f.q.toLowerCase().replace(/[^a-z0-9]/g, "")));
+  for (const c of cand) {
+    if (!c.when) continue;
+    const key = c.f.q.toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(c.f);
+    if (out.length >= 15) break;
+  }
+  return out;
 }
 
 // Content for any package, with a safe fallback for admin added slugs.

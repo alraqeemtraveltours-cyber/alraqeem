@@ -8,6 +8,7 @@ import Reviews from "@/components/Reviews";
 import FaqAccordion from "@/components/FaqAccordion";
 import PackagesExplorer from "@/components/packages/PackagesExplorer";
 import TierCompare from "@/components/packages/TierCompare";
+import MobileActionBar from "@/components/packages/MobileActionBar";
 import { getPackages } from "@/lib/packagesStore";
 import { getSettings } from "@/lib/settingsStore";
 import { reviewData } from "@/lib/reviews";
@@ -61,6 +62,26 @@ const hubFaqs = [
   {
     q: "How early should I book, especially for Ramadan Umrah?",
     a: "Book as early as your dates allow, since hotels near the Haram and airline seats fill months ahead. Ramadan Umrah fills first, and the last Ashra sells out earliest, so plan well before Ramadan 2026. For tours, three to six weeks gives comfortable time for visa processing and the best fares.",
+  },
+  {
+    q: "How do the economy, premium, and five star tiers differ?",
+    a: "Economy suits budget conscious pilgrims, with shared rooms and hotels within walking or shuttle distance of the Haram. Premium and five star place you in hotels near or facing the Haram, with fewer travelers per room and private transport. Compare the tiers side by side above, then message our desk for a quote.",
+  },
+  {
+    q: "What does a Hajj package cover beyond Umrah?",
+    a: "A Hajj package keeps the Umrah rites and adds the days of Hajj: the standing at Arafat, the night at Muzdalifah, and the camps at Mina, with trained group leaders and pre-departure training. Our desk supports government scheme registration through MORA and arranges the full private Hajj program from booking to safe return.",
+  },
+  {
+    q: "What is included in an international tour package?",
+    a: "Each international tour package covers the visit visa, return flights, hotels, and guided sightseeing in one booking, from Dubai and Turkey to Baku and the Malaysia and Thailand combo. Our team prepares every document, books the flights and hotels, and confirms the full itinerary in writing before you pay.",
+  },
+  {
+    q: "Do you adjust the hotels, dates, or duration within a package?",
+    a: "Yes. Every package flexes around your dates, budget, and group. Our desk adjusts the hotel tier, the room sharing, the duration, and the departure city, then quotes the current best price for the version you choose. Tell us what matters most, and we build the package around it.",
+  },
+  {
+    q: "What makes a package better than booking flights and hotels separately?",
+    a: "A package puts the visa, flights, hotels, transport, and guided visits under one desk, so nothing falls between separate bookings. Our team checks every document, coordinates the timings, and stays reachable on WhatsApp from inquiry to safe return. One booking, one point of contact, one written confirmation.",
   },
 ];
 
@@ -257,6 +278,15 @@ export default async function PackagesPage() {
         title="Don't see your destination?"
         subtitle="We build custom packages for any destination and group size. Tell us where you want to go, and our desk sends a quote for your exact dates."
         officeHref={mapsLink()}
+      />
+
+      {/* Mobile sticky quote bar */}
+      <MobileActionBar
+        quoteHref={waHref(
+          settings.whatsapp,
+          "Assalam o Alaikum, I want a quote for a package for my dates."
+        )}
+        telHref={telHref(settings.phone)}
       />
     </>
   );
