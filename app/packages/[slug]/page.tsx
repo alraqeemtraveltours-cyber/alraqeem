@@ -11,9 +11,12 @@ import PackageInquiryCard from "@/components/packages/PackageInquiryCard";
 import Icon, { inclusionIcon } from "@/components/packages/DetailIcons";
 import StickyQuoteCard from "@/components/packages/StickyQuoteCard";
 import MobileActionBar from "@/components/packages/MobileActionBar";
+import Reviews from "@/components/Reviews";
 import { getSettings } from "@/lib/settingsStore";
 import { waHref, telHref } from "@/lib/settings";
 import { site, mapsLink } from "@/lib/site";
+import { reviewData } from "@/lib/reviews";
+import { stagingCredentials, stagingFounder } from "@/lib/staging";
 import { packageDetailGraph } from "@/lib/schema";
 import {
   getDetail,
@@ -23,6 +26,7 @@ import {
   standardExclusions,
   documentsFor,
   bookingSteps,
+  itinerary,
 } from "@/lib/packageDetail";
 
 export const dynamic = "force-dynamic";
@@ -130,6 +134,29 @@ export default async function PackageDetailPage({
   // Documents: surface the "processed by our team" line as a note row.
   const visaNote = documents.find((d) => /processed by our team/i.test(d));
   const docList = documents.filter((d) => d !== visaNote);
+
+  // Related guide and visa cross-links. Only resolving links; missing
+  // destination guides go to the gaps report.
+  const crossLinks = isPilgrimage
+    ? [
+        {
+          label: "First-time Umrah guide",
+          href: "/blog/first-time-umrah-guide-pakistan",
+        },
+        { label: "Saudi and Umrah visa services", href: "/visa-services" },
+      ]
+    : pkg.slug === "dubai-5-days"
+      ? [
+          {
+            label: "Dubai visit visa guide",
+            href: "/blog/dubai-visit-visa-requirements-pakistan",
+          },
+          { label: "UAE visit visa services", href: "/visa-services" },
+        ]
+      : [
+          { label: "Visit visa services", href: "/visa-services" },
+          { label: "Travel guides", href: "/blog" },
+        ];
 
   // Nights and nearness (Umrah only). Real walking indicator, no invented split.
   const nearness =
@@ -400,6 +427,40 @@ export default async function PackageDetailPage({
                 </section>
               )}
 
+              {/* Sample itinerary */}
+              <section>
+                <Head
+                  eyebrow="Sample itinerary"
+                  title="A typical flow, not fixed dates"
+                />
+                <ol className="mt-6 space-y-4">
+                  {itinerary(pkg).map((step, i) => (
+                    <li
+                      key={step.phase}
+                      className="flex gap-4 rounded-2xl border border-black/5 bg-white p-5 shadow-card"
+                    >
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-orange/15 font-display text-sm font-bold text-brand-orange-dark">
+                        {i + 1}
+                      </span>
+                      <div>
+                        <p className="font-display text-base text-brand-blue-deep">
+                          {step.phase}
+                        </p>
+                        <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                          {step.detail}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+                {isPilgrimage && (
+                  <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-slate-500">
+                    The exact night split between Makkah and Madinah is confirmed
+                    for your travel dates.
+                  </p>
+                )}
+              </section>
+
               {/* Departure cities, chips */}
               {departure.length > 0 && (
                 <section>
@@ -489,6 +550,29 @@ export default async function PackageDetailPage({
                   >
                     Get the checklist on WhatsApp
                   </a>
+                  {isPilgrimage && (
+                    <p className="mt-5 border-t border-black/5 pt-4 text-xs leading-relaxed text-slate-500">
+                      Verify the current rules at the official sources:{" "}
+                      <a
+                        href="https://www.nusuk.sa"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-brand-blue underline"
+                      >
+                        Saudi Umrah visa rules
+                      </a>{" "}
+                      and{" "}
+                      <a
+                        href="https://www.moh.gov.sa"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-brand-blue underline"
+                      >
+                        Saudi vaccination requirements
+                      </a>
+                      .
+                    </p>
+                  )}
                 </div>
               </section>
 
@@ -583,6 +667,18 @@ export default async function PackageDetailPage({
                   >
                     Open the official MORA portal
                   </a>
+                  <p className="mt-4 text-xs leading-relaxed text-slate-400">
+                    Saudi Hajj and Umrah services are managed on the{" "}
+                    <a
+                      href="https://www.nusuk.sa"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-brand-orange underline"
+                    >
+                      official Nusuk platform
+                    </a>
+                    .
+                  </p>
                 </section>
               )}
 
@@ -605,6 +701,75 @@ export default async function PackageDetailPage({
                   {site.sisterCompany}. WhatsApp support stays active from your
                   first inquiry to your safe return home.
                 </p>
+                <ul className="mt-5 space-y-2 border-t border-white/10 pt-5 text-sm text-slate-300">
+                  <li className="flex flex-wrap items-center gap-2">
+                    <span className="text-slate-400">Registration:</span>
+                    {stagingCredentials.registrationNumber}
+                    <span className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-300">
+                      To add
+                    </span>
+                  </li>
+                  <li className="flex flex-wrap items-center gap-2">
+                    <span className="text-slate-400">Your consultant:</span>
+                    {stagingFounder.name}, {stagingFounder.role}
+                    <span className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-300">
+                      To add
+                    </span>
+                    <Link
+                      href="/about"
+                      className="font-semibold text-brand-orange underline"
+                    >
+                      About us
+                    </Link>
+                  </li>
+                </ul>
+                <p className="mt-4 text-xs leading-relaxed text-slate-400">
+                  Payment, refund, cancellation, and change terms are confirmed
+                  in writing before you pay.{" "}
+                  <Link
+                    href="/contact"
+                    className="font-semibold text-brand-orange underline"
+                  >
+                    Ask our desk for the full terms.
+                  </Link>
+                </p>
+              </section>
+
+              {isUmrah && (
+                <section>
+                  <Head
+                    eyebrow="How this compares"
+                    title="Economy, premium, and Ramadan"
+                  />
+                  <p className="mt-6 max-w-[65ch] text-base leading-relaxed text-slate-700">
+                    See how economy, premium, and Ramadan Umrah differ on hotel
+                    proximity, room sharing, transport, and duration, with no
+                    price in any cell.
+                  </p>
+                  <Link
+                    href="/packages#compare-tiers"
+                    className="btn-outline mt-5 !py-2.5 text-sm"
+                  >
+                    Compare Umrah tiers
+                  </Link>
+                </section>
+              )}
+
+              {/* Related guides and visa */}
+              <section>
+                <Head eyebrow="Read next" title="Guides and visa services" />
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {crossLinks.map((l) => (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-2 text-sm font-semibold text-brand-blue-deep shadow-card transition hover:-translate-y-0.5 hover:shadow-lift"
+                    >
+                      {l.label}
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A8853A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                    </Link>
+                  ))}
+                </div>
               </section>
             </div>
 
@@ -622,6 +787,9 @@ export default async function PackageDetailPage({
           </div>
         </div>
       </section>
+
+      {/* Social proof: staging placeholders until real reviews are connected */}
+      <Reviews data={reviewData} />
 
       {/* Related packages */}
       {related.length > 0 && (

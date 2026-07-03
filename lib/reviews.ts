@@ -1,9 +1,11 @@
 // =====================================================================
-// Social proof. REAL data only.
-// Leave this file empty and the reviews section plus its Review and
-// AggregateRating schema render nothing. Populate it with genuine Google
-// or client testimonials and the section appears automatically.
+// Social proof. On the Vercel preview this pulls clearly labeled staging
+// placeholders from lib/staging.ts so the section renders for review. No
+// Review or AggregateRating schema is emitted while isPlaceholder is true.
+// To go live: replace the items in lib/staging.ts with real reviews and set
+// isPlaceholder to false (or wire a Google Business Profile feed).
 // =====================================================================
+import { stagingReviews } from "@/lib/staging";
 
 export type Review = {
   // Reviewer name as shown publicly, e.g. "Imran Khan".
@@ -27,16 +29,19 @@ export type ReviewData = {
   reviewCount: number | null;
   // Individual named reviews. Three to six reads best.
   reviews: Review[];
+  // True while the reviews are staging placeholders. No schema is emitted.
+  isPlaceholder?: boolean;
 };
 
 export const reviewData: ReviewData = {
-  profileUrl: "",
-  ratingValue: null,
-  reviewCount: null,
-  reviews: [],
+  profileUrl: stagingReviews.profileUrl,
+  ratingValue: stagingReviews.ratingValue,
+  reviewCount: stagingReviews.reviewCount,
+  reviews: stagingReviews.items,
+  isPlaceholder: stagingReviews.isPlaceholder,
 };
 
-// True only when there is genuine review content to show.
+// True only when there is genuine, non placeholder review content to show.
 export function hasReviews(data: ReviewData = reviewData) {
-  return data.reviews.length > 0;
+  return data.reviews.length > 0 && !data.isPlaceholder;
 }

@@ -105,7 +105,7 @@ export const detailContent: Record<string, DetailContent> = {
   "hajj-package": {
     moraNote: true,
     overview:
-      "Hajj Package from Pakistan delivers a complete, guided pilgrimage with trained group leaders and scholars. Our team arranges government approved Hajj services, Mina and Arafat camp accommodation, Muzdalifah movement, and pre-departure training so you arrive prepared for every rite. Quotas stay limited every year, so early registration matters. For the government scheme, register free on the official MORA portal, then choose our private Hajj route for full document support and guided camp services from departure to safe return.",
+      "Hajj Package from Pakistan delivers a complete, guided pilgrimage with trained group leaders and scholars. Our team supports government Hajj scheme registration through MORA, plus Mina and Arafat camp accommodation, Muzdalifah movement, and pre-departure training so you arrive prepared for every rite. Quotas stay limited every year, so early registration matters. For the government scheme, register free on the official MORA portal, then choose our private Hajj route for full document support and guided camp services from departure to safe return.",
     whoFor: [
       "First time Hajj pilgrims from Pakistan",
       "Pilgrims who want trained group leaders and scholars",
@@ -120,7 +120,7 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "What does the Hajj Package include?",
-        a: "Hajj Package covers government approved arrangements, Mina and Arafat camp accommodation, trained group leaders and scholars, and pre-departure Hajj training. Our team guides your group through every rite, from Ihram to the farewell Tawaf, so first time pilgrims travel with clear support at each step.",
+        a: "Hajj Package covers government Hajj scheme registration support through MORA, Mina and Arafat camp accommodation, trained group leaders and scholars, and pre-departure Hajj training. Our team guides your group through every rite, from Ihram to the farewell Tawaf, so first time pilgrims travel with clear support at each step.",
       },
       {
         q: "When should I register for Hajj?",
@@ -303,6 +303,105 @@ export const bookingSteps = [
   "Pay by bank transfer or in person, and receive written confirmation.",
   "Travel with your documents in hand and our desk one WhatsApp message away.",
 ];
+
+// Typical itinerary flow. Real rites and places only, framed as a typical
+// flow, not fixed dates. No invented Makkah and Madinah night counts, since
+// the real split is not in the repo (recorded in the gaps report).
+export function itinerary(
+  pkg: TravelPackage
+): { phase: string; detail: string }[] {
+  const isHajj = /hajj/i.test(pkg.slug);
+  const isUmrah = /umrah/i.test(pkg.slug) || /umrah/i.test(pkg.title);
+  if (isHajj) {
+    return [
+      {
+        phase: "Arrival and Makkah",
+        detail:
+          "Arrive in the Kingdom, transfer to your Makkah hotel, and perform Umrah before Hajj where your program includes it.",
+      },
+      {
+        phase: "Days in Makkah",
+        detail:
+          "Pray in Masjid al-Haram and prepare for the days of Hajj with your trained group leaders.",
+      },
+      {
+        phase: "Mina, Arafat, and Muzdalifah",
+        detail:
+          "Move to Mina, stand at Arafat on the ninth of Dhul Hijjah, and spend the night at Muzdalifah, guided at every step.",
+      },
+      {
+        phase: "Return to Makkah",
+        detail:
+          "Complete the stoning, the sacrifice, Halq or Taqsir, and the Tawaf of Hajj.",
+      },
+      {
+        phase: "Madinah",
+        detail:
+          "Travel to Madinah for prayers at Masjid an-Nabawi, the Rawdah, and guided Ziyarat.",
+      },
+      {
+        phase: "Return home",
+        detail:
+          "Transfer to the airport for your return flight to Pakistan.",
+      },
+    ];
+  }
+  if (isUmrah) {
+    return [
+      {
+        phase: "Arrival and transfer",
+        detail:
+          "Arrive in the Kingdom and transfer to your Makkah hotel with our ground team.",
+      },
+      {
+        phase: "Umrah in Makkah",
+        detail:
+          "Enter Ihram, perform Tawaf around the Kaaba and Sa'i between Safa and Marwah, then complete Halq or Taqsir.",
+      },
+      {
+        phase: "Days in Makkah",
+        detail:
+          "Pray your daily prayers in Masjid al-Haram, with time for extra Umrah and rest between prayers.",
+      },
+      {
+        phase: "Transfer to Madinah",
+        detail: "Travel to Madinah by road with our ground team.",
+      },
+      {
+        phase: "Days in Madinah",
+        detail:
+          "Pray at Masjid an-Nabawi, visit the Rawdah, and join guided Ziyarat of the historical sites.",
+      },
+      {
+        phase: "Return home",
+        detail:
+          "Transfer to the airport for your return flight to Pakistan.",
+      },
+    ];
+  }
+  return [
+    {
+      phase: "Arrival",
+      detail:
+        "Arrive at your destination, clear the visit visa, and transfer to your hotel with local support.",
+    },
+    {
+      phase: "Guided sightseeing",
+      detail:
+        "Cover the main sights and excursions listed in your package with local guides.",
+    },
+    {
+      phase: "Free time and add-ons",
+      detail:
+        "Enjoy free time, with optional excursions arranged on request.",
+    },
+    {
+      phase: "Return home",
+      detail:
+        "Transfer to the airport for your return flight to Pakistan.",
+    },
+  ];
+}
 
 // Content for any package, with a safe fallback for admin added slugs.
 export function getDetail(pkg: TravelPackage): DetailContent {

@@ -36,6 +36,26 @@ const faqs = [
     q: "How do I pay and how do I book?",
     a: "Booking starts with one WhatsApp message or a visit to the Charsadda office. Our team sends package options with full pricing the same day, and once you choose, a deposit secures your seats and rooms. Balance settlement follows before departure. Payment runs through bank transfer or in person at the office, and every amount stays confirmed in writing.",
   },
+  {
+    q: "What is the difference between Umrah and Hajj?",
+    a: "Umrah is the minor pilgrimage, performed year round in Ihram, completed with Tawaf around the Kaaba and Sa'i between Safa and Marwah. Hajj is the obligatory pilgrimage of Dhul Hijjah, which keeps the Umrah rites and adds the standing at Arafat, the night at Muzdalifah, and the days at Mina, registered through MORA and Nusuk. Our desk arranges both from Pakistan.",
+  },
+  {
+    q: "When is the best time for Umrah, and is Ramadan better?",
+    a: "Umrah runs throughout the year, so the best time depends on weather, crowds, and your budget. Ramadan carries the greatest reward, with Taraweeh in the Haram and the nights of Laylat al-Qadr, and it fills the earliest. Cooler months outside Ramadan stay calmer and lighter. Tell our team your window and we plan the journey around it.",
+  },
+  {
+    q: "What documents do I need for Umrah from Pakistan?",
+    a: "Umrah from Pakistan needs a passport valid for at least six months, a white background photograph, and the Saudi Umrah e-visa, which our desk prepares and files for you. A vaccination certificate applies where Saudi authorities require it in 2026. Our team checks every page of your file before it is submitted, since small errors cause most refusals.",
+  },
+  {
+    q: "What package durations do you offer, from 7 to 30 days?",
+    a: "Our Umrah and Hajj packages run from 7 to 30 days, so you match the trip to your leave and budget. Fifteen and twenty one day Umrah programs suit most pilgrims, while Ramadan durations flex for the last Ashra. Longer stays allow more time in Makkah and Madinah. Our desk builds the night split around your dates.",
+  },
+  {
+    q: "Which international tours and visit visas do you handle?",
+    a: "Beyond the pilgrimage, our desk arranges tours to Dubai, Turkey, Baku, and a Malaysia and Thailand combo, with visa, flights, hotels, and sightseeing in one booking. For visit visas, we prepare and file for the UAE, Saudi Arabia, Turkey, Malaysia, Thailand, Azerbaijan, Schengen states, and the United Kingdom, checking every document before submission.",
+  },
 ];
 
 export default function HomeFaq() {

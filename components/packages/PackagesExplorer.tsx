@@ -98,9 +98,11 @@ function Group({
 export default function PackagesExplorer({
   packages,
   whatsapp,
+  intro,
 }: {
   packages: TravelPackage[];
   whatsapp: string;
+  intro?: string;
 }) {
   const [vertical, setVertical] = useState("all");
   const [duration, setDuration] = useState("all");
@@ -139,6 +141,12 @@ export default function PackagesExplorer({
         />
         <ChipRow label="Tier" choices={TIERS} value={tier} onChange={setTier} />
       </div>
+
+      {intro && (
+        <p className="mb-12 max-w-3xl text-base leading-relaxed text-slate-700">
+          {intro}
+        </p>
+      )}
 
       <Group
         eyebrow={`${umrah.length} package${umrah.length === 1 ? "" : "s"}`}

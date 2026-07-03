@@ -77,7 +77,7 @@ export const seedPackages: TravelPackage[] = [
     duration: "Complete Hajj Program",
     price: null,
     highlights: [
-      "Government-approved Hajj arrangements",
+      "Government Hajj scheme registration through MORA",
       "Mina and Arafat camp services",
       "Trained group leaders and scholars",
       "Pre-departure Hajj training sessions",

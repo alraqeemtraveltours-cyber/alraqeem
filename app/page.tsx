@@ -12,6 +12,7 @@ import { getSettings } from "@/lib/settingsStore";
 import { cities } from "@/lib/cities";
 import { images, photo, realPhotos } from "@/lib/images";
 import { reviewData } from "@/lib/reviews";
+import { stagingCredentials, stagingFounder } from "@/lib/staging";
 import { site, mapsLink } from "@/lib/site";
 import { waHref, telHref } from "@/lib/settings";
 import { homepageGraph } from "@/lib/schema";
@@ -34,6 +35,7 @@ export const metadata: Metadata = {
 const services = [
   {
     title: "Umrah and Hajj Packages",
+    alt: "The Holy Kaaba in Masjid al-Haram, Makkah",
     text: "Our Umrah packages run from economy to five star across 7 to 30 day durations, with quad and triple sharing and hotels near the Haram in Makkah and Madinah. Every program covers the Saudi Umrah e-visa, guided Ziyarat, and ground transport. For Hajj, choose our private route alongside the government scheme registered through MORA and Nusuk.",
     image: images.kaaba,
     links: [
@@ -43,6 +45,7 @@ const services = [
   },
   {
     title: "International Tour Packages",
+    alt: "Dubai skyline with the Burj Khalifa",
     text: "Our international tours reach Dubai with the Burj Khalifa and Desert Safari, Turkey with Istanbul and Cappadocia, Baku with the Old City and Flame Towers, and a Malaysia and Thailand combo through Kuala Lumpur and Bangkok. Visa, flights, hotels, and sightseeing arrive in one booking.",
     image: images.dubai,
     links: [
@@ -52,11 +55,46 @@ const services = [
   },
   {
     title: "Visit Visa Services",
+    alt: "Passport and travel documents ready for a visa application",
     text: "Our desk prepares visit visas for the UAE, Saudi Arabia, Turkey, Malaysia, Thailand, Azerbaijan, Schengen states, and the United Kingdom. Every document is checked before filing, since most refusals come from small file errors rather than ineligibility.",
     image: images.visa,
     links: [
       { label: "Visa services", href: "/visa-services" },
       { label: "UAE visa guide", href: "/blog/dubai-visit-visa-requirements-pakistan" },
+    ],
+  },
+];
+
+// Umrah tier comparison. Attributes only, no price in any cell.
+const tiers = [
+  {
+    name: "Economy",
+    href: "/packages/economy-umrah-15-days",
+    rows: [
+      { k: "Hotels", v: "Walking or shuttle distance" },
+      { k: "Room sharing", v: "Quad and shared" },
+      { k: "Transport", v: "Shared ground transport" },
+      { k: "Best suited", v: "Budget conscious pilgrims" },
+    ],
+  },
+  {
+    name: "Premium and five star",
+    href: "/packages/premium-umrah-21-days",
+    rows: [
+      { k: "Hotels", v: "Near or facing the Haram" },
+      { k: "Room sharing", v: "Triple and double" },
+      { k: "Transport", v: "Private transport" },
+      { k: "Best suited", v: "Comfort with worship" },
+    ],
+  },
+  {
+    name: "Ramadan",
+    href: "/packages/ramadan-umrah-special",
+    rows: [
+      { k: "Hotels", v: "Near the Haram, booked early" },
+      { k: "Room sharing", v: "Confirmed on quote" },
+      { k: "Transport", v: "Arranged for your group" },
+      { k: "Best suited", v: "Last Ashra and Laylat al-Qadr" },
     ],
   },
 ];
@@ -259,6 +297,11 @@ export default async function HomePage() {
           <h2 className="mt-2 font-display text-2xl text-brand-blue-deep sm:text-3xl">
             Flights with airlines you trust
           </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-600">
+            We ticket on Saudia, Qatar Airways, Etihad, PIA, Airblue, and
+            AirSial, choosing the carrier with the best fare and schedule for
+            your dates.
+          </p>
         </div>
         {/* Infinite marquee strip */}
         <div
@@ -317,8 +360,153 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Services */}
+      {/* Holy places band */}
+      <section className="bg-white py-20 sm:py-28">
+        <div className="container-site">
+          <SectionHeading
+            eyebrow="Where your journey takes you"
+            title="Makkah and Madinah"
+            description="The two cities at the heart of every pilgrimage."
+            align="center"
+          />
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-black/5">
+              <div className="relative h-56 overflow-hidden">
+                <img
+                  src={images.kaaba}
+                  alt="The Holy Kaaba in Masjid al-Haram, Makkah"
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-display text-xl text-brand-blue-deep">
+                  Makkah
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                  The city of Masjid al-Haram and the Kaaba, where pilgrims
+                  perform Tawaf and Sa'i between Safa and Marwah. Our hotels sit
+                  within reach of the Haram so your prayers stay close.
+                </p>
+              </div>
+            </div>
+            <div className="overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-black/5">
+              <div className="relative h-56 overflow-hidden">
+                <img
+                  src={images.madinah}
+                  alt="Domes of Masjid an-Nabawi in Madinah"
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-display text-xl text-brand-blue-deep">
+                  Madinah
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                  The city of Masjid an-Nabawi and the Rawdah, with Ziyarat of
+                  the historical sites. Our team arranges guided visits so you
+                  make the most of your time in the Prophet's city.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Umrah and Hajj explainer */}
       <section className="py-20 sm:py-28">
+        <div className="container-site">
+          <SectionHeading
+            eyebrow="Umrah and Hajj"
+            title="Umrah and Hajj, and how they differ"
+            description="Two pilgrimages, two purposes. Here is the plain difference before you choose."
+            align="center"
+          />
+          <div className="mx-auto max-w-3xl">
+            <p className="text-base leading-relaxed text-slate-700">
+              Umrah is the minor pilgrimage, performed year round. Pilgrims enter
+              in Ihram, perform Tawaf around the Kaaba, and complete Sa'i between
+              Safa and Marwah, then release Ihram with Halq or Taqsir. Hajj is the
+              obligatory pilgrimage of Dhul Hijjah, performed once by those who
+              are able. Hajj keeps the Umrah rites and adds the standing at
+              Arafat, the night at Muzdalifah, and the days at Mina, registered
+              through MORA in Pakistan and Nusuk in Saudi Arabia. The plain
+              difference: Umrah is shorter, year round, and voluntary, while Hajj
+              falls in Dhul Hijjah, adds Arafat, Muzdalifah, and Mina, and is
+              obligatory once for those who are able.
+            </p>
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
+              <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-card">
+                <h3 className="font-display text-xl text-brand-blue-deep">
+                  Umrah
+                </h3>
+                <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-slate-600">
+                  <li>Minor pilgrimage, performed year round</li>
+                  <li>Ihram, Tawaf, Sa'i, then Halq or Taqsir</li>
+                  <li>Voluntary and shorter, 7 to 30 days</li>
+                  <li>Saudi Umrah e-visa, handled by our desk</li>
+                </ul>
+              </div>
+              <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-card">
+                <h3 className="font-display text-xl text-brand-blue-deep">
+                  Hajj
+                </h3>
+                <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-slate-600">
+                  <li>Obligatory pilgrimage, once for those able</li>
+                  <li>Performed in Dhul Hijjah only</li>
+                  <li>Adds Arafat, Muzdalifah, and Mina</li>
+                  <li>Registered through MORA and Nusuk</li>
+                </ul>
+              </div>
+            </div>
+            <p className="mt-6 text-sm leading-relaxed text-slate-500">
+              Official registration runs through the{" "}
+              <a
+                href="https://www.mora.gov.pk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-brand-blue underline"
+              >
+                MORA portal
+              </a>{" "}
+              in Pakistan and the{" "}
+              <a
+                href="https://www.nusuk.sa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-brand-blue underline"
+              >
+                Nusuk platform
+              </a>{" "}
+              in Saudi Arabia, which also issues the{" "}
+              <a
+                href="https://www.nusuk.sa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-brand-blue underline"
+              >
+                Saudi Umrah e-visa
+              </a>
+              .
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/packages" className="btn-orange">
+                Explore Umrah packages
+              </Link>
+              <Link
+                href="/packages/hajj-package"
+                className="btn-outline"
+              >
+                Hajj packages
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section className="bg-white py-20 sm:py-28">
         <div className="container-site">
           <SectionHeading
             eyebrow="What we do"
@@ -335,7 +523,7 @@ export default async function HomePage() {
                 <div className="relative h-44 overflow-hidden">
                   <img
                     src={s.image}
-                    alt={s.title}
+                    alt={s.alt}
                     loading="lazy"
                     className="h-full w-full object-cover"
                   />
@@ -377,6 +565,65 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Choosing your package */}
+      <section className="py-20 sm:py-28">
+        <div className="container-site">
+          <SectionHeading
+            eyebrow="Choosing your package"
+            title="Which Umrah tier fits you?"
+            description="Compare the tiers by what actually differs, with no price in any cell."
+            align="center"
+          />
+          <p className="mx-auto max-w-3xl text-base leading-relaxed text-slate-700">
+            Every Umrah package covers the Saudi e-visa, flights, hotels,
+            transport, and guided Ziyarat, so the choice comes down to comfort
+            and budget. Economy suits budget conscious pilgrims, with shared
+            rooms and hotels within walking or shuttle distance of the Haram.
+            Premium and five star place you in hotels near or facing the Haram,
+            with fewer travelers per room and private transport. Ramadan
+            programs focus on the last Ashra and the nights of Laylat al-Qadr,
+            and book months ahead. Family and group options run across every
+            tier, with connected rooms arranged. Durations run from 7 to 30 days,
+            departing from Peshawar and Islamabad.
+          </p>
+          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+            {tiers.map((t) => (
+              <div
+                key={t.name}
+                className="flex flex-col rounded-3xl border border-black/5 bg-white p-6 shadow-card"
+              >
+                <h3 className="font-display text-xl text-brand-blue-deep">
+                  {t.name}
+                </h3>
+                <dl className="mt-4 flex-1 divide-y divide-black/5">
+                  {t.rows.map((r) => (
+                    <div key={r.k} className="flex justify-between gap-3 py-2.5">
+                      <dt className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        {r.k}
+                      </dt>
+                      <dd className="text-right text-sm font-medium text-brand-blue-deep">
+                        {r.v}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+                <Link
+                  href={t.href}
+                  className="btn-outline mt-5 w-full !py-2.5 text-sm"
+                >
+                  View {t.name} Umrah
+                </Link>
+              </div>
+            ))}
+          </div>
+          <p className="mx-auto mt-6 max-w-3xl text-center text-xs leading-relaxed text-slate-500">
+            Room sharing and exact hotels are confirmed for your group when we
+            quote. No prices are published, since airfare and hotel rates change
+            weekly.
+          </p>
         </div>
       </section>
 
@@ -466,6 +713,74 @@ export default async function HomePage() {
                 ))}
               </ul>
             )}
+
+            {/* Trust and experience proof */}
+            <div className="mt-4 rounded-2xl border border-black/5 bg-white p-5 shadow-card">
+              <p className="eyebrow">Trust and experience</p>
+              <ul className="mt-3 space-y-2.5 text-sm text-slate-700">
+                <li className="flex items-start gap-2.5">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8853A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                  Sister company of {site.sisterCompany}, built on years of
+                  serving pilgrims and travelers
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8853A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                  Head office at Aman Plaza, Mardan Road, Charsadda
+                </li>
+                <li className="flex items-start gap-2.5 text-slate-500">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 8v4M12 16h.01" /></svg>
+                  <span>
+                    {stagingCredentials.registrationNumber}
+                    <span className="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">
+                      To add
+                    </span>
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5 text-slate-500">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 8v4M12 16h.01" /></svg>
+                  <span>
+                    {stagingCredentials.moraLicence}
+                    <span className="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">
+                      To add
+                    </span>
+                  </span>
+                </li>
+              </ul>
+
+              {/* Founder or team credibility */}
+              <div className="mt-4 flex items-center gap-3 border-t border-black/5 pt-4">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-blue/10 text-brand-blue">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" /></svg>
+                </span>
+                <div>
+                  <p className="flex items-center gap-2 font-semibold text-brand-blue-deep">
+                    {stagingFounder.name}
+                    <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">
+                      To add
+                    </span>
+                  </p>
+                  <p className="text-xs text-slate-500">{stagingFounder.role}</p>
+                </div>
+                <Link
+                  href="/about"
+                  className="ml-auto shrink-0 text-sm font-semibold text-brand-orange-dark hover:text-brand-orange"
+                >
+                  About us
+                </Link>
+              </div>
+
+              {/* Policy assurance */}
+              <p className="mt-4 border-t border-black/5 pt-4 text-xs leading-relaxed text-slate-500">
+                Cancellation and refund terms are confirmed in writing before you
+                pay.{" "}
+                <Link
+                  href="/contact"
+                  className="font-semibold text-brand-blue underline"
+                >
+                  Ask our desk for the full terms.
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -663,8 +978,17 @@ export default async function HomePage() {
                 >
                   private Hajj packages
                 </Link>{" "}
-                cover Nusuk and visa processing, trained group leaders, and Mina
-                and Arafat camp services from booking to safe return.
+                cover{" "}
+                <a
+                  href="https://www.nusuk.sa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-brand-orange underline"
+                >
+                  Nusuk
+                </a>{" "}
+                and visa processing, trained group leaders, and Mina and Arafat
+                camp services from booking to safe return.
               </p>
             </div>
           </div>

@@ -126,8 +126,9 @@ export function homepageGraph(
     });
 
   // Review and AggregateRating, added only when genuine review data exists.
+  // Staging placeholders (isPlaceholder) never carry schema.
   const reviewFields: Record<string, unknown> = {};
-  if (reviews && reviews.reviews.length > 0) {
+  if (reviews && reviews.reviews.length > 0 && !reviews.isPlaceholder) {
     if (reviews.ratingValue !== null && reviews.reviewCount !== null) {
       reviewFields.aggregateRating = {
         "@type": "AggregateRating",

@@ -1,18 +1,30 @@
 import SectionHeading from "@/components/SectionHeading";
 import { reviewData as defaultData, type ReviewData } from "@/lib/reviews";
 
-function Stars({ rating, size = 16 }: { rating: number; size?: number }) {
+function Stars({
+  rating,
+  size = 16,
+  muted = false,
+}: {
+  rating: number;
+  size?: number;
+  muted?: boolean;
+}) {
   const rounded = Math.round(rating);
+  const color = muted ? "#cbd5e1" : "#C5A253";
   return (
-    <span className="inline-flex" aria-label={`${rating} out of 5 stars`}>
+    <span
+      className="inline-flex"
+      aria-label={muted ? "Sample rating" : `${rating} out of 5 stars`}
+    >
       {[0, 1, 2, 3, 4].map((i) => (
         <svg
           key={i}
           width={size}
           height={size}
           viewBox="0 0 24 24"
-          fill={i < rounded ? "#C5A253" : "none"}
-          stroke="#C5A253"
+          fill={i < rounded ? color : "none"}
+          stroke={color}
           strokeWidth="1.5"
           strokeLinejoin="round"
           aria-hidden="true"
@@ -29,11 +41,13 @@ export default function Reviews({
 }: {
   data?: ReviewData;
 }) {
-  // Renders only when genuine reviews exist. No data, no section.
+  // No reviews at all, no section.
   if (data.reviews.length === 0) return null;
 
+  const placeholder = data.isPlaceholder === true;
+  // Aggregate never shows for placeholder data.
   const showAggregate =
-    data.ratingValue !== null && data.reviewCount !== null;
+    !placeholder && data.ratingValue !== null && data.reviewCount !== null;
 
   return (
     <section className="bg-paper py-20 sm:py-28">
@@ -41,9 +55,20 @@ export default function Reviews({
         <SectionHeading
           eyebrow="Reviews"
           title="What our travelers say"
-          description="Real words from pilgrims and travelers our team has served across Pakistan."
+          description={
+            placeholder
+              ? "This section is built and ready for real Google reviews and client testimonials."
+              : "Real words from pilgrims and travelers our team has served across Pakistan."
+          }
           align="center"
         />
+
+        {placeholder && (
+          <p className="mx-auto mb-10 max-w-xl rounded-xl border border-dashed border-brand-orange/50 bg-brand-orange/10 px-4 py-3 text-center text-sm font-semibold text-brand-orange-dark">
+            Sample content for layout only. Replace before launch with real
+            Google reviews or testimonials.
+          </p>
+        )}
 
         {showAggregate && (
           <div className="mx-auto mb-12 flex max-w-md flex-col items-center gap-2 rounded-2xl border border-black/5 bg-white px-6 py-5 text-center shadow-card">
@@ -73,7 +98,7 @@ export default function Reviews({
               key={`${r.author}-${i}`}
               className="flex flex-col rounded-2xl border border-black/5 bg-white p-6 shadow-card"
             >
-              <Stars rating={r.rating} />
+              <Stars rating={r.rating} muted={placeholder} />
               <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">
                 {r.text}
               </blockquote>
