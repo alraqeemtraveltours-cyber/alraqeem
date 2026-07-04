@@ -102,14 +102,15 @@ export default function Reviews({
               <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">
                 {r.text}
               </blockquote>
-              <figcaption className="mt-4 border-t border-black/5 pt-3">
+              <figcaption className="mt-4 flex flex-wrap items-baseline gap-x-2 border-t border-black/5 pt-3">
                 <span className="font-display text-base text-brand-blue-deep">
                   {r.author}
                 </span>
                 {r.context && (
-                  <span className="ml-2 text-xs text-slate-500">
-                    {r.context}
-                  </span>
+                  <span className="text-xs text-slate-500">{r.context}</span>
+                )}
+                {r.date && (
+                  <span className="text-xs text-slate-400">{r.date}</span>
                 )}
               </figcaption>
             </figure>

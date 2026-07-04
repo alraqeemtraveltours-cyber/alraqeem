@@ -52,7 +52,7 @@ export const detailContent: Record<string, DetailContent> = {
 
   "premium-umrah-21-days": {
     overview:
-      "Premium Umrah Package from Pakistan serves pilgrims who want deep comfort alongside their worship. Our team books five star hotels facing the Haram in Makkah and Madinah, direct flights with checked baggage, private transport with a personal guide, and a daily breakfast and dinner buffet. Twenty one days gives a calm, unhurried stay across both cities, with fast track visa processing and every detail handled by our desk from departure to safe return.",
+      "Premium Umrah Package from Pakistan serves pilgrims who want deep comfort alongside their worship. Our team books five star hotels near or facing the Haram in Makkah and Madinah, direct flights with checked baggage, private transport with a personal guide, and a daily breakfast and dinner buffet. Twenty one days gives a calm, unhurried stay across both cities, with the Saudi Umrah e-visa processed through Nusuk and every detail handled by our desk from departure to safe return.",
     whoFor: [
       "Pilgrims who want five star comfort near the Haram",
       "Families traveling together in one group",
@@ -63,22 +63,58 @@ export const detailContent: Record<string, DetailContent> = {
       pricingFaq("Premium Umrah Package"),
       {
         q: "What makes the Premium Umrah Package different?",
-        a: "Premium Umrah books five star hotels facing the Haram, direct flights with checked baggage, private transport with a personal guide, and a daily breakfast and dinner buffet. Twenty one days across Makkah and Madinah gives a slower, more comfortable pace, with fast track visa processing handled by our team.",
+        a: "Premium Umrah books five star hotels near or facing the Haram, direct flights with checked baggage, private transport with a personal guide, and a daily breakfast and dinner buffet. Twenty one days across Makkah and Madinah gives a slower, more comfortable pace, with the Saudi Umrah e-visa processed through Nusuk by our team.",
       },
       {
-        q: "How close are the hotels to the Haram?",
-        a: "Premium Umrah places pilgrims in five star hotels facing the Haram in both Makkah and Madinah, steps from the gates. Short walking distance matters most for elderly pilgrims and families, so our desk confirms the exact property and its position for your dates before booking.",
+        q: "Which five star hotels does the Premium Umrah Package use?",
+        a: "Premium Umrah books five star hotels near or facing the Haram in Makkah and Madinah. Exact hotel names are confirmed for your travel dates before you pay, since the closest five star properties are limited and availability shifts through the year. Message our desk for the current hotels on your dates.",
       },
       {
-        q: "Is private transport included?",
+        q: "How close are the Premium Umrah hotels to the Haram?",
+        a: "Premium Umrah places pilgrims in five star hotels near or facing the Haram, steps from the gates, so elderly travelers and families walk the shortest distance to prayer. The exact hotel and its position are confirmed for your dates before you book, since the closest options are limited.",
+      },
+      {
+        q: "What is the Makkah and Madinah night split on the Premium Umrah Package?",
+        a: "Premium Umrah runs 21 days across Makkah and Madinah, and the exact night split between the two cities is set for your travel dates and group. Your time matches your priorities, whether that is more nights in Makkah for worship or a longer stay in Madinah. Our desk confirms the split with your quote.",
+      },
+      {
+        q: "Why is the Premium Umrah Package 21 days?",
+        a: "Twenty one days gives an unhurried Premium Umrah, with time for repeated Umrah, calm daily prayers in both Harams, and full Ziyarat without rushing. Longer stays suit first time and elderly pilgrims who want to settle in, and repeat pilgrims who value depth over speed. Shorter durations are arranged on request.",
+      },
+      {
+        q: "Why choose Premium over Economy Umrah?",
+        a: "Premium Umrah upgrades the stay to five star hotels near or facing the Haram, fewer travelers per room, private transport with a personal guide, and daily breakfast and dinner, where Economy keeps hotels within walking or shuttle distance and shared rooms. Both cover the visa, flights, and guided Ziyarat. Compare the tiers below.",
+      },
+      {
+        q: "What room configuration does the Premium Umrah use?",
+        a: "Room sharing on Premium Umrah is arranged as double, twin, or triple to suit couples, families, and small groups, rather than the quad sharing of the economy tier. Tell our desk how your group prefers to share, and we confirm the configuration and the hotel with your quote.",
+      },
+      {
+        q: "Are meals included on the Premium Umrah Package?",
+        a: "Yes. Premium Umrah includes a daily breakfast and dinner buffet at your hotel, so you break your fast and end your day without arranging meals separately. Any specific dietary needs are noted when you book, and our desk confirms the meal plan for your chosen hotel.",
+      },
+      {
+        q: "Is private transport included on the Premium Umrah Package?",
         a: "Premium Umrah includes private transport with a personal guide across Makkah and Madinah, rather than shared coaches. Our team arranges airport transfers, intercity travel, and Ziyarat movement, so your group travels on its own schedule throughout the journey.",
+      },
+      {
+        q: "Who is the Premium Umrah Package for?",
+        a: "Premium Umrah suits pilgrims who want five star comfort near the Haram, families traveling together, elderly pilgrims who value short walking distances, and repeat pilgrims seeking a longer, calmer stay. Tell our desk your group and any needs, and we shape the arrangements around them, from connected rooms to airport assistance.",
+      },
+      {
+        q: "How does the Saudi Umrah visa process work on the Premium Umrah Package?",
+        a: "Our team processes your Saudi Umrah e-visa through the official Nusuk system and handles the full file, from the passport scan to submission. Our desk is a private agency, not a government office, so we prepare and file your paperwork with care rather than promise a shortcut nobody controls. Verify the current rules at the official Saudi source before you travel.",
+      },
+      {
+        q: "What are the refund and cancellation terms for the Premium Umrah Package?",
+        a: "Refund and cancellation terms for the Premium Umrah Package follow how far ahead you cancel and the hotel and airline rules that apply. Our desk sets out the terms in writing before you pay, with no hidden charges. Ask our team for the full payment, refund, and cancellation policy when you book.",
       },
     ],
   },
 
   "ramadan-umrah-special": {
     overview:
-      "Ramadan Umrah Special from Pakistan places you in Makkah and Madinah during the most blessed nights of the year. Our team arranges last Ashra stays, hotels booked months ahead, Itikaf on request, and flexible durations from ten to thirty days. Ramadan demand runs extremely high, so seats and rooms fill early. Message our desk well ahead of your dates to secure Taraweeh in the Haram and a place for the nights of Laylat al-Qadr.",
+      "Ramadan Umrah Package from Pakistan places you in Makkah and Madinah during the most blessed nights of the year. Our team arranges last Ashra stays, hotels booked months ahead, Itikaf on request, and flexible durations from ten to thirty days. Ramadan demand runs extremely high, so seats and rooms fill early. Message our desk well ahead of your dates to secure Taraweeh in the Haram and a place for the nights of Laylat al-Qadr.",
     whoFor: [
       "Pilgrims seeking Taraweeh and Laylat al-Qadr in the Haram",
       "Travelers planning Itikaf in the last Ashra",
@@ -86,18 +122,46 @@ export const detailContent: Record<string, DetailContent> = {
       "Early planners who book months in advance",
     ],
     faqs: [
-      pricingFaq("Ramadan Umrah Special"),
+      pricingFaq("Ramadan Umrah Package"),
       {
         q: "How early should I book Ramadan Umrah?",
-        a: "Ramadan Umrah fills months in advance, and the last Ashra sells out first. For 2026 dates, our team books hotels and seats as early as possible, so message our desk well ahead of Ramadan to secure your preferred nights, duration, and hotel near the Haram before availability closes.",
+        a: "Ramadan Umrah fills months in advance, and the last Ashra sells out first. For Ramadan 2027, our team books hotels and seats as early as possible, so message our desk two to three months ahead to secure your preferred nights, duration, and hotel near the Haram before availability closes.",
       },
       {
-        q: "Are Itikaf arrangements available?",
+        q: "Why does Ramadan Umrah cost more than other months?",
+        a: "Ramadan Umrah sits at the top of the year for demand, and the last ten nights peak hardest. Hotels near the Haram raise their rates for the season, airline seats tighten, and the closest properties fill first. Our team quotes the current best price for your exact dates, since Ramadan rates move week to week.",
+      },
+      {
+        q: "When does the last Ashra fall, and how do I plan for Laylat al-Qadr?",
+        a: "The last Ashra runs the final ten nights of Ramadan, nights 21 to 30, when Laylat al-Qadr falls on one of the odd nights. Exact Gregorian dates follow the moon sighting for Ramadan 2027. Book two to three months ahead, since hotels near the Haram for these nights close first.",
+      },
+      {
+        q: "Are Itikaf arrangements available on the Ramadan Umrah?",
         a: "Itikaf arrangements are available on request during the last Ashra of Ramadan. Our team plans your hotel stay and durations around Itikaf so your worship continues without disruption. Tell our desk your intended nights when you book, since these arrangements depend on early hotel availability.",
+      },
+      {
+        q: "Which hotels are near the Haram during Ramadan?",
+        a: "Ramadan Umrah books hotels near the Haram so your walk to Taraweeh and Qiyam stays short during peak crowds. Exact hotel names are confirmed for your dates before you pay, since the closest Ramadan rooms fill months ahead. Message our desk early for the current options on your nights.",
+      },
+      {
+        q: "Are Suhoor and Iftar included in the Ramadan Umrah?",
+        a: "Meal arrangements for Ramadan Umrah, including Suhoor before dawn and Iftar at sunset, depend on your hotel and package version. Our desk confirms the meal plan with your quote, and many hotels near the Haram serve both through the month. Tell us any dietary needs when you book.",
+      },
+      {
+        q: "What is the reward of Umrah in Ramadan?",
+        a: "A sound Hadith in Bukhari and Muslim relates that the Prophet, peace be upon him, said an Umrah in Ramadan carries the reward of a Hajj. The reward, alongside Laylat al-Qadr and Itikaf in the last ten nights, draws pilgrims from across Pakistan, so the season books early.",
       },
       {
         q: "What durations are available for Ramadan Umrah?",
         a: "Ramadan Umrah runs across flexible durations from ten to thirty days, covering the first Ashra, the last Ashra, or the full month. Our team matches your stay to your work and family schedule, then books hotels and flights around the nights that matter most to you.",
+      },
+      {
+        q: "If Ramadan is fully booked, do you offer Umrah in Shawwal?",
+        a: "Yes. When Ramadan dates or the closest hotels sell out, our desk arranges Umrah in Shawwal after Eid, with calmer crowds, easier hotel availability, and the same complete service. Message our team, and we quote the Shawwal option alongside any remaining Ramadan nights.",
+      },
+      {
+        q: "Is Ramadan Umrah suitable for elderly pilgrims when crowds peak?",
+        a: "Ramadan crowds peak in the last Ashra, so for elderly pilgrims our team books hotels closest to the Haram to shorten the walk, requests wheelchair assistance at the airports, and plans rest between prayers. Tell our desk about any medical needs, and we shape the stay around them.",
       },
     ],
   },
@@ -115,16 +179,56 @@ export const detailContent: Record<string, DetailContent> = {
     faqs: [
       pricingFaq("Hajj Package"),
       {
-        q: "How do I register for Hajj on the Hajj Package?",
-        a: "Registration for the Hajj Package starts with our desk. We guide you through the government scheme on the official MORA portal, and reserve your place on the private Hajj route with documents, trained group leaders, and Mina and Arafat camp services. Message our team early, since Hajj quotas fill quickly each year.",
+        q: "What is the difference between the government and private Hajj schemes?",
+        a: "The government Hajj scheme runs through the Ministry of Religious Affairs, MORA, on a balloting system, with a limited annual quota and an advance deposit during the announced window. The private route books through a Saudi approved operator without balloting, on a first come basis. Verify the current cycle on the official MORA portal, and our desk guides your free MORA registration while arranging the private package around your dates.",
       },
       {
-        q: "What does the Hajj Package include?",
-        a: "Hajj Package covers government Hajj scheme registration support through MORA, Mina and Arafat camp accommodation, trained group leaders and scholars, and pre-departure Hajj training. Our team guides your group through every rite, from Ihram to the farewell Tawaf, so first time pilgrims travel with clear support at each step.",
+        q: "How do I check that a Hajj operator is approved?",
+        a: "Saudi Arabia lists approved Hajj and Umrah providers on the official Nusuk platform, so you confirm any operator before you pay. Ask our desk for the registration details, then verify them on Nusuk. Booking through an approved provider is the surest guard against Hajj fraud, so never pay an operator you have not checked.",
       },
       {
-        q: "When should I register for Hajj?",
-        a: "Hajj quotas stay limited every year and allocations close quickly, so early registration matters. Register free on the official MORA portal during the announced window, and message our desk in parallel to reserve a place on the private Hajj route with full document and camp support.",
+        q: "What is a Maktab category, and why does it matter?",
+        a: "The Maktab is your service group in Mina, and its category sets your tent location and comfort. Category A tents sit closer to the Jamarat with air conditioning and catered meals, while Category B tents sit farther out at a lower cost. Your Maktab category shapes the walking distance during the days of Tashreeq, so our desk confirms it with your package before you pay.",
+      },
+      {
+        q: "What is the difference between shifting and non shifting Hajj packages?",
+        a: "A non shifting package keeps you in one Mina tent through the whole stay, closer to the Jamarat, at a higher cost. A shifting package moves you to farther accommodation on the busiest nights, at a lower cost. Tell our desk your budget and your walking comfort, and we match the package and the Maktab category to them.",
+      },
+      {
+        q: "What are the tent facilities like in Mina and Arafat?",
+        a: "Facilities follow your Maktab category. Category A camps offer air conditioned tents, catered buffet meals, sofa beds or mattresses, and washrooms within the camp, closer to the Jamarat. The exact camp is confirmed for your package, since the Maktab is assigned through the scheme, so message our desk for the current details on your dates.",
+      },
+      {
+        q: "How long is the Hajj trip, and what durations do you offer?",
+        a: "Hajj trip length varies by scheme, airline schedule, and whether you travel Makkah first or Madinah first. Our desk confirms the exact day count and the Makkah, Madinah, and Aziziyah split for your booking, since the dates move with the Hajj calendar each year. Message our team with your preferred window for the current options.",
+      },
+      {
+        q: "Which hotels do you use in Makkah, Madinah, and Aziziyah?",
+        a: "Hotels in Makkah, Madinah, and Aziziyah are set for your travel dates and scheme, with the exact names and distances confirmed before you pay. The closer hotels near the Haram and the Aziziyah base for the Mina days book early, so message our desk for the current properties on your dates.",
+      },
+      {
+        q: "What are the rituals across the days of Hajj?",
+        a: "Hajj runs from the 8th to the 13th of Dhul Hijjah. Pilgrims enter Ihram and move to Mina on the 8th, stand at Arafat on the 9th, then pass the night at Muzdalifah. The 10th brings the stoning at Jamarat al Aqabah, Qurbani, Halq or Taqsir, and Tawaf al Ifadah, followed by the days of Tashreeq in Mina and the farewell Tawaf. See the Hajj journey above for the full flow.",
+      },
+      {
+        q: "What documents do I need for the Hajj visa?",
+        a: "The Hajj visa needs a passport valid for at least six months, your national identity card, passport photographs with a white background, a confirmed return ticket, a vaccination certificate where Saudi authorities require it, your blood group, and a named nominee. Our team prepares and files your paperwork, and you verify the current requirements at the official Saudi source before you travel.",
+      },
+      {
+        q: "Is Hajj training included before departure?",
+        a: "Yes. Scholar led Hajj training is part of the package, with sessions that walk your group through Ihram, the rites at Arafat and Mina, the stoning, and the Tawaf, plus video and audio guidance to revise before you travel. First time pilgrims arrive knowing each step, so the days of Hajj stay calm and clear.",
+      },
+      {
+        q: "Do women need a Mehram to perform Hajj?",
+        a: "Saudi rules on women travelling without a Mehram have shifted in recent cycles, with women joining organized groups under set conditions. Rules move year to year, so confirm the current position for your cycle at the official Saudi source. Our desk arranges group travel for women where the rules allow, with the details set at booking.",
+      },
+      {
+        q: "Is Qurbani or Dam included in the Hajj Package?",
+        a: "Qurbani, also called Dam, is arranged where your package includes it, and is confirmed in writing before you pay. Some packages handle the Qurbani through the official Saudi channel on your behalf, while others leave it for you to arrange. Ask our desk which applies to your package, so nothing is missed on the 10th of Dhul Hijjah.",
+      },
+      {
+        q: "When does Hajj registration open, and how does the quota work?",
+        a: "MORA announces the government Hajj scheme each year with a limited quota and a fixed application window, allocated by balloting. Register free on the official MORA portal during that window, and message our desk in parallel to reserve a private route place, since quotas and private seats both fill quickly. Verify the current dates and quota on the MORA portal, not from unofficial sources.",
       },
     ],
   },
@@ -248,11 +352,16 @@ export function durationBand(
   return "long";
 }
 
-// Tier from the package name, where the name genuinely states it.
-export function tierOf(pkg: TravelPackage): "Economy" | "Premium" | null {
+// Tier from the package name, where the name genuinely states it. Ramadan is
+// its own seasonal tier, keyed off the slug so the chip and quick facts label it.
+export function tierOf(
+  pkg: TravelPackage
+): "Economy" | "Premium" | "Ramadan" | null {
   const t = pkg.title.toLowerCase();
   if (t.includes("economy")) return "Economy";
   if (t.includes("premium")) return "Premium";
+  if (pkg.slug === "ramadan-umrah-special" || t.includes("ramadan"))
+    return "Ramadan";
   return null;
 }
 
@@ -304,6 +413,257 @@ export const bookingSteps = [
   "Travel with your documents in hand and our desk one WhatsApp message away.",
 ];
 
+// The three ten-night stretches of Ramadan. Structure only; exact Gregorian
+// dates follow the moon sighting and are confirmed at booking, not fabricated.
+export const ramadanAshras = [
+  {
+    name: "First Ashra",
+    nights: "Nights 1 to 10",
+    detail:
+      "The opening ten nights of Ramadan. Pilgrims settle into fasting, Taraweeh, and daily prayers in Masjid al-Haram, with the lightest crowds of the month.",
+    last: false,
+  },
+  {
+    name: "Middle Ashra",
+    nights: "Nights 11 to 20",
+    detail:
+      "The middle ten nights continue the routine of worship and Ziyarat, calmer than the final stretch, and a steady choice for a first Ramadan Umrah.",
+    last: false,
+  },
+  {
+    name: "Last Ashra",
+    nights: "Nights 21 to 30",
+    detail:
+      "The final ten nights carry the greatest reward. Laylat al-Qadr falls on one of the odd nights, Itikaf is observed in the Haram, and Qiyam extends deep into the night. Hotels near the Haram fill first, so the last Ashra books earliest.",
+    last: true,
+  },
+];
+
+// Ramadan stay tiers. Proximity and sharing described honestly, no invented
+// hotel names and no price. Exact hotels and the night split route to inquiry.
+export const ramadanTiers = [
+  {
+    name: "Budget Ramadan",
+    proximity: "Shuttle served or a longer walk to the Haram",
+    detail:
+      "Shared rooms and a complete guided service at the lowest Ramadan cost. Suits first or middle Ashra travelers who want the blessed month without the last Ashra peak.",
+    last: false,
+  },
+  {
+    name: "Standard Ramadan",
+    proximity: "A shorter walk to the Haram",
+    detail:
+      "Moderate room sharing and closer hotels than the budget tier, a balance of comfort and cost across any Ashra of the month.",
+    last: false,
+  },
+  {
+    name: "Premium last Ashra",
+    proximity: "Closest available near the Haram",
+    detail:
+      "The last ten nights with fewer travelers per room and hotels as near the Haram as availability allows, with Itikaf arranged on request for Laylat al-Qadr.",
+    last: true,
+  },
+];
+
+// General, well known Ramadan wellbeing guidance. No medical promises.
+export const ramadanFastingTips = [
+  {
+    title: "Eat a steady Suhoor",
+    detail:
+      "Take a balanced Suhoor before Fajr, with slow release foods and water, so your fast holds through the long Haram days.",
+  },
+  {
+    title: "Hydrate after Iftar",
+    detail:
+      "Drink water steadily between Iftar and Suhoor rather than all at once, and go easy on caffeine before the night prayers.",
+  },
+  {
+    title: "Break your fast simply",
+    detail:
+      "Open your fast with dates and water in the Sunnah way, then pray Maghrib before a fuller meal, to keep energy for Taraweeh.",
+  },
+  {
+    title: "Guidance for elderly pilgrims",
+    detail:
+      "Rest between prayers, carry any regular medication, and speak with your doctor before you travel so the fast and the crowds stay manageable.",
+  },
+];
+
+// Hajj scheme routes. Scheme mechanics only, no unverified quota or dates,
+// no fabricated approval. Current cycle facts route to the MORA portal.
+export const hajjSchemes = [
+  {
+    name: "Government scheme",
+    lead: "MORA balloting",
+    icon: "shield",
+    detail:
+      "The Ministry of Religious Affairs runs the government Hajj scheme on a balloting system, with a limited annual quota and an advance deposit during the announced application window. Registration is free on the official MORA portal.",
+  },
+  {
+    name: "Private package",
+    lead: "No balloting, first come",
+    icon: "route",
+    detail:
+      "The private route books through a Saudi approved operator without balloting, on a first come basis. Seats and Maktab categories are limited, so early booking holds your place and your preferred camp.",
+  },
+  {
+    name: "Sponsorship route",
+    lead: "Invitation based",
+    icon: "users",
+    detail:
+      "The sponsorship route travels on an invitation from a resident or a sponsor inside the Kingdom, subject to Saudi rules for the cycle. Our desk sets out the current conditions when you ask.",
+  },
+];
+
+// Maktab category, the core Hajj comfort decision in Mina.
+export const maktabCategories = [
+  {
+    name: "Category A",
+    tag: "Non shifting, near Jamarat",
+    detail:
+      "Category A keeps you in one Mina tent throughout, closer to the Jamarat, with air conditioning and catered meals. The shorter walk during the days of Tashreeq suits elderly pilgrims and families, at a higher cost.",
+    highlight: true,
+  },
+  {
+    name: "Category B",
+    tag: "Shifting, farther out",
+    detail:
+      "Category B sits farther from the Jamarat and shifts you to other accommodation on the busiest nights, at a lower cost. Fitter pilgrims who accept a longer walk choose this tier to keep the package affordable.",
+    highlight: false,
+  },
+];
+
+// Mina and Arafat camp facilities. Framed by category, since the Maktab is
+// assigned through the scheme; the exact camp is confirmed per booking.
+export const minaFacilities = [
+  {
+    icon: "hotel",
+    title: "Air conditioned tents",
+    detail:
+      "Category A camps run air conditioned tents through the Mina and Arafat days.",
+  },
+  {
+    icon: "meal",
+    title: "Buffet meals",
+    detail:
+      "Catered buffet meals are served in the camp across the days of Hajj.",
+  },
+  {
+    icon: "moon",
+    title: "Sofa beds or mattresses",
+    detail:
+      "Sleeping arrangements range from sofa beds to mattresses by category and camp.",
+  },
+  {
+    icon: "shield",
+    title: "Washrooms in the camp",
+    detail:
+      "Washroom blocks sit within the camp, with the ratio set by your Maktab category.",
+  },
+  {
+    icon: "walk",
+    title: "Close to the Jamarat",
+    detail:
+      "Category A camps sit closer to the Jamarat, shortening the walk for the stoning.",
+  },
+];
+
+// The Hajj rites across the 8th to 13th of Dhul Hijjah. Fixed, well documented
+// rites, framed as the typical flow. Lunar days only, no unverified Gregorian
+// dates for the coming cycle.
+export const hajjJourney = [
+  {
+    day: "Before the 8th",
+    title: "Ihram, Tawaf al Qudum, and Sa'i",
+    detail:
+      "Enter the state of Ihram, perform the arrival Tawaf around the Kaaba, and complete Sa'i between Safa and Marwah in Makkah.",
+  },
+  {
+    day: "8th of Dhul Hijjah",
+    title: "Tarwiyah, move to Mina",
+    detail:
+      "Travel to Mina and spend the day and night in prayer and rest, preparing for the standing at Arafat.",
+  },
+  {
+    day: "9th of Dhul Hijjah",
+    title: "The standing at Arafat, then Muzdalifah",
+    detail:
+      "Stand at Arafat through the day in dua and worship, the pillar of Hajj, then move to Muzdalifah for the night and gather pebbles.",
+  },
+  {
+    day: "10th of Dhul Hijjah",
+    title: "Ramy, Qurbani, Halq, and Tawaf al Ifadah",
+    detail:
+      "Stone Jamarat al Aqabah, offer Qurbani, shave or shorten the hair, and perform Tawaf al Ifadah, the day of Eid al Adha.",
+  },
+  {
+    day: "11th to 12th of Dhul Hijjah",
+    title: "The days of Tashreeq in Mina",
+    detail:
+      "Stay in Mina and stone the three Jamarat each day, with the 13th an option for those who remain longer.",
+  },
+  {
+    day: "Before departure",
+    title: "Tawaf al Wada, the farewell",
+    detail:
+      "Complete the farewell Tawaf in Makkah before you leave, and travel to Madinah for the Rawdah and Ziyarat where your program includes it.",
+  },
+];
+
+// Hajj visa document list. Standard requirements, framed to verify at the
+// official Saudi source, since specifics move by cycle.
+export const hajjVisaDocs = [
+  "Passport valid for at least six months with blank pages",
+  "National identity card, CNIC",
+  "Passport size photographs with a white background",
+  "Confirmed return ticket for your Hajj dates",
+  "Vaccination certificate where Saudi authorities require it",
+  "Blood group record",
+  "A named nominee, next of kin",
+];
+
+// Pre-departure Hajj training. Real, well documented preparation.
+export const hajjTraining = [
+  {
+    title: "Scholar led sessions",
+    detail:
+      "Group sessions with a scholar walk through Ihram, the rites at Arafat and Mina, the stoning, and the Tawaf, with time for questions.",
+  },
+  {
+    title: "Video and audio guidance",
+    detail:
+      "Video and audio guides let your group revise each step at home before departure, so the days of Hajj stay clear.",
+  },
+  {
+    title: "Group leaders on the ground",
+    detail:
+      "Trained group leaders travel with you and guide each rite in order, from the move to Mina to the farewell Tawaf.",
+  },
+];
+
+// Standard, well documented Ziyarat sites in Makkah and Madinah. Guided
+// Ziyarat covers a subset; the exact plan is confirmed for each booking.
+export const ziyaratSites = {
+  makkah: [
+    "Jabal al-Nour and the Cave of Hira",
+    "Jabal Thawr and the Cave of Thawr",
+    "Mina",
+    "Mount Arafat and the plains of Arafat",
+    "Muzdalifah",
+    "Masjid Aisha at Taneem",
+    "Jannat al-Mualla",
+  ],
+  madinah: [
+    "Masjid an-Nabawi and the Rawdah",
+    "Quba Mosque",
+    "Masjid al-Qiblatain",
+    "the Seven Mosques",
+    "Mount Uhud and the martyrs of Uhud",
+    "Jannat al-Baqi",
+    "the date orchards of Madinah",
+  ],
+};
+
 // Typical itinerary flow. Real rites and places only, framed as a typical
 // flow, not fixed dates. No invented Makkah and Madinah night counts, since
 // the real split is not in the repo (recorded in the gaps report).
@@ -338,6 +698,35 @@ export function itinerary(
         phase: "Madinah",
         detail:
           "Travel to Madinah for prayers at Masjid an-Nabawi, the Rawdah, and guided Ziyarat.",
+      },
+      {
+        phase: "Return home",
+        detail:
+          "Transfer to the airport for your return flight to Pakistan.",
+      },
+    ];
+  }
+  if (pkg.slug === "ramadan-umrah-special") {
+    return [
+      {
+        phase: "Arrival in Makkah",
+        detail:
+          "Arrive in the Kingdom and transfer to your Makkah hotel with our ground team, in time for the night prayers.",
+      },
+      {
+        phase: "Umrah and daily Taraweeh",
+        detail:
+          "Perform your Umrah, then settle into daily prayers and Taraweeh in Masjid al-Haram through the fasting days.",
+      },
+      {
+        phase: "The last ten nights",
+        detail:
+          "Observe the last Ashra with Qiyam deep into the night and Itikaf on request, seeking Laylat al-Qadr on the odd nights.",
+      },
+      {
+        phase: "Days in Madinah",
+        detail:
+          "Travel to Madinah for prayers at Masjid an-Nabawi, the Rawdah, and guided Ziyarat of Quba, Uhud, and Jannat al-Baqi.",
       },
       {
         phase: "Return home",
@@ -408,7 +797,9 @@ export function itinerary(
 // Generated questions are skipped when the base already covers the topic, so
 // nothing repeats within the page, and every answer stays grounded in the repo.
 export function detailFaqs(pkg: TravelPackage): Faq[] {
-  const name = pkg.title;
+  // Ramadan uses "Package" as its visible name while the slug stays "special".
+  const name =
+    pkg.slug === "ramadan-umrah-special" ? "Ramadan Umrah Package" : pkg.title;
   const isUmrah = /umrah/i.test(pkg.slug) || /umrah/i.test(pkg.title);
   const isHajj = /hajj/i.test(pkg.slug);
   const isPilg = pkg.category === "Umrah & Hajj";

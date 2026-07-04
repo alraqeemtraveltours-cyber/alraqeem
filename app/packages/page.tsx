@@ -61,7 +61,7 @@ const hubFaqs = [
   },
   {
     q: "How early should I book, especially for Ramadan Umrah?",
-    a: "Book as early as your dates allow, since hotels near the Haram and airline seats fill months ahead. Ramadan Umrah fills first, and the last Ashra sells out earliest, so plan well before Ramadan 2026. For tours, three to six weeks gives comfortable time for visa processing and the best fares.",
+    a: "Book as early as your dates allow, since hotels near the Haram and airline seats fill months ahead. Ramadan Umrah fills first, and the last Ashra sells out earliest, so plan well before Ramadan 2027. For tours, three to six weeks gives comfortable time for visa processing and the best fares.",
   },
   {
     q: "How do the economy, premium, and five star tiers differ?",

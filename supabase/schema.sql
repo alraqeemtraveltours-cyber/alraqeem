@@ -73,7 +73,7 @@ values
 
   ('hajj-package', 'Hajj Package', 'Umrah & Hajj', 'Complete Hajj Program', null, false,
    ARRAY[
-     'Government-approved Hajj arrangements',
+     'Government Hajj scheme registration through MORA',
      'Mina and Arafat camp services',
      'Trained group leaders and scholars',
      'Pre-departure Hajj training sessions'

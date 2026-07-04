@@ -50,7 +50,7 @@ export const seedPackages: TravelPackage[] = [
       "Direct flights with checked baggage",
       "Private transport with personal guide",
       "Daily breakfast and dinner buffet",
-      "VIP fast-track visa processing",
+      "Saudi Umrah e-visa processed through Nusuk",
     ],
     description:
       "For those who want complete comfort. Stay in 5-star properties steps from the Haram, travel in private vehicles, and let a dedicated guide handle every detail of your journey.",

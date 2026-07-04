@@ -8,6 +8,7 @@ import { CtaBand } from "@/components/Shared";
 import JsonLd from "@/components/JsonLd";
 import FaqAccordion from "@/components/FaqAccordion";
 import PackageInquiryCard from "@/components/packages/PackageInquiryCard";
+import TierCompare from "@/components/packages/TierCompare";
 import Icon, { inclusionIcon } from "@/components/packages/DetailIcons";
 import StickyQuoteCard from "@/components/packages/StickyQuoteCard";
 import MobileActionBar from "@/components/packages/MobileActionBar";
@@ -28,11 +29,30 @@ import {
   bookingSteps,
   itinerary,
   detailFaqs,
+  ziyaratSites,
+  ramadanAshras,
+  ramadanTiers,
+  ramadanFastingTips,
+  hajjSchemes,
+  maktabCategories,
+  minaFacilities,
+  hajjJourney,
+  hajjVisaDocs,
+  hajjTraining,
 } from "@/lib/packageDetail";
 
 export const dynamic = "force-dynamic";
 
 const TITLE_SUFFIX = " from Pakistan | Al Raqeem";
+
+// Ramadan targets "package", which outranks "special" in search. The visible
+// title, H1, and meta use the package wording, while the slug stays
+// "ramadan-umrah-special" to keep the live URL from breaking.
+function displayName(pkg: TravelPackage) {
+  return pkg.slug === "ramadan-umrah-special"
+    ? "Ramadan Umrah Package"
+    : pkg.title;
+}
 
 // Clean the stored name for use in the title tag and meta: ampersands become
 // "and", colons drop, so no HTML entities leak into head tags.
@@ -47,7 +67,11 @@ function cleanName(title: string) {
 // Build a title of "[Name] from Pakistan | Al Raqeem", trimmed to 58 by
 // dropping trailing words at word boundaries. No dashes.
 function detailTitle(pkg: TravelPackage) {
-  const clean = cleanName(pkg.title);
+  // Hajj targets the plural head term in the title tag, singular in the H1.
+  if (pkg.slug === "hajj-package") {
+    return "Hajj Packages from Pakistan | Al Raqeem";
+  }
+  const clean = cleanName(displayName(pkg));
   let words = clean.split(/\s+/);
   let name = clean;
   while ((name + TITLE_SUFFIX).length > 58 && words.length > 1) {
@@ -62,7 +86,13 @@ function detailTitle(pkg: TravelPackage) {
 
 // Plain text meta, 156 or fewer, no HTML, no price.
 function detailMeta(pkg: TravelPackage) {
-  const clean = cleanName(pkg.title);
+  if (pkg.slug === "ramadan-umrah-special") {
+    return "Ramadan Umrah Package from Pakistan. Last Ashra and Laylat al-Qadr stays, flexible durations, hotels booked early. Quoted on inquiry via WhatsApp.";
+  }
+  if (pkg.slug === "hajj-package") {
+    return "Hajj Package from Pakistan. MORA scheme guidance and a private Hajj route through a Saudi approved operator, with scholar led training. Quoted on inquiry.";
+  }
+  const clean = cleanName(displayName(pkg));
   const base = `${clean} from Pakistan. Quoted on inquiry for your dates, with visa, flights and hotels handled. Message on WhatsApp for a quote.`;
   if (base.length <= 156) return base;
   return `${clean} from Pakistan. Quoted on inquiry for your dates. Visa, flights and hotels handled by our desk.`;
@@ -114,17 +144,20 @@ export default async function PackageDetailPage({
   const documents = documentsFor(pkg);
   const isPilgrimage = pkg.category === "Umrah & Hajj";
   const isUmrah = /umrah/i.test(pkg.slug) || /umrah/i.test(pkg.title);
+  const isRamadan = pkg.slug === "ramadan-umrah-special";
+  const isHajj = pkg.slug === "hajj-package";
+  const displayTitle = displayName(pkg);
   const groupName = isPilgrimage ? "Umrah and Hajj" : "International";
   const heroImage = packageImage(pkg.slug, pkg.category, pkg.image);
 
   const quoteHref = waHref(
     settings.whatsapp,
-    `Assalam o Alaikum, I want a quote for the "${pkg.title}" (${pkg.duration}) package for my dates.`
+    `Assalam o Alaikum, I want a quote for the "${displayTitle}" (${pkg.duration}) package for my dates.`
   );
   const callHref = telHref(settings.phone);
   const checklistHref = waHref(
     settings.whatsapp,
-    `Assalam o Alaikum, please send the document checklist for the "${pkg.title}" package.`
+    `Assalam o Alaikum, please send the document checklist for the "${displayTitle}" package.`
   );
 
   // Overview: pull the first sentence as a lead line (presentation only).
@@ -200,7 +233,7 @@ export default async function PackageDetailPage({
       <section className="relative overflow-hidden bg-ink text-white">
         <img
           src={heroImage}
-          alt={`${pkg.title} from Pakistan`}
+          alt={`${displayTitle} from Pakistan`}
           fetchPriority="high"
           className="absolute inset-0 h-full w-full object-cover"
         />
@@ -217,7 +250,7 @@ export default async function PackageDetailPage({
             <span aria-hidden="true">/</span>
             <span>{groupName}</span>
             <span aria-hidden="true">/</span>
-            <span className="text-white">{pkg.title}</span>
+            <span className="text-white">{displayTitle}</span>
           </nav>
           <div className="mt-6 flex flex-wrap gap-2">
             <span className="rounded-full bg-brand-orange px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-brand-blue-deep">
@@ -230,7 +263,7 @@ export default async function PackageDetailPage({
             )}
           </div>
           <h1 className="mt-4 max-w-3xl text-4xl font-medium leading-[1.1] text-white sm:text-5xl">
-            {pkg.title} from Pakistan
+            {displayTitle} from Pakistan
           </h1>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
@@ -282,7 +315,7 @@ export default async function PackageDetailPage({
 
               {/* Overview, calm */}
               <section>
-                <Head eyebrow="Overview" title={`${pkg.title} from Pakistan`} />
+                <Head eyebrow="Overview" title={`${displayTitle} from Pakistan`} />
                 <p className="mt-6 max-w-[65ch] font-display text-xl leading-snug text-brand-blue-deep">
                   {overviewLead}
                 </p>
@@ -292,6 +325,270 @@ export default async function PackageDetailPage({
                   </p>
                 )}
               </section>
+
+              {/* Ramadan by Ashra */}
+              {pkg.slug === "ramadan-umrah-special" && (
+                <section>
+                  <Head
+                    eyebrow="Ramadan by Ashra"
+                    title="The three ten-night stretches of Ramadan"
+                  />
+                  <div className="mt-6 grid gap-4 md:grid-cols-3">
+                    {ramadanAshras.map((a) => (
+                      <div
+                        key={a.name}
+                        className={`rounded-2xl border p-6 shadow-card ${a.last ? "border-brand-orange/40 bg-brand-orange/5" : "border-black/5 bg-white"}`}
+                      >
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-orange-dark">
+                          {a.nights}
+                        </p>
+                        <h3 className="mt-1 font-display text-lg text-brand-blue-deep">
+                          {a.name}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                          {a.detail}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-slate-500">
+                    Exact Gregorian dates for each Ashra follow the Ramadan moon
+                    sighting and are confirmed with your booking for Ramadan
+                    2027. The last ten nights book earliest, so plan two to three
+                    months ahead.
+                  </p>
+                </section>
+              )}
+
+              {/* Ramadan tiers, no price */}
+              {isRamadan && (
+                <section>
+                  <Head
+                    eyebrow="Ramadan tiers"
+                    title="Three ways to stay for Ramadan"
+                  />
+                  <div className="mt-6 grid gap-4 md:grid-cols-3">
+                    {ramadanTiers.map((t) => (
+                      <div
+                        key={t.name}
+                        className={`rounded-2xl border p-6 shadow-card ${t.last ? "border-brand-orange/40 bg-brand-orange/5" : "border-black/5 bg-white"}`}
+                      >
+                        <h3 className="font-display text-lg text-brand-blue-deep">
+                          {t.name}
+                        </h3>
+                        <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-brand-orange-dark">
+                          <Icon name="walk" size={14} />
+                          {t.proximity}
+                        </p>
+                        <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                          {t.detail}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-slate-500">
+                    Exact hotels, room sharing, and the Makkah and Madinah night
+                    split are confirmed for your dates before you pay, since
+                    Ramadan rooms sell out early. Prices are quoted on inquiry
+                    for your chosen tier and nights.
+                  </p>
+                </section>
+              )}
+
+              {/* Government, private, and sponsorship schemes */}
+              {isHajj && (
+                <section>
+                  <Head
+                    eyebrow="Hajj schemes"
+                    title="Government, private, and sponsorship routes"
+                  />
+                  <div className="mt-6 grid gap-4 md:grid-cols-3">
+                    {hajjSchemes.map((s) => (
+                      <div
+                        key={s.name}
+                        className="rounded-2xl border border-black/5 bg-white p-6 shadow-card"
+                      >
+                        <Icon
+                          name={s.icon}
+                          size={24}
+                          className="text-brand-orange-dark"
+                        />
+                        <h3 className="mt-3 font-display text-lg text-brand-blue-deep">
+                          {s.name}
+                        </h3>
+                        <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-brand-orange-dark">
+                          {s.lead}
+                        </p>
+                        <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                          {s.detail}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-slate-600">
+                    Our honest position stays the same across routes: register
+                    free on the government MORA scheme, then travel with us on
+                    the private package for full document support, trained group
+                    leaders, and camp services. Verify the current cycle, quota,
+                    and dates at the official{" "}
+                    <a
+                      href="https://www.mora.gov.pk/Detail/YTI4ZjNkYzAtNGNmMi00MzBiLWFlZmYtOTg5MGI5ZmRiY2Nm"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-brand-blue underline"
+                    >
+                      MORA portal
+                    </a>{" "}
+                    and{" "}
+                    <a
+                      href="https://www.nusuk.sa"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-brand-blue underline"
+                    >
+                      Nusuk
+                    </a>
+                    .
+                  </p>
+                </section>
+              )}
+
+              {/* Registered operator and how to verify, anti scam */}
+              {isHajj && (
+                <section>
+                  <Head
+                    eyebrow="Verify before you pay"
+                    title="Booking through an approved operator"
+                  />
+                  <div className="mt-6 rounded-2xl border border-brand-orange/30 bg-brand-orange/10 p-6 sm:p-7">
+                    <p className="flex items-start gap-3 text-base leading-relaxed text-brand-blue-deep">
+                      <Icon
+                        name="shield"
+                        size={24}
+                        className="mt-0.5 shrink-0 text-brand-orange-dark"
+                      />
+                      <span>
+                        Saudi Arabia lists approved Hajj and Umrah providers on
+                        the official Nusuk platform, so you confirm any operator
+                        before money changes hands. Ask our desk for the
+                        registration details, check them on Nusuk, and never pay
+                        an operator you have not verified. Booking through an
+                        approved provider is the surest guard against Hajj fraud.
+                      </span>
+                    </p>
+                    <ul className="mt-5 space-y-2 border-t border-brand-orange/25 pt-5 text-sm text-brand-blue-deep">
+                      <li className="flex flex-wrap items-center gap-2">
+                        <span className="text-slate-500">Our operator number:</span>
+                        <span className="font-semibold">
+                          {stagingCredentials.moraLicence}
+                        </span>
+                        <span className="rounded bg-brand-blue-deep/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-brand-blue-deep">
+                          To add
+                        </span>
+                      </li>
+                    </ul>
+                    <a
+                      href="https://www.nusuk.sa"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-outline mt-5 !py-2.5 text-sm"
+                    >
+                      Verify approved operators on Nusuk
+                    </a>
+                  </div>
+                </section>
+              )}
+
+              {/* Maktab category */}
+              {isHajj && (
+                <section>
+                  <Head
+                    eyebrow="Maktab category"
+                    title="Your service group in Mina"
+                  />
+                  <p className="mt-6 max-w-[65ch] text-base leading-relaxed text-slate-700">
+                    The Maktab is the service group that sets your tent location
+                    and comfort during the days in Mina, the core Hajj decision
+                    behind the price difference.
+                  </p>
+                  <div className="mt-6 grid gap-4 md:grid-cols-2">
+                    {maktabCategories.map((m) => (
+                      <div
+                        key={m.name}
+                        className={`rounded-2xl border p-6 shadow-card ${m.highlight ? "border-brand-orange/40 bg-brand-orange/5" : "border-black/5 bg-white"}`}
+                      >
+                        <h3 className="font-display text-lg text-brand-blue-deep">
+                          {m.name}
+                        </h3>
+                        <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-brand-orange-dark">
+                          <Icon name="pin" size={14} />
+                          {m.tag}
+                        </p>
+                        <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                          {m.detail}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Mina, Arafat, and Muzdalifah facilities */}
+              {isHajj && (
+                <section>
+                  <Head
+                    eyebrow="In the camps"
+                    title="Mina and Arafat facilities"
+                  />
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {minaFacilities.map((f) => (
+                      <div
+                        key={f.title}
+                        className="rounded-2xl border border-black/5 bg-white p-5 shadow-card"
+                      >
+                        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue">
+                          <Icon name={f.icon} size={22} />
+                        </span>
+                        <h3 className="mt-3 font-display text-base text-brand-blue-deep">
+                          {f.title}
+                        </h3>
+                        <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
+                          {f.detail}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-slate-500">
+                    Facilities follow your Maktab category, and the exact camp is
+                    assigned through the scheme, so the final tent and its
+                    services are confirmed for your booking.
+                  </p>
+                </section>
+              )}
+
+              {/* Hotels and stay, Hajj, honest with gaps logged */}
+              {isHajj && (
+                <section>
+                  <Head
+                    eyebrow="Hotels and stay"
+                    title="Makkah, Madinah, and Aziziyah"
+                  />
+                  <div className="mt-6 rounded-2xl border border-black/5 bg-white p-6 shadow-card">
+                    <p className="text-base leading-relaxed text-slate-700">
+                      Your stay splits across hotels in Makkah and Madinah and an
+                      Aziziyah base for the Mina days, in an order set by your
+                      scheme and flights, whether Makkah first or Madinah first.
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-slate-500">
+                      Exact hotel names, distances to the Haram, and the day
+                      count are confirmed for your travel dates before you pay,
+                      since the closest properties and the Aziziyah base book
+                      early. Message our desk for the current properties on your
+                      dates.
+                    </p>
+                  </div>
+                </section>
+              )}
 
               {/* What is included, icon card grid */}
               <section>
@@ -311,6 +608,41 @@ export default async function PackageDetailPage({
                     </div>
                   ))}
                 </div>
+                {isRamadan && (
+                  <p className="mt-5 flex items-start gap-3 rounded-xl bg-brand-orange/10 p-4 text-sm leading-relaxed text-brand-blue-deep">
+                    <Icon
+                      name="hotel"
+                      size={18}
+                      className="mt-0.5 shrink-0 text-brand-orange-dark"
+                    />
+                    <span>
+                      Suhoor before dawn and Iftar at sunset are not
+                      automatically included and depend on your hotel and package
+                      version. Our desk confirms the meal plan with your quote,
+                      and many hotels near the Haram serve both through the
+                      month.
+                    </span>
+                  </p>
+                )}
+                {isHajj && (
+                  <p className="mt-5 flex items-start gap-3 rounded-xl bg-brand-orange/10 p-4 text-sm leading-relaxed text-brand-blue-deep">
+                    <Icon
+                      name="document"
+                      size={18}
+                      className="mt-0.5 shrink-0 text-brand-orange-dark"
+                    />
+                    <span>
+                      A full Hajj package typically covers the Maktab tents in
+                      Mina and Arafat, hotels in Makkah, Madinah, and Aziziyah,
+                      return flights, ground transport by bus and, where the
+                      route uses it, the Haramain high speed rail, buffet meals,
+                      a guide and scholar, and the Hajj visa. Exact inclusions
+                      are confirmed in writing for your scheme and dates, and the
+                      Saudi Hajj visa is processed by our team rather than
+                      promised as a government fast track.
+                    </span>
+                  </p>
+                )}
               </section>
 
               {/* What is not included, muted card */}
@@ -335,6 +667,15 @@ export default async function PackageDetailPage({
                       </li>
                     ))}
                   </ul>
+                  {isHajj && (
+                    <p className="mt-4 border-t border-black/10 pt-4 text-sm leading-relaxed text-slate-600">
+                      Qurbani, also called Dam, is arranged where your package
+                      includes it and is confirmed in writing before you pay.
+                      Some packages handle it through the official Saudi channel
+                      on your behalf, while others leave it for you to arrange,
+                      so ask our desk which applies to your package.
+                    </p>
+                  )}
                 </div>
               </section>
 
@@ -392,6 +733,12 @@ export default async function PackageDetailPage({
                           the closest options book early. Message our team for
                           the current details.
                         </p>
+                        {isRamadan && (
+                          <p className="mt-3 text-sm font-medium leading-relaxed text-brand-orange">
+                            In Ramadan the closest hotels sell out first, so the
+                            last Ashra books earliest of all.
+                          </p>
+                        )}
                       </div>
                       <div className="relative min-h-[220px] md:min-h-full">
                         <img
@@ -428,7 +775,142 @@ export default async function PackageDetailPage({
                 </section>
               )}
 
-              {/* Sample itinerary */}
+              {/* Why Ramadan costs more */}
+              {isRamadan && (
+                <section>
+                  <Head
+                    eyebrow="Ramadan pricing"
+                    title="Why Ramadan costs more"
+                  />
+                  <p className="mt-6 max-w-[65ch] text-base leading-relaxed text-slate-700">
+                    Ramadan rates rise for three honest reasons: peak demand
+                    across the whole month, the last ten nights drawing the
+                    largest crowds of the year, and a premium on the hotels
+                    closest to the Haram. Airline seats tighten in the same
+                    weeks, and the nearest rooms fill months ahead. Our desk
+                    quotes the current best price for your exact dates rather
+                    than a stale published figure.
+                  </p>
+                </section>
+              )}
+
+              {/* When to book */}
+              {isRamadan && (
+                <section>
+                  <Head
+                    eyebrow="When to book"
+                    title="Book two to three months ahead"
+                  />
+                  <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                    {[
+                      {
+                        icon: "hotel",
+                        title: "Lock the nights near the Haram",
+                        detail:
+                          "Early bookings hold the closest hotels before the last Ashra rooms sell out.",
+                      },
+                      {
+                        icon: "plane",
+                        title: "Secure airline seats",
+                        detail:
+                          "Ramadan flights from Peshawar and Islamabad fill fast, so seats are reserved well ahead.",
+                      },
+                      {
+                        icon: "clock",
+                        title: "Plan your durations",
+                        detail:
+                          "Choose your Ashra and duration early, from ten to thirty days, around work and family.",
+                      },
+                    ].map((c) => (
+                      <div
+                        key={c.title}
+                        className="rounded-2xl border border-black/5 bg-white p-5 shadow-card"
+                      >
+                        <Icon
+                          name={c.icon}
+                          size={22}
+                          className="text-brand-orange-dark"
+                        />
+                        <h3 className="mt-3 font-display text-base text-brand-blue-deep">
+                          {c.title}
+                        </h3>
+                        <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
+                          {c.detail}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-slate-500">
+                    Message our desk as soon as your dates are set, since the
+                    closest Ramadan rooms and the best fares go first.
+                  </p>
+                </section>
+              )}
+
+              {/* Itikaf and Laylat al-Qadr, honest scope */}
+              {isRamadan && (
+                <section>
+                  <Head
+                    eyebrow="Itikaf and Laylat al-Qadr"
+                    title="What we arrange, stated plainly"
+                  />
+                  <div className="mt-6 rounded-2xl border border-black/5 bg-white p-6 shadow-card">
+                    <p className="text-base leading-relaxed text-slate-700">
+                      Itikaf is arranged on request during the last Ashra and
+                      depends on hotel availability, so our desk presents it as
+                      requested, not guaranteed. Rooms near the Haram for the
+                      odd nights of Laylat al-Qadr are booked as close as
+                      availability allows, without promising a specific hotel or
+                      a view facing the Haram. Tell our team your intended
+                      nights early, and we hold the nearest option we secure for
+                      your dates.
+                    </p>
+                  </div>
+                </section>
+              )}
+
+              {/* Fasting and health tips */}
+              {isRamadan && (
+                <section>
+                  <Head
+                    eyebrow="Fasting and health"
+                    title="Staying well while you fast"
+                  />
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                    {ramadanFastingTips.map((t) => (
+                      <div
+                        key={t.title}
+                        className="rounded-2xl border border-black/5 bg-white p-5 shadow-card"
+                      >
+                        <h3 className="font-display text-base text-brand-blue-deep">
+                          {t.title}
+                        </h3>
+                        <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
+                          {t.detail}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Reward of Umrah in Ramadan, attributed */}
+              {isRamadan && (
+                <section className="rounded-3xl border border-brand-orange/30 bg-brand-orange/10 p-6 sm:p-8">
+                  <p className="eyebrow text-brand-orange-dark">
+                    The reward of the season
+                  </p>
+                  <p className="mt-3 max-w-[65ch] font-display text-xl leading-snug text-brand-blue-deep">
+                    A sound Hadith in Bukhari and Muslim relates that the
+                    Prophet, peace be upon him, said an Umrah in Ramadan equals a
+                    Hajj in reward, though it does not replace the obligation of
+                    Hajj itself.
+                  </p>
+                </section>
+              )}
+
+              {/* Sample itinerary. Hajj uses the day by day journey below. */}
+              {!isHajj && (
               <section>
                 <Head
                   eyebrow="Sample itinerary"
@@ -461,6 +943,171 @@ export default async function PackageDetailPage({
                   </p>
                 )}
               </section>
+              )}
+
+              {/* The Hajj journey, day by day across Dhul Hijjah */}
+              {isHajj && (
+                <section>
+                  <Head
+                    eyebrow="The Hajj journey"
+                    title="Day by day, the 8th to the 13th of Dhul Hijjah"
+                  />
+                  <ol className="mt-6 space-y-4">
+                    {hajjJourney.map((step, i) => (
+                      <li
+                        key={step.title}
+                        className="flex gap-4 rounded-2xl border border-black/5 bg-white p-5 shadow-card"
+                      >
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-orange/15 font-display text-sm font-bold text-brand-orange-dark">
+                          {i + 1}
+                        </span>
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-brand-orange-dark">
+                            {step.day}
+                          </p>
+                          <p className="mt-0.5 font-display text-base text-brand-blue-deep">
+                            {step.title}
+                          </p>
+                          <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                            {step.detail}
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                  <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-slate-500">
+                    Dates follow the Hajj calendar and the moon sighting, so the
+                    exact Gregorian days are confirmed with your booking. The
+                    typical flow above holds each year.
+                  </p>
+                </section>
+              )}
+
+              {/* Hajj visa requirements */}
+              {isHajj && (
+                <section>
+                  <Head
+                    eyebrow="Hajj visa"
+                    title="What the visa requires"
+                  />
+                  <div className="mt-6 rounded-2xl border border-black/5 bg-white p-6 shadow-card">
+                    <ul className="grid gap-3 sm:grid-cols-2">
+                      {hajjVisaDocs.map((d) => (
+                        <li
+                          key={d}
+                          className="flex items-start gap-3 text-sm leading-relaxed text-slate-700"
+                        >
+                          <Icon
+                            name="checkCircle"
+                            size={20}
+                            className="mt-0.5 shrink-0 text-brand-orange-dark"
+                          />
+                          {d}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-5 border-t border-black/5 pt-4 text-xs leading-relaxed text-slate-500">
+                      Requirements move by cycle, so verify the current list at
+                      the official sources:{" "}
+                      <a
+                        href="https://www.nusuk.sa"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-brand-blue underline"
+                      >
+                        Saudi Hajj visa rules
+                      </a>{" "}
+                      and{" "}
+                      <a
+                        href="https://www.moh.gov.sa"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-brand-blue underline"
+                      >
+                        Saudi vaccination requirements
+                      </a>
+                      .
+                    </p>
+                  </div>
+                </section>
+              )}
+
+              {/* Hajj training */}
+              {isHajj && (
+                <section>
+                  <Head
+                    eyebrow="Hajj training"
+                    title="Prepared before you travel"
+                  />
+                  <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                    {hajjTraining.map((t) => (
+                      <div
+                        key={t.title}
+                        className="rounded-2xl border border-black/5 bg-white p-5 shadow-card"
+                      >
+                        <Icon
+                          name="users"
+                          size={22}
+                          className="text-brand-orange-dark"
+                        />
+                        <h3 className="mt-3 font-display text-base text-brand-blue-deep">
+                          {t.title}
+                        </h3>
+                        <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
+                          {t.detail}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Named Ziyarat sites (Umrah and Hajj) */}
+              {(isUmrah || isHajj) && (
+                <section>
+                  <Head
+                    eyebrow="Guided Ziyarat"
+                    title="Sites you visit in Makkah and Madinah"
+                  />
+                  <p className="mt-6 max-w-[65ch] text-base leading-relaxed text-slate-700">
+                    Guided Ziyarat on this package typically covers the historical
+                    sites below, with the exact plan confirmed for your travel
+                    dates.
+                  </p>
+                  <div className="mt-6 grid gap-6 md:grid-cols-2">
+                    {(
+                      [
+                        { city: "Makkah", sites: ziyaratSites.makkah },
+                        { city: "Madinah", sites: ziyaratSites.madinah },
+                      ] as const
+                    ).map((g) => (
+                      <div
+                        key={g.city}
+                        className="rounded-2xl border border-black/5 bg-white p-6 shadow-card"
+                      >
+                        <h3 className="font-display text-lg text-brand-blue-deep">
+                          {g.city}
+                        </h3>
+                        <ul className="mt-3 space-y-2">
+                          {g.sites.map((s) => (
+                            <li
+                              key={s}
+                              className="flex items-start gap-2.5 text-sm leading-relaxed text-slate-600"
+                            >
+                              <Icon
+                                name="pin"
+                                size={16}
+                                className="mt-0.5 shrink-0 text-brand-orange-dark"
+                              />
+                              {s}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
 
               {/* Departure cities, chips */}
               {departure.length > 0 && (
@@ -512,6 +1159,22 @@ export default async function PackageDetailPage({
                     </div>
                   ))}
                 </div>
+                {isHajj && (
+                  <p className="mt-5 flex items-start gap-3 rounded-xl bg-brand-blue/5 p-4 text-sm leading-relaxed text-slate-700">
+                    <Icon
+                      name="users"
+                      size={18}
+                      className="mt-0.5 shrink-0 text-brand-blue"
+                    />
+                    <span>
+                      Women travelling without a Mehram should confirm the
+                      current Saudi rule for their cycle, since the conditions
+                      have shifted in recent years. Our desk arranges group
+                      travel for women where the rules allow, with the details
+                      set at booking.
+                    </span>
+                  </p>
+                )}
               </section>
 
               {/* Documents, checklist card */}
@@ -603,6 +1266,70 @@ export default async function PackageDetailPage({
                   ))}
                 </ol>
               </section>
+
+              {/* Policies, time sensitive for Ramadan */}
+              {isRamadan && (
+                <section>
+                  <Head eyebrow="Policies" title="Payment and refund terms" />
+                  <div className="mt-6 rounded-2xl border border-black/5 bg-white p-6 shadow-card">
+                    <p className="flex items-start gap-3 text-base leading-relaxed text-slate-700">
+                      <Icon
+                        name="shield"
+                        size={22}
+                        className="mt-0.5 shrink-0 text-brand-orange-dark"
+                      />
+                      <span>
+                        Ramadan bookings are time sensitive, so confirm the
+                        payment, refund, cancellation, and change terms before
+                        you pay. Read the full{" "}
+                        <Link
+                          href="/terms-and-refunds"
+                          className="font-semibold text-brand-blue underline"
+                        >
+                          Terms and Refund policy
+                        </Link>
+                        , or{" "}
+                        <Link
+                          href="/contact"
+                          className="font-semibold text-brand-blue underline"
+                        >
+                          ask our desk
+                        </Link>{" "}
+                        for the current terms in writing.
+                      </span>
+                    </p>
+                  </div>
+                </section>
+              )}
+
+              {/* Policies */}
+              {isHajj && (
+                <section>
+                  <Head eyebrow="Policies" title="Payment and refund terms" />
+                  <div className="mt-6 rounded-2xl border border-black/5 bg-white p-6 shadow-card">
+                    <p className="flex items-start gap-3 text-base leading-relaxed text-slate-700">
+                      <Icon
+                        name="shield"
+                        size={22}
+                        className="mt-0.5 shrink-0 text-brand-orange-dark"
+                      />
+                      <span>
+                        Hajj bookings involve government deadlines and
+                        non refundable tickets, so confirm the payment, refund,
+                        and cancellation terms in writing before you pay. Our
+                        desk sets out every amount and deadline with no hidden
+                        charges.{" "}
+                        <Link
+                          href="/contact"
+                          className="font-semibold text-brand-blue underline"
+                        >
+                          Ask our desk for the full terms.
+                        </Link>
+                      </span>
+                    </p>
+                  </div>
+                </section>
+              )}
 
               {/* Price on inquiry, in flow twin of the sticky card */}
               <section>
@@ -747,12 +1474,9 @@ export default async function PackageDetailPage({
                     proximity, room sharing, transport, and duration, with no
                     price in any cell.
                   </p>
-                  <Link
-                    href="/packages#compare-tiers"
-                    className="btn-outline mt-5 !py-2.5 text-sm"
-                  >
-                    Compare Umrah tiers
-                  </Link>
+                  <div className="mt-8">
+                    <TierCompare />
+                  </div>
                 </section>
               )}
 
@@ -772,6 +1496,44 @@ export default async function PackageDetailPage({
                   ))}
                 </div>
               </section>
+
+              {/* Shawwal alternative */}
+              {isRamadan && (
+                <section className="rounded-3xl bg-brand-blue-deep p-7 text-white shadow-lift sm:p-8">
+                  <p className="eyebrow text-brand-orange">
+                    A calmer alternative
+                  </p>
+                  <h2 className="mt-2 font-display text-2xl text-white">
+                    Umrah in Shawwal, after Eid
+                  </h2>
+                  <p className="mt-3 max-w-[65ch] text-base leading-relaxed text-slate-200">
+                    Missed the Ramadan window, or want a quieter, lower cost
+                    stay? Umrah in Shawwal, the month after Eid, brings lighter
+                    crowds and easier hotel availability with the same complete
+                    service. Compare the Economy Umrah Package, or message our
+                    desk for a Shawwal quote.
+                  </p>
+                  <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                    <Link
+                      href="/packages/economy-umrah-15-days"
+                      className="btn-orange"
+                    >
+                      View the Economy Umrah Package
+                    </Link>
+                    <a
+                      href={waHref(
+                        settings.whatsapp,
+                        "Assalam o Alaikum, I missed Ramadan and want a quote for Umrah in Shawwal for my dates."
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn border border-white/40 text-white hover:bg-white/10"
+                    >
+                      Ask about Shawwal Umrah
+                    </a>
+                  </div>
+                </section>
+              )}
             </div>
 
             {/* Sticky quote card, desktop */}
