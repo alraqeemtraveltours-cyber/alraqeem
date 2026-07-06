@@ -5,200 +5,27 @@ import { usePathname } from "next/navigation";
 import Icon from "@/components/packages/DetailIcons";
 import { waHref } from "@/lib/settings";
 import { site } from "@/lib/site";
+import {
+  VERTICALS,
+  DIAL_CODES,
+  verticalById,
+  widgetContext,
+  type WidgetVertical,
+  type WidgetField,
+} from "@/lib/searchWidget";
 
 // One context aware lead capture widget. Full mode on the homepage shows every
-// vertical, single mode on a silo or detail page shows only the parent vertical.
-// Search is a qualified lead action, not a live search, so it opens a modal that
-// collects name, city, and number, posts the lead, and hands off to WhatsApp
-// prefilled with the vertical and criteria. Inquiry model, no live prices.
+// vertical with empty fields, single mode on a silo or detail page shows one
+// vertical prefilled from the page. Search is a qualified lead action, not a
+// live search, so it opens a modal that collects name, city, and number, posts
+// the lead, and hands off to WhatsApp prefilled with the criteria. No prices.
 
-type FieldType = "select" | "text" | "date";
+type Values = Record<string, string>;
 
-type Field = {
-  key: string;
-  label: string;
-  type: FieldType;
-  options?: string[];
-  placeholder?: string;
-  required?: boolean;
-  showIf?: (c: Record<string, string>) => boolean;
-};
-
-type Vertical = {
-  id: string;
-  label: string;
-  icon: string;
-  fields: Field[];
-  defaults: Record<string, string>;
-};
-
-const PASSENGERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10 plus"];
-const FROM = ["Peshawar", "Islamabad"];
-
-const VERTICALS: Vertical[] = [
-  {
-    id: "umrah",
-    label: "Umrah",
-    icon: "moon",
-    fields: [
-      {
-        key: "duration",
-        label: "Duration",
-        type: "select",
-        options: ["7 days", "10 days", "14 days", "15 days", "21 days", "28 days"],
-      },
-      { key: "passengers", label: "Passengers", type: "select", options: PASSENGERS },
-      {
-        key: "packageType",
-        label: "Package type",
-        type: "select",
-        options: ["Economy", "Premium", "5 Star", "Ramadan", "Umrah plus Tour combo"],
-      },
-      { key: "from", label: "Departing from", type: "select", options: FROM },
-    ],
-    defaults: {
-      duration: "15 days",
-      passengers: "2",
-      packageType: "Economy",
-      from: "Peshawar",
-    },
-  },
-  {
-    id: "hajj",
-    label: "Hajj",
-    icon: "person",
-    fields: [
-      {
-        key: "scheme",
-        label: "Scheme",
-        type: "select",
-        options: ["Private Hajj", "Government scheme via MORA"],
-      },
-      { key: "passengers", label: "Passengers", type: "select", options: PASSENGERS },
-      { key: "from", label: "Departing from", type: "select", options: FROM },
-    ],
-    defaults: { scheme: "Private Hajj", passengers: "2", from: "Peshawar" },
-  },
-  {
-    id: "tours",
-    label: "Tours",
-    icon: "pin",
-    fields: [
-      {
-        key: "destination",
-        label: "Destination",
-        type: "select",
-        options: ["Dubai", "Turkey", "Baku", "Malaysia and Thailand", "Other"],
-      },
-      {
-        key: "destinationOther",
-        label: "Your destination",
-        type: "text",
-        placeholder: "Type your destination",
-        required: true,
-        showIf: (c) => c.destination === "Other",
-      },
-      { key: "passengers", label: "Passengers", type: "select", options: PASSENGERS },
-      {
-        key: "when",
-        label: "Departure date or month",
-        type: "text",
-        placeholder: "For example March 2027",
-      },
-      { key: "from", label: "Departing from", type: "select", options: FROM },
-    ],
-    defaults: { destination: "Dubai", passengers: "2", when: "", from: "Peshawar" },
-  },
-  {
-    id: "visa",
-    label: "Visa",
-    icon: "document",
-    fields: [
-      {
-        key: "country",
-        label: "Going to",
-        type: "select",
-        options: [
-          "UAE",
-          "Saudi Arabia",
-          "Turkey",
-          "Malaysia",
-          "Thailand",
-          "Azerbaijan",
-          "Schengen",
-          "United Kingdom",
-        ],
-      },
-      {
-        key: "visaType",
-        label: "Visa type",
-        type: "select",
-        options: ["Visit", "Tourist"],
-      },
-    ],
-    defaults: { country: "UAE", visaType: "Visit" },
-  },
-  {
-    id: "flights",
-    label: "Flights",
-    icon: "plane",
-    fields: [
-      {
-        key: "trip",
-        label: "Trip",
-        type: "select",
-        options: ["Return", "One way"],
-      },
-      { key: "fromCity", label: "From", type: "text", placeholder: "Departure city", required: true },
-      { key: "toCity", label: "To", type: "text", placeholder: "Destination city", required: true },
-      { key: "depart", label: "Departure date", type: "date", required: true },
-      {
-        key: "returnDate",
-        label: "Return date",
-        type: "date",
-        required: true,
-        showIf: (c) => c.trip === "Return",
-      },
-      { key: "travelers", label: "Travelers", type: "select", options: PASSENGERS },
-    ],
-    defaults: {
-      trip: "Return",
-      fromCity: "",
-      toCity: "",
-      depart: "",
-      returnDate: "",
-      travelers: "2",
-    },
-  },
-];
-
-// Country codes for the lead number. Pakistan default, plus the markets served.
-const DIAL_CODES = [
-  { code: "+92", label: "PK +92" },
-  { code: "+966", label: "SA +966" },
-  { code: "+971", label: "AE +971" },
-  { code: "+44", label: "UK +44" },
-  { code: "+90", label: "TR +90" },
-  { code: "+60", label: "MY +60" },
-  { code: "+66", label: "TH +66" },
-  { code: "+994", label: "AZ +994" },
-  { code: "+1", label: "US +1" },
-];
-
-function resolveFromPath(pathname: string): {
-  mode: "full" | "single";
-  verticalId: string;
-} {
-  const p = pathname.toLowerCase();
-  if (p === "/" || p === "") return { mode: "full", verticalId: "umrah" };
-  if (p.startsWith("/umrah")) return { mode: "single", verticalId: "umrah" };
-  if (p.startsWith("/hajj")) return { mode: "single", verticalId: "hajj" };
-  if (p.startsWith("/tours")) return { mode: "single", verticalId: "tours" };
-  if (p.startsWith("/visa")) return { mode: "single", verticalId: "visa" };
-  if (p.startsWith("/tickets") || p.startsWith("/flight"))
-    return { mode: "single", verticalId: "flights" };
-  // Any remaining detail path maps by its known prefixes above; fall back to full.
-  return { mode: "full", verticalId: "umrah" };
+function emptyState(): Record<string, Values> {
+  return Object.fromEntries(
+    VERTICALS.map((v) => [v.id, Object.fromEntries(v.fields.map((f) => [f.key, ""]))])
+  );
 }
 
 export default function SearchInquiryWidget({
@@ -210,30 +37,46 @@ export default function SearchInquiryWidget({
 }) {
   const desk = whatsapp || site.whatsapp;
   const pathname = usePathname() || "/";
-  const resolved = useMemo(() => resolveFromPath(pathname), [pathname]);
+  const ctx = useMemo(() => widgetContext(pathname), [pathname]);
+  const mode: "full" | "single" = ctx ? "single" : "full";
 
-  const [activeId, setActiveId] = useState(resolved.verticalId);
-  // Keep the active vertical in step if the route changes under a persisted widget.
+  const [activeId, setActiveId] = useState(ctx?.vertical ?? "umrah");
+  // Criteria per vertical so switching tabs preserves what the user typed. The
+  // page context seeds only its own vertical, everything else starts empty.
+  const [criteria, setCriteria] = useState<Record<string, Values>>(() => {
+    const base = emptyState();
+    if (ctx) base[ctx.vertical] = { ...base[ctx.vertical], ...ctx.values };
+    return base;
+  });
+
+  // Follow a route change under a persisted widget, reseeding the new context.
   useEffect(() => {
-    setActiveId(resolved.verticalId);
-  }, [resolved.verticalId]);
+    setActiveId(ctx?.vertical ?? "umrah");
+    if (ctx) {
+      setCriteria((prev) => ({
+        ...prev,
+        [ctx.vertical]: { ...prev[ctx.vertical], ...ctx.values },
+      }));
+    }
+  }, [ctx]);
 
-  const active = VERTICALS.find((v) => v.id === activeId) ?? VERTICALS[0];
-
-  // Criteria state per vertical, seeded from defaults so selects are never empty.
-  const [criteria, setCriteria] = useState<Record<string, Record<string, string>>>(
-    () => Object.fromEntries(VERTICALS.map((v) => [v.id, { ...v.defaults }]))
-  );
+  const active = verticalById(activeId);
   const cur = criteria[active.id];
-  const setField = (key: string, value: string) =>
+  const setField = (key: string, value: string) => {
     setCriteria((prev) => ({ ...prev, [active.id]: { ...prev[active.id], [key]: value } }));
+    setErrors((e) => (e[key] ? { ...e, [key]: "" } : e));
+  };
 
-  const [fieldError, setFieldError] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [modalOpen, setModalOpen] = useState(false);
   const searchBtnRef = useRef<HTMLButtonElement | null>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const baseId = useId();
 
   const visibleFields = active.fields.filter((f) => !f.showIf || f.showIf(cur));
+  const inputFields = visibleFields.filter((f) => f.type !== "toggle");
+  const toggleFields = visibleFields.filter((f) => f.type === "toggle");
 
   const summary = useMemo(
     () =>
@@ -243,13 +86,32 @@ export default function SearchInquiryWidget({
     [visibleFields, cur]
   );
 
+  function validateCriteria(): Record<string, string> {
+    const errs: Record<string, string> = {};
+    for (const f of visibleFields) {
+      if (f.required && !(cur[f.key] || "").trim()) {
+        errs[f.key] = `${f.label} is required.`;
+      }
+    }
+    // Flights, the return date has to sit after the departure date.
+    if (active.id === "flights" && cur.trip === "Return") {
+      const d = cur.depart;
+      const r = cur.returnDate;
+      if (d && r && r <= d) {
+        errs.returnDate = "Return date must be after the departure date.";
+      }
+    }
+    return errs;
+  }
+
   function onSearch() {
-    const missing = visibleFields.filter((f) => f.required && !(cur[f.key] || "").trim());
-    if (missing.length > 0) {
-      setFieldError(`Please fill ${missing.map((f) => f.label.toLowerCase()).join(", ")}.`);
+    const errs = validateCriteria();
+    setErrors(errs);
+    const firstKey = Object.keys(errs)[0];
+    if (firstKey) {
+      panelRef.current?.querySelector<HTMLElement>(`#${CSS.escape(`${baseId}-${firstKey}`)}`)?.focus();
       return;
     }
-    setFieldError("");
     setModalOpen(true);
   }
 
@@ -259,10 +121,9 @@ export default function SearchInquiryWidget({
     const dir = e.key === "ArrowRight" ? 1 : -1;
     const next = (index + dir + VERTICALS.length) % VERTICALS.length;
     setActiveId(VERTICALS[next].id);
+    setErrors({});
     tabRefs.current[next]?.focus();
   }
-
-  const baseId = useId();
 
   return (
     <div className={`w-full ${className}`}>
@@ -272,7 +133,7 @@ export default function SearchInquiryWidget({
           <p className="text-sm font-semibold text-brand-orange">
             Get a quote for your dates
           </p>
-          {resolved.mode === "full" ? (
+          {mode === "full" ? (
             <div
               role="tablist"
               aria-label="Choose what to plan"
@@ -291,7 +152,10 @@ export default function SearchInquiryWidget({
                     aria-selected={selected}
                     aria-controls={`${baseId}-panel`}
                     tabIndex={selected ? 0 : -1}
-                    onClick={() => setActiveId(v.id)}
+                    onClick={() => {
+                      setActiveId(v.id);
+                      setErrors({});
+                    }}
                     onKeyDown={(e) => onTabKey(e, i)}
                     className={`inline-flex min-h-[44px] shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold transition ${
                       selected
@@ -315,52 +179,44 @@ export default function SearchInquiryWidget({
 
         {/* Fields */}
         <div
+          ref={panelRef}
           role="tabpanel"
           id={`${baseId}-panel`}
-          aria-labelledby={resolved.mode === "full" ? `${baseId}-tab-${active.id}` : undefined}
+          aria-labelledby={mode === "full" ? `${baseId}-tab-${active.id}` : undefined}
           className="p-4 sm:p-5"
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {visibleFields.map((f) => {
-              const id = `${baseId}-${f.key}`;
-              return (
-                <div key={f.key} className={f.type === "text" && f.key === "when" ? "sm:col-span-2 lg:col-span-1" : ""}>
-                  <label htmlFor={id}>
-                    {f.label}
-                    {f.required ? <span className="text-brand-orange"> *</span> : null}
-                  </label>
-                  {f.type === "select" ? (
-                    <select
-                      id={id}
-                      value={cur[f.key] ?? ""}
-                      onChange={(e) => setField(f.key, e.target.value)}
-                    >
-                      {f.options?.map((o) => (
-                        <option key={o} value={o}>
-                          {o}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      id={id}
-                      type={f.type === "date" ? "date" : "text"}
-                      value={cur[f.key] ?? ""}
-                      placeholder={f.placeholder}
-                      required={f.required}
-                      aria-required={f.required}
-                      onChange={(e) => setField(f.key, e.target.value)}
-                    />
-                  )}
-                </div>
-              );
-            })}
+            {inputFields.map((f) => (
+              <FieldControl
+                key={f.key}
+                field={f}
+                id={`${baseId}-${f.key}`}
+                value={cur[f.key] ?? ""}
+                error={errors[f.key]}
+                onChange={(v) => setField(f.key, v)}
+              />
+            ))}
           </div>
 
-          {fieldError ? (
-            <p role="alert" className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
-              {fieldError}
-            </p>
+          {toggleFields.length > 0 ? (
+            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
+              {toggleFields.map((f) => (
+                <label
+                  key={f.key}
+                  htmlFor={`${baseId}-${f.key}`}
+                  className="inline-flex min-h-[44px] cursor-pointer items-center gap-2 !text-sm !font-medium !text-slate-700"
+                >
+                  <input
+                    id={`${baseId}-${f.key}`}
+                    type="checkbox"
+                    checked={cur[f.key] === "Yes"}
+                    onChange={(e) => setField(f.key, e.target.checked ? "Yes" : "")}
+                    className="!h-5 !w-5 !p-0 shrink-0 accent-brand-orange"
+                  />
+                  {f.label}
+                </label>
+              ))}
+            </div>
           ) : null}
 
           <button
@@ -389,13 +245,69 @@ export default function SearchInquiryWidget({
   );
 }
 
+function FieldControl({
+  field,
+  id,
+  value,
+  error,
+  onChange,
+}: {
+  field: WidgetField;
+  id: string;
+  value: string;
+  error?: string;
+  onChange: (v: string) => void;
+}) {
+  const errId = `${id}-err`;
+  return (
+    <div>
+      <label htmlFor={id}>
+        {field.label}
+        {field.required ? <span className="text-brand-orange"> *</span> : null}
+      </label>
+      {field.type === "select" ? (
+        <select
+          id={id}
+          value={value}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errId : undefined}
+          onChange={(e) => onChange(e.target.value)}
+        >
+          <option value="">{field.placeholder ?? "Select"}</option>
+          {field.options?.map((o) => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          id={id}
+          type={field.type === "date" ? "date" : "text"}
+          value={value}
+          placeholder={field.placeholder}
+          aria-required={field.required}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errId : undefined}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      )}
+      {error ? (
+        <p id={errId} role="alert" className="mt-1 text-xs font-semibold text-red-600">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
 function LeadModal({
   vertical,
   summary,
   desk,
   onClose,
 }: {
-  vertical: Vertical;
+  vertical: WidgetVertical;
   summary: { label: string; value: string }[];
   desk: string;
   onClose: () => void;
@@ -404,16 +316,18 @@ function LeadModal({
   const [city, setCity] = useState("");
   const [dial, setDial] = useState("+92");
   const [number, setNumber] = useState("");
-  const [error, setError] = useState("");
+  const [company, setCompany] = useState(""); // honeypot, real users leave empty
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const firstFieldRef = useRef<HTMLInputElement | null>(null);
   const titleId = useId();
-  const summaryId = useId();
 
-  // Focus the first field on open, trap Tab inside the dialog, close on Escape.
+  const deskDisplay = `+${desk.replace(/\D/g, "")}`;
+
   useEffect(() => {
     firstFieldRef.current?.focus();
     const prevOverflow = document.body.style.overflow;
@@ -462,15 +376,30 @@ function LeadModal({
     ].join("\n");
   }
 
+  function validNumber(): boolean {
+    const digits = number.replace(/\D/g, "").replace(/^0+/, "");
+    if (dial === "+92") return digits.length === 10 && digits.startsWith("3");
+    return digits.length >= 7 && digits.length <= 14;
+  }
+
   async function submit() {
-    const digits = number.replace(/\D/g, "");
-    if (!name.trim() || !city.trim() || digits.length < 7) {
-      setError("Please enter your name, city, and a valid WhatsApp number.");
+    // Silent drop for the spam honeypot, a real visitor never fills it.
+    if (company.trim()) {
+      setDone(true);
       return;
     }
-    setError("");
-    setSending(true);
+    const errs: Record<string, string> = {};
+    if (!name.trim()) errs.name = "Please enter your name.";
+    if (!city.trim()) errs.city = "Please enter your city or location.";
+    if (!validNumber())
+      errs.number =
+        dial === "+92"
+          ? "Enter a valid Pakistan number, for example 3125446922."
+          : "Enter a valid WhatsApp number.";
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
 
+    setSending(true);
     const message = buildMessage();
 
     // Post the lead to the inquiry store first, best effort, never block handoff.
@@ -493,6 +422,16 @@ function LeadModal({
     setSending(false);
     setDone(true);
     window.open(waHref(desk, message), "_blank", "noopener,noreferrer");
+  }
+
+  async function copyNumber() {
+    try {
+      await navigator.clipboard.writeText(deskDisplay);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
   }
 
   return (
@@ -525,17 +464,16 @@ function LeadModal({
 
         <div className="flex-1 overflow-y-auto px-5 py-5">
           {done ? (
-            <div className="py-6 text-center">
+            <div className="py-4 text-center">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
                 <Icon name="check" size={28} />
               </div>
               <p className="mt-4 font-display text-xl text-brand-blue-deep">
-                Your request is on its way
+                Our desk will message you on WhatsApp shortly
               </p>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">
                 WhatsApp opens in a new tab with your {vertical.label.toLowerCase()} criteria.
-                Send the message and our desk replies with a quote for your dates. Nothing
-                opened? Use the button below.
+                Send the message and our team replies with a quote for your dates.
               </p>
               <a
                 href={waHref(desk, buildMessage())}
@@ -545,6 +483,23 @@ function LeadModal({
               >
                 Open WhatsApp
               </a>
+              {/* Fallback in case WhatsApp is unavailable */}
+              <div className="mt-4 rounded-2xl bg-paper p-4 text-sm">
+                <p className="text-slate-600">Prefer to reach us directly?</p>
+                <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+                  <a href={`tel:${deskDisplay}`} className="font-semibold text-brand-blue-deep underline">
+                    {deskDisplay}
+                  </a>
+                  <button
+                    type="button"
+                    onClick={copyNumber}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-white"
+                  >
+                    <Icon name={copied ? "check" : "document"} size={14} />
+                    {copied ? "Copied" : "Copy number"}
+                  </button>
+                </div>
+              </div>
               <button
                 type="button"
                 onClick={onClose}
@@ -556,18 +511,24 @@ function LeadModal({
           ) : (
             <>
               {/* Read only summary of the picked criteria */}
-              <div id={summaryId} className="rounded-2xl bg-paper p-4">
+              <div className="rounded-2xl bg-paper p-4">
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                   Your {vertical.label.toLowerCase()} request
                 </p>
-                <ul className="mt-2 space-y-1">
-                  {summary.map((r) => (
-                    <li key={r.label} className="flex justify-between gap-4 text-sm">
-                      <span className="text-slate-500">{r.label}</span>
-                      <span className="text-right font-semibold text-brand-blue-deep">{r.value}</span>
-                    </li>
-                  ))}
-                </ul>
+                {summary.length > 0 ? (
+                  <ul className="mt-2 space-y-1">
+                    {summary.map((r) => (
+                      <li key={r.label} className="flex justify-between gap-4 text-sm">
+                        <span className="text-slate-500">{r.label}</span>
+                        <span className="text-right font-semibold text-brand-blue-deep">{r.value}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="mt-2 text-sm text-slate-500">
+                    Add your details below and our desk shapes the {vertical.label.toLowerCase()} around your dates.
+                  </p>
+                )}
               </div>
 
               <div className="mt-5 space-y-4">
@@ -579,11 +540,21 @@ function LeadModal({
                     ref={firstFieldRef}
                     id="lead-name"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      setErrors((x) => ({ ...x, name: "" }));
+                    }}
                     placeholder="Full name"
                     autoComplete="name"
                     aria-required={true}
+                    aria-invalid={errors.name ? true : undefined}
+                    aria-describedby={errors.name ? "lead-name-err" : undefined}
                   />
+                  {errors.name ? (
+                    <p id="lead-name-err" role="alert" className="mt-1 text-xs font-semibold text-red-600">
+                      {errors.name}
+                    </p>
+                  ) : null}
                 </div>
                 <div>
                   <label htmlFor="lead-city">
@@ -592,11 +563,21 @@ function LeadModal({
                   <input
                     id="lead-city"
                     value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    onChange={(e) => {
+                      setCity(e.target.value);
+                      setErrors((x) => ({ ...x, city: "" }));
+                    }}
                     placeholder="For example Charsadda, Peshawar, Islamabad"
                     autoComplete="address-level2"
                     aria-required={true}
+                    aria-invalid={errors.city ? true : undefined}
+                    aria-describedby={errors.city ? "lead-city-err" : undefined}
                   />
+                  {errors.city ? (
+                    <p id="lead-city-err" role="alert" className="mt-1 text-xs font-semibold text-red-600">
+                      {errors.city}
+                    </p>
+                  ) : null}
                 </div>
                 <div>
                   <label htmlFor="lead-number">
@@ -619,20 +600,36 @@ function LeadModal({
                       id="lead-number"
                       type="tel"
                       value={number}
-                      onChange={(e) => setNumber(e.target.value)}
+                      onChange={(e) => {
+                        setNumber(e.target.value);
+                        setErrors((x) => ({ ...x, number: "" }));
+                      }}
                       placeholder="3XX XXXXXXX"
                       autoComplete="tel-national"
                       aria-required={true}
+                      aria-invalid={errors.number ? true : undefined}
+                      aria-describedby={errors.number ? "lead-number-err" : undefined}
                     />
                   </div>
+                  {errors.number ? (
+                    <p id="lead-number-err" role="alert" className="mt-1 text-xs font-semibold text-red-600">
+                      {errors.number}
+                    </p>
+                  ) : null}
+                </div>
+
+                {/* Honeypot, visually hidden, real visitors never see or fill it */}
+                <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+                  <label htmlFor="lead-company">Company</label>
+                  <input
+                    id="lead-company"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                  />
                 </div>
               </div>
-
-              {error ? (
-                <p role="alert" className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
-                  {error}
-                </p>
-              ) : null}
 
               <button
                 type="button"
