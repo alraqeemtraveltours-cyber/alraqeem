@@ -72,6 +72,18 @@ const tourFaqs = [
     q: "Do you build custom group tours?",
     a: "Yes. Our team builds custom tours for families, offices, and community groups of any size, to any destination we serve. Share your dates, group size, and the experience you want, and our desk designs the itinerary, arranges documents, and sends one quote for the whole group.",
   },
+  {
+    q: "Are your tours group departures or private trips?",
+    a: "Both. Join a group departure for the friendliest price and a set itinerary, or ask our desk for a private tour with your own vehicle, guide, and pace. Tell us your group size and how you prefer to travel, and we quote the option that fits your dates.",
+  },
+  {
+    q: "Do the tours include airport transfers and daily sightseeing?",
+    a: "Yes. Our tour packages include airport transfers on arrival and departure and the guided sightseeing named in each itinerary, from the Dubai city tour to the Istanbul old city and the Cappadocia valleys. Our desk confirms every transfer and tour in writing before you pay.",
+  },
+  {
+    q: "Which airlines do you fly for international tours?",
+    a: "Flights are booked on the carrier with the best fare and schedule for your dates, such as Emirates, Qatar Airways, Etihad, PIA, or AirSial, from Karachi, Lahore, Islamabad, or Peshawar. Our desk confirms the airline and the timing with your quote.",
+  },
 ];
 
 export default async function ToursPage() {

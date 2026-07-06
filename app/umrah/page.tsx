@@ -73,6 +73,14 @@ const hubFaqs = [
     q: "Do you also arrange Hajj?",
     a: "Yes. Hajj sits in its own program with government scheme registration through MORA, Maktab camps at Mina and Arafat, trained group leaders, and pre-departure training. See the Hajj package for the full flow, or ask our desk to plan your Hajj alongside your Umrah.",
   },
+  {
+    q: "How close are your Umrah hotels to the Haram?",
+    a: "Economy Umrah books hotels within walking or shuttle distance of the Haram, while premium and five star tiers sit near or facing it, steps from the gates. Exact hotel names and distances are confirmed for your travel dates before you pay, since the closest rooms fill early through the year.",
+  },
+  {
+    q: "What is the Makkah and Madinah night split on an Umrah?",
+    a: "Your nights split across Makkah and Madinah to suit your priorities, whether more days at Masjid al-Haram for worship or a longer stay in Madinah for the Rawdah and Ziyarat. The exact split is set for your dates and duration, and our desk confirms it with your quote.",
+  },
 ];
 
 export default async function UmrahHubPage() {

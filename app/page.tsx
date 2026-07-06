@@ -6,6 +6,7 @@ import { CtaBand } from "@/components/Shared";
 import JsonLd from "@/components/JsonLd";
 import HomeFaq from "@/components/HomeFaq";
 import LastUpdated from "@/components/LastUpdated";
+import CaptionedImage from "@/components/packages/CaptionedImage";
 import Reviews from "@/components/Reviews";
 import { getFeatured } from "@/lib/packagesStore";
 import { getPosts } from "@/lib/postsStore";
@@ -33,36 +34,32 @@ export const metadata: Metadata = {
   },
 };
 
-const services = [
+// Three silo cards, the primary homepage bridge into each vertical. Each links
+// to its silo hub with a descriptive anchor and carries a captioned slot.
+const silos = [
   {
-    title: "Umrah and Hajj Packages",
-    alt: "The Holy Kaaba in Masjid al-Haram, Makkah",
-    text: "Our Umrah packages run from economy to five star across 7 to 30 day durations, with quad and triple sharing and hotels near the Haram in Makkah and Madinah. Every program covers the Saudi Umrah e-visa, guided Ziyarat, and ground transport. For Hajj, choose our private route alongside the government scheme registered through MORA and Nusuk.",
-    image: images.kaaba,
-    links: [
-      { label: "View Umrah packages", href: "/umrah" },
-      { label: "Hajj packages and MORA", href: "/hajj" },
-    ],
+    title: "Umrah",
+    href: "/umrah",
+    anchor: "Umrah packages from Pakistan",
+    icon: "moon",
+    caption: "Masjid al-Haram and the Kaaba in Makkah",
+    text: "Economy, premium, and Ramadan Umrah from seven to twenty eight days, with the Saudi e visa, flights, hotels near the Haram, and guided Ziyarat in Makkah and Madinah, departing from Peshawar and Islamabad.",
   },
   {
-    title: "International Tour Packages",
-    alt: "Dubai skyline with the Burj Khalifa",
-    text: "Our international tours reach Dubai with the Burj Khalifa and Desert Safari, Turkey with Istanbul and Cappadocia, Baku with the Old City and Flame Towers, and a Malaysia and Thailand combo through Kuala Lumpur and Bangkok. Visa, flights, hotels, and sightseeing arrive in one booking.",
-    image: images.dubai,
-    links: [
-      { label: "Dubai city tour", href: "/tours/dubai" },
-      { label: "Turkey tour", href: "/tours/turkey" },
-    ],
+    title: "Hajj",
+    href: "/hajj",
+    anchor: "Hajj packages from Pakistan",
+    icon: "moon",
+    caption: "The tents of Mina during the days of Hajj",
+    text: "A private Hajj and the government scheme through MORA, with the Maktab category, the camps at Mina, Arafat, and Muzdalifah, and trained scholars guiding every rite.",
   },
   {
-    title: "Visit Visa Services",
-    alt: "Passport and travel documents ready for a visa application",
-    text: "Our desk prepares visit visas for the UAE, Saudi Arabia, Turkey, Malaysia, Thailand, Azerbaijan, Schengen states, and the United Kingdom. Every document is checked before filing, since most refusals come from small file errors rather than ineligibility.",
-    image: images.visa,
-    links: [
-      { label: "Visa services", href: "/visa-services" },
-      { label: "UAE visa guide", href: "/blog/dubai-visit-visa-requirements-pakistan" },
-    ],
+    title: "Tours",
+    href: "/tours",
+    anchor: "international tour packages from Pakistan",
+    icon: "plane",
+    caption: "The Dubai skyline with the Burj Khalifa",
+    text: "Dubai, Turkey, Baku, and Malaysia with Thailand, with the visit visa, flights, hotels, guided sightseeing, and a day by day itinerary in one booking.",
   },
 ];
 
@@ -372,16 +369,13 @@ export default async function HomePage() {
             align="center"
           />
           <div className="grid gap-6 md:grid-cols-2">
-            <div className="overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-black/5">
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src={images.kaaba}
-                  alt="The Holy Kaaba in Masjid al-Haram, Makkah"
-                  loading="lazy"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="p-6">
+            <div className="rounded-3xl bg-white p-4 shadow-card ring-1 ring-black/5">
+              <CaptionedImage
+                caption="Masjid al-Haram and the Kaaba in Makkah"
+                icon="moon"
+                aspect="aspect-[16/9]"
+              />
+              <div className="px-2 pb-2 pt-1">
                 <h3 className="font-display text-xl text-brand-blue-deep">
                   Makkah
                 </h3>
@@ -392,16 +386,13 @@ export default async function HomePage() {
                 </p>
               </div>
             </div>
-            <div className="overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-black/5">
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src={images.madinah}
-                  alt="Domes of Masjid an-Nabawi in Madinah"
-                  loading="lazy"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="p-6">
+            <div className="rounded-3xl bg-white p-4 shadow-card ring-1 ring-black/5">
+              <CaptionedImage
+                caption="Masjid an-Nabawi and the Rawdah in Madinah"
+                icon="moon"
+                aspect="aspect-[16/9]"
+              />
+              <div className="px-2 pb-2 pt-1">
                 <h3 className="font-display text-xl text-brand-blue-deep">
                   Madinah
                 </h3>
@@ -511,60 +502,50 @@ export default async function HomePage() {
       <section className="bg-white py-20 sm:py-28">
         <div className="container-site">
           <SectionHeading
-            eyebrow="What we do"
-            title="Every journey, handled completely"
-            description="Umrah, Hajj, international tours and visas, one standard of care with nothing left for you to chase."
+            eyebrow="What we offer"
+            title="Umrah, Hajj, and international tours"
+            description="Three ways to travel with Al Raqeem, each handled end to end from Peshawar and Islamabad. Choose a route below to see durations, what is included, and how to get a quote for your dates."
             align="center"
           />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s) => (
-              <div
+          <div className="grid gap-6 sm:grid-cols-3">
+            {silos.map((s) => (
+              <Link
                 key={s.title}
-                className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/5"
+                href={s.href}
+                className="group flex flex-col overflow-hidden rounded-2xl bg-white p-5 shadow-card ring-1 ring-black/5 transition duration-300 hover:-translate-y-1 hover:shadow-lift"
               >
-                <div className="relative h-44 overflow-hidden">
-                  <img
-                    src={s.image}
-                    alt={s.alt}
-                    loading="lazy"
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0 overlay-dark" />
-                  <h3 className="absolute bottom-4 left-5 text-xl text-white">
+                <CaptionedImage
+                  caption={s.caption}
+                  icon={s.icon}
+                  aspect="aspect-[16/9]"
+                />
+                <div className="flex flex-1 flex-col pt-4">
+                  <h3 className="font-display text-xl text-brand-blue-deep">
                     {s.title}
                   </h3>
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <p className="text-sm leading-relaxed text-slate-600">
+                  <div className="gold-rule mt-2" />
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">
                     {s.text}
                   </p>
-                  <div className="mt-auto flex flex-wrap gap-x-5 gap-y-1 border-t border-black/5 pt-3">
-                    {s.links.map((l) => (
-                      <Link
-                        key={l.label}
-                        href={l.href}
-                        className="group inline-flex min-h-[44px] items-center gap-1.5 text-sm font-semibold text-brand-orange-dark hover:text-brand-orange"
-                      >
-                        {l.label}
-                        <svg
-                          width="15"
-                          height="15"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="transition group-hover:translate-x-1"
-                          aria-hidden="true"
-                        >
-                          <path d="M5 12h14M13 6l6 6-6 6" />
-                        </svg>
-                      </Link>
-                    ))}
-                  </div>
+                  <span className="mt-4 inline-flex min-h-[44px] items-center gap-1.5 text-sm font-semibold text-brand-orange-dark group-hover:text-brand-orange">
+                    {s.anchor}
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="transition group-hover:translate-x-1"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

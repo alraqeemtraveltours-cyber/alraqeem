@@ -8,7 +8,7 @@ import {
   packageSilo,
 } from "@/lib/packages";
 import { packageMetadata } from "@/lib/packageMeta";
-import { packageImage, images } from "@/lib/images";
+import { packageImage } from "@/lib/images";
 import { CtaBand } from "@/components/Shared";
 import JsonLd from "@/components/JsonLd";
 import FaqAccordion from "@/components/FaqAccordion";
@@ -148,6 +148,32 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
   const seasonalNote = isTour
     ? "Peak seasons and holidays book earliest, so message us as soon as your dates are set."
     : undefined;
+  // Hero subhead, a semantically dense intent line under the H1 and above the
+  // CTA. Tours share one benefit line; each pilgrimage package names its own
+  // entities and answers what the package delivers.
+  const heroSubhead = isTour
+    ? "Visa, flights, hotel, and every sight handled. You travel, and our desk arranges it all, quoted for your exact dates with no hidden charges."
+    : pkg.slug === "economy-umrah-15-days"
+      ? "A complete 15 day Umrah from Pakistan on an honest budget, with the Saudi e-visa, return flights from Peshawar and Islamabad, hotels within walking distance of the Haram, ground transport, and guided Ziyarat in Makkah and Madinah, all handled by our desk."
+      : pkg.slug === "premium-umrah-21-days"
+        ? "A 21 day five star Umrah from Pakistan, with hotels near or facing the Haram, private transport, daily breakfast and dinner, and the Saudi e-visa processed through Nusuk, arranged end to end by our desk."
+        : pkg.slug === "ramadan-umrah-special"
+          ? "Umrah in the blessed nights of Ramadan from Pakistan, from ten to thirty days, with hotels near the Haram for Taraweeh, Itikaf, and the nights of Laylat al-Qadr, arranged before the season sells out."
+          : pkg.slug === "hajj-package"
+            ? "A complete, guided Hajj from Pakistan, with government scheme registration through MORA, the Maktab camps at Mina and Arafat, trained group leaders, and pre-departure training, arranged from booking to your safe return."
+            : `A complete ${displayTitle} from Pakistan, with the visa, flights, hotels, and guided visits arranged end to end by our desk.`;
+
+  // Combo partners for the durations and combos block, each tour paired with
+  // the other destinations we serve.
+  const comboPartners = isDubai
+    ? "Baku, Turkey, or the Maldives"
+    : pkg.slug === "turkey-7-days"
+      ? "Dubai, Baku, or the Maldives"
+      : pkg.slug === "baku-5-days"
+        ? "Dubai, Turkey, or the Maldives"
+        : pkg.slug === "malaysia-thailand-8-days"
+          ? "Dubai, Turkey, or Baku"
+          : "our other destinations";
 
   // Overview: pull the first sentence as a lead line (presentation only).
   const sentences = detail.overview.split(/(?<=\.)\s+/);
@@ -261,11 +287,9 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
           <h1 className="mt-4 max-w-3xl text-4xl font-medium leading-[1.1] text-white sm:text-5xl">
             {displayTitle} from Pakistan
           </h1>
-          {isTour && (
+          {heroSubhead && (
             <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-200">
-              Visa, flights, hotel, and every sight handled. You travel, and our
-              desk arranges it all, quoted for your exact dates with no hidden
-              charges.
+              {heroSubhead}
             </p>
           )}
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -1001,14 +1025,21 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                           </p>
                         )}
                       </div>
-                      <div className="relative min-h-[220px] md:min-h-full">
-                        <img
-                          src={images.madinah}
-                          alt="Hotels near the Haram in Makkah and Madinah"
-                          loading="lazy"
-                          className="absolute inset-0 h-full w-full object-cover"
+                      <figure
+                        role="img"
+                        aria-label="Hotels near Masjid al-Haram in Makkah and Masjid an-Nabawi in Madinah"
+                        className="flex min-h-[220px] flex-col items-center justify-center gap-3 border-t border-brand-orange/20 bg-white/5 p-6 text-center md:min-h-full md:border-l md:border-t-0"
+                      >
+                        <Icon
+                          name="hotel"
+                          size={34}
+                          className="text-brand-orange"
                         />
-                      </div>
+                        <figcaption className="text-sm font-medium leading-snug text-slate-200">
+                          Hotels near Masjid al-Haram in Makkah and Masjid
+                          an-Nabawi in Madinah
+                        </figcaption>
+                      </figure>
                     </div>
                   </div>
                 </section>
@@ -2189,19 +2220,20 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                 </div>
               </section>
 
-              {/* Dubai durations, cities, and combos */}
-              {isDubai && (
+              {/* Durations, departure cities, and combos (every tour page) */}
+              {isTour && (
                 <section className="rounded-3xl bg-brand-blue-deep p-7 text-white shadow-lift sm:p-8">
-                  <p className="eyebrow text-brand-orange">More Dubai options</p>
+                  <p className="eyebrow text-brand-orange">
+                    More {tourName} options
+                  </p>
                   <h2 className="mt-2 font-display text-2xl text-white">
                     Durations, departure cities, and combos
                   </h2>
                   <p className="mt-3 max-w-[65ch] text-base leading-relaxed text-slate-200">
-                    Beyond this five day plan, our desk arranges longer Dubai
-                    tours, six and seven day stays, departures from Karachi,
-                    Lahore, Islamabad, and Peshawar, and Dubai combos with Baku,
-                    Turkey, or the Maldives. Ask for the option that fits your
-                    dates and group.
+                    Beyond this itinerary, our desk arranges longer {tourName}
+                    stays, departures from Karachi, Lahore, Islamabad, and
+                    Peshawar, and {tourName} combos with {comboPartners}. Ask for
+                    the option that fits your dates and group.
                   </p>
                   <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                     <a
@@ -2210,13 +2242,13 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                       rel="noopener noreferrer"
                       className="btn-orange"
                     >
-                      Get a Dubai quote
+                      Get a {tourName} quote
                     </a>
                     <Link
-                      href="/packages"
+                      href="/tours"
                       className="btn border border-white/40 text-white hover:bg-white/10"
                     >
-                      Browse all packages
+                      Browse all tours
                     </Link>
                   </div>
                 </section>
