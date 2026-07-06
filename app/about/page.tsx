@@ -50,8 +50,8 @@ export default function AboutPage() {
           </p>
           <p className="mt-5 leading-relaxed text-slate-600">
             The name Al Raqeem comes from the Quran, from Surah Al Kahf, where
-            it is mentioned alongside the People of the Cave. It reminds us
-            that every journey is recorded and every trust must be honored. We
+            it is mentioned alongside the People of the Cave, a reminder that
+            every journey is recorded and every trust must be honored. We
             chose it deliberately: in an industry where promises are cheap, our
             name itself is a commitment to accountability.
           </p>
@@ -60,7 +60,7 @@ export default function AboutPage() {
             Islamabad, Lahore, Rawalpindi, Peshawar, Tangi, Shabqadar and all
             of Pakistan. Most of our work arrives the same way it always has:
             one family travels with us, and then their relatives, neighbors and
-            friends follow. That only happens when people are treated right.
+            friends follow, and that only happens when people are treated right.
           </p>
           <p className="mt-5 leading-relaxed text-slate-600">
             Whether it is a parent's first Umrah, a honeymoon in Turkey, or a

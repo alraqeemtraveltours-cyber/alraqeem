@@ -7,7 +7,7 @@ export type TravelPackage = {
   title: string;
   category: Category;
   duration: string;
-  // null means "Contact for price"
+  // null means the item is quoted on inquiry, no stored price
   price: number | null;
   featured?: boolean;
   highlights: string[];
@@ -152,7 +152,7 @@ export const seedPackages: TravelPackage[] = [
 ];
 
 export function formatPrice(price: number | null) {
-  if (price === null) return "Contact for price";
+  if (price === null) return "Price on inquiry";
   return `PKR ${price.toLocaleString("en-PK")}`;
 }
 

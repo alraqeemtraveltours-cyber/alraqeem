@@ -77,7 +77,7 @@ export const cities: City[] = [
     intro:
       "Our head office is located in Charsadda. Walk in, sit with our team over a cup of tea, and plan your Umrah, Hajj or international trip face to face. Al Raqeem Travel & Tours is Charsadda's own travel company.",
     detail:
-      "Being based in Charsadda means you deal with people you know, not a call center. We handle passports, Saudi e-visas, ticketing and hotel bookings from our office, and our clients can visit any time for updates. Departures are arranged from both Peshawar and Islamabad airports depending on the best fares for your dates.",
+      "Being based in Charsadda means you deal with people you know, not a call center. We handle passports, Saudi e-visas, ticketing and hotel bookings from our office, and our clients are welcome to drop in any time for updates. Departures are arranged from both Peshawar and Islamabad airports depending on the best fares for your dates.",
     popular: [
       "Walk-in Umrah bookings and consultation",
       "Passport and visa document services",

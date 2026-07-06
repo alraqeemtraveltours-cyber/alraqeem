@@ -57,7 +57,7 @@ export default function Reviews({
           title="What our travelers say"
           description={
             placeholder
-              ? "This section is built and ready for real Google reviews and client testimonials."
+              ? "Our reviews section is built and ready for real Google reviews and client testimonials."
               : "Real words from pilgrims and travelers our team has served across Pakistan."
           }
           align="center"
