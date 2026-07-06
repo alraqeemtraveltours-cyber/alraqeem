@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import TicketCard from "@/components/TicketCard";
 import { CtaBand, PageHero } from "@/components/Shared";
+import SearchInquiryWidget from "@/components/SearchInquiryWidget";
 import { getTickets } from "@/lib/ticketsStore";
 import { getCategoryNames } from "@/lib/categoriesStore";
 import { images } from "@/lib/images";
@@ -28,10 +29,18 @@ export default async function TicketsPage() {
     <>
       <PageHero
         eyebrow="Flight deals"
-        title="Air tickets at honest, upfront fares"
+        title="Air tickets at clear, upfront fares"
         description="Current fares on popular routes. Seats at these prices are limited, message us to confirm availability and book."
         image={images.dubai}
       />
+
+      <div className="relative z-10 -mt-10 sm:-mt-14">
+        <div className="container-site">
+          <div className="mx-auto max-w-3xl">
+            <SearchInquiryWidget />
+          </div>
+        </div>
+      </div>
 
       {categories.map((cat, i) => {
         const inCat = tickets.filter((t) => t.category === cat);

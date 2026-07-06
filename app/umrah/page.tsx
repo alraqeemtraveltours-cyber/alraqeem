@@ -11,6 +11,7 @@ import SeoBlurb from "@/components/SeoBlurb";
 import TierCompare from "@/components/packages/TierCompare";
 import MobileActionBar from "@/components/packages/MobileActionBar";
 import LastUpdated from "@/components/LastUpdated";
+import SearchInquiryWidget from "@/components/SearchInquiryWidget";
 import { getPackages } from "@/lib/packagesStore";
 import { getSettings } from "@/lib/settingsStore";
 import { reviewData } from "@/lib/reviews";
@@ -145,6 +146,9 @@ export default async function UmrahHubPage() {
             >
               Call {settings.phone}
             </a>
+          </div>
+          <div className="mt-8 max-w-3xl">
+            <SearchInquiryWidget whatsapp={settings.whatsapp} />
           </div>
         </div>
       </section>

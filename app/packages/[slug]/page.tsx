@@ -20,6 +20,7 @@ import MobileActionBar from "@/components/packages/MobileActionBar";
 import TourCta from "@/components/packages/TourCta";
 import SocialProof from "@/components/packages/SocialProof";
 import CaptionedImage from "@/components/packages/CaptionedImage";
+import SearchInquiryWidget from "@/components/SearchInquiryWidget";
 import LastUpdated from "@/components/LastUpdated";
 import Reviews from "@/components/Reviews";
 import { getSettings } from "@/lib/settingsStore";
@@ -323,6 +324,15 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Quote widget, single mode with the parent vertical resolved from route */}
+      <section className="border-b border-black/5 bg-white py-8">
+        <div className="container-site">
+          <div className="max-w-3xl">
+            <SearchInquiryWidget whatsapp={settings.whatsapp} />
           </div>
         </div>
       </section>

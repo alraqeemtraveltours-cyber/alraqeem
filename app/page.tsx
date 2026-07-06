@@ -7,6 +7,7 @@ import JsonLd from "@/components/JsonLd";
 import HomeFaq from "@/components/HomeFaq";
 import LastUpdated from "@/components/LastUpdated";
 import CaptionedImage from "@/components/packages/CaptionedImage";
+import SearchInquiryWidget from "@/components/SearchInquiryWidget";
 import Reviews from "@/components/Reviews";
 import { getFeatured } from "@/lib/packagesStore";
 import { getPosts } from "@/lib/postsStore";
@@ -272,6 +273,9 @@ export default async function HomePage() {
             >
               Call {settings.phone}
             </a>
+          </div>
+          <div className="mt-8 max-w-3xl">
+            <SearchInquiryWidget whatsapp={settings.whatsapp} />
           </div>
           <LastUpdated tone="dark" className="mt-6" />
           <div className="mt-14 grid max-w-2xl grid-cols-3 gap-6 border-t border-white/15 pt-8">

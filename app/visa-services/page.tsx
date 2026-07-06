@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import { CtaBand, PageHero } from "@/components/Shared";
+import SearchInquiryWidget from "@/components/SearchInquiryWidget";
 import { images } from "@/lib/images";
 import { waLink } from "@/lib/site";
 
@@ -80,6 +81,14 @@ export default function VisaServicesPage() {
         description="Most visa rejections come from small document errors, not ineligibility. Our team checks every page of your file before it is submitted."
         image={images.visa}
       />
+
+      <div className="relative z-10 -mt-10 sm:-mt-14">
+        <div className="container-site">
+          <div className="mx-auto max-w-3xl">
+            <SearchInquiryWidget />
+          </div>
+        </div>
+      </div>
 
       <section className="py-16 sm:py-20">
         <div className="container-site">
