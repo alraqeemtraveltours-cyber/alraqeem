@@ -80,8 +80,13 @@ export default async function PackagesBrowsePage() {
             Browse Al Raqeem packages and services
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-200">
-            Everything our desk arranges, in one place. Choose a section below,
-            or message our team on WhatsApp for a quote on your exact dates.
+            Al Raqeem Travel & Tours is a full service Umrah, Hajj, tour, and
+            visa agency in Charsadda, Khyber Pakhtunkhwa, serving all of
+            Pakistan. Everything our desk arranges sits in one place here, from
+            Umrah and the government MORA Hajj scheme to international tours and
+            visit visas, each quoted on inquiry because airfare and hotel rates
+            move weekly. Choose a section below, or message our team on WhatsApp
+            for a quote on your exact dates.
           </p>
         </div>
       </section>

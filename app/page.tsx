@@ -103,7 +103,7 @@ const reasons = [
     text: "Our head office is in Charsadda. You sit with real people across a desk, not a faceless call center.",
   },
   {
-    title: "Honest pricing, clear quotes",
+    title: "Clear quotes before you pay",
     text: "Every cost is explained in your quote before you pay. No hidden charges appear later, ever.",
   },
   {
@@ -248,8 +248,8 @@ export default async function HomePage() {
           </p>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-200 sm:text-lg">
             {site.name} arranges Umrah, Hajj, international tours and visas from
-            Pakistan, with honest pricing quoted on inquiry and WhatsApp support
-            from inquiry to safe return.
+            Pakistan, quoted on inquiry because airfare and hotel rates move
+            weekly, with WhatsApp support from inquiry to safe return.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link href="/packages" className="btn-orange">
@@ -345,15 +345,19 @@ export default async function HomePage() {
           <div className="mx-auto max-w-3xl text-center">
             <p className="eyebrow">Umrah, Hajj and travel from Pakistan</p>
             <p className="mt-5 text-base leading-relaxed text-slate-700 sm:text-lg">
-              {site.name} is a Charsadda based agency arranging Umrah and Hajj to
-              Makkah and Madinah, with hotels near Masjid al-Haram and Masjid
-              an-Nabawi, guided Ziyarat, and the Saudi Umrah e-visa handled for
-              you. Packages run from economy to five star across 7 to 30 day
-              durations for 2026, with quad, triple, and double sharing and
-              departures from Peshawar and Islamabad. Beyond the pilgrimage, our
-              desk arranges international tours to Dubai, Turkey, Baku, and
-              beyond, plus visit visas from Pakistan. One office in Charsadda
-              serves travelers across all Pakistan.
+              {site.name} is a full service Umrah, Hajj, tour, and visa agency
+              based in Charsadda, Khyber Pakhtunkhwa, and the sister company of
+              Al Nafi Travels, serving pilgrims and travelers across all of
+              Pakistan. Our desk arranges Umrah and Hajj to Makkah and Madinah,
+              with hotels near Masjid al-Haram and Masjid an-Nabawi, guided
+              Ziyarat, the Saudi Umrah e-visa, and government Hajj scheme
+              registration through MORA. Packages run from economy to five star
+              across 7 to 30 day durations for 2026, with quad, triple, and
+              double sharing and departures from Peshawar and Islamabad. Beyond
+              the pilgrimage, our team arranges international tours to Dubai,
+              Turkey, Baku, and beyond, plus visit visas from Pakistan. Every
+              package is quoted on inquiry because airfare and hotel rates move
+              weekly, so we confirm the current best price for your exact dates.
             </p>
           </div>
         </div>

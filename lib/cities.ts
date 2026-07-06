@@ -105,7 +105,7 @@ export const cities: City[] = [
     region: "Khyber Pakhtunkhwa",
     headline: "Travel Agency Serving Shabqadar",
     intro:
-      "Shabqadar families choose Al Raqeem Travel & Tours for honest pricing and personal service from our Charsadda head office. Complete Umrah, Hajj and international travel arrangements close to home.",
+      "Shabqadar families choose Al Raqeem Travel & Tours for clear written quotes and personal service from our Charsadda head office. Complete Umrah, Hajj and international travel arrangements close to home.",
     detail:
       "We understand the travel needs of Shabqadar, from first-time pilgrims to families visiting relatives in the Gulf. Our team explains every cost upfront with no hidden charges, prepares all documents, and stays in contact on WhatsApp throughout your journey from departure to safe return.",
     popular: [
