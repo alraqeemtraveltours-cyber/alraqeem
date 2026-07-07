@@ -1794,12 +1794,20 @@ export type TourContent = {
   seasonalNote: string;
   visaIntro: string;
   visaLinks: TourVisaLink[];
+  // Optional lead passage, rendered after the overview and before the itinerary.
+  // Malaysia uses it for the Muslim friendly and halal wedge.
+  wedge?: { eyebrow: string; title: string; body: string };
 };
 
 export const tourContent: Record<string, TourContent> = {
   malaysia: {
     name: "Malaysia",
     durationWords: "six day",
+    wedge: {
+      eyebrow: "Muslim friendly Malaysia",
+      title: "A halal, prayer easy trip for a Muslim family",
+      body: "Malaysia is a Muslim majority country, so halal food is everywhere, from the hawker stalls of Kuala Lumpur to the food courts of Genting, and no separate hunt for a halal meal is needed. Mosques sit on the tour route, the blue roofed National Mosque near Merdeka Square and the rose tinted Putra Mosque on the lake in Putrajaya, with prayer rooms, or surau, in the malls, the airport, and most attractions. Modest, welcoming, and easy to pray in, Malaysia is one of the most comfortable first trips abroad for a family from Pakistan, which is the reason so many choose it over the other Far East cities.",
+    },
     itineraryNote:
       "The flow above is the typical six day plan around Kuala Lumpur. Our desk adjusts the order and adds Langkawi, Malacca, or Putrajaya on request.",
     seasonalNote:

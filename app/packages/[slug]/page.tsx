@@ -783,6 +783,21 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                 />
               )}
 
+              {/* Optional lead passage, the Muslim friendly wedge for Malaysia */}
+              {tour?.wedge && (
+                <section className="rounded-3xl border border-brand-orange/25 bg-brand-orange/5 p-6 sm:p-8">
+                  <p className="eyebrow text-brand-orange-dark">
+                    {tour.wedge.eyebrow}
+                  </p>
+                  <h2 className="mt-2 font-display text-2xl text-brand-blue-deep">
+                    {tour.wedge.title}
+                  </h2>
+                  <p className="mt-4 max-w-[70ch] text-base leading-relaxed text-slate-700">
+                    {tour.wedge.body}
+                  </p>
+                </section>
+              )}
+
               {/* Data driven itinerary and attractions for the newer tour pages */}
               {tour && (
                 <>
