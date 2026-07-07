@@ -325,6 +325,10 @@ export const detailContent: Record<string, DetailContent> = {
         a: "Our desk arranges Dubai flights from Karachi, Lahore, Islamabad, or Peshawar, on the carrier with the best fare and schedule for your dates. Travelers from Charsadda and nearby towns depart from Peshawar or Islamabad, with airport pickup coordinated when you book.",
       },
       {
+        q: "How do I get around in Dubai?",
+        a: "Private transfers and guided tours cover the sightseeing days, with airport pickups and hotel transfers arranged by our team. Between the planned days you explore Dubai on the clean, driverless Metro or by taxi and ride hailing at your own pace, with our desk on WhatsApp throughout.",
+      },
+      {
         q: "Is the Dubai tour good for a honeymoon?",
         a: "Dubai works well for a honeymoon, with a four star stay, a desert safari, a Marina dhow cruise, and time along Jumeirah Beach. Our desk arranges a couples pace and optional upgrades, from a higher star hotel to a private tour, quoted with your dates.",
       },
@@ -365,6 +369,10 @@ export const detailContent: Record<string, DetailContent> = {
       {
         q: "Is the hot air balloon ride in Cappadocia included?",
         a: "The Cappadocia hot air balloon ride is an optional add on rather than a fixed inclusion, since flights depend on weather and demand. Our team books it alongside your package when you request it, and confirms timing on the ground so you catch a clear sunrise over the valleys.",
+      },
+      {
+        q: "How do I get around in Turkey?",
+        a: "Private transfers and guided tours cover the sightseeing days, with the Istanbul to Cappadocia leg by domestic flight or overnight coach arranged by our team. In Istanbul you also ride the trams, ferries, and the metro at your own pace, with our desk on WhatsApp throughout.",
       },
       {
         q: "Is the Turkey tour good for a honeymoon?",
@@ -427,6 +435,10 @@ export const detailContent: Record<string, DetailContent> = {
       {
         q: "What does the Gabala day trip include?",
         a: "The Gabala day trip travels into the Caucasus foothills for the Tufandag cable car and its mountain views, with a stop at Nohur Lake. In the green season the route often adds the Yeddi Gozal waterfalls. Our desk confirms the exact stops for your travel dates before you go.",
+      },
+      {
+        q: "How do I get around in Baku?",
+        a: "Private transfers and guided tours cover the sightseeing days and the day trips to Gobustan and Gabala, with airport pickups arranged by our team. The compact Old City and Baku Boulevard are walkable, and the Baku metro is simple for short hops, with our desk on WhatsApp throughout.",
       },
       {
         q: "Is the Baku tour suitable for a honeymoon?",
