@@ -149,6 +149,23 @@ export const seedPackages: TravelPackage[] = [
     description:
       "Two countries, one booking. City lights in Kuala Lumpur and beaches in Thailand. Prices vary by season, so contact us for a quote on your dates.",
   },
+  {
+    slug: "malaysia",
+    title: "Malaysia Tour",
+    category: "International",
+    duration: "6 Days, 5 Nights",
+    price: null,
+    highlights: [
+      "Return airfare and Malaysia e-visa",
+      "City hotel with breakfast",
+      "Kuala Lumpur city tour and Batu Caves",
+      "Genting Highlands day with cable car",
+      "Halal food in a Muslim majority country",
+      "English speaking guide and transfers",
+    ],
+    description:
+      "A halal friendly first trip abroad. Kuala Lumpur, Genting Highlands, and Putrajaya in a Muslim majority country, with Langkawi as an optional island add on. Quoted on inquiry for your dates.",
+  },
 ];
 
 export function formatPrice(price: number | null) {
@@ -167,6 +184,7 @@ export function packageDisplayName(
   if (pkg.slug === "dubai-5-days") return "Dubai Tour Package";
   if (pkg.slug === "turkey-7-days") return "Turkey Tour Package";
   if (pkg.slug === "baku-5-days") return "Baku Tour Packages";
+  if (pkg.slug === "malaysia") return "Malaysia Tour Packages";
   return pkg.title;
 }
 
@@ -182,6 +200,7 @@ const SILO_ROUTES: Record<string, string> = {
   "turkey-7-days": "/tours/turkey",
   "baku-5-days": "/tours/baku",
   "malaysia-thailand-8-days": "/tours/malaysia-thailand",
+  malaysia: "/tours/malaysia",
 };
 
 // Canonical URL path for a package by slug.

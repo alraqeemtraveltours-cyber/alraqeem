@@ -67,6 +67,7 @@ import {
   farEastPractical,
   farEastCostDrivers,
   farEastGallery,
+  tourContent,
   premiumGallery,
   hajjSchemes,
   maktabCategories,
@@ -124,6 +125,11 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
   const isTurkey = pkg.slug === "turkey-7-days";
   const isBaku = pkg.slug === "baku-5-days";
   const isFarEast = pkg.slug === "malaysia-thailand-8-days";
+  // Data driven tour content for the newer tour pages. When present, one generic
+  // path renders the itinerary, attractions, practical grid, gallery, cost
+  // drivers, and visa links, so a new country is a data entry, not new JSX.
+  const isTourFromCategory = pkg.category !== "Umrah & Hajj";
+  const tour = isTourFromCategory ? tourContent[pkg.slug] : undefined;
   const displayTitle = displayName(pkg);
   const groupName = isPilgrimage ? "Umrah and Hajj" : "International";
   const silo = packageSilo(pkg);
@@ -144,15 +150,17 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
   // Tour CRO: a specific, possessive quote label and a lighter micro conversion
   // (the itinerary on WhatsApp). Applied to tours so all tour pages inherit it.
   const isTour = !isPilgrimage;
-  const tourName = isDubai
-    ? "Dubai"
-    : pkg.slug === "turkey-7-days"
-      ? "Turkey"
-      : pkg.slug === "baku-5-days"
-        ? "Baku"
-        : pkg.slug === "malaysia-thailand-8-days"
-          ? "Far East"
-          : "trip";
+  const tourName =
+    tour?.name ??
+    (isDubai
+      ? "Dubai"
+      : pkg.slug === "turkey-7-days"
+        ? "Turkey"
+        : pkg.slug === "baku-5-days"
+          ? "Baku"
+          : pkg.slug === "malaysia-thailand-8-days"
+            ? "Far East"
+            : "trip");
   const quoteLabel = isTour ? `Get my ${tourName} quote` : "Get a quote";
   const itineraryHref = waHref(
     settings.whatsapp,
@@ -186,7 +194,9 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
         ? "Dubai, Turkey, or the Maldives"
         : pkg.slug === "malaysia-thailand-8-days"
           ? "Dubai, Turkey, or Baku"
-          : "our other destinations";
+          : pkg.slug === "malaysia"
+            ? "Thailand, Singapore, or the two and three country combos"
+            : "our other destinations";
 
   // Overview: pull the first sentence as a lead line (presentation only).
   const sentences = detail.overview.split(/(?<=\.)\s+/);
@@ -747,6 +757,84 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                   itineraryHref={itineraryHref}
                   seasonalNote="The cool, dry months from November to February book earliest across Malaysia and Thailand. Message us for your dates."
                 />
+              )}
+
+              {/* Data driven itinerary and attractions for the newer tour pages */}
+              {tour && (
+                <>
+                  <section>
+                    <Head
+                      eyebrow="Day by day"
+                      title={`Your ${tour.durationWords} ${tour.name} itinerary`}
+                    />
+                    <div className="mt-6 space-y-5">
+                      {tour.itinerary.map((step) => (
+                        <article
+                          key={step.day}
+                          className="grid gap-4 rounded-2xl border border-black/5 bg-white p-5 shadow-card sm:grid-cols-[1fr_1.8fr] sm:items-center"
+                        >
+                          <CaptionedImage
+                            caption={step.caption}
+                            icon="camera"
+                            aspect="aspect-[16/10]"
+                          />
+                          <div>
+                            <p className="text-xs font-semibold uppercase tracking-wider text-brand-orange-dark">
+                              {step.day}
+                            </p>
+                            <h3 className="mt-0.5 font-display text-lg text-brand-blue-deep">
+                              {step.title}
+                            </h3>
+                            <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
+                              {step.detail}
+                            </p>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                    <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-slate-500">
+                      {tour.itineraryNote}
+                    </p>
+                    <div className="mt-6">
+                      <SocialProof />
+                    </div>
+                  </section>
+
+                  <section>
+                    <Head
+                      eyebrow="What you will see"
+                      title={`Top ${tour.name} attractions`}
+                    />
+                    <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                      {tour.attractions.map((a) => (
+                        <article
+                          key={a.name}
+                          className="rounded-2xl border border-black/5 bg-white p-4 shadow-card"
+                        >
+                          <CaptionedImage
+                            caption={a.caption}
+                            icon="pin"
+                            aspect="aspect-[4/3]"
+                          />
+                          <h3 className="mt-3 font-display text-base text-brand-blue-deep">
+                            {a.name}
+                          </h3>
+                          <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                            {a.detail}
+                          </p>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+
+                  <TourCta
+                    heading={`Ready to plan your ${tourName} trip?`}
+                    quoteHref={quoteHref}
+                    quoteLabel={quoteLabel}
+                    itineraryHref={itineraryHref}
+                    seasonalNote={tour.seasonalNote}
+                  />
+                </>
               )}
 
               {/* Ramadan by Ashra */}
@@ -1482,6 +1570,57 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                 </section>
               )}
 
+              {/* Data driven best time and practical grid for the newer tours */}
+              {tour && (
+                <section>
+                  <Head
+                    eyebrow="Good to know"
+                    title="Best time and practical info"
+                  />
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {tour.practical.map((p) => (
+                      <div
+                        key={p.label}
+                        className="flex items-center gap-3 rounded-2xl border border-black/5 bg-white p-5 shadow-card"
+                      >
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue">
+                          <Icon name={p.icon} size={22} />
+                        </span>
+                        <div>
+                          <dt className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                            {p.label}
+                          </dt>
+                          <dd className="text-sm font-semibold text-brand-blue-deep">
+                            {p.value}
+                          </dd>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Data driven gallery for the newer tours */}
+              {tour && (
+                <section>
+                  <Head eyebrow="Gallery" title={`${tour.name} in pictures`} />
+                  <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
+                    {tour.gallery.map((caption) => (
+                      <CaptionedImage
+                        key={caption}
+                        caption={caption}
+                        icon="camera"
+                        aspect="aspect-square"
+                      />
+                    ))}
+                  </div>
+                  <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-slate-500">
+                    Branded panels stand in until our own {tour.name} photos are
+                    added, so every slot names the place it will show.
+                  </p>
+                </section>
+              )}
+
               {/* Why Ramadan costs more */}
               {isRamadan && (
                 <section>
@@ -1617,7 +1756,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
               )}
 
               {/* Sample itinerary. Hajj, Dubai, and Turkey use their own. */}
-              {!isHajj && !isDubai && !isTurkey && !isBaku && !isFarEast && (
+              {!isHajj && !isDubai && !isTurkey && !isBaku && !isFarEast && !tour && (
               <section>
                 <Head
                   eyebrow="Sample itinerary"
@@ -1654,7 +1793,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
 
               {/* Decision-point CTA after the itinerary (tours without a named
                   attractions section: Baku, Malaysia and Thailand) */}
-              {isTour && !isDubai && !isTurkey && !isBaku && !isFarEast && (
+              {isTour && !isDubai && !isTurkey && !isBaku && !isFarEast && !tour && (
                 <>
                   <div>
                     <SocialProof />
@@ -2058,6 +2197,25 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                       . Our team prepares and files both e visas with your booking.
                     </p>
                   )}
+                  {tour && (
+                    <p className="mt-5 border-t border-black/5 pt-4 text-xs leading-relaxed text-slate-500">
+                      {tour.visaIntro}{" "}
+                      {tour.visaLinks.map((v, i) => (
+                        <span key={v.href}>
+                          {i > 0 ? " and the " : ""}
+                          <a
+                            href={v.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-semibold text-brand-blue underline"
+                          >
+                            {v.label}
+                          </a>
+                        </span>
+                      ))}
+                      . Our team prepares and files your visa with your booking.
+                    </p>
+                  )}
                 </div>
               </section>
 
@@ -2427,6 +2585,43 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                   </p>
                   <div className="mt-6 grid gap-4 sm:grid-cols-2">
                     {farEastCostDrivers.map((c) => (
+                      <div
+                        key={c.factor}
+                        className="flex items-start gap-3 rounded-2xl border border-black/5 bg-white p-5 shadow-card"
+                      >
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-orange/12 text-brand-orange-dark">
+                          <Icon name={c.icon} size={22} />
+                        </span>
+                        <div>
+                          <h3 className="font-display text-base text-brand-blue-deep">
+                            {c.factor}
+                          </h3>
+                          <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                            {c.detail}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Data driven cost drivers passage for the newer tours */}
+              {tour && (
+                <section>
+                  <Head
+                    eyebrow="What sets the price"
+                    title={`Why a ${tour.name} quote moves`}
+                  />
+                  <p className="mt-6 max-w-[65ch] text-base leading-relaxed text-slate-700">
+                    A {tour.name} tour has no fixed sticker, since the season, the
+                    hotel, the excursions, and your departure city set each quote.
+                    Our desk reads them live for your dates and sends the current
+                    best price, with no hidden charges and no stale published
+                    number.
+                  </p>
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                    {tour.costDrivers.map((c) => (
                       <div
                         key={c.factor}
                         className="flex items-start gap-3 rounded-2xl border border-black/5 bg-white p-5 shadow-card"

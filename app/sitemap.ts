@@ -18,6 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/tours/turkey",
     "/tours/baku",
     "/tours/malaysia-thailand",
+    "/tours/malaysia",
     "/visa-services",
     "/tickets",
     // Lightweight browse-all index.

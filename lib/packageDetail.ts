@@ -508,6 +508,64 @@ export const detailContent: Record<string, DetailContent> = {
       },
     ],
   },
+
+  malaysia: {
+    overview:
+      "Malaysia Tour Package from Pakistan is one of the easiest first trips abroad for a Muslim family, six days and five nights in a Muslim majority country where halal food is everywhere and mosques sit on every route. Our team arranges return airfare, the Malaysia e visa, a city hotel with breakfast, a Kuala Lumpur city tour with the Petronas Twin Towers and Batu Caves, a Genting Highlands day, and Putrajaya, with Langkawi as an optional island add on. Green, walkable, and welcoming, Kuala Lumpur suits families, couples, and first time travelers from Pakistan.",
+    whoFor: [
+      "Muslim families wanting a halal friendly first trip abroad",
+      "Couples and honeymooners seeking city and nature together",
+      "First time international travelers from Pakistan",
+      "Groups who want an easy visa and short flights",
+    ],
+    faqs: [
+      pricingFaq("Malaysia Tour Package"),
+      {
+        q: "Is a Malaysia visa required for Pakistani travelers?",
+        a: "Yes, Pakistani passport holders need the Malaysia e visa or the eNTRI entry, applied online before travel. Our team prepares and files it, checking every document first so the file clears cleanly. The visa arrives inside your package, so there is no separate embassy visit to arrange.",
+      },
+      {
+        q: "Is Malaysia halal and Muslim friendly?",
+        a: "Malaysia is a Muslim majority country, so halal food is everywhere and mosques like the National Mosque and the Putra Mosque sit on the tour route. Prayer is simple to fit around the sightseeing, which makes Malaysia one of the most comfortable first trips abroad for a family from Pakistan.",
+      },
+      {
+        q: "How many days do I need for a Malaysia tour?",
+        a: "Six days and five nights cover Kuala Lumpur, a Genting Highlands day, and Putrajaya at a comfortable pace. Add two or three nights for Langkawi, Malacca, or a Penang leg. Tell our desk your dates and we shape the length around them.",
+      },
+      {
+        q: "What is the best time to visit Malaysia?",
+        a: "Malaysia is warm and tropical year round, so any month works. Brief afternoon showers pass quickly, and the drier stretches and school holidays are busiest. Share your travel window and our team plans the days and the cities around it.",
+      },
+      {
+        q: "What is included in the Malaysia package?",
+        a: "The Malaysia package covers return airfare, the Malaysia e visa, a city hotel with breakfast, the Kuala Lumpur city tour with the Petronas Twin Towers and Batu Caves, a Genting Highlands day, Putrajaya, transfers, and an English speaking guide. Optional Langkawi and Malacca add ons arrive on request.",
+      },
+      {
+        q: "Is Malaysia good for families?",
+        a: "Malaysia suits families, with the Petronas Towers and Batu Caves in Kuala Lumpur, the theme parks and cable car of Genting Highlands, halal food everywhere, and short, easy transfers. Our team sets a steady pace and connected rooms, and adjusts the days for younger children on request.",
+      },
+      {
+        q: "How do I get around on the Malaysia tour?",
+        a: "Private transfers and guided tours cover the sightseeing days, with airport pickups and hotel transfers arranged by our team. Between the planned days you explore Kuala Lumpur on foot or by the easy MRT and monorail at your own pace, with our desk on WhatsApp throughout.",
+      },
+      {
+        q: "Do you customize the Malaysia itinerary?",
+        a: "Yes. Our desk adds Langkawi, Malacca, Penang, or a Singapore leg, extra Genting time, or a slower pace, and builds the days around your group. Share how many travelers and what you want to see, and we send a plan and a quote for your exact dates.",
+      },
+      {
+        q: "Which airlines fly to Kuala Lumpur from Pakistan?",
+        a: "Our desk books Kuala Lumpur flights on the carrier with the best fare and schedule for your dates, among Malaysia Airlines, AirAsia, Thai Airways, Emirates, and Qatar Airways. Travelers depart from Karachi, Lahore, Islamabad, or Peshawar, with airport transfers arranged when you book.",
+      },
+      {
+        q: "Is the Malaysia tour suitable for a honeymoon?",
+        a: "Malaysia works well for honeymooners, pairing the city lights of Kuala Lumpur with the cool hills of Genting and the beaches of an optional Langkawi add on. Our team arranges a comfortable hotel, a relaxed pace, and quiet dinners or an island day on request for couples traveling from Pakistan.",
+      },
+      {
+        q: "Do you offer Malaysia combined with Thailand or Singapore?",
+        a: "Yes. Our desk builds Malaysia with Thailand or with Singapore, or all three in one trip, pairing Kuala Lumpur and Genting with Bangkok and Pattaya or the Marina Bay of Singapore. See our combo tours, and tell us your dates for a plan and a quote across the countries you choose.",
+      },
+    ],
+  },
 };
 
 // -------- Derivation helpers (real data only) --------
@@ -1548,6 +1606,171 @@ export const farEastCostDrivers = [
       "The carrier, the season, and whether you fly from Karachi, Lahore, Islamabad, or Peshawar move the airfare.",
   },
 ];
+
+// Data driven tour content, keyed by slug. New tour pages (the Malaysia,
+// Thailand, Singapore silo and its combos) render from this map through one
+// generic path in the detail template, so adding a country or a combo is a
+// data entry, not new JSX. Dubai, Turkey, and Baku keep their own blocks.
+export type TourStep = { day: string; title: string; caption: string; detail: string };
+export type TourAttraction = { name: string; caption: string; detail: string };
+export type TourFact = { icon: string; label: string; value: string };
+export type TourCostDriver = { icon: string; factor: string; detail: string };
+export type TourVisaLink = { label: string; href: string };
+export type TourContent = {
+  name: string;
+  durationWords: string;
+  itinerary: TourStep[];
+  itineraryNote: string;
+  attractions: TourAttraction[];
+  gallery: string[];
+  practical: TourFact[];
+  costDrivers: TourCostDriver[];
+  seasonalNote: string;
+  visaIntro: string;
+  visaLinks: TourVisaLink[];
+};
+
+export const tourContent: Record<string, TourContent> = {
+  malaysia: {
+    name: "Malaysia",
+    durationWords: "six day",
+    itineraryNote:
+      "The flow above is the typical six day plan around Kuala Lumpur. Our desk adjusts the order and adds Langkawi, Malacca, or Putrajaya on request.",
+    seasonalNote:
+      "Malaysia is a year round tropical destination, so message us with your dates and our desk plans around the rain and the school holidays.",
+    itinerary: [
+      {
+        day: "Day 1",
+        title: "Arrival in Kuala Lumpur",
+        caption: "The Petronas Twin Towers over the Kuala Lumpur skyline at dusk",
+        detail:
+          "Land in Kuala Lumpur, clear the Malaysia e visa, and transfer to your hotel to rest before the touring begins.",
+      },
+      {
+        day: "Day 2",
+        title: "Kuala Lumpur city tour",
+        caption: "The rainbow steps at Batu Caves near Kuala Lumpur",
+        detail:
+          "A guided city tour with the Petronas Twin Towers and KLCC, the KL Tower, Merdeka Square and the Sultan Abdul Samad Building, the National Mosque, and the Batu Caves shrine beneath the Lord Murugan statue.",
+      },
+      {
+        day: "Day 3",
+        title: "Genting Highlands day trip",
+        caption: "The Awana Skyway cable car to Genting Highlands",
+        detail:
+          "A day trip into the cool hills, riding the Awana Skyway cable car to the Genting Highlands resort and theme parks, with a stop at the Chin Swee Caves Temple on the way up.",
+      },
+      {
+        day: "Day 4",
+        title: "Putrajaya and Bukit Bintang",
+        caption: "The pink Putra Mosque on the lake in Putrajaya",
+        detail:
+          "Visit the garden city of Putrajaya and the pink Putra Mosque on the lake, then time at KLCC and the shops and food of Bukit Bintang back in the city.",
+      },
+      {
+        day: "Day 5",
+        title: "Leisure or Langkawi",
+        caption: "The SkyBridge and cable car on Langkawi island",
+        detail:
+          "A leisure day in Kuala Lumpur, or an optional add on to Langkawi for the island cable car, Eagle Square, and the beaches, arranged on request.",
+      },
+      {
+        day: "Day 6",
+        title: "Departure",
+        caption: "Kuala Lumpur International Airport for the flight home",
+        detail:
+          "Check out and transfer to Kuala Lumpur International Airport for your return flight to Pakistan.",
+      },
+    ],
+    attractions: [
+      {
+        name: "Petronas Twin Towers",
+        caption: "The Petronas Twin Towers in Kuala Lumpur",
+        detail:
+          "The twin skyscrapers at the heart of Kuala Lumpur, joined by a skybridge and set above the KLCC park and its fountains. The towers light the skyline after dark, the classic first sight of the city.",
+      },
+      {
+        name: "Batu Caves",
+        caption: "The rainbow steps and Lord Murugan statue at Batu Caves",
+        detail:
+          "A limestone hill of caves and a Hindu shrine on the edge of Kuala Lumpur, reached by two hundred and seventy two rainbow painted steps beneath the towering golden statue of Lord Murugan. A short, striking half day stop.",
+      },
+      {
+        name: "Genting Highlands",
+        caption: "The resort of Genting Highlands above the clouds",
+        detail:
+          "A hilltop resort in the cool highlands north of Kuala Lumpur, reached by the Awana Skyway cable car past the Chin Swee Caves Temple. Theme parks and a mild climate make it a favourite family day out from the city heat.",
+      },
+      {
+        name: "The National Mosque, Masjid Negara",
+        caption: "The National Mosque, Masjid Negara, in Kuala Lumpur",
+        detail:
+          "The national mosque of Malaysia, with its folded blue roof and tall minaret near Merdeka Square. Open to visitors outside prayer times, one of many easy places to pray in a Muslim majority country where halal food is everywhere.",
+      },
+      {
+        name: "Langkawi",
+        caption: "The SkyCab cable car and SkyBridge on Langkawi",
+        detail:
+          "An island of beaches and rainforest off the northwest coast, home to the SkyCab cable car, the curving SkyBridge, and the Eagle Square landmark. On the optional add on rather than the base city plan, arranged on request.",
+      },
+      {
+        name: "Putrajaya and the Putra Mosque",
+        caption: "The pink Putra Mosque on the lake in Putrajaya",
+        detail:
+          "The planned garden capital south of Kuala Lumpur, built around a lake and crossed by grand bridges. The rose tinted Putra Mosque on the waterfront is the signature sight, a calm half day from the city.",
+      },
+    ],
+    gallery: [
+      "The Petronas Twin Towers in Kuala Lumpur",
+      "The rainbow steps at Batu Caves",
+      "Genting Highlands above the clouds",
+      "The National Mosque, Masjid Negara",
+      "The pink Putra Mosque in Putrajaya",
+      "The cable car and beaches of Langkawi",
+    ],
+    practical: [
+      { icon: "clock", label: "Best time to visit", value: "Year round, tropical climate" },
+      { icon: "tag", label: "Currency", value: "Malaysian ringgit, MYR" },
+      {
+        icon: "meal",
+        label: "Halal food",
+        value: "Everywhere, a Muslim majority country",
+      },
+      { icon: "clock", label: "Time zone", value: "GMT plus 8" },
+      { icon: "users", label: "Language", value: "Malay, with English widely spoken" },
+      { icon: "route", label: "Driving side", value: "Left hand side of the road" },
+      { icon: "pin", label: "Top cities", value: "Kuala Lumpur, Genting, and Langkawi" },
+    ],
+    costDrivers: [
+      {
+        icon: "clock",
+        factor: "Travel season",
+        detail:
+          "School holidays and the drier months sit highest, while quieter weeks and the wetter season run lower for the same cities.",
+      },
+      {
+        icon: "hotel",
+        factor: "Hotel and area",
+        detail:
+          "A higher star rating or a central Kuala Lumpur address near KLCC lifts the price, while a standard four star holds it down.",
+      },
+      {
+        icon: "camera",
+        factor: "Excursions and add ons",
+        detail:
+          "Optional days to Langkawi, Malacca, or the Genting theme parks add to the base city package.",
+      },
+      {
+        icon: "plane",
+        factor: "Airline and departure city",
+        detail:
+          "The carrier, the season, and whether you fly from Karachi, Lahore, Islamabad, or Peshawar move the airfare.",
+      },
+    ],
+    visaIntro: "Verify the current rules and apply at the official",
+    visaLinks: [{ label: "Malaysia e visa portal", href: "https://malaysiavisa.imi.gov.my" }],
+  },
+};
 
 // Standard, well documented Ziyarat sites in Makkah and Madinah. Guided
 // Ziyarat covers a subset; the exact plan is confirmed for each booking.

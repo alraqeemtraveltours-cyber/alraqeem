@@ -20,6 +20,7 @@ import {
   bakuAttractions,
   farEastItinerary,
   farEastAttractions,
+  tourContent,
 } from "@/lib/packageDetail";
 import type { Post } from "@/lib/posts";
 import type { City } from "@/lib/cities";
@@ -599,6 +600,31 @@ export function packageDetailGraph(pkg: TravelPackage) {
         "@type": "ItemList",
         name: "Malaysia and Thailand attractions",
         itemListElement: farEastAttractions.map((a, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: a.name,
+        })),
+      }
+    );
+  }
+
+  // Data driven tours carry their itinerary and attraction ItemLists too.
+  const tc = tourContent[pkg.slug];
+  if (tc) {
+    graph.push(
+      {
+        "@type": "ItemList",
+        name: `${tc.name} tour itinerary`,
+        itemListElement: tc.itinerary.map((s, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: `${s.day}: ${s.title}`,
+        })),
+      },
+      {
+        "@type": "ItemList",
+        name: `${tc.name} attractions`,
+        itemListElement: tc.attractions.map((a, i) => ({
           "@type": "ListItem",
           position: i + 1,
           name: a.name,

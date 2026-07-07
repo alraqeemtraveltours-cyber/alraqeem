@@ -35,6 +35,9 @@ export function packageTitle(pkg: TravelPackage) {
   if (pkg.slug === "malaysia-thailand-8-days") {
     return "Malaysia and Thailand Tour from Pakistan | Al Raqeem";
   }
+  if (pkg.slug === "malaysia") {
+    return "Malaysia Tour Package from Pakistan | Al Raqeem";
+  }
   const clean = cleanName(packageDisplayName(pkg));
   let words = clean.split(/\s+/);
   let name = clean;
@@ -73,6 +76,9 @@ export function packageMetaDescription(pkg: TravelPackage) {
   }
   if (pkg.slug === "malaysia-thailand-8-days") {
     return "Malaysia and Thailand Tour from Pakistan, 8 days. Kuala Lumpur, Genting Highlands, and Bangkok temples, with both e visas and flights. Inquiry priced.";
+  }
+  if (pkg.slug === "malaysia") {
+    return "Malaysia Tour Package from Pakistan, 6 days. Kuala Lumpur, Batu Caves, Genting Highlands, and Putrajaya, a halal friendly Muslim country. Inquiry priced.";
   }
   const clean = cleanName(packageDisplayName(pkg));
   const base = `${clean} from Pakistan. Quoted on inquiry for your dates, with visa, flights and hotels handled. Message on WhatsApp for a quote.`;
@@ -139,6 +145,19 @@ export function packageMetadata(pkg: TravelPackage): Metadata {
       "Malaysia Thailand tour from Karachi",
       "Malaysia Thailand tour from Lahore",
       "Malaysia Thailand tour from Islamabad",
+    ];
+  }
+  if (pkg.slug === "malaysia") {
+    meta.keywords = [
+      "Malaysia tour package from Pakistan",
+      "Malaysia tour packages",
+      "Kuala Lumpur tour from Pakistan",
+      "Malaysia holiday package",
+      "Malaysia family package",
+      "Malaysia honeymoon package",
+      "Malaysia tour from Karachi",
+      "Malaysia tour from Lahore",
+      "Malaysia tour from Islamabad",
     ];
   }
   return meta;
