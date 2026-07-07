@@ -794,6 +794,144 @@ export const detailContent: Record<string, DetailContent> = {
       },
     ],
   },
+
+  "kumrat-valley": {
+    overview:
+      "Kumrat Valley Tour from Pakistan is a forest and meadow escape in Upper Dir, four days and three nights among the tallest deodar cedars in the country. From our Charsadda base, a short run to Dir, our team arranges transport, camp or hut stays, and the jeeps up the Panjkora River to the Kumrat forest and waterfall, with a trek to the Jahaz Banda meadow and Katora Lake for the fit. Pine forest, cold rivers, and open pasture make Kumrat a favourite for groups and adventurous families.",
+    whoFor: [
+      "Groups and friends wanting a forest camp trip",
+      "Adventurous families and trekkers",
+      "Nature lovers seeking pine forest and meadows",
+      "Travelers near KPK who value a local run trip",
+    ],
+    faqs: [
+      pricingFaq("Kumrat Valley Tour"),
+      {
+        q: "How many days do I need for Kumrat Valley?",
+        a: "Four days and three nights cover Kumrat well, the forest, the waterfall, and a jeep and trek day to Jahaz Banda and Katora Lake. Add a night to reach the lake at an easy pace or to pair it with Swat. Tell our desk your dates and we shape the length around them.",
+      },
+      {
+        q: "What is the best time to visit Kumrat?",
+        a: "May to September is the open season, and the meadows are greenest in July and August. The high passes and Katora Lake clear of snow by midsummer. Winter closes the valley. Share your travel window and our team plans the trip around it.",
+      },
+      {
+        q: "How do we reach Kumrat, and is transport included?",
+        a: "Yes, transport is included. Our team drives you from Peshawar or Islamabad through Dir to Thal, then arranges the local jeeps for the track along the Panjkora River into Kumrat. Travelers near our Charsadda base start closest of all.",
+      },
+      {
+        q: "Where do we stay in Kumrat Valley?",
+        a: "Kumrat has serviced camps and wooden huts along the river rather than large hotels, so the stay is simple and close to nature. Our team books the comfort level you want and confirms it for your dates, since the valley fills in peak summer.",
+      },
+      {
+        q: "Is the trek to Jahaz Banda and Katora Lake hard?",
+        a: "The jeep reaches Kumrat Kalay, then a moderate trek climbs to the Jahaz Banda meadow, within reach of most walkers with a steady pace. Katora Lake beyond is a steeper climb for the fit. Our team sets the pace and arranges a guide and porters where needed.",
+      },
+      {
+        q: "Is Kumrat good for families?",
+        a: "Kumrat suits active families, with the forest, the river, and the waterfall an easy day, while Jahaz Banda and Katora Lake are for the fitter members. Our team sets a steady pace, arranges the stay, and shapes the days around your group and the children.",
+      },
+      {
+        q: "Do you customize the Kumrat itinerary?",
+        a: "Yes. Our desk adds a Katora Lake overnight, a Kalam and Swat leg over the Badgoi Pass, or extra forest nights, and builds the days around your group. Share how many travelers and what you want, and we send a plan and a quote for your exact dates.",
+      },
+      {
+        q: "Is halal food available in Kumrat?",
+        a: "Yes, everywhere. Kumrat is in Pakistan, so all food is halal, simple valley meals of trout, rice, and local dishes cooked at the camps and huts. Our team plans meals and rest stops so the group eats well through the days.",
+      },
+    ],
+  },
+
+  "kalash-valley": {
+    overview:
+      "Kalash Valley Tour from Pakistan reaches one of the oldest living cultures in the region, five days and four nights in the valleys of Chitral. From our Charsadda base our team arranges transport through the Lowari Tunnel, hotels, and guided days in Bumburet, Rumbur, and Birir, where the Kalash people keep their own language, dress, and festivals among terraced fields and wooden houses. Timed to the Chilam Joshi festival in spring on request, a Kalash trip is a rare cultural journey for curious travelers from across Pakistan.",
+    whoFor: [
+      "Travelers drawn to living culture and heritage",
+      "Photographers and festival goers",
+      "Groups and families touring Chitral",
+      "First time northern travelers who want it arranged",
+    ],
+    faqs: [
+      pricingFaq("Kalash Valley Tour"),
+      {
+        q: "How many days do I need for the Kalash valleys?",
+        a: "Five days and four nights cover the drive through the Lowari Tunnel, Bumburet, Rumbur and Birir, and Chitral town. Add a night for Garam Chashma or a slower festival stay. Tell our desk your dates and we shape the length around them.",
+      },
+      {
+        q: "When is the best time to visit the Kalash valleys?",
+        a: "Spring brings the Chilam Joshi festival in May, the most colourful time, and summer brings the Uchal festival and green valleys. Winter closes the high routes. Share your travel window and we time the trip to a festival on request.",
+      },
+      {
+        q: "How do we reach the Kalash valleys?",
+        a: "Our team drives you from Peshawar or Islamabad through Dir and the Lowari Tunnel to Chitral, then by jeep into Bumburet. The tunnel keeps the road open through the year, and transport is included with airport pickup near your base.",
+      },
+      {
+        q: "What is the Chilam Joshi festival?",
+        a: "Chilam Joshi is the Kalash spring festival in May, days of music, dance, and colour in the valleys to welcome the new season and the pastures. Timed on request, it is the most vivid way to see Kalash culture, with rooms booked well ahead.",
+      },
+      {
+        q: "How should I behave around the Kalash community?",
+        a: "The Kalash are welcoming, and a respectful visitor asks before taking photographs, dresses modestly, and follows the guide near the shrines and festival grounds. Our team briefs the group and works with local hosts so the visit is warm on both sides.",
+      },
+      {
+        q: "Is the Kalash tour good for families?",
+        a: "The Kalash tour suits families who enjoy culture and scenery, with the valleys, the fields, and Chitral town at a gentle pace. Our team sets connected rooms, a steady drive, and rest stops, and shapes the days around the children and elders.",
+      },
+      {
+        q: "Is halal food available in the Kalash valleys?",
+        a: "Yes. Chitral and the valleys are in Pakistan, so all food served to travelers is halal, local Chitrali dishes and simple valley meals. Our team plans the meals and stops so the group eats well through the touring days.",
+      },
+      {
+        q: "Do you customize the Kalash itinerary?",
+        a: "Yes. Our desk adds Garam Chashma, a longer festival stay, or a Chitral and Shandur leg, and builds the days around your group. Share how many travelers and what you want to see, and we send a plan and a quote for your exact dates.",
+      },
+    ],
+  },
+
+  chitral: {
+    overview:
+      "Chitral Tour from Pakistan is a Hindu Kush journey to the old town on the Chitral River, five days and four nights below the peak of Tirich Mir. From our Charsadda base our team arranges transport through the Lowari Tunnel, hotels, and guided days at the Chitral Fort and the Shahi Masjid, the Garam Chashma hot springs, and a Kalash valley visit at Bumburet. Mountains, heritage, and living culture make Chitral a rewarding trip for families and groups from across Pakistan.",
+    whoFor: [
+      "Families wanting mountains, heritage, and culture",
+      "Groups touring the far north of KPK",
+      "Travelers drawn to the Kalash valleys nearby",
+      "First time northern travelers who want it arranged",
+    ],
+    faqs: [
+      pricingFaq("Chitral Tour"),
+      {
+        q: "How many days do I need for a Chitral tour?",
+        a: "Five days and four nights cover the drive through the Lowari Tunnel, Chitral town and its fort, Garam Chashma, and a Kalash valley day. Add a night for the Shandur Pass or a longer Kalash stay. Tell our desk your dates and we shape the length around them.",
+      },
+      {
+        q: "What is the best time to visit Chitral?",
+        a: "April to October is the open season, with July bringing the Shandur polo festival on the high pass. The Lowari Tunnel keeps the road open through the year, though the high routes close with snow. Share your window and we plan the trip around it.",
+      },
+      {
+        q: "How do we reach Chitral, and is transport included?",
+        a: "Yes, transport is included. Our team drives you from Peshawar or Islamabad through Dir and the Lowari Tunnel into Chitral, with the jeeps for Garam Chashma and the Kalash valleys arranged on the day. Travelers near our Charsadda base start closest.",
+      },
+      {
+        q: "Can I visit the Kalash valleys from Chitral?",
+        a: "Yes. The three Kalash valleys of Bumburet, Rumbur, and Birir sit a short drive from Chitral, and a day trip or an overnight to Bumburet is part of the tour. Our team arranges the jeeps and a guide, and times a festival visit on request.",
+      },
+      {
+        q: "What is there to see in Chitral town?",
+        a: "Chitral town holds the Chitral Fort, the Shahi Qila above the river, and the white Shahi Masjid beside it, with the old bazaars and a view of Tirich Mir, the highest peak of the Hindu Kush, on a clear day. Our team guides the town and the fort.",
+      },
+      {
+        q: "Is Chitral good for families?",
+        a: "Chitral suits families, with the fort, the hot springs, and the Kalash valleys at a gentle pace and cool mountain weather. Our team sets connected rooms, a steady drive, and rest stops, and shapes the days around the children and elders.",
+      },
+      {
+        q: "Is halal food available in Chitral?",
+        a: "Yes, everywhere. Chitral is in Pakistan, so all food is halal, local Chitrali dishes and simple mountain meals. Our team plans the meals and stops so the group eats well through the touring days.",
+      },
+      {
+        q: "Do you customize the Chitral itinerary?",
+        a: "Yes. Our desk adds the Shandur Pass and its polo festival, a longer Kalash stay, or a Garam Chashma overnight, and builds the days around your group. Share how many travelers and what you want, and we send a plan and a quote for your exact dates.",
+      },
+    ],
+  },
 };
 
 // -------- Derivation helpers (real data only) --------
@@ -2587,6 +2725,386 @@ export const tourContent: Record<string, TourContent> = {
         factor: "Transport and group size",
         detail:
           "A private car, a coaster for a group, and the jeeps to Mahodand set the transport cost, and a larger group shares it down.",
+      },
+      {
+        icon: "users",
+        factor: "Private or group tour",
+        detail:
+          "A shared group departure carries the friendliest price, while a private family tour with your own vehicle and pace costs more.",
+      },
+    ],
+    visaIntro: "",
+    visaLinks: [],
+  },
+
+  "kumrat-valley": {
+    name: "Kumrat Valley",
+    durationWords: "four day",
+    itineraryNote:
+      "The flow above is the typical four day plan for Kumrat. Our desk adjusts the order and adds a Katora Lake trek or a Swat leg on request.",
+    seasonalNote:
+      "May to September is the open season for Kumrat, and the meadows are greenest in July and August. The high passes close with the first snow. Message us for your dates.",
+    itinerary: [
+      {
+        day: "Day 1",
+        title: "Drive to Kumrat via Dir and Thal",
+        caption: "The Panjkora River running through Kumrat Valley",
+        detail:
+          "Depart Peshawar or Islamabad by road through Dir to Thal, the last village, then a jeep track along the Panjkora River into the forest of Kumrat.",
+      },
+      {
+        day: "Day 2",
+        title: "Kumrat forest and the waterfall",
+        caption: "The deodar forest and Kumrat waterfall",
+        detail:
+          "A day among the tall deodar cedars of Kumrat, the river, and the Kumrat waterfall, with camp or a wooden hut stay in the valley.",
+      },
+      {
+        day: "Day 3",
+        title: "Jahaz Banda and Katora Lake",
+        caption: "The alpine Jahaz Banda meadow above Kumrat",
+        detail:
+          "A jeep to Kumrat Kalay and a trek up to the Jahaz Banda meadow, and on to the alpine Katora Lake ringed by peaks for the fittest walkers.",
+      },
+      {
+        day: "Day 4",
+        title: "Return",
+        caption: "The jeep track leaving Kumrat through the pines",
+        detail:
+          "Ride the jeep track back down to Thal and the road home to Peshawar or Islamabad.",
+      },
+    ],
+    attractions: [
+      {
+        name: "The Kumrat forest",
+        caption: "The tall deodar cedar forest of Kumrat",
+        detail:
+          "One of the densest deodar cedar forests in the country, spreading along the Panjkora River in Upper Dir. Cool, green, and quiet, the forest is the heart of a Kumrat trip and the base for the meadows above.",
+      },
+      {
+        name: "The Kumrat waterfall",
+        caption: "The Kumrat waterfall in the valley",
+        detail:
+          "A wide waterfall a short walk from the valley floor, fed by the snowmelt, one of the most photographed spots in Kumrat and an easy stop for every traveler.",
+      },
+      {
+        name: "Jahaz Banda meadow",
+        caption: "The green Jahaz Banda meadow above Kumrat",
+        detail:
+          "A high alpine meadow reached by a jeep ride and a trek, with wooden shepherd huts and wide green pasture under the peaks. The classic overnight or long day from the valley floor.",
+      },
+      {
+        name: "Katora Lake",
+        caption: "The alpine Katora Lake above Jahaz Banda",
+        detail:
+          "A bowl shaped alpine lake above Jahaz Banda, ringed by snow peaks and reached by a steep trek for the fittest walkers. The high reward of a Kumrat trek.",
+      },
+      {
+        name: "The Panjkora River",
+        caption: "The Panjkora River in Kumrat Valley",
+        detail:
+          "The river that runs the length of Kumrat, clear and cold from the glaciers, lined with camps and huts. The road and the jeep track follow it up the valley.",
+      },
+      {
+        name: "Thal and Badgoi Pass",
+        caption: "The village of Thal at the mouth of Kumrat",
+        detail:
+          "Thal is the last village and the gateway to Kumrat, where the metalled road ends and the jeeps begin. The Badgoi Pass beyond links Kumrat to Kalam in upper Swat for the adventurous.",
+      },
+    ],
+    gallery: [
+      "The Panjkora River in Kumrat",
+      "The deodar forest of Kumrat",
+      "The Kumrat waterfall",
+      "The Jahaz Banda meadow",
+      "Katora Lake above Kumrat",
+      "The jeep track through Kumrat",
+    ],
+    practical: [
+      { icon: "clock", label: "Best time to visit", value: "May to September, open season" },
+      { icon: "tag", label: "Currency", value: "Pakistani rupee, PKR" },
+      { icon: "meal", label: "Halal food", value: "Everywhere, simple local meals" },
+      { icon: "bus", label: "How to reach", value: "By road via Dir and Thal, then jeep" },
+      { icon: "users", label: "Language", value: "Pashto, with Urdu understood" },
+      { icon: "shield", label: "Good to know", value: "Camps and huts, pack warm layers" },
+      { icon: "pin", label: "Top spots", value: "Kumrat forest, Jahaz Banda, Katora Lake" },
+    ],
+    costDrivers: [
+      {
+        icon: "clock",
+        factor: "Travel season",
+        detail:
+          "The summer meadow season and Eid holidays sit highest, while the early and late season run lower for the same valley.",
+      },
+      {
+        icon: "hotel",
+        factor: "Stay and comfort",
+        detail:
+          "A wooden hut or a serviced camp lifts the price over a basic tent, and the comfort level in the valley sets much of the cost.",
+      },
+      {
+        icon: "bus",
+        factor: "Jeeps and group size",
+        detail:
+          "The jeeps for the track and the meadows set the transport cost, and a larger group shares the vehicles and the guide down.",
+      },
+      {
+        icon: "users",
+        factor: "Private or group tour",
+        detail:
+          "A shared group departure carries the friendliest price, while a private family tour with your own jeeps and pace costs more.",
+      },
+    ],
+    visaIntro: "",
+    visaLinks: [],
+  },
+
+  "kalash-valley": {
+    name: "Kalash Valley",
+    durationWords: "five day",
+    itineraryNote:
+      "The flow above is the typical five day plan for the Kalash valleys. Our desk times the trip to the Chilam Joshi festival on request and adds a Chitral day.",
+    seasonalNote:
+      "Spring brings the Chilam Joshi festival in May and summer brings the Uchal, the best times to see Kalash culture. Winter closes the high passes. Message us for your dates.",
+    itinerary: [
+      {
+        day: "Day 1",
+        title: "Drive to Chitral via the Lowari Tunnel",
+        caption: "The Lowari Tunnel on the road to Chitral",
+        detail:
+          "Depart by road through Dir and the Lowari Tunnel into the Chitral valley, following the Chitral River to your hotel for the night.",
+      },
+      {
+        day: "Day 2",
+        title: "Bumburet, the largest Kalash valley",
+        caption: "The wooden houses of Bumburet in the Kalash Valley",
+        detail:
+          "Drive into Bumburet, the largest of the Kalash valleys, and meet the Kalash people, their terraced fields, wooden houses, and shrines set among walnut and mulberry trees.",
+      },
+      {
+        day: "Day 3",
+        title: "Rumbur, Birir, and Kalash culture",
+        caption: "A Kalash cultural gathering in the valley",
+        detail:
+          "Visit the smaller Rumbur and Birir valleys, the museum at Bumburet, and learn the Kalash way of life, one of the oldest living cultures in the region.",
+      },
+      {
+        day: "Day 4",
+        title: "Chitral town and the fort",
+        caption: "The Chitral Fort above the Chitral River",
+        detail:
+          "Return to Chitral for the Chitral Fort and the Shahi Masjid, with a view of Tirich Mir, the highest peak of the Hindu Kush, on a clear day.",
+      },
+      {
+        day: "Day 5",
+        title: "Return",
+        caption: "The Chitral River valley on the road home",
+        detail:
+          "Drive back through the Lowari Tunnel and Dir to Peshawar or Islamabad.",
+      },
+    ],
+    attractions: [
+      {
+        name: "Bumburet valley",
+        caption: "The terraced fields and houses of Bumburet",
+        detail:
+          "The largest and most visited of the three Kalash valleys, with terraced fields, wooden houses stacked on the slopes, and shrines among the trees. The base for meeting the Kalash community.",
+      },
+      {
+        name: "Rumbur and Birir valleys",
+        caption: "The quieter Rumbur valley of the Kalash",
+        detail:
+          "The two smaller Kalash valleys, quieter than Bumburet, where traditional life carries on much as it has for centuries. A closer, calmer look at the Kalash people.",
+      },
+      {
+        name: "The Kalash people and culture",
+        caption: "Traditional Kalash dress and craft",
+        detail:
+          "One of the oldest living cultures in the region, the Kalash keep their own language, dress, music, and beliefs. The bright headdresses and the shrines are unlike anywhere else in Pakistan.",
+      },
+      {
+        name: "The Chilam Joshi festival",
+        caption: "The Chilam Joshi spring festival in Bumburet",
+        detail:
+          "The Kalash spring festival in May, days of music, dance, and colour in the valleys to welcome the new season. The most vivid time to visit, arranged when the dates are set.",
+      },
+      {
+        name: "The Lowari Tunnel",
+        caption: "The Lowari Tunnel linking Dir and Chitral",
+        detail:
+          "The long road tunnel that links Dir to Chitral under the Lowari Pass, open through the year and the reason Chitral and the Kalash valleys are reachable by road in every season.",
+      },
+      {
+        name: "Chitral town",
+        caption: "Chitral town below Tirich Mir",
+        detail:
+          "The main town of the district on the Chitral River, with the Chitral Fort and the Shahi Masjid, and a view of Tirich Mir, the highest peak of the Hindu Kush, on a clear day.",
+      },
+    ],
+    gallery: [
+      "The wooden houses of Bumburet",
+      "Traditional Kalash dress",
+      "The Chilam Joshi festival",
+      "The Rumbur valley",
+      "The Lowari Tunnel road",
+      "The Chitral Fort and river",
+    ],
+    practical: [
+      { icon: "clock", label: "Best time to visit", value: "May festival, and the summer" },
+      { icon: "tag", label: "Currency", value: "Pakistani rupee, PKR" },
+      { icon: "meal", label: "Halal food", value: "Everywhere in Chitral and the valleys" },
+      { icon: "bus", label: "How to reach", value: "By road via the Lowari Tunnel" },
+      { icon: "users", label: "Language", value: "Khowar and Kalasha, Urdu understood" },
+      { icon: "shield", label: "Good to know", value: "Respect Kalash customs, ask before photos" },
+      { icon: "pin", label: "Top spots", value: "Bumburet, Rumbur, and Chitral town" },
+    ],
+    costDrivers: [
+      {
+        icon: "clock",
+        factor: "Season and the festival",
+        detail:
+          "The Chilam Joshi festival in May sits highest as rooms fill fast, while the quieter summer weeks run lower for the same valleys.",
+      },
+      {
+        icon: "hotel",
+        factor: "Hotel and comfort",
+        detail:
+          "A better hotel in Chitral or a valley guesthouse lifts the price, while a simple room holds it down. Rooms are limited in the Kalash valleys.",
+      },
+      {
+        icon: "bus",
+        factor: "Transport and group size",
+        detail:
+          "The long drive through the Lowari Tunnel and the valley jeeps set the transport cost, and a larger group shares it down.",
+      },
+      {
+        icon: "users",
+        factor: "Private or group tour",
+        detail:
+          "A shared group departure carries the friendliest price, while a private family tour with your own vehicle and pace costs more.",
+      },
+    ],
+    visaIntro: "",
+    visaLinks: [],
+  },
+
+  chitral: {
+    name: "Chitral",
+    durationWords: "five day",
+    itineraryNote:
+      "The flow above is the typical five day plan for Chitral. Our desk adds a Kalash valley night, Garam Chashma, or the Shandur Pass on request.",
+    seasonalNote:
+      "April to October is the open season for Chitral, and the Shandur polo festival falls in July. The Lowari Tunnel keeps the road open through the year. Message us for your dates.",
+    itinerary: [
+      {
+        day: "Day 1",
+        title: "Drive to Chitral via the Lowari Tunnel",
+        caption: "The Chitral River valley below the Hindu Kush",
+        detail:
+          "Depart by road through Dir and the Lowari Tunnel into Chitral, following the river to your hotel with a view of Tirich Mir on a clear day.",
+      },
+      {
+        day: "Day 2",
+        title: "Chitral town, the fort and the mosque",
+        caption: "The Chitral Fort and the Shahi Masjid",
+        detail:
+          "Tour the Chitral Fort, the Shahi Qila above the river, and the white Shahi Masjid beside it, with the bazaars of the old town.",
+      },
+      {
+        day: "Day 3",
+        title: "Garam Chashma hot springs",
+        caption: "The Garam Chashma hot springs near Chitral",
+        detail:
+          "A day trip up the valley to Garam Chashma, the natural hot springs among the mountains, a scenic drive and a warm soak.",
+      },
+      {
+        day: "Day 4",
+        title: "A Kalash valley day",
+        caption: "The Kalash valley of Bumburet near Chitral",
+        detail:
+          "Drive into Bumburet to meet the Kalash people, their wooden houses and terraced fields, one of the oldest living cultures in the region.",
+      },
+      {
+        day: "Day 5",
+        title: "Return",
+        caption: "The road home through the Lowari Tunnel",
+        detail:
+          "Drive back through the Lowari Tunnel and Dir to Peshawar or Islamabad.",
+      },
+    ],
+    attractions: [
+      {
+        name: "The Chitral Fort, Shahi Qila",
+        caption: "The Chitral Fort above the Chitral River",
+        detail:
+          "The old royal fort of the Mehtars of Chitral, standing above the river in the town, with the ruler's quarters and towers. A short heritage tour beside the Shahi Masjid.",
+      },
+      {
+        name: "The Shahi Masjid",
+        caption: "The white Shahi Masjid in Chitral town",
+        detail:
+          "The white and green royal mosque beside the fort, built by the Mehtar in the early twentieth century, the landmark of Chitral town and an easy stop on the city tour.",
+      },
+      {
+        name: "Tirich Mir",
+        caption: "Tirich Mir, the highest peak of the Hindu Kush",
+        detail:
+          "The highest peak of the Hindu Kush at over seven thousand seven hundred metres, rising over the Chitral valley. On a clear day it fills the skyline above the town.",
+      },
+      {
+        name: "Garam Chashma",
+        caption: "The Garam Chashma hot springs valley",
+        detail:
+          "The natural hot springs up a side valley from Chitral, set among the mountains and long used for their warm mineral water. A scenic half day drive and a soak.",
+      },
+      {
+        name: "The Kalash valleys",
+        caption: "The Kalash valley of Bumburet near Chitral",
+        detail:
+          "The three Kalash valleys of Bumburet, Rumbur, and Birir sit a short drive from Chitral, home to the Kalash people and their distinct culture. A day trip or an overnight from town.",
+      },
+      {
+        name: "The Shandur Pass",
+        caption: "The Shandur polo ground, the roof of the world",
+        detail:
+          "The high pass toward Gilgit, home to the Shandur polo festival each July on the highest polo ground on earth. On the longer Chitral routes rather than the base plan.",
+      },
+    ],
+    gallery: [
+      "The Chitral Fort above the river",
+      "The Shahi Masjid in Chitral",
+      "Tirich Mir over the valley",
+      "The Garam Chashma hot springs",
+      "The Kalash valley of Bumburet",
+      "The Shandur polo ground",
+    ],
+    practical: [
+      { icon: "clock", label: "Best time to visit", value: "April to October, July for Shandur" },
+      { icon: "tag", label: "Currency", value: "Pakistani rupee, PKR" },
+      { icon: "meal", label: "Halal food", value: "Everywhere, local Chitrali cuisine" },
+      { icon: "bus", label: "How to reach", value: "By road via the Lowari Tunnel" },
+      { icon: "users", label: "Language", value: "Khowar, with Urdu understood" },
+      { icon: "shield", label: "Good to know", value: "Warm days, cold nights, pack layers" },
+      { icon: "pin", label: "Top spots", value: "Chitral Fort, Garam Chashma, the Kalash valleys" },
+    ],
+    costDrivers: [
+      {
+        icon: "clock",
+        factor: "Season and festivals",
+        detail:
+          "The summer and the Shandur polo week in July sit highest, while the shoulder months run lower for the same valley.",
+      },
+      {
+        icon: "hotel",
+        factor: "Hotel category",
+        detail:
+          "A riverside or higher category hotel in Chitral lifts the price, while a standard town hotel holds it down.",
+      },
+      {
+        icon: "bus",
+        factor: "Transport and the passes",
+        detail:
+          "The long drive through the Lowari Tunnel, the jeeps for the Kalash valleys, and any Shandur leg set the transport cost.",
       },
       {
         icon: "users",

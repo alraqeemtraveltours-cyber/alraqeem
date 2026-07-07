@@ -234,6 +234,57 @@ export const seedPackages: TravelPackage[] = [
     description:
       "The Switzerland of Pakistan. Malam Jabba, Kalam, the Ushu Forest, and the alpine Mahodand Lake, with Bahrain and Madyan, run from our Charsadda base. Quoted on inquiry for your dates.",
   },
+  {
+    slug: "kumrat-valley",
+    title: "Kumrat Valley Tour",
+    category: "Pakistan",
+    duration: "4 Days, 3 Nights",
+    price: null,
+    highlights: [
+      "Transport from Peshawar or Islamabad",
+      "Camp or hut stay in the valley",
+      "The Kumrat forest and waterfall",
+      "Jahaz Banda meadow by jeep and trek",
+      "Katora Lake for the fit",
+      "Guided sightseeing and support",
+    ],
+    description:
+      "A deodar forest and meadow escape in Upper Dir. The Kumrat forest, the waterfall, and a trek to Jahaz Banda and Katora Lake, run from our Charsadda base. Quoted on inquiry for your dates.",
+  },
+  {
+    slug: "kalash-valley",
+    title: "Kalash Valley Tour",
+    category: "Pakistan",
+    duration: "5 Days, 4 Nights",
+    price: null,
+    highlights: [
+      "Transport via the Lowari Tunnel",
+      "Hotels with breakfast",
+      "Bumburet, Rumbur, and Birir valleys",
+      "Kalash culture and villages",
+      "Chilam Joshi festival timing on request",
+      "Guided sightseeing and support",
+    ],
+    description:
+      "One of the oldest living cultures in the region. The Kalash valleys of Bumburet, Rumbur, and Birir near Chitral, timed to the Chilam Joshi festival on request. Quoted on inquiry for your dates.",
+  },
+  {
+    slug: "chitral",
+    title: "Chitral Tour",
+    category: "Pakistan",
+    duration: "5 Days, 4 Nights",
+    price: null,
+    highlights: [
+      "Transport via the Lowari Tunnel",
+      "Hotels with breakfast",
+      "The Chitral Fort and the Shahi Masjid",
+      "Garam Chashma hot springs",
+      "A Kalash valley day at Bumburet",
+      "Guided sightseeing and support",
+    ],
+    description:
+      "A Hindu Kush journey below Tirich Mir. The Chitral Fort, the Shahi Masjid, Garam Chashma, and the Kalash valleys, run from our Charsadda base. Quoted on inquiry for your dates.",
+  },
 ];
 
 export function formatPrice(price: number | null) {
@@ -260,6 +311,9 @@ export function packageDisplayName(
   if (pkg.slug === "malaysia-thailand-singapore")
     return "Malaysia, Thailand and Singapore Tour Package";
   if (pkg.slug === "swat") return "Swat and Kalam Tour Packages";
+  if (pkg.slug === "kumrat-valley") return "Kumrat Valley Tour Packages";
+  if (pkg.slug === "kalash-valley") return "Kalash Valley Tour Packages";
+  if (pkg.slug === "chitral") return "Chitral Tour Packages";
   return pkg.title;
 }
 
@@ -280,6 +334,9 @@ const SILO_ROUTES: Record<string, string> = {
   singapore: "/tours/singapore",
   "malaysia-thailand-singapore": "/tours/malaysia-thailand-singapore",
   swat: "/tours/swat",
+  "kumrat-valley": "/tours/kumrat-valley",
+  "kalash-valley": "/tours/kalash-valley",
+  chitral: "/tours/chitral",
 };
 
 // Canonical URL path for a package by slug.

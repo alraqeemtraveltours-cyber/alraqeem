@@ -28,6 +28,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/tours/group-tours",
     "/tours/beach-and-adventure-tours",
     "/tours/swat",
+    "/tours/kumrat-valley",
+    "/tours/kalash-valley",
+    "/tours/chitral",
     "/visa-services",
     "/tickets",
     // Lightweight browse-all index.

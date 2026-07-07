@@ -50,6 +50,15 @@ export function packageTitle(pkg: TravelPackage) {
   if (pkg.slug === "swat") {
     return "Swat and Kalam Tour Packages | Al Raqeem";
   }
+  if (pkg.slug === "kumrat-valley") {
+    return "Kumrat Valley Tour Packages | Al Raqeem";
+  }
+  if (pkg.slug === "kalash-valley") {
+    return "Kalash Valley Tour Packages | Al Raqeem";
+  }
+  if (pkg.slug === "chitral") {
+    return "Chitral Tour Packages | Al Raqeem";
+  }
   const clean = cleanName(packageDisplayName(pkg));
   let words = clean.split(/\s+/);
   let name = clean;
@@ -103,6 +112,15 @@ export function packageMetaDescription(pkg: TravelPackage) {
   }
   if (pkg.slug === "swat") {
     return "Swat and Kalam tour package, 5 days. Malam Jabba, Kalam, and Mahodand Lake, run from our Charsadda base with transport and hotels. Inquiry priced.";
+  }
+  if (pkg.slug === "kumrat-valley") {
+    return "Kumrat Valley tour package, 4 days. Deodar forest, the waterfall, and a trek to Jahaz Banda and Katora Lake, run from our Charsadda base. Inquiry priced.";
+  }
+  if (pkg.slug === "kalash-valley") {
+    return "Kalash Valley tour package, 5 days. Bumburet, Rumbur, and Birir near Chitral, and the Chilam Joshi festival, run from our Charsadda base. Inquiry priced.";
+  }
+  if (pkg.slug === "chitral") {
+    return "Chitral tour package, 5 days. The Chitral Fort, Garam Chashma, Tirich Mir, and the Kalash valleys, run from our Charsadda base. Inquiry priced.";
   }
   const clean = cleanName(packageDisplayName(pkg));
   const base = `${clean} from Pakistan. Quoted on inquiry for your dates, with visa, flights and hotels handled. Message on WhatsApp for a quote.`;
@@ -230,6 +248,39 @@ export function packageMetadata(pkg: TravelPackage): Metadata {
       "Mahodand Lake tour",
       "Swat tour from Islamabad",
       "northern areas tour from Pakistan",
+      "KPK tour package",
+    ];
+  }
+  if (pkg.slug === "kumrat-valley") {
+    meta.keywords = [
+      "Kumrat Valley tour package",
+      "Kumrat tour from Islamabad",
+      "Jahaz Banda tour",
+      "Katora Lake trek",
+      "Upper Dir tour",
+      "Kumrat forest camping",
+      "KPK tour package",
+    ];
+  }
+  if (pkg.slug === "kalash-valley") {
+    meta.keywords = [
+      "Kalash Valley tour package",
+      "Kalash tour from Pakistan",
+      "Chilam Joshi festival tour",
+      "Bumburet tour",
+      "Chitral Kalash tour",
+      "Kalash culture tour",
+      "KPK tour package",
+    ];
+  }
+  if (pkg.slug === "chitral") {
+    meta.keywords = [
+      "Chitral tour package",
+      "Chitral tour from Islamabad",
+      "Chitral Fort tour",
+      "Garam Chashma tour",
+      "Kalash valleys from Chitral",
+      "Shandur polo festival tour",
       "KPK tour package",
     ];
   }
