@@ -135,7 +135,19 @@ export default function Footer({
           <p>
             © {new Date().getFullYear()} {settings.name}. All rights reserved.
           </p>
-          <p>Umrah | Hajj | Tours | Flight Deals | Visa Services</p>
+          <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            <Link href="/terms-and-refunds" className="hover:text-white">
+              Terms and Refund Policy
+            </Link>
+            <span aria-hidden="true" className="text-white/25">·</span>
+            <Link href="/packages" className="hover:text-white">
+              All Packages
+            </Link>
+            <span aria-hidden="true" className="text-white/25">·</span>
+            <Link href="/contact" className="hover:text-white">
+              Contact
+            </Link>
+          </nav>
           <p>
             Developed with{" "}
             <span className="text-red-500">❤️</span>{" "}
