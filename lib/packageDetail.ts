@@ -453,7 +453,7 @@ export const detailContent: Record<string, DetailContent> = {
 
   "malaysia-thailand-8-days": {
     overview:
-      "Malaysia and Thailand Combo from Pakistan brings two countries into one eight day, seven night booking. Our team arranges Kuala Lumpur and Bangkok in a single trip, a Genting Highlands day tour, an optional Phuket beach extension, and visa processing for both countries. City lights and beaches sit side by side, which makes this a full Far East experience for families and couples traveling from Pakistan.",
+      "Malaysia and Thailand Combo from Pakistan brings two countries into one eight day, seven night booking. Our team arranges Kuala Lumpur with the Petronas Twin Towers and Batu Caves, a Genting Highlands day, and Bangkok with the Grand Palace and its riverside temples, plus the Malaysia and Thailand e visas, hotels, and the internal flight. An optional Phuket beach extension adds the islands. City lights and beaches sit side by side, a full Far East experience for families and couples traveling from Pakistan.",
     whoFor: [
       "Families wanting two countries in one trip",
       "Couples seeking cities and beaches together",
@@ -472,7 +472,39 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "Is the Phuket beach extension available?",
-        a: "The Phuket beach extension is an optional add-on to the Kuala Lumpur and Bangkok route. Our team arranges the extra nights, transfers, and beach stay when you request it, and confirms the updated itinerary in writing so your full trip stays clear from the start.",
+        a: "The Phuket beach extension is an optional add on to the Kuala Lumpur and Bangkok route. Our team arranges the extra nights, transfers, and beach stay when you request it, and confirms the updated itinerary in writing so your full trip stays clear from the start.",
+      },
+      {
+        q: "Is a visa required for Malaysia and Thailand from Pakistan?",
+        a: "Yes, Pakistani travelers need entry for both, the Malaysia e visa and the Thailand e visa. Our team prepares and files each, checking every document first so the files clear cleanly. Both visas arrive inside your package, so there is no separate embassy running to arrange.",
+      },
+      {
+        q: "How many days do I need for the Malaysia and Thailand tour?",
+        a: "Eight days and seven nights cover Kuala Lumpur and Bangkok with a Genting Highlands day, a comfortable pace for both cities. Add two or three nights for a Phuket or Krabi beach stay, or a Singapore leg. Tell our desk your dates and we shape the length around them.",
+      },
+      {
+        q: "What is the best time to visit Malaysia and Thailand?",
+        a: "November to February is the cooler, drier window across both countries and the most comfortable for sightseeing. The monsoon months bring rain and lower rates. Share your travel window and our team plans the route and the cities around the season you choose.",
+      },
+      {
+        q: "Is halal food available in Malaysia and Thailand?",
+        a: "Malaysia is a Muslim majority country, so halal food is widely available across Kuala Lumpur and Genting. In Thailand, halal restaurants sit in the tourist areas of Bangkok and Phuket, and our desk plans meals and stops so travelers from Pakistan stay comfortable throughout the trip.",
+      },
+      {
+        q: "Is the Malaysia and Thailand tour good for families?",
+        a: "The combo suits families, with the Petronas Towers and Batu Caves in Kuala Lumpur, the theme parks of Genting Highlands, the temples and river of Bangkok, and easy beaches on the Phuket extension. Our team sets a steady pace and connected rooms, and adjusts the days for younger children on request.",
+      },
+      {
+        q: "Do you customize the Malaysia and Thailand itinerary?",
+        a: "Yes. Our desk adds a Phuket or Krabi beach stay, a Singapore leg, extra Genting time, or a slower pace, and builds the days around your group. Share how many travelers and what you want to see, and we send a plan and a quote for your exact dates.",
+      },
+      {
+        q: "Which airlines fly to Kuala Lumpur and Bangkok from Pakistan?",
+        a: "Our desk books the combo on the carrier with the best fare and schedule for your dates, among Thai Airways, Malaysia Airlines, AirAsia, Emirates, and Qatar Airways, with the internal Kuala Lumpur to Bangkok flight included. Travelers depart from Karachi, Lahore, Islamabad, or Peshawar.",
+      },
+      {
+        q: "Is the Malaysia and Thailand tour suitable for a honeymoon?",
+        a: "The combo works well for honeymooners, pairing the city lights of Kuala Lumpur and Bangkok with quiet beaches on the Phuket extension. Our team arranges a comfortable hotel, a relaxed pace, and add ons like an island day or a couples dinner on request for travelers from Pakistan.",
       },
     ],
   },
@@ -1337,6 +1369,177 @@ export const bakuCostDrivers = [
     factor: "Excursions and add ons",
     detail:
       "Optional days to Sheki and its Khan Palace, the Shahdag resort, or extra nights in Gabala add to the base package.",
+  },
+  {
+    icon: "plane",
+    factor: "Airline and departure city",
+    detail:
+      "The carrier, the season, and whether you fly from Karachi, Lahore, Islamabad, or Peshawar move the airfare.",
+  },
+];
+
+// Far East content, the Malaysia and Thailand combo. The day by day maps the
+// real eight day flow across Kuala Lumpur and Bangkok; attractions and practical
+// facts are public knowledge, not fabricated claims. Exact hotels route to
+// inquiry, and the Phuket beach leg is marked optional.
+export const farEastItinerary = [
+  {
+    day: "Day 1",
+    title: "Arrival in Kuala Lumpur",
+    caption: "The Kuala Lumpur skyline with the Petronas Twin Towers at dusk",
+    detail:
+      "Land in Kuala Lumpur, clear the Malaysia e visa, and transfer to your hotel to rest before the touring begins.",
+  },
+  {
+    day: "Day 2",
+    title: "Kuala Lumpur city tour",
+    caption: "The rainbow steps at Batu Caves near Kuala Lumpur",
+    detail:
+      "A guided city tour with the Petronas Twin Towers and KLCC, the KL Tower, Merdeka Square, and the Batu Caves shrine on the city edge.",
+  },
+  {
+    day: "Day 3",
+    title: "Genting Highlands day trip",
+    caption: "The Awana Skyway cable car to Genting Highlands",
+    detail:
+      "A day trip into the cool hills, riding the Awana Skyway cable car to the Genting Highlands resort, its theme parks, and viewpoints above the clouds.",
+  },
+  {
+    day: "Day 4",
+    title: "Fly to Bangkok",
+    caption: "The Bangkok skyline along the Chao Phraya River",
+    detail:
+      "Fly from Kuala Lumpur to Bangkok, transfer to your hotel, and spend the evening at leisure along the city streets.",
+  },
+  {
+    day: "Day 5",
+    title: "Bangkok temples and the Grand Palace",
+    caption: "The Grand Palace and Wat Phra Kaew in Bangkok",
+    detail:
+      "A guided tour of the Grand Palace and Wat Phra Kaew, the reclining Buddha at Wat Pho, and Wat Arun, with a Chao Phraya river cruise.",
+  },
+  {
+    day: "Day 6",
+    title: "Bangkok markets and shopping",
+    caption: "A floating market near Bangkok",
+    detail:
+      "A morning at a Bangkok floating market and time for shopping, or an optional flight to Phuket for the beaches on the extended trip.",
+  },
+  {
+    day: "Day 7",
+    title: "Leisure or the Phuket beaches",
+    caption: "Longtail boats at the Phi Phi Islands near Phuket",
+    detail:
+      "A leisure day in Bangkok, or on the Phuket extension, the beaches of Patong and a boat trip to the Phi Phi Islands.",
+  },
+  {
+    day: "Day 8",
+    title: "Departure",
+    caption: "Suvarnabhumi Airport in Bangkok for the flight home",
+    detail:
+      "Check out and transfer to the airport for your return flight to Pakistan.",
+  },
+];
+
+// Named Malaysia and Thailand attractions, public knowledge. The Phuket leg is
+// clearly marked optional so nothing reads as included that is not.
+export const farEastAttractions = [
+  {
+    name: "Petronas Twin Towers",
+    caption: "The Petronas Twin Towers in Kuala Lumpur",
+    detail:
+      "The twin skyscrapers at the heart of Kuala Lumpur, joined by a skybridge and set above the KLCC park and its fountains. The towers light the skyline after dark, the classic first sight of the city.",
+  },
+  {
+    name: "Batu Caves",
+    caption: "The rainbow steps and statue at Batu Caves",
+    detail:
+      "A limestone hill of caves and a Hindu shrine on the edge of Kuala Lumpur, reached by a flight of two hundred and seventy two rainbow painted steps beneath a towering golden statue. A short, striking half day stop.",
+  },
+  {
+    name: "Genting Highlands",
+    caption: "The resort of Genting Highlands above the clouds",
+    detail:
+      "A hilltop resort in the cool highlands north of Kuala Lumpur, reached by the Awana Skyway cable car. Theme parks, viewpoints, and a mild climate make it a favourite family day out from the city heat.",
+  },
+  {
+    name: "The Grand Palace and Wat Phra Kaew",
+    caption: "The Grand Palace and Wat Phra Kaew in Bangkok",
+    detail:
+      "The former royal palace of Bangkok and the temple of the Emerald Buddha, a complex of gilded spires and detailed murals beside the Chao Phraya. The most visited landmark in the city and the heart of the temple tour.",
+  },
+  {
+    name: "Wat Pho and Wat Arun",
+    caption: "Wat Arun on the Chao Phraya River in Bangkok",
+    detail:
+      "Wat Pho holds the vast gold reclining Buddha, while Wat Arun, the Temple of Dawn, rises in porcelain tiled spires across the river. A short boat ride links them on the Bangkok temple day.",
+  },
+  {
+    name: "Phuket and the Phi Phi Islands",
+    caption: "Longtail boats at the Phi Phi Islands near Phuket",
+    detail:
+      "The beaches of Patong and a boat trip to the Phi Phi Islands of clear water and limestone cliffs. On the optional Phuket extension rather than the base eight day plan, arranged on request.",
+  },
+];
+
+// Gallery captions. Motif panels until real photos are supplied, each caption
+// naming the entity for the alt text and, once real, ImageObject.
+export const farEastGallery = [
+  "The Petronas Twin Towers in Kuala Lumpur",
+  "The rainbow steps at Batu Caves",
+  "Genting Highlands above the clouds",
+  "The Grand Palace in Bangkok",
+  "Wat Arun on the Chao Phraya River",
+  "The Phi Phi Islands near Phuket",
+];
+
+// Practical Malaysia and Thailand facts for a first time traveler, a full quick
+// facts grid. Public knowledge. Halal food is a real trust signal here.
+export const farEastPractical = [
+  {
+    icon: "clock",
+    label: "Best time to visit",
+    value: "November to February, cooler and drier",
+  },
+  { icon: "tag", label: "Currency", value: "Malaysian ringgit and Thai baht" },
+  {
+    icon: "meal",
+    label: "Halal food",
+    value: "Widely in Malaysia, tourist areas in Thailand",
+  },
+  {
+    icon: "clock",
+    label: "Time zone",
+    value: "GMT plus 8 Malaysia, GMT plus 7 Thailand",
+  },
+  {
+    icon: "users",
+    label: "Language",
+    value: "Malay and Thai, English in tourist areas",
+  },
+  { icon: "route", label: "Driving side", value: "Left hand side of the road" },
+  { icon: "pin", label: "Top cities", value: "Kuala Lumpur, Bangkok, and Phuket" },
+];
+
+// What sets the price. Cost drivers only, no numbers, routed to a quote.
+export const farEastCostDrivers = [
+  {
+    icon: "clock",
+    factor: "Travel season",
+    detail:
+      "The cool, dry months from November to February sit highest, while the monsoon season runs lower for the same route.",
+  },
+  {
+    icon: "hotel",
+    factor: "Hotels and cities",
+    detail:
+      "A higher star rating or a central Kuala Lumpur and Bangkok address lifts the price, while a standard four star holds it down.",
+  },
+  {
+    icon: "camera",
+    factor: "Excursions and the beach leg",
+    detail:
+      "The optional Phuket or Krabi beach extension, island boat trips, and the Genting theme parks add to the base package.",
   },
   {
     icon: "plane",

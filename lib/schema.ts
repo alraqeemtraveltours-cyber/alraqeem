@@ -18,6 +18,8 @@ import {
   turkeyAttractions,
   bakuItinerary,
   bakuAttractions,
+  farEastItinerary,
+  farEastAttractions,
 } from "@/lib/packageDetail";
 import type { Post } from "@/lib/posts";
 import type { City } from "@/lib/cities";
@@ -574,6 +576,29 @@ export function packageDetailGraph(pkg: TravelPackage) {
         "@type": "ItemList",
         name: "Baku attractions",
         itemListElement: bakuAttractions.map((a, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: a.name,
+        })),
+      }
+    );
+  }
+
+  if (pkg.slug === "malaysia-thailand-8-days") {
+    graph.push(
+      {
+        "@type": "ItemList",
+        name: "Malaysia and Thailand tour itinerary",
+        itemListElement: farEastItinerary.map((s, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: `${s.day}: ${s.title}`,
+        })),
+      },
+      {
+        "@type": "ItemList",
+        name: "Malaysia and Thailand attractions",
+        itemListElement: farEastAttractions.map((a, i) => ({
           "@type": "ListItem",
           position: i + 1,
           name: a.name,

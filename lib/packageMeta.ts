@@ -32,6 +32,9 @@ export function packageTitle(pkg: TravelPackage) {
   if (pkg.slug === "baku-5-days") {
     return "Baku Tour Packages from Pakistan | Al Raqeem";
   }
+  if (pkg.slug === "malaysia-thailand-8-days") {
+    return "Malaysia and Thailand Tour from Pakistan | Al Raqeem";
+  }
   const clean = cleanName(packageDisplayName(pkg));
   let words = clean.split(/\s+/);
   let name = clean;
@@ -67,6 +70,9 @@ export function packageMetaDescription(pkg: TravelPackage) {
   }
   if (pkg.slug === "baku-5-days") {
     return "Baku Tour Package from Pakistan, 5 days. Old City and Flame Towers, the Ateshgah and Yanardag fire sites, Gobustan, and Gabala, plus visa and flights.";
+  }
+  if (pkg.slug === "malaysia-thailand-8-days") {
+    return "Malaysia and Thailand Tour from Pakistan, 8 days. Kuala Lumpur, Genting Highlands, and Bangkok temples, with both e visas and flights. Inquiry priced.";
   }
   const clean = cleanName(packageDisplayName(pkg));
   const base = `${clean} from Pakistan. Quoted on inquiry for your dates, with visa, flights and hotels handled. Message on WhatsApp for a quote.`;
@@ -120,6 +126,19 @@ export function packageMetadata(pkg: TravelPackage): Metadata {
       "Baku tour from Karachi",
       "Baku tour from Lahore",
       "Baku tour from Islamabad",
+    ];
+  }
+  if (pkg.slug === "malaysia-thailand-8-days") {
+    meta.keywords = [
+      "Malaysia and Thailand tour package from Pakistan",
+      "Malaysia Thailand combo tour",
+      "Kuala Lumpur and Bangkok tour",
+      "Far East tour from Pakistan",
+      "8 day Malaysia Thailand package",
+      "Malaysia Thailand honeymoon package",
+      "Malaysia Thailand tour from Karachi",
+      "Malaysia Thailand tour from Lahore",
+      "Malaysia Thailand tour from Islamabad",
     ];
   }
   return meta;
