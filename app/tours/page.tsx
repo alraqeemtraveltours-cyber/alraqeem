@@ -207,22 +207,50 @@ export default async function ToursPage() {
             Tours shaped around how you travel
           </h2>
           <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <Link
-              href="/tours/muslim-friendly-tours"
-              className="group flex flex-col rounded-3xl border border-black/5 bg-paper p-6 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lift"
-            >
-              <h3 className="font-display text-lg text-brand-blue-deep">
-                Muslim friendly and halal tours
-              </h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
-                Halal food, easy prayer, and Muslim majority destinations like
-                Malaysia, Turkey, and Baku, planned for a family from Pakistan.
-              </p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-orange-dark group-hover:text-brand-orange">
-                Explore Muslim friendly tours
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-              </span>
-            </Link>
+            {[
+              {
+                href: "/tours/muslim-friendly-tours",
+                title: "Muslim friendly and halal tours",
+                note: "Halal food, easy prayer, and Muslim majority destinations like Malaysia, Turkey, and Baku, planned for a family from Pakistan.",
+              },
+              {
+                href: "/tours/honeymoon-packages",
+                title: "Honeymoon tours",
+                note: "Cappadocia balloons, the Baku Caspian, and the islands of Malaysia and Thailand, shaped for a couple.",
+              },
+              {
+                href: "/tours/family-packages",
+                title: "Family tours",
+                note: "Theme parks in Dubai and Singapore, Genting in Malaysia, and a steady pace for children and elders.",
+              },
+              {
+                href: "/tours/group-tours",
+                title: "Group tours",
+                note: "Group departures for families, offices, and communities, one booking and one quote for the whole group.",
+              },
+              {
+                href: "/tours/beach-and-adventure-tours",
+                title: "Beach and adventure tours",
+                note: "The islands of Thailand and Malaysia, the Baku mountains, and the Dubai desert safari.",
+              },
+            ].map((f) => (
+              <Link
+                key={f.href}
+                href={f.href}
+                className="group flex flex-col rounded-3xl border border-black/5 bg-paper p-6 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lift"
+              >
+                <h3 className="font-display text-lg text-brand-blue-deep">
+                  {f.title}
+                </h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
+                  {f.note}
+                </p>
+                <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-orange-dark group-hover:text-brand-orange">
+                  Explore
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
