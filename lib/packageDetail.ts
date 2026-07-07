@@ -217,7 +217,7 @@ export const detailContent: Record<string, DetailContent> = {
   "hajj-package": {
     moraNote: true,
     overview:
-      "Hajj Package from Pakistan delivers a complete, guided pilgrimage with trained group leaders and scholars. Our team supports government Hajj scheme registration through MORA, plus Mina and Arafat camp accommodation, Muzdalifah movement, and pre-departure training so you arrive prepared for every rite. Quotas stay limited every year, so early registration matters. For the government scheme, register free on the official MORA portal, then choose our private Hajj route for full document support and guided camp services from departure to safe return.",
+      "Hajj Package from Pakistan delivers a complete, guided pilgrimage with trained group leaders and scholars. Our team supports government Hajj scheme registration through MORA, plus Mina and Arafat camp accommodation, Muzdalifah movement, and pre-departure training so you arrive prepared for every rite. Most pilgrims from Pakistan perform Hajj al Tamattu, joining Umrah and Hajj in one journey, with the Ifrad and Qiran forms also arranged on request. Quotas stay limited every year, so early registration matters. For the government scheme, register free on the official MORA portal, then choose our private Hajj route for full document support and guided camp services from departure to safe return.",
     whoFor: [
       "First time Hajj pilgrims from Pakistan",
       "Pilgrims who want trained group leaders and scholars",
@@ -248,7 +248,7 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "How long is the Hajj trip, and what durations do you offer?",
-        a: "Hajj trip length varies by scheme, airline schedule, and whether you travel Makkah first or Madinah first. Our desk confirms the exact day count and the Makkah, Madinah, and Aziziyah split for your booking, since the dates move with the Hajj calendar each year. Message our team with your preferred window for the current options.",
+        a: "Hajj trip length varies by scheme, airline schedule, and whether you travel Makkah first or Madinah first. Our desk confirms the exact day count and the Makkah, Madinah, and Aziziyah split for your booking, since the dates move with the Hajj calendar each year. Transfers between Makkah and Madinah run by road or on the Haramain high speed rail where your package includes it. Message our team with your preferred window for the current options.",
       },
       {
         q: "Which hotels do you use in Makkah, Madinah, and Aziziyah?",
@@ -268,7 +268,7 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "Do women need a Mehram to perform Hajj?",
-        a: "Saudi rules on women travelling without a Mehram have shifted in recent cycles, with women joining organized groups under set conditions. Rules move year to year, so confirm the current position for your cycle at the official Saudi source. Our desk arranges group travel for women where the rules allow, with the details set at booking.",
+        a: "Saudi rules on women travelling without a Mehram have shifted from one cycle to the next, with women joining organized groups under set conditions. Rules move year to year, so confirm the current position for your cycle at the official Saudi source. Our desk arranges group travel for women where the rules allow, with the details set at booking.",
       },
       {
         q: "Is Qurbani or Dam included in the Hajj Package?",
