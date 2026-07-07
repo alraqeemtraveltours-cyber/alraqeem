@@ -217,6 +217,23 @@ export const seedPackages: TravelPackage[] = [
     description:
       "The full Southeast Asia trio. Bangkok and Pattaya, Kuala Lumpur and Genting, and Singapore with Sentosa and the Night Safari, with all flights and visas handled. Quoted on inquiry for your dates.",
   },
+  {
+    slug: "swat",
+    title: "Swat and Kalam Tour",
+    category: "Pakistan",
+    duration: "5 Days, 4 Nights",
+    price: null,
+    highlights: [
+      "Transport from Peshawar or Islamabad",
+      "Hotels with breakfast",
+      "Malam Jabba and the chairlift",
+      "Kalam and the Ushu Forest",
+      "Mahodand Lake by jeep",
+      "Guided sightseeing and support",
+    ],
+    description:
+      "The Switzerland of Pakistan. Malam Jabba, Kalam, the Ushu Forest, and the alpine Mahodand Lake, with Bahrain and Madyan, run from our Charsadda base. Quoted on inquiry for your dates.",
+  },
 ];
 
 export function formatPrice(price: number | null) {
@@ -224,7 +241,7 @@ export function formatPrice(price: number | null) {
   return `PKR ${price.toLocaleString("en-PK")}`;
 }
 
-export const categories: Category[] = ["Umrah & Hajj", "International"];
+export const categories: Category[] = ["Umrah & Hajj", "International", "Pakistan"];
 
 // Canonical, keyword-aligned display name for a package. The slug stays fixed
 // for URL stability; the visible name targets the query.
@@ -242,6 +259,7 @@ export function packageDisplayName(
     return "Malaysia and Thailand Tour Package";
   if (pkg.slug === "malaysia-thailand-singapore")
     return "Malaysia, Thailand and Singapore Tour Package";
+  if (pkg.slug === "swat") return "Swat and Kalam Tour Packages";
   return pkg.title;
 }
 
@@ -261,6 +279,7 @@ const SILO_ROUTES: Record<string, string> = {
   thailand: "/tours/thailand",
   singapore: "/tours/singapore",
   "malaysia-thailand-singapore": "/tours/malaysia-thailand-singapore",
+  swat: "/tours/swat",
 };
 
 // Canonical URL path for a package by slug.

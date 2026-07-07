@@ -47,6 +47,9 @@ export function packageTitle(pkg: TravelPackage) {
   if (pkg.slug === "malaysia-thailand-singapore") {
     return "Malaysia Thailand Singapore Tour Package | Al Raqeem";
   }
+  if (pkg.slug === "swat") {
+    return "Swat and Kalam Tour Packages | Al Raqeem";
+  }
   const clean = cleanName(packageDisplayName(pkg));
   let words = clean.split(/\s+/);
   let name = clean;
@@ -97,6 +100,9 @@ export function packageMetaDescription(pkg: TravelPackage) {
   }
   if (pkg.slug === "malaysia-thailand-singapore") {
     return "Malaysia Thailand Singapore Tour from Pakistan, 9 days. Bangkok, Kuala Lumpur, Genting, and Singapore with Sentosa, all visas and flights handled.";
+  }
+  if (pkg.slug === "swat") {
+    return "Swat and Kalam tour package, 5 days. Malam Jabba, Kalam, and Mahodand Lake, run from our Charsadda base with transport and hotels. Inquiry priced.";
   }
   const clean = cleanName(packageDisplayName(pkg));
   const base = `${clean} from Pakistan. Quoted on inquiry for your dates, with visa, flights and hotels handled. Message on WhatsApp for a quote.`;
@@ -213,6 +219,18 @@ export function packageMetadata(pkg: TravelPackage): Metadata {
       "three country tour from Karachi",
       "three country tour from Lahore",
       "three country tour from Islamabad",
+    ];
+  }
+  if (pkg.slug === "swat") {
+    meta.keywords = [
+      "Swat tour package",
+      "Swat Kalam tour package",
+      "Malam Jabba tour",
+      "Kalam valley tour",
+      "Mahodand Lake tour",
+      "Swat tour from Islamabad",
+      "northern areas tour from Pakistan",
+      "KPK tour package",
     ];
   }
   return meta;

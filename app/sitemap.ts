@@ -27,6 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/tours/family-packages",
     "/tours/group-tours",
     "/tours/beach-and-adventure-tours",
+    "/tours/swat",
     "/visa-services",
     "/tickets",
     // Lightweight browse-all index.

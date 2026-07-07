@@ -744,6 +744,56 @@ export const detailContent: Record<string, DetailContent> = {
       },
     ],
   },
+
+  swat: {
+    overview:
+      "Swat and Kalam Tour from Pakistan is the classic northern getaway, five days and four nights in the valley often called the Switzerland of Pakistan. From our base in Charsadda, a short drive from Swat, our team arranges transport, hotels with breakfast, and a guided run through Malam Jabba, Kalam, the Ushu Forest, and the alpine Mahodand Lake, with the craft towns of Bahrain and Madyan on the way. Green valleys, pine forest, and cool rivers make Swat a favourite for families and groups from across Pakistan.",
+    whoFor: [
+      "Families wanting a cool, green summer escape",
+      "Groups and friends touring the northern areas",
+      "First time northern travelers who want it arranged",
+      "Travelers near KPK who value a local run trip",
+    ],
+    faqs: [
+      pricingFaq("Swat and Kalam Tour"),
+      {
+        q: "How many days do I need for a Swat tour?",
+        a: "Five days and four nights cover Swat well, Malam Jabba, Kalam, the Ushu Forest, and a jeep day to Mahodand Lake, with Bahrain and Madyan on the way. Add a night for Gabin Jabba or a Kumrat Valley extension. Tell our desk your dates and we shape the length around them.",
+      },
+      {
+        q: "What is the best time to visit Swat?",
+        a: "April to October is the green season, with July and August the busiest and the rivers at their fullest. Winter brings snow and skiing at Malam Jabba. Spring and autumn are quieter and mild. Share your travel window and our team plans the trip around it.",
+      },
+      {
+        q: "How do we reach Swat, and is transport included?",
+        a: "Yes, transport is included. Our team arranges a car or a coaster from Peshawar or Islamabad, up the Swat motorway and along the river into the valley, with the jeeps for the Mahodand track arranged on the day. Travelers near our Charsadda base start closest of all.",
+      },
+      {
+        q: "Is the Swat tour good for families?",
+        a: "Swat suits families, with the Malam Jabba chairlift and zipline, the gentle bazaars of Bahrain and Madyan, and cool weather through the summer. Our team sets a steady pace, family rooms, and a driver who knows the valley, and adjusts the days for young children and elders.",
+      },
+      {
+        q: "What is the road to Mahodand Lake like?",
+        a: "The road to Kalam is metalled, and the last stretch to Mahodand Lake is a jeep track through the Ushu valley, rough but scenic and driven daily in season. Our team arranges the local jeeps and a driver who knows it, so the alpine lake is an easy day from Kalam.",
+      },
+      {
+        q: "Do you customize the Swat itinerary?",
+        a: "Yes. Our desk adds Gabin Jabba, a Kumrat Valley leg, extra nights in Kalam, or a slower pace, and builds the days around your group. Share how many travelers and what you want to see, and we send a plan and a quote for your exact dates.",
+      },
+      {
+        q: "Is halal food available on the Swat tour?",
+        a: "Yes, everywhere. Swat is in Pakistan, so all food is halal, from valley trout and local Pakhtun dishes to the tea stops along the river. Our team plans meals and rest stops so the family eats well through the touring days.",
+      },
+      {
+        q: "Is the Swat tour a group departure or a private trip?",
+        a: "Both. Join a group departure for the friendliest price and a set itinerary, or ask our desk for a private family tour with your own vehicle and pace. Tell us your group size and how you prefer to travel, and we quote the option that fits your dates.",
+      },
+      {
+        q: "What should I pack for Swat?",
+        a: "Pack layers, since days are warm and nights cool even in summer, with a light jacket for Malam Jabba and Mahodand and comfortable shoes for the forest walks. In winter add warm clothing for the snow. Our team advises the right kit once your dates are set.",
+      },
+    ],
+  },
 };
 
 // -------- Derivation helpers (real data only) --------
@@ -2416,6 +2466,138 @@ export const tourContent: Record<string, TourContent> = {
       { label: "Singapore Immigration and Checkpoints Authority", href: "https://www.ica.gov.sg" },
     ],
   },
+
+  // Domestic Pakistan tour. No visa, transport by road from Peshawar and
+  // Islamabad, a local KPK trip run from our Charsadda base. Real Swat places,
+  // typical flow, exact hotels and day plan route to inquiry.
+  swat: {
+    name: "Swat and Kalam",
+    durationWords: "five day",
+    itineraryNote:
+      "The flow above is the typical five day plan across the Swat valley. Our desk adjusts the order and adds Gabin Jabba or a Kumrat extension on request.",
+    seasonalNote:
+      "April to October is the green season in Swat, and July and August book earliest. Winter brings snow and skiing at Malam Jabba. Message us for your dates.",
+    itinerary: [
+      {
+        day: "Day 1",
+        title: "Drive to Swat, Mingora and Fizagat",
+        caption: "The Swat River running through the green valley",
+        detail:
+          "Depart Peshawar or Islamabad by road, follow the Swat motorway and the river into the valley, and settle into your hotel around Mingora and Fizagat.",
+      },
+      {
+        day: "Day 2",
+        title: "Malam Jabba resort",
+        caption: "The chairlift at the Malam Jabba ski resort in Swat",
+        detail:
+          "A day at Malam Jabba, the hill resort with a chairlift, a zipline, and snow in winter, set among pine forest above the valley.",
+      },
+      {
+        day: "Day 3",
+        title: "Kalam and Ushu Forest",
+        caption: "The pine forest and river at Kalam in upper Swat",
+        detail:
+          "Drive up the valley to Kalam, walk the Ushu Forest and the riverside bazaar, and take in the peaks around Matiltan and Falak Sar.",
+      },
+      {
+        day: "Day 4",
+        title: "Mahodand Lake by jeep",
+        caption: "The alpine Mahodand Lake above Kalam in Swat",
+        detail:
+          "A jeep track from Kalam through Ushu to the alpine Mahodand Lake, with boating on the water and the meadows and peaks around it.",
+      },
+      {
+        day: "Day 5",
+        title: "Bahrain, Madyan, and return",
+        caption: "The riverside town of Bahrain in the Swat valley",
+        detail:
+          "Stop at the craft bazaars of Bahrain and Madyan on the way down, then the road home to Peshawar or Islamabad.",
+      },
+    ],
+    attractions: [
+      {
+        name: "Malam Jabba",
+        caption: "The chairlift and slopes at Malam Jabba in Swat",
+        detail:
+          "The hill resort of Swat, with a chairlift and a zipline over pine forest and a ski slope in winter. A favourite family day out, reached by a mountain road from Mingora.",
+      },
+      {
+        name: "Kalam",
+        caption: "The river and pine forest at Kalam in upper Swat",
+        detail:
+          "The main town of upper Swat where the Ushu and Utror rivers meet, ringed by pine forest and high peaks. The base for the Ushu Forest, Matiltan, and the jeep track to the lakes.",
+      },
+      {
+        name: "Mahodand Lake",
+        caption: "The alpine Mahodand Lake above Kalam",
+        detail:
+          "An alpine lake above Kalam, reached by a jeep track through the Ushu valley, ringed by meadows and snow peaks. Boating on the clear water is the highlight of the drive.",
+      },
+      {
+        name: "Ushu Forest",
+        caption: "The dense Ushu pine forest near Kalam",
+        detail:
+          "One of the densest pine forests in the country, spreading along the Ushu valley above Kalam with views of Falak Sar, the highest peak in Swat. A calm walk among tall cedars.",
+      },
+      {
+        name: "The White Palace, Marghazar",
+        caption: "The White Palace of Marghazar in Swat",
+        detail:
+          "The marble summer palace of the Wali of Swat at Marghazar, built of the same white stone as the Taj Mahal, set in gardens below the hills. A short heritage stop from Mingora.",
+      },
+      {
+        name: "Bahrain and Madyan",
+        caption: "The riverside bazaar of Bahrain in Swat",
+        detail:
+          "Two riverside towns on the road up the valley, known for their carved wood craft, shawls, and honey, with the Swat River rushing past the bazaars. An easy stop on the way in or out.",
+      },
+    ],
+    gallery: [
+      "The Swat River running through the valley",
+      "The chairlift at Malam Jabba",
+      "The pine forest at Kalam",
+      "The alpine Mahodand Lake",
+      "The Ushu Forest near Kalam",
+      "The White Palace of Marghazar",
+    ],
+    practical: [
+      { icon: "clock", label: "Best time to visit", value: "April to October, green season" },
+      { icon: "tag", label: "Currency", value: "Pakistani rupee, PKR" },
+      { icon: "meal", label: "Halal food", value: "Everywhere, local Pakhtun cuisine" },
+      { icon: "bus", label: "How to reach", value: "By road from Peshawar or Islamabad" },
+      { icon: "users", label: "Language", value: "Pashto, with Urdu understood" },
+      { icon: "shield", label: "Good to know", value: "Warm days, cool nights, pack layers" },
+      { icon: "pin", label: "Top spots", value: "Kalam, Malam Jabba, and Mahodand Lake" },
+    ],
+    costDrivers: [
+      {
+        icon: "clock",
+        factor: "Travel season",
+        detail:
+          "The summer green season and Eid holidays sit highest, while the shoulder months and winter run lower for the same valley.",
+      },
+      {
+        icon: "hotel",
+        factor: "Hotel category",
+        detail:
+          "A riverside or higher category hotel in Kalam or Malam Jabba lifts the price, while a standard hotel in Mingora holds it down.",
+      },
+      {
+        icon: "bus",
+        factor: "Transport and group size",
+        detail:
+          "A private car, a coaster for a group, and the jeeps to Mahodand set the transport cost, and a larger group shares it down.",
+      },
+      {
+        icon: "users",
+        factor: "Private or group tour",
+        detail:
+          "A shared group departure carries the friendliest price, while a private family tour with your own vehicle and pace costs more.",
+      },
+    ],
+    visaIntro: "",
+    visaLinks: [],
+  },
 };
 
 // Standard, well documented Ziyarat sites in Makkah and Madinah. Guided
@@ -2586,6 +2768,7 @@ export function detailFaqs(pkg: TravelPackage): Faq[] {
   const isUmrah = /umrah/i.test(pkg.slug) || /umrah/i.test(pkg.title);
   const isHajj = /hajj/i.test(pkg.slug);
   const isPilg = pkg.category === "Umrah & Hajj";
+  const isDomestic = pkg.category === "Pakistan";
   const hotel = hotelHighlight(pkg);
   const deps = departureCities(pkg).join(" and ");
   const whoForList = detailContent[pkg.slug]?.whoFor ?? [];
@@ -2652,7 +2835,7 @@ export function detailFaqs(pkg: TravelPackage): Faq[] {
       },
     },
     {
-      when: !isPilg && !has(/visa|flight/),
+      when: !isPilg && !isDomestic && !has(/visa|flight/),
       f: {
         q: `Does the ${name} include the visa and flights?`,
         a: `Yes. The ${name} includes the visit visa and return flights, prepared and booked by our team. Hotels and sightseeing arrive in the same booking, and our desk checks every document before filing, so your visa clears without avoidable delays.`,
@@ -2686,7 +2869,9 @@ export function detailFaqs(pkg: TravelPackage): Faq[] {
       when: true,
       f: {
         q: `What documents do I need for the ${name}?`,
-        a: `The ${name} needs a passport valid for at least six months, your national identity card, passport photographs, and the ${isPilg ? "Umrah or Hajj visa" : "visit visa"}, which our desk prepares and files.${isPilg ? " A vaccination certificate applies where Saudi authorities require it." : ""} Our team checks every page before submission.`,
+        a: isDomestic
+          ? `The ${name} is domestic, so no visa or passport is needed, just your national identity card, or a B form for children, and your booking confirmation. Our desk handles the hotels and transport, and confirms what to carry once your dates are set.`
+          : `The ${name} needs a passport valid for at least six months, your national identity card, passport photographs, and the ${isPilg ? "Umrah or Hajj visa" : "visit visa"}, which our desk prepares and files.${isPilg ? " A vaccination certificate applies where Saudi authorities require it." : ""} Our team checks every page before submission.`,
       },
     },
     {

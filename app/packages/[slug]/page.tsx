@@ -125,6 +125,8 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
   const isTurkey = pkg.slug === "turkey-7-days";
   const isBaku = pkg.slug === "baku-5-days";
   const isFarEast = pkg.slug === "malaysia-thailand-8-days";
+  // Domestic Pakistan tours, no visa, transport by road or a domestic flight.
+  const isDomestic = pkg.category === "Pakistan";
   // Data driven tour content for the newer tour pages. When present, one generic
   // path renders the itinerary, attractions, practical grid, gallery, cost
   // drivers, and visa links, so a new country is a data entry, not new JSX.
@@ -172,7 +174,9 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
   // Hero subhead, a semantically dense intent line under the H1 and above the
   // CTA. Tours share one benefit line; each pilgrimage package names its own
   // entities and answers what the package delivers.
-  const heroSubhead = isTour
+  const heroSubhead = isDomestic
+    ? "Transport, hotels, and every sight handled across the northern areas. You travel, and our desk arranges it all, quoted for your exact dates with no hidden charges."
+    : isTour
     ? "Visa, flights, hotel, and every sight handled. You travel, and our desk arranges it all, quoted for your exact dates with no hidden charges."
     : pkg.slug === "economy-umrah-15-days"
       ? "A complete 15 day Umrah from Pakistan on a modest budget, with the Saudi e-visa, return flights from Peshawar and Islamabad, hotels within walking distance of the Haram, ground transport, and guided Ziyarat in Makkah and Madinah, all handled by our desk."
@@ -411,12 +415,20 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
       {isTour && (
         <section className="border-b border-black/5 bg-white">
           <div className="container-site grid grid-cols-2 gap-x-6 gap-y-5 py-6 sm:grid-cols-4">
-            {[
-              { icon: "plane", text: "Visa and flights included" },
-              { icon: "hotel", text: "Hotel with breakfast" },
-              { icon: "camera", text: "Guided sightseeing" },
-              { icon: "phone", text: "WhatsApp support throughout" },
-            ].map((v) => (
+            {(isDomestic
+              ? [
+                  { icon: "bus", text: "Transport included" },
+                  { icon: "hotel", text: "Hotels with breakfast" },
+                  { icon: "camera", text: "Guided sightseeing" },
+                  { icon: "phone", text: "Support throughout" },
+                ]
+              : [
+                  { icon: "plane", text: "Visa and flights included" },
+                  { icon: "hotel", text: "Hotel with breakfast" },
+                  { icon: "camera", text: "Guided sightseeing" },
+                  { icon: "phone", text: "WhatsApp support throughout" },
+                ]
+            ).map((v) => (
               <div key={v.text} className="flex items-center gap-2.5">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-orange/12 text-brand-orange-dark">
                   <Icon name={v.icon} size={18} />
@@ -2270,7 +2282,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                       . Our team prepares and files both e visas with your booking.
                     </p>
                   )}
-                  {tour && (
+                  {tour && tour.visaLinks.length > 0 && (
                     <p className="mt-5 border-t border-black/5 pt-4 text-xs leading-relaxed text-slate-500">
                       {tour.visaIntro}{" "}
                       {tour.visaLinks.map((v, i) => (
