@@ -274,9 +274,6 @@ export default async function HomePage() {
               Call {settings.phone}
             </a>
           </div>
-          <div className="mt-8 max-w-3xl">
-            <SearchInquiryWidget whatsapp={settings.whatsapp} />
-          </div>
           <LastUpdated tone="dark" className="mt-6" />
           <div className="mt-14 grid max-w-2xl grid-cols-3 gap-6 border-t border-white/15 pt-8">
             {stats.map((s) => (
@@ -293,8 +290,18 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Search widget, floating across the hero and airline partners seam so it
+          reads as a bridge, half over the dark hero and half over the light band */}
+      <div className="relative z-30 -mt-16 sm:-mt-24 lg:-mt-32">
+        <div className="container-site">
+          <div className="mx-auto max-w-4xl lg:mx-0 lg:max-w-3xl">
+            <SearchInquiryWidget whatsapp={settings.whatsapp} />
+          </div>
+        </div>
+      </div>
+
       {/* Trusted Partners */}
-      <section className="overflow-hidden border-y border-black/5 bg-white py-14">
+      <section className="overflow-hidden border-y border-black/5 bg-white pb-14 pt-20 sm:pt-24">
         <div className="container-site mb-10 text-center">
           <p className="eyebrow">Airline Partners</p>
           <h2 className="mt-2 font-display text-2xl text-brand-blue-deep sm:text-3xl">
