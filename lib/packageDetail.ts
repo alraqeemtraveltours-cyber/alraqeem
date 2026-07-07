@@ -1621,6 +1621,7 @@ export const bakuCostDrivers = [
 export const farEastItinerary = [
   {
     day: "Day 1",
+    country: "Malaysia",
     title: "Arrival in Kuala Lumpur",
     caption: "The Kuala Lumpur skyline with the Petronas Twin Towers at dusk",
     detail:
@@ -1628,13 +1629,15 @@ export const farEastItinerary = [
   },
   {
     day: "Day 2",
+    country: "Malaysia",
     title: "Kuala Lumpur city tour",
     caption: "The rainbow steps at Batu Caves near Kuala Lumpur",
     detail:
-      "A guided city tour with the Petronas Twin Towers and KLCC, the KL Tower, Merdeka Square, and the Batu Caves shrine on the city edge.",
+      "A guided city tour with the Petronas Twin Towers and KLCC, the KL Tower, Merdeka Square, the National Mosque, and the Batu Caves shrine on the city edge.",
   },
   {
     day: "Day 3",
+    country: "Malaysia",
     title: "Genting Highlands day trip",
     caption: "The Awana Skyway cable car to Genting Highlands",
     detail:
@@ -1642,13 +1645,15 @@ export const farEastItinerary = [
   },
   {
     day: "Day 4",
+    country: "Thailand",
     title: "Fly to Bangkok",
     caption: "The Bangkok skyline along the Chao Phraya River",
     detail:
-      "Fly from Kuala Lumpur to Bangkok, transfer to your hotel, and spend the evening at leisure along the city streets.",
+      "Fly from Kuala Lumpur to Bangkok on the included inter country flight, transfer to your hotel, and spend the evening at leisure along the city streets.",
   },
   {
     day: "Day 5",
+    country: "Thailand",
     title: "Bangkok temples and the Grand Palace",
     caption: "The Grand Palace and Wat Phra Kaew in Bangkok",
     detail:
@@ -1656,13 +1661,15 @@ export const farEastItinerary = [
   },
   {
     day: "Day 6",
-    title: "Bangkok markets and shopping",
-    caption: "A floating market near Bangkok",
+    country: "Thailand",
+    title: "Pattaya and Coral Island",
+    caption: "Longtail boats at Coral Island near Pattaya",
     detail:
-      "A morning at a Bangkok floating market and time for shopping, or an optional flight to Phuket for the beaches on the extended trip.",
+      "A day to Pattaya on the coast, with a speedboat to Coral Island for the beaches, or a Bangkok floating market and shopping instead.",
   },
   {
     day: "Day 7",
+    country: "Thailand",
     title: "Leisure or the Phuket beaches",
     caption: "Longtail boats at the Phi Phi Islands near Phuket",
     detail:
@@ -1670,6 +1677,7 @@ export const farEastItinerary = [
   },
   {
     day: "Day 8",
+    country: "Thailand",
     title: "Departure",
     caption: "Suvarnabhumi Airport in Bangkok for the flight home",
     detail:
@@ -1789,7 +1797,7 @@ export const farEastCostDrivers = [
 // Thailand, Singapore silo and its combos) render from this map through one
 // generic path in the detail template, so adding a country or a combo is a
 // data entry, not new JSX. Dubai, Turkey, and Baku keep their own blocks.
-export type TourStep = { day: string; title: string; caption: string; detail: string };
+export type TourStep = { day: string; country?: string; title: string; caption: string; detail: string };
 export type TourAttraction = { name: string; caption: string; detail: string };
 export type TourFact = { icon: string; label: string; value: string };
 export type TourCostDriver = { icon: string; factor: string; detail: string };

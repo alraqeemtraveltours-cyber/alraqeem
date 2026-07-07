@@ -204,6 +204,30 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                   ? "each country on its own, or a two country combo"
                   : "our other destinations";
 
+  // Combo silo linking, a combo page links down to its component solo pages and
+  // sideways to the other combo. Only resolving links.
+  const comboExplore: { label: string; href: string }[] =
+    pkg.slug === "malaysia-thailand-8-days"
+      ? [
+          { label: "Malaysia tour on its own", href: "/tours/malaysia" },
+          { label: "Thailand tour on its own", href: "/tours/thailand" },
+          {
+            label: "Add Singapore, the three country tour",
+            href: "/tours/malaysia-thailand-singapore",
+          },
+        ]
+      : pkg.slug === "malaysia-thailand-singapore"
+        ? [
+            { label: "Malaysia tour on its own", href: "/tours/malaysia" },
+            { label: "Thailand tour on its own", href: "/tours/thailand" },
+            { label: "Singapore tour on its own", href: "/tours/singapore" },
+            {
+              label: "The two country Malaysia and Thailand combo",
+              href: "/tours/malaysia-thailand",
+            },
+          ]
+        : [];
+
   // Overview: pull the first sentence as a lead line (presentation only).
   const sentences = detail.overview.split(/(?<=\.)\s+/);
   const overviewLead = sentences[0];
@@ -718,8 +742,13 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                           aspect="aspect-[16/10]"
                         />
                         <div>
-                          <p className="text-xs font-semibold uppercase tracking-wider text-brand-orange-dark">
+                          <p className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wider text-brand-orange-dark">
                             {step.day}
+                            {step.country && (
+                              <span className="rounded-full bg-brand-blue/10 px-2 py-0.5 text-[10px] text-brand-blue">
+                                {step.country}
+                              </span>
+                            )}
                           </p>
                           <h3 className="mt-0.5 font-display text-lg text-brand-blue-deep">
                             {step.title}
@@ -732,9 +761,9 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                     ))}
                   </div>
                   <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-slate-500">
-                    The flow above is the typical eight day plan across Kuala
-                    Lumpur and Bangkok. Our desk adjusts the order and adds a
-                    Phuket or Krabi beach stay on request.
+                    The flow above is the typical eight day plan, three days in
+                    Malaysia and the rest in Thailand. Our desk adjusts the order
+                    and adds a Phuket or Krabi beach stay on request.
                   </p>
                   <div className="mt-6">
                     <SocialProof />
@@ -818,8 +847,13 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                             aspect="aspect-[16/10]"
                           />
                           <div>
-                            <p className="text-xs font-semibold uppercase tracking-wider text-brand-orange-dark">
+                            <p className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wider text-brand-orange-dark">
                               {step.day}
+                              {step.country && (
+                                <span className="rounded-full bg-brand-blue/10 px-2 py-0.5 text-[10px] text-brand-blue">
+                                  {step.country}
+                                </span>
+                              )}
                             </p>
                             <h3 className="mt-0.5 font-display text-lg text-brand-blue-deep">
                               {step.title}
@@ -2677,6 +2711,43 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                           </p>
                         </div>
                       </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Explore each country, the combo silo linking */}
+              {comboExplore.length > 0 && (
+                <section>
+                  <Head
+                    eyebrow="Explore each country"
+                    title="Prefer one country, or the whole route?"
+                  />
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                    {comboExplore.map((l) => (
+                      <Link
+                        key={l.href}
+                        href={l.href}
+                        className="group flex items-center justify-between gap-3 rounded-2xl border border-black/5 bg-white p-5 shadow-card transition hover:-translate-y-0.5 hover:shadow-lift"
+                      >
+                        <span className="font-display text-base text-brand-blue-deep">
+                          {l.label}
+                        </span>
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="shrink-0 text-brand-orange-dark transition group-hover:translate-x-1"
+                          aria-hidden="true"
+                        >
+                          <path d="M5 12h14M13 6l6 6-6 6" />
+                        </svg>
+                      </Link>
                     ))}
                   </div>
                 </section>
