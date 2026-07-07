@@ -10,6 +10,8 @@ import SeoBlurb from "@/components/SeoBlurb";
 import MobileActionBar from "@/components/packages/MobileActionBar";
 import LastUpdated from "@/components/LastUpdated";
 import SearchInquiryWidget from "@/components/SearchInquiryWidget";
+import CaptionedImage from "@/components/packages/CaptionedImage";
+import { packageHref } from "@/lib/packages";
 import { getPackages } from "@/lib/packagesStore";
 import { getSettings } from "@/lib/settingsStore";
 import { reviewData } from "@/lib/reviews";
@@ -93,6 +95,7 @@ export default async function ToursPage() {
 
   // Inquiry based section: strip any price before it reaches the client.
   const clientPackages = packages.map((p) => ({ ...p, price: null }));
+  const pakistanTours = clientPackages.filter((p) => p.category === "Pakistan");
 
   return (
     <>
@@ -165,7 +168,7 @@ export default async function ToursPage() {
         <div className="container-site">
           <PackagesExplorer
             packages={clientPackages.filter(
-              (p) => p.category !== "Umrah & Hajj"
+              (p) => p.category === "International"
             )}
             whatsapp={settings.whatsapp}
             scope="international"
@@ -198,6 +201,56 @@ export default async function ToursPage() {
           </p>
         </div>
       </section>
+
+      {/* Pakistan tours directory, the KPK and northern areas wedge */}
+      {pakistanTours.length > 0 && (
+        <section className="bg-paper py-16 sm:py-20">
+          <div className="container-site">
+            <p className="eyebrow">Pakistan northern areas</p>
+            <h2 className="mt-2 font-display text-2xl text-brand-blue-deep sm:text-3xl">
+              Pakistan tour packages, near our Charsadda base
+            </h2>
+            <p className="mt-3 max-w-3xl text-base leading-relaxed text-slate-600">
+              From our office in Charsadda, the northern areas of Khyber
+              Pakhtunkhwa and Gilgit Baltistan are close to home, so our desk
+              runs Swat, Kalam, and the mountain valleys with local knowledge and
+              drivers who know the roads. Transport and hotels are handled,
+              quoted on inquiry for your dates.
+            </p>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {pakistanTours.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={packageHref(p)}
+                  className="group flex flex-col overflow-hidden rounded-3xl border border-black/5 bg-white p-4 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lift"
+                >
+                  <CaptionedImage
+                    caption={`${p.title} in the northern areas of Pakistan`}
+                    icon="pin"
+                    aspect="aspect-[16/9]"
+                  />
+                  <div className="flex flex-1 flex-col pt-3">
+                    <h3 className="font-display text-lg text-brand-blue-deep">
+                      {p.title}
+                    </h3>
+                    <p className="mt-1 flex-1 text-sm leading-relaxed text-slate-600">
+                      {p.description}
+                    </p>
+                    <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-orange-dark group-hover:text-brand-orange">
+                      {p.title} package
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <p className="mt-6 max-w-3xl text-sm leading-relaxed text-slate-500">
+              More northern areas are on the way, Kumrat, Kalash, Chitral, Hunza,
+              Skardu, and Naran. Message our desk for a trip to any of them.
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Travel your way, theme facets */}
       <section className="bg-white py-14 sm:py-20">
