@@ -30,7 +30,7 @@ export function packageTitle(pkg: TravelPackage) {
     return "Turkey Tour Packages from Pakistan | Al Raqeem";
   }
   if (pkg.slug === "baku-5-days") {
-    return "Baku Tour Packages from Pakistan | Al Raqeem";
+    return "Baku Tour Package from Pakistan | Al Raqeem";
   }
   if (pkg.slug === "malaysia-thailand-8-days") {
     return "Malaysia and Thailand Tour from Pakistan | Al Raqeem";

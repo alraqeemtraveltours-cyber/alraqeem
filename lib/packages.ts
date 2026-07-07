@@ -166,6 +166,7 @@ export function packageDisplayName(
   if (pkg.slug === "ramadan-umrah-special") return "Ramadan Umrah Package";
   if (pkg.slug === "dubai-5-days") return "Dubai Tour Package";
   if (pkg.slug === "turkey-7-days") return "Turkey Tour Package";
+  if (pkg.slug === "baku-5-days") return "Baku Tour Packages";
   return pkg.title;
 }
 
