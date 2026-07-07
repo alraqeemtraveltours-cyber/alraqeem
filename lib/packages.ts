@@ -241,7 +241,7 @@ export function packageDisplayName(
   if (pkg.slug === "malaysia-thailand-8-days")
     return "Malaysia and Thailand Tour Package";
   if (pkg.slug === "malaysia-thailand-singapore")
-    return "Malaysia Thailand Singapore Tour Packages";
+    return "Malaysia, Thailand and Singapore Tour Package";
   return pkg.title;
 }
 

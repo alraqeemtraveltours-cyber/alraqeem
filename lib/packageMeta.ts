@@ -45,7 +45,7 @@ export function packageTitle(pkg: TravelPackage) {
     return "Singapore Tour Package from Pakistan | Al Raqeem";
   }
   if (pkg.slug === "malaysia-thailand-singapore") {
-    return "Malaysia Thailand Singapore Tour from Pakistan | Al Raqeem";
+    return "Malaysia Thailand Singapore Tour Package | Al Raqeem";
   }
   const clean = cleanName(packageDisplayName(pkg));
   let words = clean.split(/\s+/);

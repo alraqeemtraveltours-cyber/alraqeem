@@ -693,7 +693,7 @@ export const detailContent: Record<string, DetailContent> = {
 
   "malaysia-thailand-singapore": {
     overview:
-      "Malaysia Thailand Singapore Tour Package from Pakistan is the full Southeast Asia trio in one booking, nine days and eight nights across three countries. Our team arranges return airfare, the two inter country flights, all three visas, hotels with breakfast, and guided tours, from the temples of Bangkok and the beaches of Pattaya to Kuala Lumpur and Genting, and on to Singapore with Sentosa and the Night Safari. Temples, cities, hills, and islands in one journey, a grand tour for families and couples traveling from Pakistan.",
+      "Malaysia Thailand Singapore Tour Package from Pakistan is the full Southeast Asia trio in one booking, nine days and eight nights across three countries. Our team arranges return airfare, the two inter country flights, all three visas, hotels with breakfast, and guided tours, from the temples of Bangkok and the beaches of Pattaya to Kuala Lumpur and Genting, and on to Singapore with Sentosa and the Night Safari. Halal food is easy across all three, and Malaysia is a Muslim majority country, so a Muslim family travels comfortably. Temples, cities, hills, and islands in one journey, a grand tour for families and couples traveling from Pakistan.",
     whoFor: [
       "Families wanting three countries in one grand trip",
       "Couples seeking cities, temples, and islands together",
@@ -2248,6 +2248,7 @@ export const tourContent: Record<string, TourContent> = {
     itinerary: [
       {
         day: "Day 1",
+        country: "Thailand",
         title: "Arrival in Bangkok",
         caption: "The Bangkok skyline along the Chao Phraya River at dusk",
         detail:
@@ -2255,6 +2256,7 @@ export const tourContent: Record<string, TourContent> = {
       },
       {
         day: "Day 2",
+        country: "Thailand",
         title: "Bangkok temples and the Grand Palace",
         caption: "The Grand Palace and Wat Phra Kaew in Bangkok",
         detail:
@@ -2262,6 +2264,7 @@ export const tourContent: Record<string, TourContent> = {
       },
       {
         day: "Day 3",
+        country: "Thailand",
         title: "Pattaya and Coral Island",
         caption: "Longtail boats at Coral Island near Pattaya",
         detail:
@@ -2269,13 +2272,15 @@ export const tourContent: Record<string, TourContent> = {
       },
       {
         day: "Day 4",
+        country: "Malaysia",
         title: "Fly to Kuala Lumpur, city tour",
         caption: "The Petronas Twin Towers over the Kuala Lumpur skyline",
         detail:
-          "Fly to Kuala Lumpur and tour the Petronas Twin Towers and KLCC, Merdeka Square, the National Mosque, and the Batu Caves shrine.",
+          "Fly to Kuala Lumpur on the first inter country flight and tour the Petronas Twin Towers and KLCC, Merdeka Square, the National Mosque, and the Batu Caves shrine.",
       },
       {
         day: "Day 5",
+        country: "Malaysia",
         title: "Genting Highlands day",
         caption: "The Awana Skyway cable car to Genting Highlands",
         detail:
@@ -2283,13 +2288,15 @@ export const tourContent: Record<string, TourContent> = {
       },
       {
         day: "Day 6",
+        country: "Singapore",
         title: "Fly to Singapore, the Night Safari",
         caption: "A tram on the Night Safari in Singapore",
         detail:
-          "Fly to Singapore, transfer to your hotel, and head out for the Night Safari, the world's first nocturnal wildlife park, after dark.",
+          "Fly to Singapore on the second inter country flight, transfer to your hotel, and head out for the Night Safari, the world's first nocturnal wildlife park, after dark.",
       },
       {
         day: "Day 7",
+        country: "Singapore",
         title: "Singapore city tour",
         caption: "The Merlion and Marina Bay Sands in Singapore",
         detail:
@@ -2297,6 +2304,7 @@ export const tourContent: Record<string, TourContent> = {
       },
       {
         day: "Day 8",
+        country: "Singapore",
         title: "Sentosa Island",
         caption: "Universal Studios Singapore on Sentosa Island",
         detail:
@@ -2304,6 +2312,7 @@ export const tourContent: Record<string, TourContent> = {
       },
       {
         day: "Day 9",
+        country: "Singapore",
         title: "Departure",
         caption: "Changi Airport in Singapore for the flight home",
         detail:
