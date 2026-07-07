@@ -294,7 +294,7 @@ export default async function HomePage() {
           reads as a bridge, half over the dark hero and half over the light band */}
       <div className="relative z-30 -mt-16 sm:-mt-24 lg:-mt-32">
         <div className="container-site">
-          <div className="mx-auto max-w-4xl lg:mx-0 lg:max-w-3xl">
+          <div className="mx-auto max-w-5xl lg:mx-0">
             <SearchInquiryWidget whatsapp={settings.whatsapp} />
           </div>
         </div>

@@ -127,107 +127,106 @@ export default function SearchInquiryWidget({
 
   return (
     <div className={`w-full ${className}`}>
-      <div className="overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-black/10">
-        {/* Deep green header with the brass active tabs */}
-        <div className="bg-brand-blue-deep px-4 py-4 sm:px-5">
-          <p className="text-sm font-semibold text-brand-orange">
-            Get a quote for your dates
-          </p>
-          {mode === "full" ? (
-            <div
-              role="tablist"
-              aria-label="Choose what to plan"
-              className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            >
-              {VERTICALS.map((v, i) => {
-                const selected = v.id === active.id;
-                return (
-                  <button
-                    key={v.id}
-                    ref={(el) => {
-                      tabRefs.current[i] = el;
-                    }}
-                    role="tab"
-                    id={`${baseId}-tab-${v.id}`}
-                    aria-selected={selected}
-                    aria-controls={`${baseId}-panel`}
-                    tabIndex={selected ? 0 : -1}
-                    onClick={() => {
-                      setActiveId(v.id);
-                      setErrors({});
-                    }}
-                    onKeyDown={(e) => onTabKey(e, i)}
-                    className={`inline-flex min-h-[44px] shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold transition ${
-                      selected
-                        ? "bg-brand-orange text-white"
-                        : "text-white/70 hover:bg-white/10 hover:text-white"
-                    }`}
-                  >
-                    <Icon name={v.icon} size={17} />
-                    {v.label}
-                  </button>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="mt-1 flex items-center gap-2 font-display text-xl text-white">
-              <Icon name={active.icon} size={20} className="text-brand-orange" />
-              {active.label} inquiry
-            </p>
-          )}
+      {/* Gold tab bar seated on top of the panel, full mode only */}
+      {mode === "full" ? (
+        <div className="flex overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div
+            role="tablist"
+            aria-label="Choose what to plan"
+            className="inline-flex shrink-0 rounded-t-xl bg-brand-orange px-1.5"
+          >
+            {VERTICALS.map((v, i) => {
+              const selected = v.id === active.id;
+              return (
+                <button
+                  key={v.id}
+                  ref={(el) => {
+                    tabRefs.current[i] = el;
+                  }}
+                  role="tab"
+                  id={`${baseId}-tab-${v.id}`}
+                  aria-selected={selected}
+                  aria-controls={`${baseId}-panel`}
+                  tabIndex={selected ? 0 : -1}
+                  onClick={() => {
+                    setActiveId(v.id);
+                    setErrors({});
+                  }}
+                  onKeyDown={(e) => onTabKey(e, i)}
+                  className={`inline-flex min-h-[44px] shrink-0 items-center gap-2 border-b-[3px] px-3 text-sm font-semibold transition sm:px-4 ${
+                    selected
+                      ? "border-brand-blue-deep text-brand-blue-deep"
+                      : "border-transparent text-brand-blue-deep/60 hover:text-brand-blue-deep"
+                  }`}
+                >
+                  <Icon name={v.icon} size={16} />
+                  {v.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
+      ) : null}
 
-        {/* Fields */}
-        <div
-          ref={panelRef}
-          role="tabpanel"
-          id={`${baseId}-panel`}
-          aria-labelledby={mode === "full" ? `${baseId}-tab-${active.id}` : undefined}
-          className="p-4 sm:p-5"
-        >
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {inputFields.map((f) => (
+      {/* Dark panel with the heading, fields, and gold Search button */}
+      <div
+        ref={panelRef}
+        role="tabpanel"
+        id={`${baseId}-panel`}
+        aria-labelledby={mode === "full" ? `${baseId}-tab-${active.id}` : undefined}
+        className={`bg-brand-blue-deep p-5 shadow-xl ring-1 ring-black/10 sm:p-6 ${
+          mode === "full" ? "rounded-b-2xl rounded-tr-2xl" : "rounded-2xl"
+        }`}
+      >
+        <h2 className="flex items-center gap-2 font-display text-lg text-white sm:text-xl">
+          {mode === "single" ? (
+            <Icon name={active.icon} size={20} className="text-brand-orange" />
+          ) : null}
+          Get a customized {active.label} quote
+        </h2>
+
+        <div className="mt-4 flex flex-col gap-3 lg:flex-row lg:flex-wrap lg:items-end">
+          {inputFields.map((f) => (
+            <div key={f.key} className="lg:min-w-[160px] lg:flex-1">
               <FieldControl
-                key={f.key}
                 field={f}
                 id={`${baseId}-${f.key}`}
                 value={cur[f.key] ?? ""}
                 error={errors[f.key]}
                 onChange={(v) => setField(f.key, v)}
               />
-            ))}
-          </div>
-
-          {toggleFields.length > 0 ? (
-            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
-              {toggleFields.map((f) => (
-                <label
-                  key={f.key}
-                  htmlFor={`${baseId}-${f.key}`}
-                  className="inline-flex min-h-[44px] cursor-pointer items-center gap-2 !text-sm !font-medium !text-slate-700"
-                >
-                  <input
-                    id={`${baseId}-${f.key}`}
-                    type="checkbox"
-                    checked={cur[f.key] === "Yes"}
-                    onChange={(e) => setField(f.key, e.target.checked ? "Yes" : "")}
-                    className="!h-5 !w-5 !p-0 shrink-0 accent-brand-orange"
-                  />
-                  {f.label}
-                </label>
-              ))}
             </div>
-          ) : null}
-
+          ))}
           <button
             ref={searchBtnRef}
             type="button"
             onClick={onSearch}
-            className="btn-orange mt-5 w-full sm:w-auto"
+            className="btn-orange w-full shrink-0 !rounded-xl lg:w-auto lg:!px-8 lg:!py-[15px]"
           >
-            Search and get a quote
+            Search
           </button>
         </div>
+
+        {toggleFields.length > 0 ? (
+          <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
+            {toggleFields.map((f) => (
+              <label
+                key={f.key}
+                htmlFor={`${baseId}-${f.key}`}
+                className="inline-flex min-h-[44px] cursor-pointer items-center gap-2 !mb-0 !text-sm !font-medium !text-white"
+              >
+                <input
+                  id={`${baseId}-${f.key}`}
+                  type="checkbox"
+                  checked={cur[f.key] === "Yes"}
+                  onChange={(e) => setField(f.key, e.target.checked ? "Yes" : "")}
+                  className="!h-5 !w-5 !p-0 shrink-0 accent-brand-orange"
+                />
+                {f.label}
+              </label>
+            ))}
+          </div>
+        ) : null}
       </div>
 
       {modalOpen ? (
@@ -259,41 +258,69 @@ function FieldControl({
   onChange: (v: string) => void;
 }) {
   const errId = `${id}-err`;
+  const control = "!mt-0 !w-full !rounded-none !border-0 !bg-transparent !px-0 !py-0.5 !text-sm !font-semibold !text-brand-blue-deep !shadow-none focus:!ring-0";
   return (
     <div>
-      <label htmlFor={id}>
-        {field.label}
-        {field.required ? <span className="text-brand-orange"> *</span> : null}
-      </label>
-      {field.type === "select" ? (
-        <select
-          id={id}
-          value={value}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={error ? errId : undefined}
-          onChange={(e) => onChange(e.target.value)}
+      <div
+        className={`rounded-xl bg-white px-3.5 py-2 ${
+          error ? "ring-2 ring-red-400" : "ring-1 ring-black/10"
+        }`}
+      >
+        <label
+          htmlFor={id}
+          className="!mb-0 block truncate text-[11px] font-semibold uppercase tracking-wide text-slate-500"
         >
-          <option value="">{field.placeholder ?? "Select"}</option>
-          {field.options?.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-      ) : (
-        <input
-          id={id}
-          type={field.type === "date" ? "date" : "text"}
-          value={value}
-          placeholder={field.placeholder}
-          aria-required={field.required}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={error ? errId : undefined}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      )}
+          {field.label}
+          {field.required ? " *" : ""}
+        </label>
+        <div className="relative">
+          {field.type === "select" ? (
+            <select
+              id={id}
+              value={value}
+              aria-invalid={error ? true : undefined}
+              aria-describedby={error ? errId : undefined}
+              onChange={(e) => onChange(e.target.value)}
+              className={`${control} !appearance-none !pr-6`}
+            >
+              <option value="">{field.placeholder ?? "Select"}</option>
+              {field.options?.map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              id={id}
+              type={field.type === "date" ? "date" : "text"}
+              value={value}
+              placeholder={field.placeholder}
+              aria-required={field.required}
+              aria-invalid={error ? true : undefined}
+              aria-describedby={error ? errId : undefined}
+              onChange={(e) => onChange(e.target.value)}
+              className={`${control} placeholder:!font-normal placeholder:!text-slate-400`}
+            />
+          )}
+          {field.type === "select" ? (
+            <svg
+              className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          ) : null}
+        </div>
+      </div>
       {error ? (
-        <p id={errId} role="alert" className="mt-1 text-xs font-semibold text-red-600">
+        <p id={errId} role="alert" className="mt-1 text-xs font-semibold text-red-200">
           {error}
         </p>
       ) : null}
