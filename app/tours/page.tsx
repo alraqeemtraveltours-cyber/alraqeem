@@ -164,6 +164,12 @@ export default async function ToursPage() {
       {/* Airline partners */}
       <AirlineStrip />
 
+      {/* Destination directory, the two column down-linking block, high on the page */}
+      <DestinationDirectory
+        eyebrow="Browse destinations"
+        heading="Every destination we serve"
+      />
+
       {/* Explorer: international tours only */}
       <section className="py-16 sm:py-24">
         <div className="container-site">
@@ -341,12 +347,6 @@ export default async function ToursPage() {
           </div>
         </div>
       </section>
-
-      {/* Destination directory, the two column down-linking block */}
-      <DestinationDirectory
-        eyebrow="Browse destinations"
-        heading="Every destination we serve"
-      />
 
       {/* Social proof: staging placeholders until real reviews are connected */}
       <Reviews data={reviewData} />
