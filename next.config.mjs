@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Hide the development only Next.js indicator, the small circular button that
+  // sat bottom left over the footer copyright in dev. It is development only and
+  // never rendered on the production site, so this just keeps the preview clean.
+  devIndicators: false,
   async redirects() {
     // SILO migration. Every old flat /packages URL 301s to exactly one new
     // silo URL, one hop, no chains. The old Dubai pillar URL also folds in.
