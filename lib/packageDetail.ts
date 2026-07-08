@@ -782,19 +782,31 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "What is the best time to visit Swat?",
-        a: "April to October is the green season, with July and August the busiest and the rivers at their fullest. Winter brings snow and skiing at Malam Jabba. Spring and autumn are quieter and mild. Share your travel window and our team plans the trip around it.",
+        a: "April to October is the green season, with July and August the busiest and the rivers at their fullest. Winter brings snow and skiing at Malam Jabba, though Mahodand Lake and the upper valleys freeze and close while Kalam and the Ushu road stay reachable. Spring and autumn are quieter and mild. Share your travel window and our team plans the trip around it.",
+      },
+      {
+        q: "How far is Swat from Islamabad, and from your Charsadda base?",
+        a: "Islamabad to Mingora runs about 250 to 310 km, roughly three hours on the M-16 Swat Expressway. From our Charsadda base the valley is nearer, about two to two and a half hours by Mardan and the Malakand Pass, so our desk picks up from Charsadda, Mardan, and Peshawar closer to the road than a Lahore or Karachi operator reaches. Lahore travelers count seven to eight hours, arranged on request.",
       },
       {
         q: "How do we reach Swat, and is transport included?",
-        a: "Yes, transport is included. Our team arranges a car or a coaster from Peshawar or Islamabad, up the Swat motorway and along the river into the valley, with the jeeps for the Mahodand track arranged on the day. Travelers near our Charsadda base start closest of all.",
+        a: "Yes, transport is included. Our team arranges a car or a coaster from Peshawar or Islamabad, following the M-1 to Chakdara, the M-16 Swat Expressway, and the N-95 along the river into the valley, with the jeeps for the Mahodand track arranged on the day. Travelers near our Charsadda base start closest of all, by Mardan and the Malakand Pass.",
       },
       {
         q: "Is the Swat tour good for families?",
         a: "Swat suits families, with the Malam Jabba chairlift and zipline, the gentle bazaars of Bahrain and Madyan, and cool weather through the summer. Our team sets a steady pace, family rooms, and a driver who knows the valley, and adjusts the days for young children and elders.",
       },
       {
-        q: "What is the road to Mahodand Lake like?",
-        a: "The road to Kalam is metalled, and the last stretch to Mahodand Lake is a jeep track through the Ushu valley, rough but scenic and driven daily in season. Our team arranges the local jeeps and a driver who knows it, so the alpine lake is an easy day from Kalam.",
+        q: "What activities are there in Swat?",
+        a: "Swat carries a full activity list across the seasons. Malam Jabba runs a chairlift, a zip line, and skiing on the winter slopes, Mahodand Lake and the rivers bring boating, trout fishing, and rafting, and the Ushu Forest and the meadows suit hiking and horseback riding. Our team lines up the activities your group wants and the gear for them, set to the season of your dates.",
+      },
+      {
+        q: "Is Swat good for a winter snow and skiing trip?",
+        a: "Yes. Swat is a year round valley, and winter draws families for the snow. Malam Jabba, at about 2,804 metres, runs its ski season from mid January to the end of February, with the chairlift and zip line open through the rest of the year. Mahodand Lake and the upper valleys freeze and close in winter, while Kalam and the Ushu road stay reachable. Our team plans the winter route around the snow and the open roads for your dates.",
+      },
+      {
+        q: "What car do I need, and what is the road to Mahodand Lake like?",
+        a: "A sedan reaches Mingora and Kalam on the metalled road, and the last 35 to 40 km from Kalam to Mahodand Lake is an off road jeep track through the Ushu valley, so a 4WD is needed for that stretch. Our team arranges the local jeeps and a driver who knows it, rough but scenic and driven daily in season, so the alpine lake is an easy day from Kalam.",
       },
       {
         q: "Do you customize the Swat itinerary?",
@@ -2852,7 +2864,7 @@ export const tourContent: Record<string, TourContent> = {
     wedge: {
       eyebrow: "Local KPK expertise",
       title: "Run from our Charsadda base, next door to the valley",
-      body: "Swat is a short drive from our office in Charsadda, so our desk runs it with the proximity and local knowledge a Lahore or Karachi operator cannot match. Our drivers know the Swat motorway, the mountain road to Malam Jabba, and the jeep track to Mahodand Lake, and our team knows which hotels in Mingora and Kalam hold up and when the high roads open and close. Years of arranging northern trips for families from across Khyber Pakhtunkhwa sit behind every Swat departure, real experience close to home rather than a booking passed to a distant handler.",
+      body: "Swat is about two to two and a half hours from our office in Charsadda by Mardan and the Malakand Pass, nearer than the roughly three hours from Islamabad, so our desk runs it with a proximity and local knowledge no Lahore or Karachi operator matches, and picks up from Charsadda, Mardan, and Peshawar. Our drivers know the Swat Expressway, the mountain road to Malam Jabba, and the jeep track to Mahodand Lake, and our team knows which hotels in Mingora and Kalam hold up and when the high roads open and close. Years of arranging northern trips for families from across Khyber Pakhtunkhwa sit behind every Swat departure, real experience close to home rather than a booking passed to a distant handler.",
     },
     itineraryNote:
       "The flow above is the typical five day plan across the Swat valley. Our desk adjusts the order and adds Gabin Jabba or a Kumrat extension on request.",
@@ -2900,7 +2912,7 @@ export const tourContent: Record<string, TourContent> = {
         name: "Malam Jabba",
         caption: "The chairlift and slopes at Malam Jabba in Swat",
         detail:
-          "The hill resort of Swat, with a chairlift and a zipline over pine forest and a ski slope in winter. A favourite family day out, reached by a mountain road from Mingora.",
+          "The hill resort of Swat at about 2,804 metres, with a chairlift and a zip line over pine forest and a ski slope in winter. Skiing runs from mid January to the end of February, while the chairlift, zip line, and a kids area stay open the rest of the year. A favourite family day out, reached by a mountain road from Mingora.",
       },
       {
         name: "Kalam",
@@ -2932,6 +2944,12 @@ export const tourContent: Record<string, TourContent> = {
         detail:
           "Two riverside towns on the road up the valley, known for their carved wood craft, shawls, and honey, with the Swat River rushing past the bazaars. An easy stop on the way in or out.",
       },
+      {
+        name: "The Swat Museum and Buddhist heritage",
+        caption: "A Gandhara Buddhist stupa in the Swat valley",
+        detail:
+          "Swat was the heart of the ancient Gandhara land of Uddiyana, and the Swat Museum at Mingora holds its Buddhist sculpture, with stupa and monastery ruins like Butkara nearby. A cultural half day that sets the green valley, long called the Switzerland of the East, in its deep history.",
+      },
     ],
     gallery: [
       "The Swat River running through the valley",
@@ -2944,9 +2962,17 @@ export const tourContent: Record<string, TourContent> = {
     practical: [
       { icon: "clock", label: "Best season", value: "May to September, winter for snow" },
       { icon: "pin", label: "Altitude", value: "Mingora low, Mahodand around 2900 m" },
-      { icon: "bus", label: "Road access", value: "Motorway to Mingora, then mountain roads" },
-      { icon: "route", label: "Jeep sections", value: "Mahodand and the off road tracks" },
-      { icon: "phone", label: "Connectivity", value: "Signal in towns, patchy up the valley" },
+      {
+        icon: "bus",
+        label: "Road access",
+        value: "Islamabad about 3 hours on the M-16 Swat Expressway, then the N-95",
+      },
+      {
+        icon: "route",
+        label: "Jeep sections",
+        value: "Sedan to Mingora and Kalam, 4WD for the 35 to 40 km Mahodand track",
+      },
+      { icon: "phone", label: "Connectivity", value: "Telenor and Zong reach Kalam, patchy above" },
       { icon: "shield", label: "What to pack", value: "Layers, a warm jacket, and good shoes" },
       { icon: "tag", label: "ATMs", value: "In Mingora, carry cash for the valley" },
     ],
