@@ -31,6 +31,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/tours/kumrat-valley",
     "/tours/kalash-valley",
     "/tours/chitral",
+    "/tours/hunza",
+    "/tours/skardu",
+    "/tours/naran-kaghan",
     "/visa-services",
     "/tickets",
     // Lightweight browse-all index.

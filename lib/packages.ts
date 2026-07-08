@@ -285,6 +285,57 @@ export const seedPackages: TravelPackage[] = [
     description:
       "A Hindu Kush journey below Tirich Mir. The Chitral Fort, the Shahi Masjid, Garam Chashma, and the Kalash valleys, run from our Charsadda base. Quoted on inquiry for your dates.",
   },
+  {
+    slug: "hunza",
+    title: "Hunza Tour",
+    category: "Pakistan",
+    duration: "7 Days, 6 Nights",
+    price: null,
+    highlights: [
+      "Transport up the Karakoram Highway",
+      "Hotels with breakfast",
+      "Karimabad, Baltit and Altit Forts",
+      "Attabad Lake and the Passu Cones",
+      "The Khunjerab Pass",
+      "Gilgit flight option and support",
+    ],
+    description:
+      "The great Karakoram journey. Karimabad, the forts, Attabad Lake, the Passu Cones, and the Khunjerab Pass, up the Karakoram Highway. Quoted on inquiry for your dates.",
+  },
+  {
+    slug: "skardu",
+    title: "Skardu Tour",
+    category: "Pakistan",
+    duration: "7 Days, 6 Nights",
+    price: null,
+    highlights: [
+      "Islamabad flight or Karakoram Highway",
+      "Hotels with breakfast",
+      "Shangrila and the Kachura lakes",
+      "Deosai plateau and Sheosar Lake",
+      "Shigar Fort and the Katpana desert",
+      "Guided sightseeing and support",
+    ],
+    description:
+      "The heart of Baltistan. Shangrila, the Kachura lakes, the Deosai plateau, Shigar Fort, and the Katpana cold desert, by flight or the Karakoram Highway. Quoted on inquiry for your dates.",
+  },
+  {
+    slug: "naran-kaghan",
+    title: "Naran and Kaghan Tour",
+    category: "Pakistan",
+    duration: "4 Days, 3 Nights",
+    price: null,
+    highlights: [
+      "Transport from Peshawar or Islamabad",
+      "Hotels with breakfast",
+      "Lake Saif ul Malook by jeep",
+      "Babusar Top and Lulusar Lake",
+      "Shogran and Siri Paye meadow",
+      "Guided sightseeing and support",
+    ],
+    description:
+      "The classic summer valley trip. Lake Saif ul Malook, Babusar Top, Lulusar, and Siri Paye above Shogran, run from our Charsadda base. Quoted on inquiry for your dates.",
+  },
 ];
 
 export function formatPrice(price: number | null) {
@@ -314,6 +365,9 @@ export function packageDisplayName(
   if (pkg.slug === "kumrat-valley") return "Kumrat Valley Tour Packages";
   if (pkg.slug === "kalash-valley") return "Kalash Valley Tour Packages";
   if (pkg.slug === "chitral") return "Chitral Tour Packages";
+  if (pkg.slug === "hunza") return "Hunza Tour Packages";
+  if (pkg.slug === "skardu") return "Skardu Tour Packages";
+  if (pkg.slug === "naran-kaghan") return "Naran and Kaghan Tour Packages";
   return pkg.title;
 }
 
@@ -337,6 +391,9 @@ const SILO_ROUTES: Record<string, string> = {
   "kumrat-valley": "/tours/kumrat-valley",
   "kalash-valley": "/tours/kalash-valley",
   chitral: "/tours/chitral",
+  hunza: "/tours/hunza",
+  skardu: "/tours/skardu",
+  "naran-kaghan": "/tours/naran-kaghan",
 };
 
 // Canonical URL path for a package by slug.

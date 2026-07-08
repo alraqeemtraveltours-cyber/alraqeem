@@ -59,6 +59,15 @@ export function packageTitle(pkg: TravelPackage) {
   if (pkg.slug === "chitral") {
     return "Chitral Tour Packages | Al Raqeem";
   }
+  if (pkg.slug === "hunza") {
+    return "Hunza Tour Packages from Pakistan | Al Raqeem";
+  }
+  if (pkg.slug === "skardu") {
+    return "Skardu Tour Packages from Pakistan | Al Raqeem";
+  }
+  if (pkg.slug === "naran-kaghan") {
+    return "Naran Kaghan Tour Packages | Al Raqeem";
+  }
   const clean = cleanName(packageDisplayName(pkg));
   let words = clean.split(/\s+/);
   let name = clean;
@@ -121,6 +130,15 @@ export function packageMetaDescription(pkg: TravelPackage) {
   }
   if (pkg.slug === "chitral") {
     return "Chitral tour package, 5 days. The Chitral Fort, Garam Chashma, Tirich Mir, and the Kalash valleys, run from our Charsadda base. Inquiry priced.";
+  }
+  if (pkg.slug === "hunza") {
+    return "Hunza tour package from Pakistan, 7 days. Karimabad, Attabad Lake, the Passu Cones, and the Khunjerab Pass, up the Karakoram Highway. Inquiry priced.";
+  }
+  if (pkg.slug === "skardu") {
+    return "Skardu tour package from Pakistan, 7 days. Shangrila, the Deosai plateau, Shigar Fort, and the Katpana desert, by flight or road. Inquiry priced.";
+  }
+  if (pkg.slug === "naran-kaghan") {
+    return "Naran Kaghan tour package, 4 days. Lake Saif ul Malook, Babusar Top, Lulusar, and Siri Paye, run from our Charsadda base. Inquiry priced.";
   }
   const clean = cleanName(packageDisplayName(pkg));
   const base = `${clean} from Pakistan. Quoted on inquiry for your dates, with visa, flights and hotels handled. Message on WhatsApp for a quote.`;
@@ -281,6 +299,39 @@ export function packageMetadata(pkg: TravelPackage): Metadata {
       "Garam Chashma tour",
       "Kalash valleys from Chitral",
       "Shandur polo festival tour",
+      "KPK tour package",
+    ];
+  }
+  if (pkg.slug === "hunza") {
+    meta.keywords = [
+      "Hunza tour package from Pakistan",
+      "Hunza valley tour",
+      "Attabad Lake tour",
+      "Khunjerab Pass tour",
+      "Karimabad and Passu tour",
+      "Karakoram Highway tour",
+      "northern areas tour from Pakistan",
+    ];
+  }
+  if (pkg.slug === "skardu") {
+    meta.keywords = [
+      "Skardu tour package from Pakistan",
+      "Skardu Deosai tour",
+      "Sheosar Lake tour",
+      "Shangrila Kachura tour",
+      "Skardu by flight",
+      "Baltistan tour package",
+      "northern areas tour from Pakistan",
+    ];
+  }
+  if (pkg.slug === "naran-kaghan") {
+    meta.keywords = [
+      "Naran Kaghan tour package",
+      "Saif ul Malook tour",
+      "Babusar Top tour",
+      "Shogran Siri Paye tour",
+      "Naran tour from Islamabad",
+      "Kaghan valley tour",
       "KPK tour package",
     ];
   }

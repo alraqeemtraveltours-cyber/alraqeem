@@ -932,6 +932,140 @@ export const detailContent: Record<string, DetailContent> = {
       },
     ],
   },
+
+  hunza: {
+    overview:
+      "Hunza Tour from Pakistan is the great Karakoram journey, seven days and six nights up the Karakoram Highway to the valley of Karimabad. From our Charsadda base our team arranges transport or a Gilgit flight leg, hotels, and guided days at the Baltit and Altit Forts, the turquoise Attabad Lake, the Passu Cones, and the Khunjerab Pass on the China border. Terraced villages, glacier peaks like Rakaposhi, and a long, spectacular highway make Hunza the trip of a lifetime for travelers from across Pakistan.",
+    whoFor: [
+      "Travelers wanting the classic Karakoram journey",
+      "Groups and families with time for the long drive",
+      "Photographers and mountain lovers",
+      "Couples seeking peaks, forts, and turquoise lakes",
+    ],
+    faqs: [
+      pricingFaq("Hunza Tour"),
+      {
+        q: "How many days do I need for a Hunza tour?",
+        a: "Seven days and six nights suit the drive up the Karakoram Highway, Karimabad and the forts, Attabad Lake and Passu, and a Khunjerab day. A Gilgit flight leg trims two days off the road. Tell our desk your dates and we shape the length around them.",
+      },
+      {
+        q: "What is the best time to visit Hunza?",
+        a: "May to October is the open season, with the cherry blossom in early April and the golden poplars in October. Summer is warm and busy, and the Khunjerab Pass is clear in the warmer months. Share your window and our team plans the trip around it.",
+      },
+      {
+        q: "How do we reach Hunza, road or flight?",
+        a: "Both. The Karakoram Highway from Islamabad through Chilas is the classic drive and the value option, while an Islamabad to Gilgit flight then a short road leg saves two days when the mountain weather allows. Our team arranges either and the transfers.",
+      },
+      {
+        q: "Is the Karakoram Highway drive hard?",
+        a: "The KKH is a long, high mountain road, spectacular but tiring, driven over two days each way with overnights around Chilas. Our team uses experienced mountain drivers and comfortable vehicles, and paces the drive with stops so the journey stays part of the trip.",
+      },
+      {
+        q: "Can we visit the Khunjerab Pass and the China border?",
+        a: "Yes. A day from Hunza reaches the Khunjerab Pass, the highest paved border crossing in the world, through the Khunjerab National Park. The gate is the frontier with China. Our team times it to the open season and the weather on the day.",
+      },
+      {
+        q: "Is Hunza good for families?",
+        a: "Hunza suits families with time for the drive, the forts, the boat ride on Attabad Lake, and the viewpoints are gentle, while the long highway is the main effort. Our team sets a steady pace, family rooms, and rest days, and adjusts for children and elders.",
+      },
+      {
+        q: "Is halal food and prayer easy in Hunza?",
+        a: "Yes. Hunza is in Pakistan, so all food is halal and mosques are on every route, with local apricot, cherry, and Hunza dishes along the way. Our team plans meals and rest stops so the group eats and prays comfortably through the long days.",
+      },
+      {
+        q: "Do you customize the Hunza itinerary?",
+        a: "Yes. Our desk adds Naltar valley, a Skardu extension, extra Khunjerab or Passu time, or a Gilgit flight, and builds the days around your group. Share how many travelers and what you want, and we send a plan and a quote for your exact dates.",
+      },
+    ],
+  },
+
+  skardu: {
+    overview:
+      "Skardu Tour from Pakistan reaches the heart of Baltistan, seven days and six nights among the highest mountains on earth. From our Charsadda base our team arranges the Islamabad flight or the Karakoram Highway drive, hotels, and guided days at the Shangrila and Kachura lakes, the Deosai plateau and Sheosar Lake, the Shigar Fort, and the Katpana cold desert. The Indus, the world's second highest plateau, and the gateway to K2 make Skardu a bucket list trip for travelers from across Pakistan.",
+    whoFor: [
+      "Travelers wanting Baltistan and the high peaks",
+      "Families and groups with time for the journey",
+      "Photographers and nature lovers",
+      "Adventurers drawn to Deosai and the K2 gateway",
+    ],
+    faqs: [
+      pricingFaq("Skardu Tour"),
+      {
+        q: "How many days do I need for a Skardu tour?",
+        a: "Seven days and six nights cover Skardu well, the Kachura lakes, a Deosai jeep day, Shigar, and the Katpana desert, with time for the journey. A flight each way trims the days, while the drive adds them. Tell our desk your dates and we shape the length.",
+      },
+      {
+        q: "What is the best time to visit Skardu?",
+        a: "May to September is the open season, and the Deosai plateau and Sheosar Lake open from July when the snow clears. Spring blossom and autumn colour are lovely too. Share your window and our team plans the trip around it.",
+      },
+      {
+        q: "Should we fly or drive to Skardu?",
+        a: "The Islamabad to Skardu flight is spectacular and saves days, but it runs subject to mountain weather and cancels at short notice. The Karakoram Highway drive is longer and sure. Our team books the flight with a road backup and arranges the transfers either way.",
+      },
+      {
+        q: "Is Deosai National Park included, and is it hard?",
+        a: "A Deosai jeep day is part of the tour in the July to September window, up to the plateau and Sheosar Lake. The plains sit above four thousand metres, so the air is thin and the day is long, but the drive itself is not a trek. Our team arranges the jeeps.",
+      },
+      {
+        q: "Is Skardu good for families?",
+        a: "Skardu suits families with time for the journey, the lakes, the forts, and the desert are gentle, while Deosai is a long high day. Our team sets a steady pace, family rooms, and rest days, and adjusts for children and elders on request.",
+      },
+      {
+        q: "Is halal food and prayer easy in Skardu?",
+        a: "Yes. Skardu is in Pakistan, so all food is halal and mosques are on every route, with local Balti dishes and apricots along the way. Our team plans meals and rest stops so the group eats and prays comfortably through the days.",
+      },
+      {
+        q: "Do you customize the Skardu itinerary?",
+        a: "Yes. Our desk adds Khaplu and its palace, a Shigar heritage night, a Basho valley leg, or a Hunza extension, and builds the days around your group. Share how many travelers and what you want, and we send a plan and a quote for your exact dates.",
+      },
+    ],
+  },
+
+  "naran-kaghan": {
+    overview:
+      "Naran and Kaghan Tour from Pakistan is the classic summer valley trip, four days and three nights in the Kaghan valley along the Kunhar River. From our Charsadda base, a short run to Balakot, our team arranges transport, hotels, and the jeeps to Lake Saif ul Malook, with Babusar Top, Lulusar Lake, and the Siri Paye meadow above Shogran. Alpine lakes, high passes, and green meadows make Naran and Kaghan a favourite summer escape for families and groups from across Pakistan.",
+    whoFor: [
+      "Families wanting a cool summer valley escape",
+      "Groups and friends touring the KPK north",
+      "Couples seeking alpine lakes and meadows",
+      "Travelers near KPK who value a local run trip",
+    ],
+    faqs: [
+      pricingFaq("Naran and Kaghan Tour"),
+      {
+        q: "How many days do I need for Naran and Kaghan?",
+        a: "Four days and three nights cover Naran, Lake Saif ul Malook, Babusar Top and Lulusar, and Shogran with Siri Paye. Add a night for a slower pace or a Kashmir leg. Tell our desk your dates and we shape the length around them.",
+      },
+      {
+        q: "What is the best time to visit Naran and Kaghan?",
+        a: "Naran and Kaghan are a summer trip, open roughly May to September, and Babusar Top and Lake Saif ul Malook clear of snow by midsummer. The valley closes with the winter snow. Share your travel window and our team plans the trip around it.",
+      },
+      {
+        q: "How do we reach Naran, and is transport included?",
+        a: "Yes, transport is included. Our team drives you from Peshawar or Islamabad through Balakot and up the Kaghan valley to Naran, with the jeeps for Saif ul Malook and Siri Paye arranged on the day. Travelers near our Charsadda base start closest.",
+      },
+      {
+        q: "Is the road to Lake Saif ul Malook rough?",
+        a: "The road to Naran is metalled, and the last stretch to Lake Saif ul Malook is a rough jeep track, short but bumpy and driven daily in season. Our team arranges the local jeeps and a driver who knows it, so the alpine lake is an easy morning from Naran.",
+      },
+      {
+        q: "Is Babusar Top open, and what is there?",
+        a: "Babusar Top, the high pass at the head of the valley, opens once the summer snow clears, usually by July, with wide views into Gilgit Baltistan and Lulusar Lake on the way up. Our team times the day to the open pass and the weather.",
+      },
+      {
+        q: "Is Naran and Kaghan good for families?",
+        a: "Naran suits families, with the lakes, the meadows, and cool summer weather, and the jeep rides are short. Our team sets a steady pace, family rooms, and rest stops, and adjusts the days for young children and elders on request.",
+      },
+      {
+        q: "Is halal food available on the Naran tour?",
+        a: "Yes, everywhere. Naran and Kaghan are in Pakistan, so all food is halal, with valley trout, local dishes, and tea stops along the Kunhar. Our team plans meals and rest stops so the group eats well through the touring days.",
+      },
+      {
+        q: "Do you customize the Naran and Kaghan itinerary?",
+        a: "Yes. Our desk adds Shogran and Siri Paye nights, a Babusar crossing toward the north, or a Neelum Valley leg, and builds the days around your group. Share how many travelers and what you want, and we send a plan and a quote for your exact dates.",
+      },
+    ],
+  },
 };
 
 // -------- Derivation helpers (real data only) --------
@@ -3125,6 +3259,429 @@ export const tourContent: Record<string, TourContent> = {
         factor: "Transport and the passes",
         detail:
           "The long drive through the Lowari Tunnel, the jeeps for the Kalash valleys, and any Shandur leg set the transport cost.",
+      },
+      {
+        icon: "users",
+        factor: "Private or group tour",
+        detail:
+          "A shared group departure carries the friendliest price, while a private family tour with your own vehicle and pace costs more.",
+      },
+    ],
+    visaIntro: "",
+    visaLinks: [],
+  },
+
+  hunza: {
+    name: "Hunza",
+    durationWords: "seven day",
+    wedge: {
+      eyebrow: "Local KPK expertise",
+      title: "The Karakoram Highway from our northern doorstep",
+      body: "Hunza is a long drive up the Karakoram Highway, and from our Charsadda base our desk starts closer to the mountains than a Lahore or Karachi operator and runs the road with drivers who know every stretch of the KKH, the weather windows, and the landslide seasons. Our team knows the Karimabad hotels, the timing for the cherry blossom and the autumn gold, and the day for Khunjerab, years of arranging the far north rather than a booking passed to a distant handler.",
+    },
+    itineraryNote:
+      "The flow above is the typical seven day plan up the Karakoram Highway. Our desk adjusts the drive, adds a Gilgit flight leg, or extends to Khunjerab and Naltar on request.",
+    seasonalNote:
+      "May to October is the open season for Hunza, with cherry blossom in early April and golden poplars in October. The Karakoram Highway stays open most of the year. Message us for your dates.",
+    itinerary: [
+      {
+        day: "Day 1",
+        title: "Islamabad up the Karakoram Highway",
+        caption: "The Karakoram Highway along the Indus River",
+        detail:
+          "A long drive from Islamabad up the Karakoram Highway along the Indus, with an overnight around Chilas or Besham depending on the road.",
+      },
+      {
+        day: "Day 2",
+        title: "Drive to Hunza and Karimabad",
+        caption: "The Hunza valley and Rakaposhi peak",
+        detail:
+          "Continue up the KKH past Gilgit and the Rakaposhi viewpoint into the Hunza valley, settling into Karimabad under the peaks.",
+      },
+      {
+        day: "Day 3",
+        title: "Karimabad, Baltit and Altit Forts",
+        caption: "The Baltit Fort above Karimabad in Hunza",
+        detail:
+          "Tour the Baltit and Altit Forts above Karimabad, the old town and bazaar, and climb to Eagle's Nest at Duiker for the sunset over the peaks.",
+      },
+      {
+        day: "Day 4",
+        title: "Attabad Lake and Passu Cones",
+        caption: "The turquoise Attabad Lake in Upper Hunza",
+        detail:
+          "Drive up to the turquoise Attabad Lake for a boat ride, then the Passu Cones and the Hussaini suspension bridge in Upper Hunza.",
+      },
+      {
+        day: "Day 5",
+        title: "Khunjerab Pass",
+        caption: "The Khunjerab Pass on the China border",
+        detail:
+          "A day up to the Khunjerab Pass, the highest paved border crossing in the world at the China frontier, through the Khunjerab National Park.",
+      },
+      {
+        day: "Day 6",
+        title: "Return down the Karakoram Highway",
+        caption: "The Karakoram Highway winding through the peaks",
+        detail:
+          "Begin the drive back down the KKH, with an overnight around Chilas or Naran depending on the route and the season.",
+      },
+      {
+        day: "Day 7",
+        title: "Return to Islamabad",
+        caption: "The road home along the Indus valley",
+        detail:
+          "Complete the drive back to Islamabad, or connect to Peshawar and our Charsadda base.",
+      },
+    ],
+    attractions: [
+      {
+        name: "Karimabad and the Baltit Fort",
+        caption: "The Baltit Fort above Karimabad",
+        detail:
+          "The main town of Hunza, terraced on the slope under the peaks, crowned by the centuries old Baltit Fort. The old bazaar and the nearby Altit Fort make the heart of a Hunza stay.",
+      },
+      {
+        name: "Attabad Lake",
+        caption: "The turquoise water of Attabad Lake",
+        detail:
+          "A vivid turquoise lake in Upper Hunza, formed by a landslide, now lined with boats and jetties. A boat ride on the still water under the cliffs is a Hunza highlight.",
+      },
+      {
+        name: "Passu Cones",
+        caption: "The jagged Passu Cones in Upper Hunza",
+        detail:
+          "The row of sharp, jagged peaks above Passu, one of the most photographed skylines in the country, near the Hussaini suspension bridge and the Passu Glacier.",
+      },
+      {
+        name: "Khunjerab Pass",
+        caption: "The Khunjerab Pass at the China border",
+        detail:
+          "The highest paved international border crossing in the world at over four thousand seven hundred metres, at the China frontier, reached through the Khunjerab National Park.",
+      },
+      {
+        name: "Rakaposhi viewpoint",
+        caption: "The Rakaposhi peak from the viewpoint",
+        detail:
+          "The viewpoint on the KKH looking straight up at Rakaposhi, one of the great peaks of the Karakoram, with a cafe and glacier views. A natural stop on the drive.",
+      },
+      {
+        name: "Eagle's Nest, Duiker",
+        caption: "Sunset over Hunza from Eagle's Nest",
+        detail:
+          "The viewpoint above Karimabad at Duiker, famous for sunrise and sunset over the Hunza valley and the ring of peaks, from Rakaposhi to Ladyfinger. A short drive up from town.",
+      },
+    ],
+    gallery: [
+      "The Baltit Fort above Karimabad",
+      "The turquoise Attabad Lake",
+      "The Passu Cones",
+      "The Khunjerab Pass",
+      "Rakaposhi from the viewpoint",
+      "Sunset over Hunza from Eagle's Nest",
+    ],
+    practical: [
+      { icon: "clock", label: "Best season", value: "May to October, blossom in April" },
+      { icon: "pin", label: "Altitude", value: "Hunza high, Khunjerab over 4700 m" },
+      { icon: "bus", label: "Road access", value: "The Karakoram Highway, a long drive" },
+      { icon: "plane", label: "Flight option", value: "Islamabad to Gilgit, then road" },
+      { icon: "phone", label: "Connectivity", value: "Signal in towns, patchy on the KKH" },
+      { icon: "shield", label: "What to pack", value: "Warm layers even in summer, sunblock" },
+      { icon: "tag", label: "ATMs", value: "In Gilgit and Aliabad, carry cash" },
+    ],
+    costDrivers: [
+      {
+        icon: "clock",
+        factor: "Travel season",
+        detail:
+          "The summer peak, the cherry blossom, and the autumn colours sit highest, while the shoulder weeks run lower for the same valley.",
+      },
+      {
+        icon: "hotel",
+        factor: "Hotel category",
+        detail:
+          "A view hotel in Karimabad or a higher category room lifts the price, while a standard hotel holds it down.",
+      },
+      {
+        icon: "plane",
+        factor: "Road or the Gilgit flight",
+        detail:
+          "The long KKH drive is the value option, while a Gilgit flight leg saves two days and lifts the cost, subject to mountain weather.",
+      },
+      {
+        icon: "users",
+        factor: "Private or group tour",
+        detail:
+          "A shared group departure carries the friendliest price, while a private family tour with your own vehicle and pace costs more.",
+      },
+    ],
+    visaIntro: "",
+    visaLinks: [],
+  },
+
+  skardu: {
+    name: "Skardu",
+    durationWords: "seven day",
+    wedge: {
+      eyebrow: "Local KPK expertise",
+      title: "The gateway to Baltistan, arranged from the north",
+      body: "Skardu is deep in Baltistan, and from our Charsadda base our desk arranges it by the Karakoram Highway or the Islamabad flight, with drivers and hosts who know the Skardu road, the Deosai jeep track, and the mountain weather that moves the flights. Our team knows the Shangrila and Skardu hotels, the season for Deosai and Sheosar Lake, and the cold desert light, years of arranging the far north rather than a booking passed to a distant handler.",
+    },
+    itineraryNote:
+      "The flow above is the typical seven day plan for Skardu. Our desk swaps the drive for the Islamabad flight, adds Khaplu or Shigar nights, or a Deosai crossing to Astore on request.",
+    seasonalNote:
+      "May to September is the open season for Skardu, and Deosai and Sheosar Lake open from July. The Islamabad flight runs subject to mountain weather. Message us for your dates.",
+    itinerary: [
+      {
+        day: "Day 1",
+        title: "Fly or drive to Skardu",
+        caption: "The Indus River winding through Skardu",
+        detail:
+          "Fly Islamabad to Skardu subject to weather, or drive the Karakoram Highway and the Skardu road, settling into your hotel by the Indus.",
+      },
+      {
+        day: "Day 2",
+        title: "Shangrila and Upper Kachura Lake",
+        caption: "The Shangrila resort at Lower Kachura Lake",
+        detail:
+          "Visit the Shangrila resort at Lower Kachura Lake and walk to the clear Upper Kachura Lake, with the Sarfaranga cold desert in the afternoon.",
+      },
+      {
+        day: "Day 3",
+        title: "Deosai National Park",
+        caption: "The Deosai plateau and Sheosar Lake",
+        detail:
+          "A jeep day up to the Deosai plains, the second highest plateau on earth, and the blue Sheosar Lake ringed by wildflowers and peaks in summer.",
+      },
+      {
+        day: "Day 4",
+        title: "Shigar Fort and Manthokha Waterfall",
+        caption: "The restored Shigar Fort near Skardu",
+        detail:
+          "Drive to the Shigar valley and the restored Shigar Fort, then on to the Manthokha Waterfall among the terraced fields.",
+      },
+      {
+        day: "Day 5",
+        title: "Skardu Fort and the Katpana desert",
+        caption: "The Katpana cold desert at Skardu",
+        detail:
+          "Climb to the Kharpocho Skardu Fort over the town, and spend the evening on the dunes of the Katpana cold desert by the Indus.",
+      },
+      {
+        day: "Day 6",
+        title: "Leisure or Khaplu",
+        caption: "The Khaplu palace and valley near Skardu",
+        detail:
+          "A day at leisure in Skardu, or a drive to the Khaplu valley and its restored palace, one of the finest in Baltistan.",
+      },
+      {
+        day: "Day 7",
+        title: "Return",
+        caption: "Skardu airport below the mountains",
+        detail:
+          "Fly back to Islamabad subject to weather, or begin the drive down the Karakoram Highway home.",
+      },
+    ],
+    attractions: [
+      {
+        name: "Shangrila and the Kachura Lakes",
+        caption: "The Shangrila resort at Lower Kachura Lake",
+        detail:
+          "The Shangrila resort sits by Lower Kachura Lake with its red pagoda, and the clear Upper Kachura Lake is a short walk away. The gentle, green heart of a Skardu trip.",
+      },
+      {
+        name: "Deosai National Park",
+        caption: "The Deosai plains and wildflowers",
+        detail:
+          "The second highest plateau on earth at over four thousand metres, a vast summer meadow of wildflowers, marmots, and the Himalayan brown bear, with the blue Sheosar Lake at its edge.",
+      },
+      {
+        name: "Sheosar Lake",
+        caption: "The blue Sheosar Lake on the Deosai plateau",
+        detail:
+          "A high alpine lake on the Deosai plains, deep blue against the wildflower meadows and the distant peaks. The turning point of the Deosai jeep day.",
+      },
+      {
+        name: "Shigar Fort",
+        caption: "The restored Shigar Fort in the Shigar valley",
+        detail:
+          "A centuries old fort and palace in the Shigar valley, restored as a heritage hotel and museum, set among apricot orchards and terraced fields on the way to the K2 base camp trek.",
+      },
+      {
+        name: "The Katpana cold desert",
+        caption: "The dunes of the Katpana cold desert",
+        detail:
+          "One of the highest cold deserts in the world, dunes of pale sand along the Indus at Skardu, striking at sunset and unlike any lowland desert. A short drive from town.",
+      },
+      {
+        name: "Skardu Fort, Kharpocho",
+        caption: "The Kharpocho fort above Skardu town",
+        detail:
+          "The old Kharpocho fort on the rock above Skardu, with a wide view over the town, the Indus, and the Katpana desert. A short climb and a heritage stop.",
+      },
+    ],
+    gallery: [
+      "The Shangrila resort at Kachura",
+      "The Deosai plains in summer",
+      "The blue Sheosar Lake",
+      "The Shigar Fort",
+      "The Katpana cold desert",
+      "The Kharpocho fort over Skardu",
+    ],
+    practical: [
+      { icon: "clock", label: "Best season", value: "May to September, Deosai from July" },
+      { icon: "pin", label: "Altitude", value: "Skardu high, Deosai over 4000 m" },
+      { icon: "plane", label: "Flight option", value: "Islamabad to Skardu, weather bound" },
+      { icon: "bus", label: "Road access", value: "The KKH and the Skardu road" },
+      { icon: "phone", label: "Connectivity", value: "Signal in Skardu, none on Deosai" },
+      { icon: "shield", label: "What to pack", value: "Warm layers, sunblock, and a windproof" },
+      { icon: "tag", label: "ATMs", value: "In Skardu town, carry cash beyond" },
+    ],
+    costDrivers: [
+      {
+        icon: "clock",
+        factor: "Travel season",
+        detail:
+          "The summer peak and the Deosai window from July sit highest, while the early and late season run lower for the same trip.",
+      },
+      {
+        icon: "plane",
+        factor: "Flight or the road",
+        detail:
+          "The Islamabad flight saves days and lifts the cost when the weather allows, while the Karakoram Highway drive is the value option.",
+      },
+      {
+        icon: "hotel",
+        factor: "Hotel category",
+        detail:
+          "A lakeside or heritage stay at Shangrila or Shigar lifts the price, while a standard Skardu hotel holds it down.",
+      },
+      {
+        icon: "users",
+        factor: "Private or group tour",
+        detail:
+          "A shared group departure carries the friendliest price, while a private family tour with your own jeeps and pace costs more.",
+      },
+    ],
+    visaIntro: "",
+    visaLinks: [],
+  },
+
+  "naran-kaghan": {
+    name: "Naran and Kaghan",
+    durationWords: "four day",
+    wedge: {
+      eyebrow: "Local KPK expertise",
+      title: "A KPK valley we run from next door",
+      body: "The Kaghan valley is in Khyber Pakhtunkhwa, a short run from our Charsadda base, so our desk arranges Naran with real proximity and drivers who know the Balakot road, the jeep track to Saif ul Malook, and the Babusar Top window. Our team knows the Naran and Shogran hotels, the day the lake and the pass open, and the summer only season, years of arranging the valley close to home rather than a booking passed to a distant handler.",
+    },
+    itineraryNote:
+      "The flow above is the typical four day plan for Naran and Kaghan. Our desk adds Shogran and Siri Paye, Lulusar and Babusar Top, or a Kashmir leg on request.",
+    seasonalNote:
+      "Naran and Kaghan are a summer trip, open roughly May to September, and Babusar Top and Saif ul Malook clear of snow by midsummer. Winter closes the valley. Message us for your dates.",
+    itinerary: [
+      {
+        day: "Day 1",
+        title: "Drive to Naran via Balakot and Kaghan",
+        caption: "The Kunhar River in the Kaghan valley",
+        detail:
+          "Depart Peshawar or Islamabad by road through Balakot and up the Kaghan valley along the Kunhar River to Naran.",
+      },
+      {
+        day: "Day 2",
+        title: "Lake Saif ul Malook by jeep",
+        caption: "Lake Saif ul Malook below Malika Parbat",
+        detail:
+          "A jeep up the rough track to Lake Saif ul Malook, the alpine lake below Malika Parbat, with boating on the still water and the peaks around it.",
+      },
+      {
+        day: "Day 3",
+        title: "Babusar Top and Lulusar Lake",
+        caption: "The Babusar Top pass above Kaghan",
+        detail:
+          "Drive to Lulusar Lake, the source of the Kunhar, and on to Babusar Top, the high pass with wide views into Gilgit Baltistan.",
+      },
+      {
+        day: "Day 4",
+        title: "Shogran, Siri Paye, and return",
+        caption: "The Siri Paye meadow above Shogran",
+        detail:
+          "Stop at Shogran and a jeep to the Siri Paye meadow on the way down, then the road home to Peshawar or Islamabad.",
+      },
+    ],
+    attractions: [
+      {
+        name: "Lake Saif ul Malook",
+        caption: "Lake Saif ul Malook below Malika Parbat",
+        detail:
+          "The famous alpine lake above Naran, below the peak of Malika Parbat, reached by a rough jeep track. Clear, cold, and wrapped in legend, the classic sight of the Kaghan valley.",
+      },
+      {
+        name: "Babusar Top",
+        caption: "The Babusar Top pass at the head of Kaghan",
+        detail:
+          "The high pass at the head of the Kaghan valley at over four thousand metres, the summer gateway to Gilgit Baltistan, with wide views and the Kunhar's source at Lulusar below.",
+      },
+      {
+        name: "Lulusar Lake",
+        caption: "Lulusar Lake, the source of the Kunhar",
+        detail:
+          "The largest natural lake in the Kaghan valley and the source of the Kunhar River, deep blue on the road up to Babusar Top. A natural stop on the pass day.",
+      },
+      {
+        name: "Shogran and Siri Paye",
+        caption: "The Siri Paye meadow above Shogran",
+        detail:
+          "The green plateau of Shogran and the high Siri Paye meadow above it, reached by jeep, with the peaks of Makra and Malika Parbat around a shallow reflecting pool.",
+      },
+      {
+        name: "The Kunhar River",
+        caption: "The Kunhar River rushing through Kaghan",
+        detail:
+          "The river that runs the length of the Kaghan valley, famous for its trout, rushing past Balakot, Kaghan, and Naran. The road follows it up to Lulusar and Babusar.",
+      },
+      {
+        name: "Naran town",
+        caption: "Naran town on the Kunhar River",
+        detail:
+          "The base town of the valley on the Kunhar, the hub for the jeeps to Saif ul Malook and the drives to Babusar and Shogran, with hotels, bazaars, and trout restaurants.",
+      },
+    ],
+    gallery: [
+      "Lake Saif ul Malook",
+      "The Babusar Top pass",
+      "Lulusar Lake",
+      "The Siri Paye meadow",
+      "The Kunhar River",
+      "Naran town on the river",
+    ],
+    practical: [
+      { icon: "clock", label: "Best season", value: "May to September, summer only" },
+      { icon: "pin", label: "Altitude", value: "Naran high, Babusar over 4000 m" },
+      { icon: "bus", label: "Road access", value: "By road via Balakot and Kaghan" },
+      { icon: "route", label: "Jeep sections", value: "Saif ul Malook and Siri Paye" },
+      { icon: "phone", label: "Connectivity", value: "Signal in Naran, patchy up the valley" },
+      { icon: "shield", label: "What to pack", value: "Warm layers even in summer, good shoes" },
+      { icon: "tag", label: "ATMs", value: "In Balakot and Naran, carry cash" },
+    ],
+    costDrivers: [
+      {
+        icon: "clock",
+        factor: "Travel season",
+        detail:
+          "The short summer season and Eid holidays sit highest, since the valley is open only a few months, while the early and late weeks run lower.",
+      },
+      {
+        icon: "hotel",
+        factor: "Hotel category",
+        detail:
+          "A riverside or higher category hotel in Naran or Shogran lifts the price, while a standard hotel holds it down.",
+      },
+      {
+        icon: "route",
+        factor: "Jeeps and group size",
+        detail:
+          "The jeeps for Saif ul Malook and Siri Paye set much of the cost, and a larger group shares the vehicles and the guide down.",
       },
       {
         icon: "users",
