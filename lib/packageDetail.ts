@@ -682,7 +682,11 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "Is Singapore good for families?",
-        a: "Singapore suits families, with Universal Studios and the SEA Aquarium on Sentosa, Gardens by the Bay, the Night Safari, and clean, safe streets with easy transit. Our team sets a steady pace and connected rooms, and adjusts the days for younger children on request.",
+        a: "Singapore suits families, with Universal Studios and the SEA Aquarium on Sentosa, Gardens by the Bay, the Singapore Zoo and River Wonders, the Night Safari, and clean, safe streets with easy transit. Our team sets a steady pace and connected rooms, and adjusts the days for younger children on request.",
+      },
+      {
+        q: "Is Singapore expensive compared to Malaysia and Thailand?",
+        a: "Singapore is the priciest of the three Southeast Asian destinations, since hotels, attractions, and dining sit at a higher level in one of the world's wealthiest cities. The polish, the safety, and the family attractions earn the premium, and our desk holds the cost down with a value hotel near an MRT line, the right attraction tickets, and a combo that shares the flight with Malaysia. Tell us your budget and we shape the trip to fit.",
       },
       {
         q: "Is halal food available in Singapore?",
@@ -2515,7 +2519,7 @@ export const tourContent: Record<string, TourContent> = {
         title: "Singapore city tour",
         caption: "The Merlion and Marina Bay in Singapore",
         detail:
-          "A guided city tour with the Merlion and Marina Bay, Gardens by the Bay and its Supertrees, and the streets of Chinatown, Little India, and Orchard Road.",
+          "A guided city tour with the Merlion and Marina Bay, Gardens by the Bay and its Supertrees, the streets of Chinatown, Little India, Kampong Glam, and Orchard Road, and a Singapore River bumboat cruise from Clarke Quay.",
       },
       {
         day: "Day 3",
@@ -2568,13 +2572,25 @@ export const tourContent: Record<string, TourContent> = {
         name: "The Night Safari",
         caption: "A tram on the Night Safari in Singapore",
         detail:
-          "The world's first nocturnal wildlife park, toured by tram and walking trails after dark, with lions, elephants, and leopards in naturalistic habitats. A different evening from the city lights.",
+          "The world's first nocturnal wildlife park, toured by tram and walking trails after dark, with lions, elephants, and leopards in naturalistic habitats. Beside it in the Mandai reserves sit the Singapore Zoo and River Wonders, easy to add for a family wildlife day.",
       },
       {
         name: "The Singapore Flyer",
         caption: "The Singapore Flyer observation wheel over Marina Bay",
         detail:
           "One of the largest observation wheels in Asia, turning slowly over Marina Bay for views across the city, the port, and out to the islands. Best at dusk as the skyline lights up.",
+      },
+      {
+        name: "Kampong Glam, the Muslim quarter",
+        caption: "The Sultan Mosque in Kampong Glam, Singapore",
+        detail:
+          "The historic Malay and Muslim quarter, centred on the golden domed Sultan Mosque, with Arab Street, Haji Lane, and some of the best halal dining in the city. A calm, welcoming stop for a Muslim family from Pakistan.",
+      },
+      {
+        name: "Jewel Changi Airport",
+        caption: "The Rain Vortex waterfall at Jewel Changi Airport",
+        detail:
+          "The nature themed complex at Changi, regularly rated the best airport in the world, built around the Rain Vortex, the tallest indoor waterfall on earth, in a terraced forest valley. A highlight in its own right on arrival or departure.",
       },
     ],
     gallery: [
@@ -2586,14 +2602,31 @@ export const tourContent: Record<string, TourContent> = {
       "The Singapore Flyer over Marina Bay",
     ],
     practical: [
-      { icon: "clock", label: "Best time to visit", value: "Year round destination" },
-      { icon: "tag", label: "Currency", value: "Singapore dollar, SGD" },
-      { icon: "meal", label: "Halal food", value: "Halal certified outlets across the city" },
+      {
+        icon: "clock",
+        label: "Best time to visit",
+        value: "Year round, families February to April, least rain March to August",
+      },
+      {
+        icon: "tag",
+        label: "Currency",
+        value: "Singapore dollar, SGD, about 216 PKR each",
+      },
+      {
+        icon: "meal",
+        label: "Halal food",
+        value: "Halal certified outlets citywide, more in Kampong Glam",
+      },
+      {
+        icon: "document",
+        label: "Power and plugs",
+        value: "Type G sockets, 230 volts",
+      },
       { icon: "clock", label: "Time zone", value: "GMT plus 8" },
       {
         icon: "users",
         label: "Language",
-        value: "English, Malay, Mandarin, and Tamil",
+        value: "Four official, English, Malay, Mandarin, and Tamil",
       },
       { icon: "route", label: "Driving side", value: "Left hand side of the road" },
       { icon: "pin", label: "Top areas", value: "Marina Bay, Sentosa, and Orchard Road" },
@@ -2625,7 +2658,7 @@ export const tourContent: Record<string, TourContent> = {
       },
     ],
     visaIntro:
-      "Pakistani travelers need a Singapore visa, arranged through an authorized agent. Verify the current rules at the official",
+      "Pakistani travelers need a Singapore visa, an e visa arranged through an authorized agent with minimal documents and no embassy visit. Verify the current rules at the official",
     visaLinks: [
       { label: "Singapore Immigration and Checkpoints Authority", href: "https://www.ica.gov.sg" },
     ],
