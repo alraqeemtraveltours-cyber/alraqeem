@@ -175,3 +175,37 @@ tour page or the international hub, the bridge between the two silos.
 - [ ] Flip Umrah Plus Jordan to live true once the routing and access are
       confirmed, the data entry is ready.
 - [ ] Reviews, accreditation, licence number, and consultant name, site wide.
+
+---
+
+## 6. Seasonal Umrah pages, gaps and launch gate
+
+Four live seasonal pages under /umrah/[season]-umrah, Ramadan, Rabi ul Awal,
+Rajab, and Shaban, each an evergreen calendar page with its own significance
+passage and 10 to 12 season tailored FAQs. Ramadan carries the extra depth, the
+three Ashras, Laylat al-Qadr, and Itikaf. Winter, summer, and school holiday
+seasons are held at live false, available to add.
+
+**Gaps, real data not invented:**
+
+1. **The Hijri dates, refresh yearly, the top item.** Each page states the
+   current cycle, 1448 AH, with the Gregorian window and the moon sighting
+   caveat, since the exact start of each Islamic month is set by the sighting.
+   The year lives in the content and the updated date, never the URL, so these
+   are evergreen pages. Refresh the hijriYear and the windows in
+   lib/seasonalUmrah.ts each year, and re-confirm the announced dates before the
+   season. This is the single most important seasonal maintenance item.
+2. **Photos.** The holy places use the shared Haram and Madinah images. Real
+   Ramadan and Madinah photography would lift them.
+3. **Reviews, accreditation, licence number, consultant name.** The same gated
+   placeholders as the rest of the site.
+
+**Replace before launch, seasonal:**
+
+- [ ] Refresh the Hijri year and the Gregorian windows in lib/seasonalUmrah.ts
+      for the current cycle, and re-confirm each announced date before its
+      season. Repeat every year, the evergreen URLs compound authority.
+- [ ] Swap the shared holy places images for real photography where available.
+- [ ] Add the winter, summer, and school holiday seasons with live true when a
+      real angle and dates are confirmed.
+- [ ] Reviews, accreditation, licence number, and consultant name, site wide.
