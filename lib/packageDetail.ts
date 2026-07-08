@@ -843,24 +843,36 @@ export const detailContent: Record<string, DetailContent> = {
         a: "Four days and three nights cover Kumrat well, the forest, the waterfall, and a jeep and trek day to Jahaz Banda and Katora Lake. Add a night to reach the lake at an easy pace or to pair it with Swat. Tell our desk your dates and we shape the length around them.",
       },
       {
+        q: "Is Kumrat a trek and camp trip or a hotel stay?",
+        a: "Kumrat is a jeep, trek, and camp adventure, not a drive to a hotel like Swat. A 4WD jeep runs from Thal into the valley, and from Taki Top the Jahaz Banda meadow is about a three hour trek or horseback ride, with Katora Lake another three to four hours of steeper walking beyond. Nights are a tent or a simple guest house at Jahaz Banda and camps or wooden huts on the valley floor, so pack for the outdoors. Our team sets an honest pace and arranges the jeeps, horses, porters, and camp for your group.",
+      },
+      {
         q: "What is the best time to visit Kumrat?",
-        a: "May to September is the open season, and the meadows are greenest in July and August. The high passes and Katora Lake clear of snow by midsummer. Winter closes the valley. Share your travel window and our team plans the trip around it.",
+        a: "May to September is the open season, with the peak in June to August when the meadows are greenest. The high passes and Katora Lake clear of snow by midsummer. Winter is snowbound and effectively closed, with heavy snow on the valley floor, so Kumrat is a summer trip rather than a year round one. Share your travel window and our team plans the trip around it.",
+      },
+      {
+        q: "How far is Kumrat from Islamabad, and from your Charsadda base?",
+        a: "Islamabad to Kumrat runs about 370 km and eight to ten hours, decent to Sheringal and rough on the last stretch to Thal. From our Charsadda base the valley is nearer, by Mardan, Malakand, and Dir, so our desk picks up from Peshawar and Charsadda closer to the road than a Lahore or Karachi operator reaches. Lahore travelers count twelve to fourteen hours, arranged on request.",
       },
       {
         q: "How do we reach Kumrat, and is transport included?",
-        a: "Yes, transport is included. Our team drives you from Peshawar or Islamabad through Dir to Thal, then arranges the local jeeps for the track along the Panjkora River into Kumrat. Travelers near our Charsadda base start closest of all.",
+        a: "Yes, transport is included. Our team drives you from Peshawar or Islamabad on the Dir Chitral road through Timergara to Thal, then transfers you to the local 4WD jeeps for the track along the Panjkora River into Kumrat. Travelers near our Charsadda base start closest of all, by Mardan, Malakand, and Dir.",
       },
       {
         q: "Where do we stay in Kumrat Valley?",
-        a: "Kumrat has serviced camps and wooden huts along the river rather than large hotels, so the stay is simple and close to nature. Our team books the comfort level you want and confirms it for your dates, since the valley fills in peak summer.",
+        a: "Kumrat has small hotels, serviced camps, and wooden huts along the river rather than large hotels, so the valley floor stay is simple and close to nature. Higher up at Jahaz Banda the night is a tent or a basic guest house, so bring or hire a tent and a sleeping bag for the meadow. Our team books the comfort level you want and confirms it for your dates, since the valley fills in peak summer.",
       },
       {
         q: "Is the trek to Jahaz Banda and Katora Lake hard?",
-        a: "The jeep reaches Kumrat Kalay, then a moderate trek climbs to the Jahaz Banda meadow, within reach of most walkers with a steady pace. Katora Lake beyond is a steeper climb for the fit. Our team sets the pace and arranges a guide and porters where needed.",
+        a: "The jeep runs from Thal to Taki Top, then a moderate trek or horseback ride of about three hours climbs to the Jahaz Banda meadow at around 3,100 metres, within reach of most walkers with a steady pace. Katora Lake beyond is another three to four hours of steeper climbing for the fit. Our team sets the pace and arranges horses, a guide, and porters where needed.",
       },
       {
         q: "Is Kumrat good for families?",
         a: "Kumrat suits active families, with the forest, the river, and the waterfall an easy day, while Jahaz Banda and Katora Lake are for the fitter members. Our team sets a steady pace, arranges the stay, and shapes the days around your group and the children.",
+      },
+      {
+        q: "What is the Kumrat camping experience like?",
+        a: "A Kumrat night is the draw as much as the trek, a jeep safari up the Panjkora by day and a bonfire, a barbecue, and clear mountain stargazing after dark, often with a musical night at the camp. Our team arranges the tents, the sleeping bags, and the meals, and sets the camp on the forest floor or the Jahaz Banda meadow to suit your route and your group.",
       },
       {
         q: "Do you customize the Kumrat itinerary?",
@@ -3012,7 +3024,7 @@ export const tourContent: Record<string, TourContent> = {
     wedge: {
       eyebrow: "Local KPK expertise",
       title: "Run from our Charsadda base in Khyber Pakhtunkhwa",
-      body: "Kumrat sits in Upper Dir, within a day's reach of our office in Charsadda, so our desk runs it with local drivers who know the Dir road and the jeep track along the Panjkora. Our team knows which camps and huts hold up, when the meadows open, and how far the jeeps reach toward Jahaz Banda and Katora Lake, years of arranging northern trips close to home rather than a booking passed to a distant handler.",
+      body: "Kumrat sits in Upper Dir, nearer to our office in Charsadda than to Islamabad, reached by Mardan, Malakand, and Dir, so our desk runs it with local drivers who know the Dir Chitral road and the jeep track along the Panjkora, and picks up from Peshawar and Charsadda. Our team knows which camps and huts hold up, when the meadows open, and how far the jeeps reach toward Jahaz Banda and Katora Lake, years of arranging northern trips close to home rather than a booking passed to a distant handler.",
     },
     itineraryNote:
       "The flow above is the typical four day plan for Kumrat. Our desk adjusts the order and adds a Katora Lake trek or a Swat leg on request.",
@@ -3024,7 +3036,7 @@ export const tourContent: Record<string, TourContent> = {
         title: "Drive to Kumrat via Dir and Thal",
         caption: "The Panjkora River running through Kumrat Valley",
         detail:
-          "Depart Peshawar or Islamabad by road through Dir to Thal, the last village, then a jeep track along the Panjkora River into the forest of Kumrat.",
+          "Depart Peshawar or Islamabad by road, the Dir Chitral road through Timergara to Thal, the last village, decent to Sheringal and rough beyond, then transfer to a 4WD jeep along the Panjkora River into the forest of Kumrat.",
       },
       {
         day: "Day 2",
@@ -3038,7 +3050,7 @@ export const tourContent: Record<string, TourContent> = {
         title: "Jahaz Banda and Katora Lake",
         caption: "The alpine Jahaz Banda meadow above Kumrat",
         detail:
-          "A jeep to Kumrat Kalay and a trek up to the Jahaz Banda meadow, and on to the alpine Katora Lake ringed by peaks for the fittest walkers.",
+          "A jeep to Taki Top, then a three hour trek or horseback ride to the Jahaz Banda meadow, and on to the alpine Katora Lake, another three to four hours for the fittest walkers, ringed by peaks.",
       },
       {
         day: "Day 4",
@@ -3083,7 +3095,13 @@ export const tourContent: Record<string, TourContent> = {
         name: "Thal and Badgoi Pass",
         caption: "The village of Thal at the mouth of Kumrat",
         detail:
-          "Thal is the last village and the gateway to Kumrat, where the metalled road ends and the jeeps begin. The Badgoi Pass beyond links Kumrat to Kalam in upper Swat for the adventurous.",
+          "Thal is the last village and the gateway to Kumrat, home to the carved wooden Thal Masjid of the nineteenth century, where the metalled road ends and the jeeps begin. The Badgoi Pass beyond links Kumrat to Kalam in upper Swat for the adventurous.",
+      },
+      {
+        name: "Kala Chashma and Shahi Bagh",
+        caption: "The black spring water of Kala Chashma in Kumrat",
+        detail:
+          "Kala Chashma, the black spring, runs cold and clear from the rocks near the forest, a favourite tea and rest stop, while the meadows of Shahi Bagh and Kund Banda open higher up the valley. Green pasture and cold water on the way to the peaks.",
       },
     ],
     gallery: [
@@ -3095,9 +3113,13 @@ export const tourContent: Record<string, TourContent> = {
       "The jeep track through Kumrat",
     ],
     practical: [
-      { icon: "clock", label: "Best season", value: "May to September, meadows in summer" },
-      { icon: "pin", label: "Altitude", value: "Valley floor low, Jahaz Banda higher" },
-      { icon: "bus", label: "Road access", value: "Dir road to Thal, then jeep track" },
+      { icon: "clock", label: "Best season", value: "May to September only, peak June to August" },
+      { icon: "pin", label: "Altitude", value: "Jahaz Banda about 3,100 m, Katora Lake higher" },
+      {
+        icon: "bus",
+        label: "Road access",
+        value: "Islamabad about 370 km, 8 to 10 hours to Thal, then 4WD jeep",
+      },
       { icon: "route", label: "Jeep sections", value: "The Panjkora track and the meadows" },
       { icon: "phone", label: "Connectivity", value: "Very limited up the valley" },
       { icon: "shield", label: "What to pack", value: "Warm layers, sturdy shoes for the trek" },
