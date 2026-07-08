@@ -182,7 +182,17 @@ export default async function ToursPage() {
               "Every tour includes the visit visa, return flights, hotels with breakfast, and guided city tours, with departures from Karachi, Lahore, Islamabad, and Peshawar on the carrier with the best fare for your dates. Families, couples, and honeymooners each get a pace shaped around them, and our desk builds custom routes and combos on request. Rates update weekly, so we quote the current best price for your dates on WhatsApp. Message our Charsadda office, the sister company of Al Nafi Travels, to plan your trip abroad.",
             ]}
           />
-          <p className="mt-6 rounded-2xl border border-black/5 bg-white p-5 text-sm leading-relaxed text-slate-600 shadow-card">
+          <p className="mt-6 text-sm leading-relaxed text-slate-600">
+            See the full{" "}
+            <Link
+              href="/tours/international-tours"
+              className="font-semibold text-brand-blue underline"
+            >
+              international tour packages
+            </Link>{" "}
+            hub for every destination and how we plan a trip abroad.
+          </p>
+          <p className="mt-4 rounded-2xl border border-black/5 bg-white p-5 text-sm leading-relaxed text-slate-600 shadow-card">
             Planning a pilgrimage instead? See our{" "}
             <Link
               href="/umrah"
