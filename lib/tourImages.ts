@@ -344,6 +344,31 @@ export const tourImages: Record<string, TourImageSet> = {
     ],
   },
 
+  "naran-kaghan": {
+    itinerary: [
+      `${D}/naran-kaghan/kunhar.jpg`,
+      `${D}/naran-kaghan/saif-ul-malook.jpg`,
+      `${D}/naran-kaghan/babusar-top.jpg`,
+      `${D}/naran-kaghan/siri-paye.jpg`,
+    ],
+    attractions: [
+      `${D}/naran-kaghan/saif-ul-malook.jpg`,
+      `${D}/naran-kaghan/babusar-top.jpg`,
+      `${D}/naran-kaghan/lulusar.jpg`,
+      `${D}/naran-kaghan/siri-paye.jpg`,
+      `${D}/naran-kaghan/kunhar.jpg`,
+      `${D}/naran-kaghan/kunhar.jpg`,
+    ],
+    gallery: [
+      `${D}/naran-kaghan/saif-ul-malook.jpg`,
+      `${D}/naran-kaghan/babusar-top.jpg`,
+      `${D}/naran-kaghan/lulusar.jpg`,
+      `${D}/naran-kaghan/siri-paye.jpg`,
+      `${D}/naran-kaghan/kunhar.jpg`,
+      `${D}/naran-kaghan/kunhar.jpg`,
+    ],
+  },
+
   // Combos reuse the single country files, no duplicate downloads.
   "malaysia-thailand-8-days": {
     itinerary: [

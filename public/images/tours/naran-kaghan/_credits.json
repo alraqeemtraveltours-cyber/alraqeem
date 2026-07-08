@@ -1,0 +1,47 @@
+[
+  {
+    "key": "saif-ul-malook",
+    "file": "/images/tours/naran-kaghan/saif-ul-malook.jpg",
+    "title": "Lake Saiful Muluk",
+    "commonsFile": "File:Lake_SaifulMalook.jpeg",
+    "license": "FAL",
+    "artist": "Muzaffar Bukhari",
+    "source": "https://commons.wikimedia.org/wiki/File:Lake_SaifulMalook.jpeg"
+  },
+  {
+    "key": "babusar-top",
+    "file": "/images/tours/naran-kaghan/babusar-top.jpg",
+    "title": "Babusar Pass",
+    "commonsFile": "File:View_from_Babusar_top_2.jpg",
+    "license": "CC BY-SA 3.0",
+    "artist": "Saadzafar91",
+    "source": "https://commons.wikimedia.org/wiki/File:View_from_Babusar_top_2.jpg"
+  },
+  {
+    "key": "lulusar",
+    "file": "/images/tours/naran-kaghan/lulusar.jpg",
+    "title": "Lulusar Lake",
+    "commonsFile": "File:Siri_Paye,_Shogran,_Kaghan_Valley.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Adeel ur Rehman Mughal",
+    "source": "https://commons.wikimedia.org/wiki/File:Siri_Paye,_Shogran,_Kaghan_Valley.jpg"
+  },
+  {
+    "key": "siri-paye",
+    "file": "/images/tours/naran-kaghan/siri-paye.jpg",
+    "title": "Shogran",
+    "commonsFile": "File:Shogran,Naran_Valley.jpg",
+    "license": "Public domain",
+    "artist": "Almazi at en.wikipedia",
+    "source": "https://commons.wikimedia.org/wiki/File:Shogran,Naran_Valley.jpg"
+  },
+  {
+    "key": "kunhar",
+    "file": "/images/tours/naran-kaghan/kunhar.jpg",
+    "title": "Kunhar River",
+    "commonsFile": "File:Kunhar_River,_Khyber_Pakhtunkhwa.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Yousuf Salemwala",
+    "source": "https://commons.wikimedia.org/wiki/File:Kunhar_River,_Khyber_Pakhtunkhwa.jpg"
+  }
+]

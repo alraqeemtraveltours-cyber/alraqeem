@@ -1126,15 +1126,15 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "What is the best time to visit Naran and Kaghan?",
-        a: "Naran and Kaghan are a summer trip, open roughly May to September, and Babusar Top and Lake Saif ul Malook clear of snow by midsummer. The valley closes with the winter snow. Share your travel window and our team plans the trip around it.",
+        a: "Naran and Kaghan are a summer trip, open roughly May to October, and the road beyond Kaghan closes with the winter snow. Babusar Top opens about mid June and closes by late September, and Lake Saif ul Malook clears of snow by midsummer. Share your travel window and our team plans the trip around it.",
       },
       {
         q: "How do we reach Naran, and is transport included?",
-        a: "Yes, transport is included. Our team drives you from Peshawar or Islamabad through Balakot and up the Kaghan valley to Naran, with the jeeps for Saif ul Malook and Siri Paye arranged on the day. Travelers near our Charsadda base start closest.",
+        a: "Yes, transport is included. Our team drives you from Peshawar or Islamabad through Abbottabad, Mansehra, and Balakot, up the Kaghan valley along the Kunhar with a stop at the Kiwai Waterfall, to Naran. A sedan reaches Naran in the summer season, and jeeps take over for Saif ul Malook, Siri Paye, and the high tracks. Travelers near our Charsadda base start closest, with pickup from Peshawar and Charsadda.",
       },
       {
-        q: "Is the road to Lake Saif ul Malook rough?",
-        a: "The road to Naran is metalled, and the last stretch to Lake Saif ul Malook is a rough jeep track, short but bumpy and driven daily in season. Our team arranges the local jeeps and a driver who knows it, so the alpine lake is an easy morning from Naran.",
+        q: "What car do I need, and is the road to Lake Saif ul Malook rough?",
+        a: "The road to Naran is metalled, and the last nine kilometres to Lake Saif ul Malook is a rough off road jeep track, where private cars are not permitted, so a local 4WD jeep is the only way up. Siri Paye above Shogran and the Lalazar meadow are jeep tracks too. Our team arranges the local jeeps and a driver who knows them, so the lake is an easy morning from Naran.",
       },
       {
         q: "Is Babusar Top open, and what is there?",
@@ -1151,6 +1151,18 @@ export const detailContent: Record<string, DetailContent> = {
       {
         q: "Do you customize the Naran and Kaghan itinerary?",
         a: "Yes. Our desk adds Shogran and Siri Paye nights, a Babusar crossing toward the north, or a Neelum Valley leg, and builds the days around your group. Share how many travelers and what you want, and we send a plan and a quote for your exact dates.",
+      },
+      {
+        q: "How far is Naran from Islamabad and your Charsadda base?",
+        a: "Islamabad to Naran runs about 280 km and five and a half to seven hours through Abbottabad, Mansehra, and Balakot. From our Charsadda base the valley is a short run through Mansehra and Balakot, so Naran is the nearest and easiest of the northern areas for us, and our desk picks up from Charsadda and Peshawar. Tell us your dates and we set the drive and the stops.",
+      },
+      {
+        q: "What treks are there from Naran, like Ansoo Lake and Dudipatsar?",
+        a: "Two famous treks reward the fit. Ansoo Lake, a teardrop shaped lake named for its shape, is a trek of about three hours or more each way from Lake Saif ul Malook, and Dudipatsar, the Queen of Lakes, is a multi day trek from Besal on the Babusar road. Our team arranges a guide, horses, and the pace for either, and sets the day to your fitness and the season.",
+      },
+      {
+        q: "What activities are there in Naran and Kaghan?",
+        a: "The valley carries a full summer activity list. Jeep safaris run to the lakes and meadows, the Kunhar River brings white water rafting and trout fishing, and Naran adds a zip line, paramotoring, horse riding, and a bonfire evening at the camps. Our team lines up the activities your group wants and the gear for them, set to the season of your dates.",
       },
     ],
   },
@@ -3835,7 +3847,7 @@ export const tourContent: Record<string, TourContent> = {
     wedge: {
       eyebrow: "Local KPK expertise",
       title: "A KPK valley we run from next door",
-      body: "The Kaghan valley is in Khyber Pakhtunkhwa, a short run from our Charsadda base, so our desk arranges Naran with real proximity and drivers who know the Balakot road, the jeep track to Saif ul Malook, and the Babusar Top window. Our team knows the Naran and Shogran hotels, the day the lake and the pass open, and the summer only season, years of arranging the valley close to home rather than a booking passed to a distant handler.",
+      body: "The Kaghan valley is in Khyber Pakhtunkhwa, a short run from our Charsadda base through Mansehra and Balakot, so Naran is the nearest and easiest of the northern areas for us, and our desk arranges it with real proximity, pickup from Charsadda and Peshawar, and drivers who know the road, the jeep track to Saif ul Malook, and the Babusar Top window. Our team knows the Naran and Shogran hotels, the day the lake and the pass open, and the summer only season, years of arranging the valley close to home rather than a booking passed to a distant handler.",
     },
     itineraryNote:
       "The flow above is the typical four day plan for Naran and Kaghan. Our desk adds Shogran and Siri Paye, Lulusar and Babusar Top, or a Kashmir leg on request.",
@@ -3876,31 +3888,31 @@ export const tourContent: Record<string, TourContent> = {
         name: "Lake Saif ul Malook",
         caption: "Lake Saif ul Malook below Malika Parbat",
         detail:
-          "The famous alpine lake above Naran, below the peak of Malika Parbat, reached by a rough jeep track. Clear, cold, and wrapped in legend, the classic sight of the Kaghan valley.",
+          "The famous alpine lake at 3,224 metres above Naran, below the 5,290 metre peak of Malika Parbat, reached by a rough jeep track. Clear, cold, and wrapped in legend, the classic sight of the Kaghan valley, with the Ansoo Lake trek beyond for the fit.",
       },
       {
         name: "Babusar Top",
         caption: "The Babusar Top pass at the head of Kaghan",
         detail:
-          "The high pass at the head of the Kaghan valley at over four thousand metres, the summer gateway to Gilgit Baltistan, with wide views and the Kunhar's source at Lulusar below.",
+          "The high pass at the head of the Kaghan valley at 4,173 metres, the summer gateway to Gilgit Baltistan and the shorter road on to Hunza and Skardu, with wide views toward Nanga Parbat and the Kunhar's source at Lulusar below.",
       },
       {
         name: "Lulusar Lake",
         caption: "Lulusar Lake, the source of the Kunhar",
         detail:
-          "The largest natural lake in the Kaghan valley and the source of the Kunhar River, deep blue on the road up to Babusar Top. A natural stop on the pass day.",
+          "The largest natural lake in the Kaghan valley at 3,410 metres and the source of the Kunhar River, deep blue on the road up to Babusar Top. A natural stop on the pass day.",
       },
       {
         name: "Shogran and Siri Paye",
         caption: "The Siri Paye meadow above Shogran",
         detail:
-          "The green plateau of Shogran and the high Siri Paye meadow above it, reached by jeep, with the peaks of Makra and Malika Parbat around a shallow reflecting pool.",
+          "The green plateau of Shogran and the high Siri Paye meadow above it at 2,895 metres, reached by jeep, with the peaks of Makra and Malika Parbat around a shallow reflecting pool, and the Lalazar meadow at 3,123 metres nearby.",
       },
       {
         name: "The Kunhar River",
         caption: "The Kunhar River rushing through Kaghan",
         detail:
-          "The river that runs the length of the Kaghan valley, famous for its trout, rushing past Balakot, Kaghan, and Naran. The road follows it up to Lulusar and Babusar.",
+          "The river that runs the length of the Kaghan valley, famous for its trout and its rafting, rushing past Balakot, the Kiwai Waterfall, Kaghan, and Naran. The road follows it up to Lulusar and Babusar.",
       },
       {
         name: "Naran town",
@@ -3918,11 +3930,23 @@ export const tourContent: Record<string, TourContent> = {
       "Naran town on the river",
     ],
     practical: [
-      { icon: "clock", label: "Best season", value: "May to September, summer only" },
-      { icon: "pin", label: "Altitude", value: "Naran high, Babusar over 4000 m" },
-      { icon: "bus", label: "Road access", value: "By road via Balakot and Kaghan" },
-      { icon: "route", label: "Jeep sections", value: "Saif ul Malook and Siri Paye" },
-      { icon: "phone", label: "Connectivity", value: "Signal in Naran, patchy up the valley" },
+      {
+        icon: "clock",
+        label: "Best season",
+        value: "May to October, Babusar mid June to late September",
+      },
+      {
+        icon: "pin",
+        label: "Altitude",
+        value: "Naran about 2,500 m, Saif ul Malook 3,224 m, Babusar 4,173 m",
+      },
+      {
+        icon: "bus",
+        label: "Road access",
+        value: "Islamabad about 280 km, 5.5 to 7 hours via Balakot",
+      },
+      { icon: "route", label: "Jeep sections", value: "Saif ul Malook, Siri Paye, and Lalazar" },
+      { icon: "phone", label: "Connectivity", value: "Telenor and Zong 4G in Naran, patchy up the valley" },
       { icon: "shield", label: "What to pack", value: "Warm layers even in summer, good shoes" },
       { icon: "tag", label: "ATMs", value: "In Balakot and Naran, carry cash" },
     ],
