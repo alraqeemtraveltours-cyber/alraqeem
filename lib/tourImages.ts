@@ -289,6 +289,32 @@ export const tourImages: Record<string, TourImageSet> = {
     ],
   },
 
+  "kalash-valley": {
+    itinerary: [
+      `${D}/kalash/lowari-tunnel.jpg`,
+      `${D}/kalash/bumburet.jpg`,
+      `${D}/kalash/rumbur.jpg`,
+      `${D}/chitral/chitral-fort.jpg`,
+      `${D}/kalash/lowari-tunnel.jpg`,
+    ],
+    attractions: [
+      `${D}/kalash/bumburet.jpg`,
+      `${D}/kalash/rumbur.jpg`,
+      `${D}/kalash/kalash-people.jpg`,
+      `${D}/kalash/chilam-joshi.jpg`,
+      `${D}/kalash/lowari-tunnel.jpg`,
+      `${D}/chitral/chitral-fort.jpg`,
+    ],
+    gallery: [
+      `${D}/kalash/bumburet.jpg`,
+      `${D}/kalash/kalash-people.jpg`,
+      `${D}/kalash/chilam-joshi.jpg`,
+      `${D}/kalash/rumbur.jpg`,
+      `${D}/kalash/lowari-tunnel.jpg`,
+      `${D}/chitral/chitral-fort.jpg`,
+    ],
+  },
+
   // Combos reuse the single country files, no duplicate downloads.
   "malaysia-thailand-8-days": {
     itinerary: [

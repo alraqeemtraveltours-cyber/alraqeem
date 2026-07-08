@@ -910,19 +910,19 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "When is the best time to visit the Kalash valleys?",
-        a: "Spring brings the Chilam Joshi festival in May, the most colourful time, and summer brings the Uchal festival and green valleys. Winter closes the high routes. Share your travel window and we time the trip to a festival on request.",
+        a: "Spring brings the Chilam Joshi festival in mid May, the most colourful time, summer brings the Uchal festival and green valleys in August, and the Choimus winter solstice festival falls in December. Winter otherwise closes the high routes and turns cold. Share your travel window and we time the trip to a festival on request.",
       },
       {
         q: "How do we reach the Kalash valleys?",
-        a: "Our team drives you from Peshawar or Islamabad through Dir and the Lowari Tunnel to Chitral, then by jeep into Bumburet. The tunnel keeps the road open through the year, and transport is included with airport pickup near your base.",
+        a: "Our team drives you from Peshawar or Islamabad through Dir and the all weather Lowari Tunnel to Chitral, about ten to fourteen hours, then on to Ayun and a roughly two hour jeep into Bumburet. A one hour PIA flight from Islamabad to Chitral is an option when the mountain weather allows. Transport is included, and travelers near our Charsadda base start closest, with pickup from Peshawar and Charsadda.",
       },
       {
-        q: "What is the Chilam Joshi festival?",
-        a: "Chilam Joshi is the Kalash spring festival in May, days of music, dance, and colour in the valleys to welcome the new season and the pastures. Timed on request, it is the most vivid way to see Kalash culture, with rooms booked well ahead.",
+        q: "What are the Kalash festivals, and when are they?",
+        a: "The Kalash keep three festivals a year, Chilam Joshi in mid May to welcome spring and the pastures, Uchal in August for the harvest, and Choimus at the winter solstice in December, days of music, dance, and colour in the valleys. Chilam Joshi is the most visited, and rooms book well ahead, so our team times the trip to the festival and secures the stay when your dates are set.",
       },
       {
         q: "How should I behave around the Kalash community?",
-        a: "The Kalash are welcoming, and a respectful visitor asks before taking photographs, dresses modestly, and follows the guide near the shrines and festival grounds. Our team briefs the group and works with local hosts so the visit is warm on both sides.",
+        a: "The Kalash are welcoming, and the visit works best as an honored guest at a living tradition, not a spectacle, so a respectful visitor asks before taking photographs, dresses modestly, and follows the guide near the shrines and festival grounds. Our team briefs the group and works with local hosts so the visit is warm on both sides.",
       },
       {
         q: "Is the Kalash tour good for families?",
@@ -935,6 +935,14 @@ export const detailContent: Record<string, DetailContent> = {
       {
         q: "Do you customize the Kalash itinerary?",
         a: "Yes. Our desk adds Garam Chashma, a longer festival stay, or a Chitral and Shandur leg, and builds the days around your group. Share how many travelers and what you want to see, and we send a plan and a quote for your exact dates.",
+      },
+      {
+        q: "Who are the Kalasha people?",
+        a: "The Kalasha are a community of about four thousand people in the valleys of Bumburet, Rumbur, and Birir, keeping an ancient polytheist faith, their own Kalasha language, and a distinct dress of black robes and bright beaded headdresses. Legend ties them to the army of Alexander, and their living tradition sits on the UNESCO intangible heritage list. A Kalash visit is a rare window onto a culture unlike anywhere else in Pakistan.",
+      },
+      {
+        q: "How does the Kalash tour pair with Chitral?",
+        a: "The Kalash valleys sit a short jeep drive from Chitral town, so most travelers pair the two, the Kalasha culture in Bumburet, Rumbur, and Birir with the Chitral Fort, the Shahi Masjid, Garam Chashma, and Tirich Mir over the town. Our desk builds a combined Chitral and Kalash route, and adds the Shandur Pass for the longer trip. Tell us your days and we shape the pairing around them.",
       },
     ],
   },
@@ -3200,7 +3208,7 @@ export const tourContent: Record<string, TourContent> = {
     wedge: {
       eyebrow: "Local KPK expertise",
       title: "Run from our Charsadda base in Khyber Pakhtunkhwa",
-      body: "The Kalash valleys sit beyond Chitral in the far northwest of KPK, and our desk runs them with local hosts and drivers who know the Lowari Tunnel road and the valley tracks. Our team times the trip to the Chilam Joshi festival, arranges respectful visits with the Kalash community, and knows the limited rooms in the valleys, real local knowledge from a KPK base rather than a booking passed to a distant handler.",
+      body: "The Kalash valleys sit beyond Chitral in the far northwest of KPK, reached by road from Peshawar through Dir and the Lowari Tunnel, so from our Charsadda base we are among the closest road operators to the gateway and pick up from Peshawar and Charsadda. Our desk runs them with local hosts and drivers who know the road and the valley tracks, times the trip to the Chilam Joshi festival, arranges respectful visits with the Kalash community, and knows the limited rooms in the valleys, real local knowledge from a KPK base rather than a booking passed to a distant handler.",
     },
     itineraryNote:
       "The flow above is the typical five day plan for the Kalash valleys. Our desk times the trip to the Chilam Joshi festival on request and adds a Chitral day.",
@@ -3254,13 +3262,13 @@ export const tourContent: Record<string, TourContent> = {
         name: "Rumbur and Birir valleys",
         caption: "The quieter Rumbur valley of the Kalash",
         detail:
-          "The two smaller Kalash valleys, quieter than Bumburet, where traditional life carries on much as it has for centuries. A closer, calmer look at the Kalash people.",
+          "The two smaller Kalash valleys, Rumbur the quiet middle valley and Birir the most remote and traditional, where life carries on much as it has for centuries. A closer, calmer look at the Kalash people than the busier Bumburet.",
       },
       {
         name: "The Kalash people and culture",
         caption: "Traditional Kalash dress and craft",
         detail:
-          "One of the oldest living cultures in the region, the Kalash keep their own language, dress, music, and beliefs. The bright headdresses and the shrines are unlike anywhere else in Pakistan.",
+          "A community of about four thousand people, the Kalasha keep an ancient polytheist faith, their own language, and a distinct dress of black robes and bright beaded headdresses, a living tradition on the UNESCO heritage list, with a legend tying them to the army of Alexander. The shrines and the festivals are unlike anywhere else in Pakistan.",
       },
       {
         name: "The Chilam Joshi festival",
@@ -3290,9 +3298,22 @@ export const tourContent: Record<string, TourContent> = {
       "The Chitral Fort and river",
     ],
     practical: [
-      { icon: "clock", label: "Best season", value: "May festival, and the summer" },
+      {
+        icon: "clock",
+        label: "Best season",
+        value: "Chilam Joshi mid May, Uchal August, Choimus December, summer green",
+      },
       { icon: "pin", label: "Altitude", value: "The valleys around 2000 metres" },
-      { icon: "bus", label: "Road access", value: "Through the Lowari Tunnel to Chitral" },
+      {
+        icon: "bus",
+        label: "Road access",
+        value: "Lowari Tunnel to Chitral, then Ayun and a jeep",
+      },
+      {
+        icon: "plane",
+        label: "Flight option",
+        value: "Islamabad to Chitral, then jeep, weather dependent",
+      },
       { icon: "route", label: "Jeep sections", value: "The valley roads from Chitral" },
       { icon: "phone", label: "Connectivity", value: "Signal in Chitral, limited in valleys" },
       { icon: "shield", label: "What to pack", value: "Layers, modest dress, ask before photos" },

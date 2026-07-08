@@ -230,6 +230,56 @@
     "source": "https://commons.wikimedia.org/wiki/File:Rakaposhi_%26_Autumn.jpg"
   },
   {
+    "slug": "kalash",
+    "key": "bumburet",
+    "file": "/images/tours/kalash/bumburet.jpg",
+    "title": "Bumburet",
+    "commonsFile": "File:Bomboret_River.jpg",
+    "license": "CC BY-SA 3.0",
+    "artist": "Hassan Ali",
+    "source": "https://commons.wikimedia.org/wiki/File:Bomboret_River.jpg"
+  },
+  {
+    "slug": "kalash",
+    "key": "chilam-joshi",
+    "file": "/images/tours/kalash/chilam-joshi.jpg",
+    "title": "Chilam Joshi",
+    "commonsFile": "File:Chilam_joshi_folk_Festival_celebrations_in_Kalash.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Jugni",
+    "source": "https://commons.wikimedia.org/wiki/File:Chilam_joshi_folk_Festival_celebrations_in_Kalash.jpg"
+  },
+  {
+    "slug": "kalash",
+    "key": "kalash-people",
+    "file": "/images/tours/kalash/kalash-people.jpg",
+    "title": "Kalash people",
+    "commonsFile": "File:Kalash_Girls);_Tahsin_Shah_04.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Tahsin A Shah",
+    "source": "https://commons.wikimedia.org/wiki/File:Kalash_Girls);_Tahsin_Shah_04.jpg"
+  },
+  {
+    "slug": "kalash",
+    "key": "lowari-tunnel",
+    "file": "/images/tours/kalash/lowari-tunnel.jpg",
+    "title": "Lowari Tunnel",
+    "commonsFile": "File:Lowari_Tunnel,1.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Ihsan Farid",
+    "source": "https://commons.wikimedia.org/wiki/File:Lowari_Tunnel,1.jpg"
+  },
+  {
+    "slug": "kalash",
+    "key": "rumbur",
+    "file": "/images/tours/kalash/rumbur.jpg",
+    "title": "Rumbur",
+    "commonsFile": "File:Kailash_Rambur_Valley.JPG",
+    "license": "CC BY-SA 3.0",
+    "artist": "Majduddin",
+    "source": "https://commons.wikimedia.org/wiki/File:Kailash_Rambur_Valley.JPG"
+  },
+  {
     "slug": "kumrat",
     "key": "jahaz-banda",
     "file": "/images/tours/kumrat/jahaz-banda.jpg",
