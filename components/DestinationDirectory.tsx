@@ -18,13 +18,13 @@ const columns: {
     title: "International Tour Packages",
     category: "international",
     more: "/tours/international-tours",
-    moreLabel: "View more international locations",
+    moreLabel: "Explore all international destinations",
   },
   {
     title: "Tour Packages in Pakistan",
     category: "pakistan",
     more: "/tours/pakistan",
-    moreLabel: "View more locations in Pakistan",
+    moreLabel: "Explore all Pakistan destinations",
   },
 ];
 
@@ -107,7 +107,7 @@ export default function DestinationDirectory({
                 </ul>
                 <Link
                   href={col.more}
-                  className="mt-5 inline-flex min-h-[44px] items-center gap-1.5 text-sm font-semibold text-brand-orange-dark hover:text-brand-orange"
+                  className="mt-5 inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-xl border border-brand-orange/40 bg-brand-orange/5 px-4 text-sm font-semibold text-brand-orange-dark transition hover:bg-brand-orange/10"
                 >
                   {col.moreLabel}
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>

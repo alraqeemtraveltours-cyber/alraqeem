@@ -283,35 +283,50 @@ export default async function ToursPage() {
               {
                 href: "/tours/muslim-friendly-tours",
                 title: "Muslim friendly and halal tours",
+                caption: "The Putra Mosque on the lake in Putrajaya",
+                icon: "moon",
                 note: "Halal food, easy prayer, and Muslim majority destinations like Malaysia, Turkey, and Baku, planned for a family from Pakistan.",
               },
               {
                 href: "/tours/honeymoon-packages",
                 title: "Honeymoon tours",
+                caption: "Hot air balloons over Cappadocia at sunrise",
+                icon: "camera",
                 note: "Cappadocia balloons, the Baku Caspian, and the islands of Malaysia and Thailand, shaped for a couple.",
               },
               {
                 href: "/tours/family-packages",
                 title: "Family tours",
+                caption: "Universal Studios on Sentosa Island in Singapore",
+                icon: "users",
                 note: "Theme parks in Dubai and Singapore, Genting in Malaysia, and a steady pace for children and elders.",
               },
               {
                 href: "/tours/group-tours",
                 title: "Group tours",
+                caption: "A guided group tour at a city landmark",
+                icon: "person",
                 note: "Group departures for families, offices, and communities, one booking and one quote for the whole group.",
               },
               {
                 href: "/tours/beach-and-adventure-tours",
                 title: "Beach and adventure tours",
+                caption: "Longtail boats at the Phi Phi Islands near Phuket",
+                icon: "route",
                 note: "The islands of Thailand and Malaysia, the Baku mountains, and the Dubai desert safari.",
               },
             ].map((f) => (
               <Link
                 key={f.href}
                 href={f.href}
-                className="group flex flex-col rounded-3xl border border-black/5 bg-paper p-6 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lift"
+                className="group flex flex-col overflow-hidden rounded-3xl border border-black/5 bg-paper p-5 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lift"
               >
-                <h3 className="font-display text-lg text-brand-blue-deep">
+                <CaptionedImage
+                  caption={f.caption}
+                  icon={f.icon}
+                  aspect="aspect-[16/9]"
+                />
+                <h3 className="mt-3 font-display text-lg text-brand-blue-deep">
                   {f.title}
                 </h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
