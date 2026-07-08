@@ -1,0 +1,65 @@
+[
+  {
+    "key": "shangrila",
+    "file": "/images/tours/skardu/shangrila.jpg",
+    "title": "Shangrila Resort",
+    "commonsFile": "File:Shangrila,_Lower_Kachura_Lake.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Hasanijaz",
+    "source": "https://commons.wikimedia.org/wiki/File:Shangrila,_Lower_Kachura_Lake.jpg"
+  },
+  {
+    "key": "deosai",
+    "file": "/images/tours/skardu/deosai.jpg",
+    "title": "Deosai National Park",
+    "commonsFile": "File:Deosai_pic_hd.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Hunzagrapher",
+    "source": "https://commons.wikimedia.org/wiki/File:Deosai_pic_hd.jpg"
+  },
+  {
+    "key": "sheosar-lake",
+    "file": "/images/tours/skardu/sheosar-lake.jpg",
+    "title": "Sheosar Lake",
+    "commonsFile": "File:Sheoser_lake_deosai_national_park.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Jehan Sher",
+    "source": "https://commons.wikimedia.org/wiki/File:Sheoser_lake_deosai_national_park.jpg"
+  },
+  {
+    "key": "shigar-fort",
+    "file": "/images/tours/skardu/shigar-fort.jpg",
+    "title": "Shigar Fort",
+    "commonsFile": "File:Shigar_Fort_by_ZILL_NIAZI_22.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "ZILL NIAZI",
+    "source": "https://commons.wikimedia.org/wiki/File:Shigar_Fort_by_ZILL_NIAZI_22.jpg"
+  },
+  {
+    "key": "katpana",
+    "file": "/images/tours/skardu/katpana.jpg",
+    "title": "Katpana Desert",
+    "commonsFile": "File:Unexpected_Snow_in_Katpana_Skardu.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Rgyalchan",
+    "source": "https://commons.wikimedia.org/wiki/File:Unexpected_Snow_in_Katpana_Skardu.jpg"
+  },
+  {
+    "key": "skardu-fort",
+    "file": "/images/tours/skardu/skardu-fort.jpg",
+    "title": "Kharpocho",
+    "commonsFile": "File:Kharpocho_Fort,_Skardu.jpg",
+    "license": "CC BY-SA 3.0",
+    "artist": "ShahsawarBalti",
+    "source": "https://commons.wikimedia.org/wiki/File:Kharpocho_Fort,_Skardu.jpg"
+  },
+  {
+    "key": "khaplu-palace",
+    "file": "/images/tours/skardu/khaplu-palace.jpg",
+    "title": "Khaplu Palace",
+    "commonsFile": "File:View_of_main_entrance_of_Khaplu_Palace.jpg",
+    "license": "CC BY-SA 3.0",
+    "artist": "Muhammad Ashar",
+    "source": "https://commons.wikimedia.org/wiki/File:View_of_main_entrance_of_Khaplu_Palace.jpg"
+  }
+]

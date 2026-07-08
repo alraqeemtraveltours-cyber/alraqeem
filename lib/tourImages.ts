@@ -315,6 +315,35 @@ export const tourImages: Record<string, TourImageSet> = {
     ],
   },
 
+  skardu: {
+    itinerary: [
+      `${D}/skardu/skardu-fort.jpg`,
+      `${D}/skardu/shangrila.jpg`,
+      `${D}/skardu/deosai.jpg`,
+      `${D}/skardu/shigar-fort.jpg`,
+      `${D}/skardu/katpana.jpg`,
+      `${D}/skardu/khaplu-palace.jpg`,
+      `${D}/skardu/sheosar-lake.jpg`,
+    ],
+    attractions: [
+      `${D}/skardu/shangrila.jpg`,
+      `${D}/skardu/deosai.jpg`,
+      `${D}/skardu/sheosar-lake.jpg`,
+      `${D}/skardu/shigar-fort.jpg`,
+      `${D}/skardu/katpana.jpg`,
+      `${D}/skardu/skardu-fort.jpg`,
+      `${D}/skardu/khaplu-palace.jpg`,
+    ],
+    gallery: [
+      `${D}/skardu/shangrila.jpg`,
+      `${D}/skardu/deosai.jpg`,
+      `${D}/skardu/sheosar-lake.jpg`,
+      `${D}/skardu/shigar-fort.jpg`,
+      `${D}/skardu/katpana.jpg`,
+      `${D}/skardu/skardu-fort.jpg`,
+    ],
+  },
+
   // Combos reuse the single country files, no duplicate downloads.
   "malaysia-thailand-8-days": {
     itinerary: [

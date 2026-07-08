@@ -1080,11 +1080,11 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "Should we fly or drive to Skardu?",
-        a: "The Islamabad to Skardu flight is spectacular and saves days, but it runs subject to mountain weather and cancels at short notice. The Karakoram Highway drive is longer and sure. Our team books the flight with a road backup and arranges the transfers either way.",
+        a: "The Islamabad to Skardu flight takes about fifty minutes and is spectacular, saving days, but it runs subject to mountain weather and cancels at short notice. The road is a two day drive, in summer over the Babusar Pass and otherwise via Chilas on the Karakoram Highway, longer but sure. Our team books the flight with a road backup and arranges the transfers either way.",
       },
       {
         q: "Is Deosai National Park included, and is it hard?",
-        a: "A Deosai jeep day is part of the tour in the July to September window, up to the plateau and Sheosar Lake. The plains sit above four thousand metres, so the air is thin and the day is long, but the drive itself is not a trek. Our team arranges the jeeps.",
+        a: "A Deosai jeep day is part of the tour in the June to September window, when the snow clears, up to the plateau and the deep blue Sheosar Lake. The plains sit above four thousand metres, so a 4WD jeep is needed, the air is thin, and the day is long, though the drive itself is not a trek. Deosai is the second highest plateau on earth, home to the Himalayan brown bear, marmots, and ibex. Our team arranges the jeeps.",
       },
       {
         q: "Is Skardu good for families?",
@@ -1097,6 +1097,14 @@ export const detailContent: Record<string, DetailContent> = {
       {
         q: "Do you customize the Skardu itinerary?",
         a: "Yes. Our desk adds Khaplu and its palace, a Shigar heritage night, a Basho valley leg, or a Hunza extension, and builds the days around your group. Share how many travelers and what you want, and we send a plan and a quote for your exact dates.",
+      },
+      {
+        q: "What heritage forts and mosques are there around Skardu?",
+        a: "Baltistan holds some of the finest heritage in the north. The seventeenth century Shigar Fort, restored as a heritage hotel and museum, sits among apricot orchards near the old Amburiq Mosque and the Blind Lake, while the Khaplu valley holds the restored Khaplu Palace, the wooden Chaqchan Mosque of the fourteenth century, and the Manthoka Waterfall. Our desk adds a Shigar or Khaplu heritage night on the longer routes.",
+      },
+      {
+        q: "Is Skardu the gateway to K2 and the high treks?",
+        a: "Skardu is the launch point for the great Karakoram treks, the road to Askole and the K2 base camp trek, and the Concordia amphitheatre where the Baltoro and Godwin Austen glaciers meet under four of the world's highest peaks, and it sits where the Karakoram, Himalaya, and Hindu Kush ranges nearly touch. Full expeditions run with specialist outfitters, while our desk arranges the Skardu leg, the valleys, and the shorter treks for your group.",
       },
     ],
   },
@@ -3667,9 +3675,9 @@ export const tourContent: Record<string, TourContent> = {
     name: "Skardu",
     durationWords: "seven day",
     wedge: {
-      eyebrow: "Local KPK expertise",
-      title: "The gateway to Baltistan, arranged from the north",
-      body: "Skardu is deep in Baltistan, and from our Charsadda base our desk arranges it by the Karakoram Highway or the Islamabad flight, with drivers and hosts who know the Skardu road, the Deosai jeep track, and the mountain weather that moves the flights. Our team knows the Shangrila and Skardu hotels, the season for Deosai and Sheosar Lake, and the cold desert light, years of arranging the far north rather than a booking passed to a distant handler.",
+      eyebrow: "Northern travel specialists",
+      title: "The gateway to Baltistan, run on experience",
+      body: "Skardu is deep in Baltistan, a flight or a two day drive from Islamabad, so here our edge is not proximity but experience and the convenience of the Islamabad air route we book with a road backup. Our desk has arranged Baltistan for years, with drivers and hosts who know the Skardu road, the Deosai jeep track, and the mountain weather that moves the flights, and relationships with the Shangrila and Skardu hotels. Our team knows the season for Deosai and Sheosar Lake and the cold desert light, real northern know how rather than a booking passed to a distant handler.",
     },
     itineraryNote:
       "The flow above is the typical seven day plan for Skardu. Our desk swaps the drive for the Islamabad flight, adds Khaplu or Shigar nights, or a Deosai crossing to Astore on request.",
@@ -3749,19 +3757,25 @@ export const tourContent: Record<string, TourContent> = {
         name: "Shigar Fort",
         caption: "The restored Shigar Fort in the Shigar valley",
         detail:
-          "A centuries old fort and palace in the Shigar valley, restored as a heritage hotel and museum, set among apricot orchards and terraced fields on the way to the K2 base camp trek.",
+          "The seventeenth century fort and palace in the Shigar valley, restored as a heritage hotel and museum, set among apricot orchards near the old Amburiq Mosque and the Blind Lake, on the way to the K2 base camp trek.",
       },
       {
         name: "The Katpana cold desert",
         caption: "The dunes of the Katpana cold desert",
         detail:
-          "One of the highest cold deserts in the world, dunes of pale sand along the Indus at Skardu, striking at sunset and unlike any lowland desert. A short drive from town.",
+          "One of the highest cold deserts in the world, dunes of pale sand along the Indus at Skardu, with the wider Sarfaranga desert nearby, striking at sunset and unlike any lowland desert. A short drive from town.",
       },
       {
         name: "Skardu Fort, Kharpocho",
         caption: "The Kharpocho fort above Skardu town",
         detail:
           "The old Kharpocho fort on the rock above Skardu, with a wide view over the town, the Indus, and the Katpana desert. A short climb and a heritage stop.",
+      },
+      {
+        name: "Khaplu Palace and valley",
+        caption: "The restored Khaplu Palace in Baltistan",
+        detail:
+          "The Khaplu valley east of Skardu, home to the restored Khaplu Palace, one of the finest in Baltistan, the wooden Chaqchan Mosque of the fourteenth century, and the Manthoka Waterfall among the terraced fields. On the longer Skardu routes, a heritage day or overnight.",
       },
     ],
     gallery: [
@@ -3773,10 +3787,14 @@ export const tourContent: Record<string, TourContent> = {
       "The Kharpocho fort over Skardu",
     ],
     practical: [
-      { icon: "clock", label: "Best season", value: "May to September, Deosai from July" },
-      { icon: "pin", label: "Altitude", value: "Skardu high, Deosai over 4000 m" },
-      { icon: "plane", label: "Flight option", value: "Islamabad to Skardu, weather bound" },
-      { icon: "bus", label: "Road access", value: "The KKH and the Skardu road" },
+      { icon: "clock", label: "Best season", value: "May to September, Deosai from June to July" },
+      { icon: "pin", label: "Altitude", value: "Skardu about 2,230 m, Deosai over 4,000 m" },
+      { icon: "plane", label: "Flight option", value: "Islamabad to Skardu, 50 minutes, weather bound" },
+      {
+        icon: "bus",
+        label: "Road access",
+        value: "Two day drive, Babusar in summer or Chilas on the KKH",
+      },
       { icon: "phone", label: "Connectivity", value: "Signal in Skardu, none on Deosai" },
       { icon: "shield", label: "What to pack", value: "Warm layers, sunblock, and a windproof" },
       { icon: "tag", label: "ATMs", value: "In Skardu town, carry cash beyond" },
