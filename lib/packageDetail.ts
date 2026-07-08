@@ -318,7 +318,7 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "Do you customize the Dubai tour or add another country?",
-        a: "Yes. Our desk shapes the Dubai tour around your dates, hotel choice, and excursions, and pairs Dubai with Baku, Turkey, or the Maldives for a combo trip. Tell us your plan, and we quote the customized route for your group.",
+        a: "Yes. Our desk shapes the Dubai tour around your dates, hotel choice, and excursions, pairs Dubai with Baku, Turkey, or the Maldives for a combo trip, and arranges a short city tour on a Dubai layover for travelers with a long stopover. Tell us your plan, and we quote the customized route for your group.",
       },
       {
         q: "Which cities do you fly from for the Dubai tour?",
@@ -335,6 +335,14 @@ export const detailContent: Record<string, DetailContent> = {
       {
         q: "Do I travel in a group or a private tour on the Dubai package?",
         a: "Both suit the Dubai Tour Package. Join a group departure for the friendliest price, or ask our desk for a private, customized tour with your own vehicle and pace. Tell us your group size and preference, and we quote the option that fits.",
+      },
+      {
+        q: "Does the UAE visa for Dubai allow entry to Saudi Arabia?",
+        a: "No. A UAE visit visa covers Dubai and the Emirates only, and Saudi Arabia needs its own visa, whether for Umrah, Hajj, or a visit. Our desk handles Saudi pilgrimage visas separately through the official channel, so tell us if you plan Dubai alongside an Umrah, and we quote each leg with the right documents for your dates.",
+      },
+      {
+        q: "Any tips for women traveling to Dubai from Pakistan?",
+        a: "Dubai stays comfortable and safe for women travelers, solo or with family. Modest dress suits the malls, the mosques, and the old town, with a scarf handy for mosque visits, while beaches and hotels stay relaxed. Respect for local customs during Ramadan, such as discreet eating in daylight, keeps the trip smooth, and our desk shares the current pointers for your travel dates.",
       },
     ],
   },
@@ -1566,7 +1574,7 @@ export const dubaiAttractions = [
     name: "Abu Dhabi and the Sheikh Zayed Grand Mosque",
     caption: "The Sheikh Zayed Grand Mosque in Abu Dhabi",
     detail:
-      "A day trip to the UAE capital and its white marble grand mosque, one of the largest in the world, with its many domes and vast main prayer hall. The route often adds the Corniche and Emirates Palace. Arranged on request as an add on.",
+      "A day trip to the UAE capital and its white marble grand mosque, one of the largest in the world, with its many domes and vast main prayer hall. The route often adds the Corniche, Emirates Palace, Ferrari World on Yas Island, and the Louvre Abu Dhabi. Arranged on request as an add on.",
   },
 ];
 
@@ -1588,6 +1596,11 @@ export const dubaiPractical = [
     icon: "clock",
     label: "Best time to visit",
     value: "November to March, cooler and dry",
+  },
+  {
+    icon: "plane",
+    label: "Flight time",
+    value: "Around two to three hours direct from Pakistan",
   },
   { icon: "tag", label: "Currency", value: "UAE dirham, AED" },
   { icon: "meal", label: "Halal food", value: "Widely available across the emirate" },
