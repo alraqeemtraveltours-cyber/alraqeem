@@ -2251,7 +2251,10 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                   )}
                   {isTurkey && (
                     <p className="mt-5 border-t border-black/5 pt-4 text-xs leading-relaxed text-slate-500">
-                      Verify the current rules and apply at the official{" "}
+                      Most Pakistani passport holders need a sticker visa, since
+                      the Turkey e visa applies only with a valid Schengen, UK,
+                      US, or Ireland visa. Verify the current rules and apply at
+                      the official{" "}
                       <a
                         href="https://www.evisa.gov.tr"
                         target="_blank"
@@ -2260,7 +2263,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                       >
                         Turkey e visa portal
                       </a>
-                      . Our team prepares and files your visa with your booking.
+                      . Our team prepares and files the right visa with your booking.
                     </p>
                   )}
                   {isBaku && (

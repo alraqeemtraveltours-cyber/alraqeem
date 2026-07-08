@@ -359,8 +359,8 @@ export const detailContent: Record<string, DetailContent> = {
     faqs: [
       pricingFaq("Turkey Tour"),
       {
-        q: "Is a Turkey e visa required, and is it included?",
-        a: "Yes, Pakistani travelers need a Turkey visa, and the tour includes e visa support. Our team checks eligibility and prepares your file, filing the e visa for eligible travelers and guiding the sticker visa for others. Verify the current rules at the official Turkey e visa portal, and flights, tours, and halal meals arrive in the same booking.",
+        q: "Is a Turkey visa required, and is it an e visa or a sticker visa?",
+        a: "Yes, Pakistani travelers need a Turkey visa. Most need a sticker visa from the Turkish mission, since the Turkey e visa applies only to travelers who already hold a valid Schengen, UK, US, or Ireland visa. Apply about four weeks ahead, and our team checks your eligibility, prepares the right file, and files it. Verify the current rules at the official Turkey e visa portal, and flights, tours, and halal meals arrive in the same booking.",
       },
       {
         q: "What is included in the Turkey tour package?",
@@ -384,11 +384,11 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "Is the Turkey tour good for a honeymoon?",
-        a: "Turkey suits honeymooners, with the Bosphorus, the Cappadocia valleys, and an optional dawn balloon flight. Our desk arranges a couples pace, a cave hotel in Cappadocia on request, and quiet dinners, quoted with your dates. Families and first time travelers get the same care at their own pace.",
+        a: "Turkey suits honeymooners, with the Bosphorus, the Cappadocia valleys, an optional dawn balloon flight, and the turquoise coast at Oludeniz, the Butterfly Valley, and Marmaris on a longer route. Our desk arranges a couples pace, a cave hotel in Cappadocia on request, and quiet dinners, quoted with your dates. Families and first time travelers get the same care at their own pace.",
       },
       {
         q: "Do you customize the Turkey tour or add Antalya and Pamukkale?",
-        a: "Yes. Our desk shapes the tour around your dates, hotel choice, and excursions, and extends the route to Antalya, Pamukkale, Ephesus, or Bursa on request. Tell us your plan, and we quote the customized route for your group.",
+        a: "Yes. Our desk shapes the tour around your dates, hotel choice, and excursions, extends the route to Antalya, Pamukkale, Ephesus, or Bursa, and arranges a winter trip for snowy Cappadocia and skiing at Uludag near Bursa. Tell us your plan, and we quote the customized route for your group.",
       },
       {
         q: "Do you offer an Umrah and Turkey combo?",
@@ -396,11 +396,19 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "How do I travel between Istanbul and Cappadocia?",
-        a: "Domestic flights connect Istanbul and Cappadocia in about ninety minutes, and the tour includes them so you keep more time for sightseeing. Our team books the internal flights and the airport transfers, so your group moves between the cities without arranging anything separately.",
+        a: "Domestic flights connect Istanbul and Cappadocia, into Kayseri or Nevsehir, in about ninety minutes, and the tour includes them so you keep more time for sightseeing. Antalya and the southern coast connect by domestic flight as well. Our team books the internal flights and the airport transfers, so your group moves between the cities without arranging anything separately.",
       },
       {
         q: "What documents do I need for the Turkey tour?",
         a: "The Turkey tour needs a passport valid for at least six months, your national identity card, passport photographs, and the Turkey visa, which our desk prepares and files. A confirmed return ticket and hotel booking are arranged inside your package, and our team checks every page before submission.",
+      },
+      {
+        q: "Is Turkey a Muslim friendly and welcoming trip for Pakistanis?",
+        a: "Turkey carries deep Islamic and Ottoman heritage, from the imperial mosques of Istanbul, the Blue Mosque, Suleymaniye, and Eyup Sultan, to the call to prayer across the city, and halal food is easy throughout. Turks hold a warm regard for visitors from Pakistan, and our desk arranges halal meals, prayer time on the touring days, and an English speaking guide, with an Urdu speaking guide on request. A comfortable trip for a Muslim family.",
+      },
+      {
+        q: "Which cities do you fly to Turkey from?",
+        a: "Our desk books Turkey flights from Karachi, Lahore, Islamabad, or Peshawar, on the carrier with the best fare and schedule for your dates, such as Turkish Airlines or a Gulf carrier. Travelers near our Charsadda base depart from Islamabad or Peshawar, with airport transfers arranged when you book.",
       },
     ],
   },
@@ -1803,7 +1811,18 @@ export const turkeyPractical = [
     label: "Best time to visit",
     value: "April to June and September to October",
   },
+  {
+    icon: "plane",
+    label: "Flight time",
+    value: "About six to seven hours direct to Istanbul",
+  },
   { icon: "tag", label: "Currency", value: "Turkish lira, TRY" },
+  { icon: "meal", label: "Halal food", value: "Widely available across the country" },
+  {
+    icon: "bus",
+    label: "Getting around",
+    value: "Trams, metro, ferries, and domestic flights between cities",
+  },
   { icon: "pin", label: "Time zone", value: "GMT plus 3" },
   {
     icon: "users",
