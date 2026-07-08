@@ -531,7 +531,7 @@ export const detailContent: Record<string, DetailContent> = {
 
   malaysia: {
     overview:
-      "Malaysia Tour Package from Pakistan is one of the easiest first trips abroad for a Muslim family, six days and five nights in a Muslim majority country where halal food is everywhere and mosques sit on every route. Our team arranges return airfare, the Malaysia e visa, a city hotel with breakfast, a Kuala Lumpur city tour with the Petronas Twin Towers and Batu Caves, a Genting Highlands day, and Putrajaya, with Langkawi as an optional island add on. Green, walkable, and welcoming, Kuala Lumpur suits families, couples, and first time travelers from Pakistan.",
+      "Malaysia Tour Package from Pakistan is one of the easiest and most affordable first trips abroad for a Muslim family, six days and five nights in a Muslim majority country where halal food is everywhere and mosques sit on every route. Our team arranges return airfare, the Malaysia e visa, a city hotel with breakfast, a Kuala Lumpur city tour with the Petronas Twin Towers and Batu Caves, a Genting Highlands day, and Putrajaya, with Langkawi as an optional island add on. The Pakistani rupee stretches further here, so hotels, meals, and transport stay within easy reach. Green, walkable, and welcoming, Kuala Lumpur suits families, couples, and first time travelers from Pakistan.",
     whoFor: [
       "Muslim families wanting a halal friendly first trip abroad",
       "Couples and honeymooners seeking city and nature together",
@@ -542,11 +542,15 @@ export const detailContent: Record<string, DetailContent> = {
       pricingFaq("Malaysia Tour Package"),
       {
         q: "Is a Malaysia visa required for Pakistani travelers?",
-        a: "Yes, Pakistani passport holders need the Malaysia e visa or the eNTRI entry, applied online before travel. Our team prepares and files it, checking every document first so the file clears cleanly. The visa arrives inside your package, so there is no separate embassy visit to arrange.",
+        a: "Yes, Pakistani passport holders need the Malaysia e visa or the eNTRI entry, applied online before travel and among the more straightforward, low cost visas in the region. Our team prepares and files it, checking every document first so the file clears cleanly. The visa arrives inside your package, so there is no separate embassy visit to arrange.",
       },
       {
         q: "Is Malaysia halal and Muslim friendly?",
         a: "Malaysia is a Muslim majority country, so halal food is everywhere and mosques like the National Mosque and the Putra Mosque sit on the tour route. Prayer is simple to fit around the sightseeing, which makes Malaysia one of the most comfortable first trips abroad for a family from Pakistan.",
+      },
+      {
+        q: "Is Malaysia an affordable tour from Pakistan?",
+        a: "Malaysia ranks among the most affordable trips abroad from Pakistan. The Pakistani rupee stretches further there, hotels across three, four, and five stars sit within easy reach, and halal food at the hawker stalls keeps daily spending low. Tell our desk your budget and we shape the hotels, the cities, and the days to fit, with every amount confirmed in writing before you pay.",
       },
       {
         q: "How many days do I need for a Malaysia tour?",
@@ -562,7 +566,7 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "Is Malaysia good for families?",
-        a: "Malaysia suits families, with the Petronas Towers and Batu Caves in Kuala Lumpur, the theme parks and cable car of Genting Highlands, halal food everywhere, and short, easy transfers. Our team sets a steady pace and connected rooms, and adjusts the days for younger children on request.",
+        a: "Malaysia suits families, with the Petronas Towers and Batu Caves in Kuala Lumpur, the theme parks and cable car of Genting Highlands, Sunway Lagoon and the Legoland park in Johor on request, halal food everywhere, and short, easy transfers. Our team sets a steady pace and connected rooms, and adjusts the days for younger children on request.",
       },
       {
         q: "How do I get around on the Malaysia tour?",
@@ -570,7 +574,7 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "Do you customize the Malaysia itinerary?",
-        a: "Yes. Our desk adds Langkawi, Malacca, Penang, or a Singapore leg, extra Genting time, or a slower pace, and builds the days around your group. Share how many travelers and what you want to see, and we send a plan and a quote for your exact dates.",
+        a: "Yes. Our desk adds Langkawi, Penang and George Town, the Cameron Highlands tea country, Malacca, a Singapore leg, or the Borneo wildlife of Sabah with its orangutans and Mount Kinabalu, plus extra Genting time or a slower pace, and builds the days around your group. Share how many travelers and what you want to see, and we send a plan and a quote for your exact dates.",
       },
       {
         q: "Which airlines fly to Kuala Lumpur from Pakistan?",
@@ -2235,7 +2239,7 @@ export const tourContent: Record<string, TourContent> = {
         name: "Petronas Twin Towers",
         caption: "The Petronas Twin Towers in Kuala Lumpur",
         detail:
-          "The twin skyscrapers at the heart of Kuala Lumpur, joined by a skybridge and set above the KLCC park and its fountains. The towers light the skyline after dark, the classic first sight of the city.",
+          "The twin skyscrapers at the heart of Kuala Lumpur, 88 floors and about 452 metres, joined by a skybridge and set above the KLCC park and its fountains. The towers light the skyline after dark, the classic first sight of the city.",
       },
       {
         name: "Batu Caves",
@@ -2259,13 +2263,25 @@ export const tourContent: Record<string, TourContent> = {
         name: "Langkawi",
         caption: "The SkyCab cable car and SkyBridge on Langkawi",
         detail:
-          "An island of beaches and rainforest off the northwest coast, home to the SkyCab cable car, the curving SkyBridge, and the Eagle Square landmark. On the optional add on rather than the base city plan, arranged on request.",
+          "An island of beaches and rainforest off the northwest coast, home to the SkyCab cable car, the curving SkyBridge, the Eagle Square landmark, and island hopping across the ninety nine island archipelago. On the optional add on rather than the base city plan, arranged on request.",
       },
       {
         name: "Putrajaya and the Putra Mosque",
         caption: "The pink Putra Mosque on the lake in Putrajaya",
         detail:
           "The planned garden capital south of Kuala Lumpur, built around a lake and crossed by grand bridges. The rose tinted Putra Mosque on the waterfront is the signature sight, a calm half day from the city.",
+      },
+      {
+        name: "Penang and George Town",
+        caption: "The street art murals of George Town in Penang",
+        detail:
+          "The island of Penang and its UNESCO listed George Town, a port of colonial shophouses, clan temples, and the famous street art murals. Penang Hill rises above the city by funicular for the view. On the optional longer tour rather than the base city plan, arranged on request.",
+      },
+      {
+        name: "Cameron Highlands",
+        caption: "The tea plantations of the Cameron Highlands",
+        detail:
+          "A cool hill station of rolling tea plantations, strawberry farms, and mossy forest trails north of Kuala Lumpur. The mild climate and green valleys suit a slower day or two away from the city heat. On the optional longer tour rather than the base city plan, arranged on request.",
       },
     ],
     gallery: [
@@ -2277,12 +2293,21 @@ export const tourContent: Record<string, TourContent> = {
       "The cable car and beaches of Langkawi",
     ],
     practical: [
-      { icon: "clock", label: "Best time to visit", value: "Year round, tropical climate" },
+      {
+        icon: "clock",
+        label: "Best time to visit",
+        value: "Year round tropical, drier December to February and June to August",
+      },
       { icon: "tag", label: "Currency", value: "Malaysian ringgit, MYR" },
       {
         icon: "meal",
         label: "Halal food",
         value: "Everywhere, a Muslim majority country",
+      },
+      {
+        icon: "bus",
+        label: "Getting around",
+        value: "MRT, monorail, buses, and taxis, all low cost",
       },
       { icon: "clock", label: "Time zone", value: "GMT plus 8" },
       { icon: "users", label: "Language", value: "Malay, with English widely spoken" },
