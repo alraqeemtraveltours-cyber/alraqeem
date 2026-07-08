@@ -260,6 +260,35 @@ export const tourImages: Record<string, TourImageSet> = {
     ],
   },
 
+  hunza: {
+    itinerary: [
+      `${D}/hunza/rakaposhi.jpg`,
+      `${D}/hunza/rakaposhi.jpg`,
+      `${D}/hunza/baltit-fort.jpg`,
+      `${D}/hunza/attabad-lake.jpg`,
+      `${D}/hunza/khunjerab.jpg`,
+      `${D}/hunza/passu-cones.jpg`,
+      `${D}/hunza/rakaposhi.jpg`,
+    ],
+    attractions: [
+      `${D}/hunza/baltit-fort.jpg`,
+      `${D}/hunza/attabad-lake.jpg`,
+      `${D}/hunza/passu-cones.jpg`,
+      `${D}/hunza/khunjerab.jpg`,
+      `${D}/hunza/rakaposhi.jpg`,
+      `${D}/hunza/rakaposhi.jpg`,
+      `${D}/hunza/naltar.jpg`,
+    ],
+    gallery: [
+      `${D}/hunza/baltit-fort.jpg`,
+      `${D}/hunza/attabad-lake.jpg`,
+      `${D}/hunza/passu-cones.jpg`,
+      `${D}/hunza/khunjerab.jpg`,
+      `${D}/hunza/rakaposhi.jpg`,
+      `${D}/hunza/rakaposhi.jpg`,
+    ],
+  },
+
   // Combos reuse the single country files, no duplicate downloads.
   "malaysia-thailand-8-days": {
     itinerary: [

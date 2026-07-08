@@ -1006,11 +1006,11 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "What is the best time to visit Hunza?",
-        a: "May to October is the open season, with the cherry blossom in early April and the golden poplars in October. Summer is warm and busy, and the Khunjerab Pass is clear in the warmer months. Share your window and our team plans the trip around it.",
+        a: "March to November is the open season, with the iconic apricot and cherry blossom from late March to early April, warm dry summers, and golden poplars in October. The Karakoram Highway is often snow blocked in deep winter, so Hunza is a spring to autumn trip rather than a year round one. Share your window and our team plans the trip around it.",
       },
       {
         q: "How do we reach Hunza, road or flight?",
-        a: "Both. The Karakoram Highway from Islamabad through Chilas is the classic drive and the value option, while an Islamabad to Gilgit flight then a short road leg saves two days when the mountain weather allows. Our team arranges either and the transfers.",
+        a: "Both, and the road runs by two routes. In summer, from June to September, the shorter road climbs the Babusar Pass from Naran, and in the shoulder and winter months, when Babusar is closed by snow, the KKH runs through Chilas, a two day drive from Islamabad either way. An Islamabad to Gilgit flight then a short road leg saves two days when the mountain weather allows. Our team arranges the right route for your season and the transfers.",
       },
       {
         q: "Is the Karakoram Highway drive hard?",
@@ -1018,7 +1018,7 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "Can we visit the Khunjerab Pass and the China border?",
-        a: "Yes. A day from Hunza reaches the Khunjerab Pass, the highest paved border crossing in the world, through the Khunjerab National Park. The gate is the frontier with China. Our team times it to the open season and the weather on the day.",
+        a: "Yes. A day from Hunza reaches the Khunjerab Pass at 4,733 metres, the highest paved border crossing in the world, at the frontier with China, through the Khunjerab National Park with its snow leopard, ibex, and Marco Polo sheep. The pass opens around May and closes by November, and a permit from Sost or Gilgit is arranged by our team, timed to the open season and the weather on the day.",
       },
       {
         q: "Is Hunza good for families?",
@@ -1030,7 +1030,15 @@ export const detailContent: Record<string, DetailContent> = {
       },
       {
         q: "Do you customize the Hunza itinerary?",
-        a: "Yes. Our desk adds Naltar valley, a Skardu extension, extra Khunjerab or Passu time, or a Gilgit flight, and builds the days around your group. Share how many travelers and what you want, and we send a plan and a quote for your exact dates.",
+        a: "Yes. Our desk adds the Nagar valley with the Hopper Glacier and the Rakaposhi base camp trek, the Naltar valley with its Blue and Satrangi lakes, a Fairy Meadows and Nanga Parbat leg en route, a Skardu extension over the Deosai, or a Gilgit flight, and builds the days around your group. Share how many travelers and what you want, and we send a plan and a quote for your exact dates.",
+      },
+      {
+        q: "When is the Hunza blossom season?",
+        a: "The Hunza blossom runs from late March to early April, about ten days when the apricot, cherry, and almond trees flower pink and white across the terraces under the snow peaks, one of the iconic sights of Pakistan. The exact window shifts a little each year with the weather, so our desk tracks it and times the trip to the bloom. Tell us you want the blossom and we plan the dates and the villages around it.",
+      },
+      {
+        q: "Hunza or Skardu, which should I choose?",
+        a: "Hunza has the most developed infrastructure in the north, with the forts, Attabad Lake, Passu, and Khunjerab close together, so it suits families and first time northern travelers. Skardu spreads its lakes, the Deosai plateau, and the K2 gateway over longer drives, for travelers with more time and an eye on the high wilderness. Our desk runs both, and pairs Hunza and Skardu over the Deosai in one trip on request.",
       },
     ],
   },
@@ -3453,9 +3461,9 @@ export const tourContent: Record<string, TourContent> = {
     name: "Hunza",
     durationWords: "seven day",
     wedge: {
-      eyebrow: "Local KPK expertise",
-      title: "The Karakoram Highway from our northern doorstep",
-      body: "Hunza is a long drive up the Karakoram Highway, and from our Charsadda base our desk starts closer to the mountains than a Lahore or Karachi operator and runs the road with drivers who know every stretch of the KKH, the weather windows, and the landslide seasons. Our team knows the Karimabad hotels, the timing for the cherry blossom and the autumn gold, and the day for Khunjerab, years of arranging the far north rather than a booking passed to a distant handler.",
+      eyebrow: "Northern travel specialists",
+      title: "Years of running the Karakoram, with our people on the ground",
+      body: "Hunza is a two day drive up the Karakoram Highway, and Islamabad is the natural gateway, so here our edge is not proximity but experience. Our desk has run the KKH for years, with drivers who know every stretch, the weather windows, and the landslide seasons, and hosts and hotel relationships in Karimabad, Passu, and Gulmit. Our team knows the timing for the spring blossom and the autumn gold, the day and the permit for Khunjerab, and the honest route for your season, real northern know how rather than a booking passed to a distant handler.",
     },
     itineraryNote:
       "The flow above is the typical seven day plan up the Karakoram Highway. Our desk adjusts the drive, adds a Gilgit flight leg, or extends to Khunjerab and Naltar on request.",
@@ -3517,25 +3525,25 @@ export const tourContent: Record<string, TourContent> = {
         name: "Karimabad and the Baltit Fort",
         caption: "The Baltit Fort above Karimabad",
         detail:
-          "The main town of Hunza, terraced on the slope under the peaks, crowned by the centuries old Baltit Fort. The old bazaar and the nearby Altit Fort make the heart of a Hunza stay.",
+          "The main town of Hunza, terraced on the slope under the peaks, crowned by the centuries old Baltit Fort. The old bazaar, the nearby Altit Fort and its Royal Garden, and the ancient Ganish village make the heart of a Hunza stay.",
       },
       {
         name: "Attabad Lake",
         caption: "The turquoise water of Attabad Lake",
         detail:
-          "A vivid turquoise lake in Upper Hunza, formed by a landslide, now lined with boats and jetties. A boat ride on the still water under the cliffs is a Hunza highlight.",
+          "A vivid turquoise lake in Upper Hunza, formed by the 2010 Attabad landslide that dammed the Hunza River, now lined with boats and jetties and bypassed by the Attabad Tunnel. A boat ride on the still water under the cliffs is a Hunza highlight.",
       },
       {
         name: "Passu Cones",
         caption: "The jagged Passu Cones in Upper Hunza",
         detail:
-          "The row of sharp, jagged peaks above Passu, one of the most photographed skylines in the country, near the Hussaini suspension bridge and the Passu Glacier.",
+          "The row of sharp, jagged peaks above Passu, one of the most photographed skylines in the country, near the Hussaini suspension bridge and the Passu and Batura glaciers.",
       },
       {
         name: "Khunjerab Pass",
         caption: "The Khunjerab Pass at the China border",
         detail:
-          "The highest paved international border crossing in the world at over four thousand seven hundred metres, at the China frontier, reached through the Khunjerab National Park.",
+          "The highest paved international border crossing in the world at 4,733 metres, at the China frontier, reached through the Khunjerab National Park with its snow leopard, ibex, and Marco Polo sheep. Open around May to November, with a permit from Sost or Gilgit.",
       },
       {
         name: "Rakaposhi viewpoint",
@@ -3547,7 +3555,13 @@ export const tourContent: Record<string, TourContent> = {
         name: "Eagle's Nest, Duiker",
         caption: "Sunset over Hunza from Eagle's Nest",
         detail:
-          "The viewpoint above Karimabad at Duiker, famous for sunrise and sunset over the Hunza valley and the ring of peaks, from Rakaposhi to Ladyfinger. A short drive up from town.",
+          "The viewpoint above Karimabad at Duiker, famous for sunrise and sunset over the ring of seven peaks above seven thousand metres, from Rakaposhi and Diran to Ultar Sar, Golden Peak, and Ladyfinger. A sunrise stay is a short drive up from town.",
+      },
+      {
+        name: "The Nagar and Naltar valleys",
+        caption: "The Satrangi Rainbow Lake in Naltar valley",
+        detail:
+          "The side valleys off the Karakoram Highway, Nagar with the Hopper Glacier and the Rakaposhi base camp trek across the river, and Naltar with its pine forest and the Blue and Satrangi Rainbow lakes. On the longer Hunza routes, arranged with jeeps on request.",
       },
     ],
     gallery: [
@@ -3559,9 +3573,21 @@ export const tourContent: Record<string, TourContent> = {
       "Sunset over Hunza from Eagle's Nest",
     ],
     practical: [
-      { icon: "clock", label: "Best season", value: "May to October, blossom in April" },
-      { icon: "pin", label: "Altitude", value: "Hunza high, Khunjerab over 4700 m" },
-      { icon: "bus", label: "Road access", value: "The Karakoram Highway, a long drive" },
+      {
+        icon: "clock",
+        label: "Best season",
+        value: "March to November, blossom late March to April, winter KKH closed",
+      },
+      {
+        icon: "pin",
+        label: "Altitude",
+        value: "Karimabad about 2,438 m, Khunjerab 4,733 m",
+      },
+      {
+        icon: "bus",
+        label: "Road access",
+        value: "Karakoram Highway, Babusar in summer or Chilas in winter",
+      },
       { icon: "plane", label: "Flight option", value: "Islamabad to Gilgit, then road" },
       { icon: "phone", label: "Connectivity", value: "Signal in towns, patchy on the KKH" },
       { icon: "shield", label: "What to pack", value: "Warm layers even in summer, sunblock" },
