@@ -396,90 +396,116 @@ export default async function HomePage() {
       </section>
 
       {/* Umrah and Hajj explainer */}
-      <section className="py-20 sm:py-28">
+      <section className="overflow-hidden py-20 sm:py-28">
         <div className="container-site">
-          <SectionHeading
-            eyebrow="Umrah and Hajj"
-            title="Umrah and Hajj, and how they differ"
-            description="Two pilgrimages, two purposes. Here is the plain difference before you choose."
-            align="center"
-          />
-          <p className="mx-auto max-w-3xl text-base leading-relaxed text-slate-700">
-            Umrah is the minor pilgrimage, performed year round. Pilgrims enter
-            in Ihram, perform Tawaf around the Kaaba, and complete Sa'i between
-            Safa and Marwah, then release Ihram with Halq or Taqsir. Hajj is the
-            obligatory pilgrimage of Dhul Hijjah, performed once by those who
-            are able. Hajj keeps the Umrah rites and adds the standing at
-            Arafat, the night at Muzdalifah, and the days at Mina, registered
-            through MORA in Pakistan and Nusuk in Saudi Arabia. The plain
-            difference: Umrah is shorter, year round, and voluntary, while Hajj
-            falls in Dhul Hijjah, adds Arafat, Muzdalifah, and Mina, and is
-            obligatory once for those who are able.
-          </p>
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-              <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-card">
-                <h3 className="font-display text-xl text-brand-blue-deep">
+          <div
+            data-testid="pilgrimage-comparison"
+            className="overflow-hidden rounded-[2rem] bg-brand-blue-deep shadow-[0_28px_80px_rgba(11,44,34,0.18)] ring-1 ring-brand-blue-deep/10 sm:rounded-[2.5rem]"
+          >
+            <div className="relative grid lg:grid-cols-[0.82fr_1.18fr]">
+              <div className="relative overflow-hidden px-6 pb-10 pt-8 sm:px-10 sm:pb-12 sm:pt-10 lg:px-12 lg:py-14">
+                <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full border border-white/10" />
+                <div className="absolute -left-10 -top-10 h-44 w-44 rounded-full border border-white/10" />
+                <div className="relative">
+                  <p className="text-xs font-bold uppercase tracking-luxe text-brand-orange">
+                    Umrah and Hajj
+                  </p>
+                  <h2 className="mt-5 max-w-xl font-display text-4xl leading-[1.08] text-white sm:text-5xl lg:text-[3.35rem]">
+                    Umrah and Hajj, and how they differ
+                  </h2>
+                  <div className="mt-7 h-px w-20 bg-brand-orange" />
+                  <p className="mt-7 max-w-md text-base leading-relaxed text-white/70">
+                    Two pilgrimages, two purposes. Here is the plain difference before you choose.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-[#ebe3d3] px-6 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-14">
+                <p className="text-base leading-[1.85] text-slate-700">
+                  Umrah is the minor pilgrimage, performed year round. Pilgrims enter
+                  in Ihram, perform Tawaf around the Kaaba, and complete Sa'i between
+                  Safa and Marwah, then release Ihram with Halq or Taqsir. Hajj is the
+                  obligatory pilgrimage of Dhul Hijjah, performed once by those who
+                  are able. Hajj keeps the Umrah rites and adds the standing at
+                  Arafat, the night at Muzdalifah, and the days at Mina, registered
+                  through MORA in Pakistan and Nusuk in Saudi Arabia. The plain
+                  difference: Umrah is shorter, year round, and voluntary, while Hajj
+                  falls in Dhul Hijjah, adds Arafat, Muzdalifah, and Mina, and is
+                  obligatory once for those who are able.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid gap-px bg-brand-blue-deep/10 md:grid-cols-2">
+              <div className="bg-white px-6 py-8 sm:px-10 sm:py-10 lg:px-12">
+                <div className="mb-6 h-1 w-12 rounded-full bg-brand-orange" />
+                <h3 className="font-display text-3xl text-brand-blue-deep">
                   Umrah
                 </h3>
-                <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-slate-600">
-                  <li>Minor pilgrimage, performed year round</li>
-                  <li>Ihram, Tawaf, Sa'i, then Halq or Taqsir</li>
-                  <li>Voluntary and shorter, 7 to 30 days</li>
-                  <li>Saudi Umrah e-visa, handled by our desk</li>
+                <ul className="mt-6 divide-y divide-brand-blue-deep/10 text-sm leading-relaxed text-slate-600">
+                  <li className="py-3 first:pt-0">Minor pilgrimage, performed year round</li>
+                  <li className="py-3">Ihram, Tawaf, Sa'i, then Halq or Taqsir</li>
+                  <li className="py-3">Voluntary and shorter, 7 to 30 days</li>
+                  <li className="py-3 last:pb-0">Saudi Umrah e-visa, handled by our desk</li>
                 </ul>
               </div>
-              <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-card">
-                <h3 className="font-display text-xl text-brand-blue-deep">
+              <div className="bg-[#faf8f3] px-6 py-8 sm:px-10 sm:py-10 lg:px-12">
+                <div className="mb-6 h-1 w-12 rounded-full bg-brand-blue" />
+                <h3 className="font-display text-3xl text-brand-blue-deep">
                   Hajj
                 </h3>
-                <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-slate-600">
-                  <li>Obligatory pilgrimage, once for those able</li>
-                  <li>Performed in Dhul Hijjah only</li>
-                  <li>Adds Arafat, Muzdalifah, and Mina</li>
-                  <li>Registered through MORA and Nusuk</li>
+                <ul className="mt-6 divide-y divide-brand-blue-deep/10 text-sm leading-relaxed text-slate-600">
+                  <li className="py-3 first:pt-0">Obligatory pilgrimage, once for those able</li>
+                  <li className="py-3">Performed in Dhul Hijjah only</li>
+                  <li className="py-3">Adds Arafat, Muzdalifah, and Mina</li>
+                  <li className="py-3 last:pb-0">Registered through MORA and Nusuk</li>
                 </ul>
               </div>
             </div>
-          <p className="mx-auto mt-6 max-w-3xl text-sm leading-relaxed text-slate-500">
-            Official registration runs through the{" "}
-            <a
-              href="https://www.mora.gov.pk"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-brand-blue underline"
-            >
-              MORA portal
-            </a>{" "}
-            in Pakistan and the{" "}
-            <a
-              href="https://www.nusuk.sa"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-brand-blue underline"
-            >
-              Nusuk platform
-            </a>{" "}
-            in Saudi Arabia, which also issues the{" "}
-            <a
-              href="https://www.nusuk.sa"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-brand-blue underline"
-            >
-              Saudi Umrah e-visa
-            </a>
-            .
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link href="/umrah" className="btn-orange">
-              Explore Umrah packages
-            </Link>
-            <Link
-              href="/hajj"
-              className="btn-outline"
-            >
-              Hajj packages
-            </Link>
+
+            <div className="grid items-center gap-6 border-t border-white/10 px-6 py-7 sm:px-10 lg:grid-cols-[1fr_auto] lg:px-12">
+              <p className="max-w-3xl text-sm leading-relaxed text-white/65">
+                Official registration runs through the{" "}
+                <a
+                  href="https://www.mora.gov.pk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-white underline decoration-brand-orange underline-offset-4"
+                >
+                  MORA portal
+                </a>{" "}
+                in Pakistan and the{" "}
+                <a
+                  href="https://www.nusuk.sa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-white underline decoration-brand-orange underline-offset-4"
+                >
+                  Nusuk platform
+                </a>{" "}
+                in Saudi Arabia, which also issues the{" "}
+                <a
+                  href="https://www.nusuk.sa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-white underline decoration-brand-orange underline-offset-4"
+                >
+                  Saudi Umrah e-visa
+                </a>
+                .
+              </p>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Link href="/umrah" className="btn-orange whitespace-nowrap">
+                  Explore Umrah packages
+                </Link>
+                <Link
+                  href="/hajj"
+                  className="btn whitespace-nowrap border border-white/35 text-white hover:border-white hover:bg-white hover:text-brand-blue-deep"
+                >
+                  Hajj packages
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -545,48 +571,72 @@ export default async function HomePage() {
       />
 
       {/* Umrah tiers teaser, the full comparison lives on the Umrah hub */}
-      <section className="py-20 sm:py-28">
+      <section className="overflow-hidden py-20 sm:py-28">
         <div className="container-site">
-          <SectionHeading
-            eyebrow="Choosing your Umrah"
-            title="Economy, premium, and five star Umrah"
-            align="center"
-          />
-          <p className="mx-auto max-w-3xl text-center text-base leading-relaxed text-slate-700">
-            Economy suits budget conscious pilgrims, with hotels a short walk or
-            shuttle from the Haram. Premium and five star place you near or
-            facing it, with fewer travelers per room and private transport, and
-            the Ramadan program focuses on the last Ashra. Compare the three
-            tiers side by side, the room sharing, the hotel distance, and the
-            transport, on the Umrah hub, each quoted on inquiry.
-          </p>
-          <div className="mt-8 text-center">
-            <Link href="/umrah" className="btn-orange">
-              Compare Umrah tiers on the hub
-            </Link>
+          <div
+            data-testid="umrah-tier-intro"
+            className="relative overflow-hidden rounded-[2rem] border border-brand-blue-deep/10 bg-[#ebe3d3] shadow-[0_24px_70px_rgba(11,44,34,0.12)] sm:rounded-[2.5rem]"
+          >
+            <div className="pointer-events-none absolute -bottom-40 -left-24 h-80 w-80 rounded-full border border-brand-orange/25" />
+            <div className="pointer-events-none absolute -bottom-24 -left-8 h-52 w-52 rounded-full border border-brand-orange/25" />
+
+            <div className="relative grid lg:grid-cols-[0.82fr_1.18fr]">
+              <div className="px-6 pb-9 pt-8 sm:px-10 sm:pb-11 sm:pt-10 lg:px-12 lg:py-14">
+                <p className="text-xs font-bold uppercase tracking-luxe text-brand-orange-dark">
+                  Choosing your Umrah
+                </p>
+                <h2 className="mt-5 max-w-xl font-display text-4xl leading-[1.1] text-brand-blue-deep sm:text-5xl lg:text-[3.35rem]">
+                  Economy, premium, and five star Umrah
+                </h2>
+                <div className="mt-7 h-px w-20 bg-brand-orange" />
+              </div>
+
+              <div className="border-t border-brand-blue-deep/10 bg-white/70 px-6 py-8 backdrop-blur-sm sm:px-10 sm:py-10 lg:border-l lg:border-t-0 lg:px-12 lg:py-14">
+                <p className="max-w-2xl text-base leading-[1.9] text-slate-700">
+                  Economy suits budget conscious pilgrims, with hotels a short walk or
+                  shuttle from the Haram. Premium and five star place you near or
+                  facing it, with fewer travelers per room and private transport, and
+                  the Ramadan program focuses on the last Ashra. Compare the three
+                  tiers side by side, the room sharing, the hotel distance, and the
+                  transport, on the Umrah hub, each quoted on inquiry.
+                </p>
+                <div className="mt-8 border-t border-brand-blue-deep/10 pt-7">
+                  <Link href="/umrah" className="btn-orange">
+                    Compare Umrah tiers on the hub
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Featured packages */}
-      <section className="bg-white py-20 sm:py-28">
-        <div className="container-site">
+      <section className="relative overflow-hidden bg-brand-blue-deep py-20 sm:py-28">
+        <div className="pointer-events-none absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full border border-white/5" />
+        <div className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 rounded-full border border-white/5" />
+        <div className="container-site relative">
           <SectionHeading
             eyebrow="Featured packages"
             title="Where will you go first?"
             description="Compare our most booked Umrah packages, Hajj programs and international tours, with hotels, flights and inclusions on every card, each quoted on inquiry."
+            tone="light"
           />
-          <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {featured.map((p) => (
               <PackageInquiryCard
                 key={p.slug}
                 pkg={p}
                 whatsapp={settings.whatsapp}
+                variant="featured"
               />
             ))}
           </div>
           <div className="mt-10 text-center">
-            <Link href="/packages" className="btn-outline">
+            <Link
+              href="/packages"
+              className="btn border border-white/35 text-white hover:border-white hover:bg-white hover:text-brand-blue-deep"
+            >
               View All Packages
             </Link>
           </div>
@@ -594,10 +644,10 @@ export default async function HomePage() {
       </section>
 
       {/* Why us: split with image */}
-      <section className="py-20 sm:py-28">
-        <div className="container-site grid items-center gap-12 lg:grid-cols-2">
-          <div className="relative">
-            <div className="overflow-hidden rounded-3xl shadow-lift">
+      <section className="overflow-hidden bg-[#ebe3d3] py-20 sm:py-28">
+        <div className="container-site grid items-start gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+          <div className="relative lg:sticky lg:top-28">
+            <div className="overflow-hidden rounded-[2rem] shadow-[0_24px_70px_rgba(11,44,34,0.2)] sm:rounded-[2.5rem]">
               <img
                 src={photo(realPhotos.office, images.madinah)}
                 alt={
@@ -606,10 +656,11 @@ export default async function HomePage() {
                     : "Domes of the Prophet's Mosque in Madinah"
                 }
                 loading="lazy"
-                className="h-[420px] w-full object-cover"
+                className="h-[460px] w-full object-cover sm:h-[560px] lg:h-[680px]"
               />
+              <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-t from-brand-blue-deep/55 via-transparent to-transparent sm:rounded-[2.5rem]" />
             </div>
-            <div className="absolute -bottom-6 -right-2 hidden rounded-2xl bg-brand-orange px-7 py-5 shadow-lift sm:block">
+            <div className="absolute -bottom-6 -right-2 hidden rounded-2xl border border-white/25 bg-brand-orange px-7 py-5 shadow-lift sm:block">
               <p className="font-display text-2xl text-brand-blue-deep">
                 Sister company of
               </p>
@@ -623,20 +674,21 @@ export default async function HomePage() {
               eyebrow="Why travelers choose us"
               title="Travel companies sell tickets. We take responsibility."
             />
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-px overflow-hidden rounded-[2rem] border border-brand-blue-deep/10 bg-brand-blue-deep/10 shadow-card sm:grid-cols-2">
               {reasons.map((r) => (
                 <div
                   key={r.title}
-                  className="rounded-2xl border border-black/5 bg-white p-6 shadow-card"
+                  className="group relative overflow-hidden bg-white p-6 sm:p-7"
                 >
-                  <h3 className="text-lg">{r.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                  <div className="mb-5 h-1 w-10 rounded-full bg-brand-orange transition-all duration-300 group-hover:w-16" />
+                  <h3 className="text-xl leading-snug">{r.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
                     {r.text}
                   </p>
                 </div>
               ))}
             </div>
-            <p className="mt-5 rounded-2xl border border-black/5 bg-paper p-5 text-sm leading-relaxed text-slate-600">
+            <p className="mt-5 rounded-2xl bg-brand-orange px-6 py-5 text-sm font-medium leading-relaxed text-brand-blue-deep shadow-card">
               Our head office sits at Aman Plaza, Mardan Road, Charsadda, open
               Monday to Saturday, where you meet the team in person before
               booking.
@@ -646,7 +698,7 @@ export default async function HomePage() {
                 {credentialBadges.map((c) => (
                   <li
                     key={c.label}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-semibold text-brand-blue-deep shadow-card"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-brand-blue-deep/10 bg-white/70 px-3 py-1.5 text-xs font-semibold text-brand-blue-deep backdrop-blur"
                   >
                     <span className="text-brand-orange-dark">{c.label}</span>
                     {c.value}
@@ -656,9 +708,9 @@ export default async function HomePage() {
             )}
 
             {/* Trust and experience proof */}
-            <div className="mt-4 rounded-2xl border border-black/5 bg-white p-5 shadow-card">
-              <p className="eyebrow">Trust and experience</p>
-              <ul className="mt-3 space-y-2.5 text-sm text-slate-700">
+            <div className="mt-4 rounded-[2rem] bg-brand-blue-deep p-6 shadow-[0_18px_45px_rgba(11,44,34,0.18)] sm:p-7">
+              <p className="text-xs font-bold uppercase tracking-luxe text-brand-orange">Trust and experience</p>
+              <ul className="mt-5 space-y-3 text-sm text-white/75">
                 <li className="flex items-start gap-2.5">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8853A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
                   Sister company of {site.sisterCompany}, built on years of
@@ -684,19 +736,19 @@ export default async function HomePage() {
 
               {/* Founder or team credibility, hidden until the real name is set */}
               {site.founder.name && (
-                <div className="mt-4 flex items-center gap-3 border-t border-black/5 pt-4">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-blue/10 text-brand-blue">
+                <div className="mt-5 flex items-center gap-3 border-t border-white/10 pt-5">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-brand-orange">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" /></svg>
                   </span>
                   <div>
-                    <p className="font-semibold text-brand-blue-deep">
+                    <p className="font-semibold text-white">
                       {site.founder.name}
                     </p>
-                    <p className="text-xs text-slate-500">{site.founder.role}</p>
+                    <p className="text-xs text-white/55">{site.founder.role}</p>
                   </div>
                   <Link
                     href="/about"
-                    className="ml-auto shrink-0 text-sm font-semibold text-brand-orange-dark hover:text-brand-orange"
+                    className="ml-auto shrink-0 text-sm font-semibold text-brand-orange hover:text-white"
                   >
                     About us
                   </Link>
@@ -704,12 +756,12 @@ export default async function HomePage() {
               )}
 
               {/* Policy assurance */}
-              <p className="mt-4 border-t border-black/5 pt-4 text-xs leading-relaxed text-slate-500">
+              <p className="mt-5 border-t border-white/10 pt-5 text-xs leading-relaxed text-white/55">
                 Cancellation and refund terms are confirmed in writing before you
                 pay.{" "}
                 <Link
                   href="/terms-and-refunds"
-                  className="font-semibold text-brand-blue underline"
+                  className="font-semibold text-white underline decoration-brand-orange underline-offset-4"
                 >
                   Read our full terms and refund policy.
                 </Link>
