@@ -11,8 +11,8 @@ const SECRET =
 const DEFAULT_TTL_MS = 60 * 60 * 24 * 7; // 7 days, in seconds
 const TTL_MS = DEFAULT_TTL_MS * 1000;
 
-function bytes(input: string): Uint8Array {
-  return new TextEncoder().encode(input);
+function bytes(input: string): ArrayBuffer {
+  return new TextEncoder().encode(input).buffer as ArrayBuffer;
 }
 
 function toBase64Url(buffer: ArrayBuffer): string {
