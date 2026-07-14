@@ -24,6 +24,7 @@ export default function PackageForm({
     category: initial?.category ?? categoryOptions[0] ?? "",
     duration: initial?.duration ?? "",
     price: initial?.price != null ? String(initial.price) : "",
+    priceType: initial?.priceType ?? "from",
     image: initial?.image ?? "",
     expiryDate: initial?.expiryDate ?? "",
     description: initial?.description ?? "",
@@ -145,6 +146,20 @@ export default function PackageForm({
             placeholder="Leave empty for inquiry pricing"
           />
         </div>
+        <div>
+          <label htmlFor="priceType">Price type</label>
+          <select
+            id="priceType"
+            value={form.priceType}
+            onChange={(e) => update("priceType", e.target.value as "from" | "flat")}
+          >
+            <option value="from">From (starting price)</option>
+            <option value="flat">Flat charges (fixed price)</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="expiryDate">Offer expiry date</label>
           <input

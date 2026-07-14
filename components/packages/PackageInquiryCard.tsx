@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { TravelPackage, formatPrice, packageHref } from "@/lib/packages";
+import { TravelPackage, priceLabel, packageHref } from "@/lib/packages";
 import { packageImage } from "@/lib/images";
 import { tierOf } from "@/lib/packageDetail";
 import { waHref } from "@/lib/settings";
@@ -79,7 +79,7 @@ export default function PackageInquiryCard({
       {featured ? (
         <div className="flex flex-1 flex-col p-5">
           <p className="font-display text-lg text-brand-blue-deep">
-            {pkg.price === null ? "Price on inquiry" : `From ${formatPrice(pkg.price)}`}
+            {priceLabel(pkg)}
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <span className="inline-flex min-h-8 max-w-full items-center rounded-full bg-brand-orange/20 px-3 py-1.5 text-[10px] font-bold uppercase leading-tight tracking-wide text-brand-blue-deep">
@@ -166,9 +166,7 @@ export default function PackageInquiryCard({
           <div className="mt-auto pt-5">
             <div className="border-t border-brand-blue-deep/10 pt-4">
               <p className="font-display text-lg text-brand-blue-deep">
-                {pkg.price === null
-                  ? "Price on inquiry"
-                  : `From ${formatPrice(pkg.price)}`}
+                {priceLabel(pkg)}
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <span className="inline-flex min-h-7 max-w-full items-center rounded-full bg-brand-orange/20 px-3 py-1 text-[10px] font-bold uppercase leading-tight tracking-wide text-brand-blue-deep">

@@ -19,6 +19,7 @@ type Row = {
   category: Category;
   duration: string;
   price: number | null;
+  price_type?: string | null;
   featured: boolean | null;
   highlights: string[] | null;
   description: string;
@@ -34,6 +35,7 @@ function rowToPackage(r: Row): TravelPackage {
     category: r.category,
     duration: r.duration,
     price: r.price,
+    priceType: r.price_type === "flat" ? "flat" : "from",
     featured: r.featured ?? false,
     highlights: r.highlights ?? [],
     description: r.description,
@@ -95,17 +97,28 @@ export async function addPackage(input: PackageInput): Promise<TravelPackage> {
     category: input.category,
     duration: input.duration,
     price: input.price,
+    price_type: input.priceType ?? "from",
     featured: input.featured ?? false,
     highlights: input.highlights ?? [],
     description: input.description,
     image: input.image ?? null,
     expiry_date: input.expiryDate || null,
   };
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from(PACKAGES_TABLE)
     .insert(row)
     .select()
     .single();
+  // Databases created before the price_type migration lack the column;
+  // save without it rather than failing the whole insert.
+  if (error && /price_type/.test(error.message)) {
+    const { price_type: _omit, ...legacy } = row;
+    ({ data, error } = await supabase
+      .from(PACKAGES_TABLE)
+      .insert(legacy)
+      .select()
+      .single());
+  }
   if (error) throw new Error(error.message);
   return rowToPackage(data as Row);
 }
@@ -124,18 +137,29 @@ export async function updatePackage(
     category: input.category,
     duration: input.duration,
     price: input.price,
+    price_type: input.priceType ?? "from",
     featured: input.featured ?? false,
     highlights: input.highlights ?? [],
     description: input.description,
     image: input.image ?? null,
     expiry_date: input.expiryDate || null,
   };
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from(PACKAGES_TABLE)
     .update(patch)
     .eq("slug", slug)
     .select()
     .single();
+  // Same pre-migration fallback as addPackage.
+  if (error && /price_type/.test(error.message)) {
+    const { price_type: _omit, ...legacy } = patch;
+    ({ data, error } = await supabase
+      .from(PACKAGES_TABLE)
+      .update(legacy)
+      .eq("slug", slug)
+      .select()
+      .single());
+  }
   if (error) throw new Error(error.message);
   return rowToPackage(data as Row);
 }

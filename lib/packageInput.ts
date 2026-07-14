@@ -27,6 +27,8 @@ export function parsePackageBody(body: Record<string, unknown>): ParseResult {
     return { error: "Price must be a number." };
   }
 
+  const priceType = body.priceType === "flat" ? "flat" : "from";
+
   let highlights: string[] = [];
   if (Array.isArray(body.highlights)) {
     highlights = body.highlights.map((h) => String(h).trim()).filter(Boolean);
@@ -49,6 +51,7 @@ export function parsePackageBody(body: Record<string, unknown>): ParseResult {
       category,
       duration,
       price,
+      priceType,
       description,
       highlights,
       image,

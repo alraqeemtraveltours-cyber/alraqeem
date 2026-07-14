@@ -2,6 +2,10 @@
 // Kept as a string for flexibility; `categories` below is a fallback list.
 export type Category = string;
 
+// How a stored price reads on the site: "from" = starting price
+// ("From PKR X"), "flat" = fixed charge ("PKR X").
+export type PriceType = "from" | "flat";
+
 export type TravelPackage = {
   slug: string;
   title: string;
@@ -9,6 +13,7 @@ export type TravelPackage = {
   duration: string;
   // null means the item is quoted on inquiry, no stored price
   price: number | null;
+  priceType?: PriceType;
   featured?: boolean;
   highlights: string[];
   description: string;
@@ -389,6 +394,13 @@ export const seedPackages: TravelPackage[] = [
 export function formatPrice(price: number | null) {
   if (price === null) return "Price on inquiry";
   return `PKR ${price.toLocaleString("en-PK")}`;
+}
+
+/** Price as it reads on the site, honoring the package's price type. */
+export function priceLabel(pkg: Pick<TravelPackage, "price" | "priceType">) {
+  if (pkg.price === null) return "Price on inquiry";
+  const amount = formatPrice(pkg.price);
+  return pkg.priceType === "flat" ? amount : `From ${amount}`;
 }
 
 const publicStartingPrices: Record<string, number> = {

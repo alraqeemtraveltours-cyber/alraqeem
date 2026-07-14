@@ -12,6 +12,8 @@ create table if not exists public.packages (
   category    text not null check (category in ('Umrah & Hajj', 'International')),
   duration    text not null,
   price       integer,                 -- null = "Contact for price"
+  price_type  text not null default 'from'
+              check (price_type in ('from', 'flat')), -- "From PKR X" vs flat "PKR X"
   featured    boolean not null default false,
   highlights  text[] not null default '{}',
   description text not null,
@@ -21,8 +23,9 @@ create table if not exists public.packages (
   created_at  timestamptz not null default now()
 );
 
--- If the table already existed, make sure the newer column is present.
+-- If the table already existed, make sure the newer columns are present.
 alter table public.packages add column if not exists expiry_date date;
+alter table public.packages add column if not exists price_type text not null default 'from';
 
 -- Row Level Security: anyone may READ, but only the service-role key
 -- (used by the server-side admin API) may write.
