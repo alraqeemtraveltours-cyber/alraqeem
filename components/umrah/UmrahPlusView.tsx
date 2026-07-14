@@ -8,7 +8,6 @@ import MobileActionBar from "@/components/packages/MobileActionBar";
 import SearchInquiryWidget from "@/components/SearchInquiryWidget";
 import CaptionedImage from "@/components/packages/CaptionedImage";
 import { reviewData } from "@/lib/reviews";
-import { stagingCredentials, stagingFounder } from "@/lib/staging";
 import { images } from "@/lib/images";
 import { site, mapsLink } from "@/lib/site";
 import { waHref, telHref } from "@/lib/settings";
@@ -304,10 +303,16 @@ export default function UmrahPlusView({
         <div className="container-site grid gap-6 lg:grid-cols-2">
           <div className="rounded-3xl border border-black/5 bg-white p-6 shadow-card">
             <p className="eyebrow">Accreditation</p>
-            <ul className="mt-4 space-y-3 text-sm text-slate-600">
-              <li className="flex items-center gap-2">{stagingCredentials.moraLicence}<span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">To add</span></li>
-              <li className="flex items-center gap-2">{stagingCredentials.registrationNumber}<span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">To add</span></li>
-            </ul>
+            {(site.credentials.moraLicence || site.credentials.companyNumber) && (
+              <ul className="mt-4 space-y-3 text-sm text-slate-600">
+                {site.credentials.moraLicence && (
+                  <li>MORA Umrah operator No. {site.credentials.moraLicence}</li>
+                )}
+                {site.credentials.companyNumber && (
+                  <li>Registration No. {site.credentials.companyNumber}</li>
+                )}
+              </ul>
+            )}
             <p className="mt-4 border-t border-black/5 pt-4 text-xs leading-relaxed text-slate-500">
               Official Umrah registration runs through the{" "}
               <a href="https://www.mora.gov.pk" target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-blue underline">MORA portal</a>{" "}
@@ -318,8 +323,12 @@ export default function UmrahPlusView({
           </div>
           <div className="rounded-3xl border border-black/5 bg-white p-6 shadow-card">
             <p className="eyebrow">Your consultant</p>
-            <p className="mt-4 flex items-center gap-2 font-semibold text-brand-blue-deep">{stagingFounder.name}<span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">To add</span></p>
-            <p className="text-xs text-slate-500">{stagingFounder.role}</p>
+            {site.founder.name && (
+              <>
+                <p className="mt-4 font-semibold text-brand-blue-deep">{site.founder.name}</p>
+                <p className="text-xs text-slate-500">{site.founder.role}</p>
+              </>
+            )}
             <p className="mt-4 text-sm leading-relaxed text-slate-600">Our desk stays with you from the first inquiry to your safe return, on WhatsApp and in person at the Charsadda office.</p>
             <Link href="/about" className="btn-outline mt-5 !py-2.5 text-sm">Meet our team</Link>
           </div>

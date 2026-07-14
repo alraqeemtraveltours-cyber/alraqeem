@@ -18,7 +18,6 @@ import SeasonalUmrahStrip from "@/components/umrah/SeasonalUmrahStrip";
 import { getPackages } from "@/lib/packagesStore";
 import { getSettings } from "@/lib/settingsStore";
 import { reviewData } from "@/lib/reviews";
-import { stagingCredentials, stagingFounder } from "@/lib/staging";
 import { images, photo, realPhotos } from "@/lib/images";
 import { site, mapsLink } from "@/lib/site";
 import { waHref, telHref } from "@/lib/settings";
@@ -239,24 +238,18 @@ export default async function UmrahHubPage() {
                   Head office at Aman Plaza, Mardan Road, Charsadda, open Monday
                   to Saturday
                 </li>
-                <li className="flex items-start gap-2.5 text-slate-500">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 8v4M12 16h.01" /></svg>
-                  <span>
-                    {stagingCredentials.registrationNumber}
-                    <span className="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                      To add
-                    </span>
-                  </span>
-                </li>
-                <li className="flex items-start gap-2.5 text-slate-500">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 8v4M12 16h.01" /></svg>
-                  <span>
-                    {stagingCredentials.moraLicence}
-                    <span className="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                      To add
-                    </span>
-                  </span>
-                </li>
+                {site.credentials.companyNumber && (
+                  <li className="flex items-start gap-2.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8853A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                    Registration No. {site.credentials.companyNumber}
+                  </li>
+                )}
+                {site.credentials.moraLicence && (
+                  <li className="flex items-start gap-2.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8853A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                    MORA Umrah operator No. {site.credentials.moraLicence}
+                  </li>
+                )}
               </ul>
               <p className="mt-4 border-t border-black/5 pt-4 text-xs leading-relaxed text-slate-500">
                 Official registration runs through the{" "}
@@ -272,20 +265,19 @@ export default async function UmrahHubPage() {
             </div>
             <div className="flex flex-col rounded-3xl border border-black/5 bg-white p-6 shadow-card sm:p-7">
               <p className="eyebrow">Your consultant</p>
-              <div className="mt-4 flex items-center gap-3">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-blue/10 text-brand-blue">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" /></svg>
-                </span>
-                <div>
-                  <p className="flex items-center gap-2 font-semibold text-brand-blue-deep">
-                    {stagingFounder.name}
-                    <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                      To add
-                    </span>
-                  </p>
-                  <p className="text-xs text-slate-500">{stagingFounder.role}</p>
+              {site.founder.name && (
+                <div className="mt-4 flex items-center gap-3">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-blue/10 text-brand-blue">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" /></svg>
+                  </span>
+                  <div>
+                    <p className="font-semibold text-brand-blue-deep">
+                      {site.founder.name}
+                    </p>
+                    <p className="text-xs text-slate-500">{site.founder.role}</p>
+                  </div>
                 </div>
-              </div>
+              )}
               <p className="mt-4 text-sm leading-relaxed text-slate-600">
                 Our desk stays with you from the first inquiry to your safe
                 return, on WhatsApp and in person at the Charsadda office.

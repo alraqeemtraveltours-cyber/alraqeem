@@ -37,12 +37,20 @@ export const site = {
   // Verifiable credentials. REAL values only. Any left blank are omitted from
   // the page and the schema, so nothing is ever fabricated.
   credentials: {
-    // Company / firm registration number (e.g. SECP or partnership registration).
+    // TODO: company / firm registration number (e.g. SECP or partnership registration).
     companyNumber: "",
-    // MORA attested Umrah operator licence number.
+    // TODO: MORA attested Umrah operator licence number.
     moraLicence: "",
-    // IATA or DTS accreditation number.
+    // TODO: IATA or DTS accreditation number.
     iata: "",
+  },
+
+  // Founder / lead consultant shown in the trust sections. The whole founder
+  // line stays hidden everywhere until a real name is filled in.
+  founder: {
+    // TODO: real founder name, e.g. "Muhammad Ali".
+    name: "",
+    role: "Founder and travel consultant",
   },
 };
 

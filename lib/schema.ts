@@ -197,9 +197,8 @@ export function homepageGraph(
     });
 
   // Review and AggregateRating, added only when genuine review data exists.
-  // Staging placeholders (isPlaceholder) never carry schema.
   const reviewFields: Record<string, unknown> = {};
-  if (reviews && reviews.reviews.length > 0 && !reviews.isPlaceholder) {
+  if (reviews && reviews.reviews.length > 0) {
     if (reviews.ratingValue !== null && reviews.reviewCount !== null) {
       reviewFields.aggregateRating = {
         "@type": "AggregateRating",
@@ -391,7 +390,9 @@ const orgRef = { "@type": "Organization", name: site.name, url: site.url };
 
 function packageNode(pkg: TravelPackage) {
   const url = absoluteUrl(packageHref(pkg));
-  const image = packageImage(pkg.slug, pkg.category, pkg.image);
+  const resolved = packageImage(pkg.slug, pkg.category, pkg.image);
+  // Self-hosted images resolve to root-relative paths; schema needs full URLs.
+  const image = resolved.startsWith("/") ? absoluteUrl(resolved) : resolved;
   const isTour = pkg.category !== "Umrah & Hajj";
   const description = pkg.description
     ? stripHtml(pkg.description)

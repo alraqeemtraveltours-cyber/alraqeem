@@ -15,7 +15,6 @@ import { getSettings } from "@/lib/settingsStore";
 import { cities } from "@/lib/cities";
 import { images, photo, realPhotos } from "@/lib/images";
 import { reviewData } from "@/lib/reviews";
-import { stagingCredentials, stagingFounder } from "@/lib/staging";
 import { site, mapsLink } from "@/lib/site";
 import { waHref, telHref } from "@/lib/settings";
 import { homepageGraph } from "@/lib/schema";
@@ -357,6 +356,7 @@ export default async function HomePage() {
           <div className="grid gap-6 md:grid-cols-2">
             <div className="rounded-3xl bg-white p-4 shadow-card ring-1 ring-black/5">
               <CaptionedImage
+                src={images.kaaba}
                 caption="Masjid al-Haram and the Kaaba in Makkah"
                 icon="moon"
                 aspect="aspect-[16/9]"
@@ -374,6 +374,7 @@ export default async function HomePage() {
             </div>
             <div className="rounded-3xl bg-white p-4 shadow-card ring-1 ring-black/5">
               <CaptionedImage
+                src={images.madinah}
                 caption="Masjid an-Nabawi and the Rawdah in Madinah"
                 icon="moon"
                 aspect="aspect-[16/9]"
@@ -667,47 +668,40 @@ export default async function HomePage() {
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8853A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
                   Head office at Aman Plaza, Mardan Road, Charsadda
                 </li>
-                <li className="flex items-start gap-2.5 text-slate-500">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 8v4M12 16h.01" /></svg>
-                  <span>
-                    {stagingCredentials.registrationNumber}
-                    <span className="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                      To add
-                    </span>
-                  </span>
-                </li>
-                <li className="flex items-start gap-2.5 text-slate-500">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 8v4M12 16h.01" /></svg>
-                  <span>
-                    {stagingCredentials.moraLicence}
-                    <span className="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                      To add
-                    </span>
-                  </span>
-                </li>
+                {site.credentials.companyNumber && (
+                  <li className="flex items-start gap-2.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8853A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                    Registration No. {site.credentials.companyNumber}
+                  </li>
+                )}
+                {site.credentials.moraLicence && (
+                  <li className="flex items-start gap-2.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8853A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                    MORA Umrah operator No. {site.credentials.moraLicence}
+                  </li>
+                )}
               </ul>
 
-              {/* Founder or team credibility */}
-              <div className="mt-4 flex items-center gap-3 border-t border-black/5 pt-4">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-blue/10 text-brand-blue">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" /></svg>
-                </span>
-                <div>
-                  <p className="flex items-center gap-2 font-semibold text-brand-blue-deep">
-                    {stagingFounder.name}
-                    <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                      To add
-                    </span>
-                  </p>
-                  <p className="text-xs text-slate-500">{stagingFounder.role}</p>
+              {/* Founder or team credibility, hidden until the real name is set */}
+              {site.founder.name && (
+                <div className="mt-4 flex items-center gap-3 border-t border-black/5 pt-4">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-blue/10 text-brand-blue">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" /></svg>
+                  </span>
+                  <div>
+                    <p className="font-semibold text-brand-blue-deep">
+                      {site.founder.name}
+                    </p>
+                    <p className="text-xs text-slate-500">{site.founder.role}</p>
+                  </div>
+                  <Link
+                    href="/about"
+                    className="ml-auto shrink-0 text-sm font-semibold text-brand-orange-dark hover:text-brand-orange"
+                  >
+                    About us
+                  </Link>
                 </div>
-                <Link
-                  href="/about"
-                  className="ml-auto shrink-0 text-sm font-semibold text-brand-orange-dark hover:text-brand-orange"
-                >
-                  About us
-                </Link>
-              </div>
+              )}
 
               {/* Policy assurance */}
               <p className="mt-4 border-t border-black/5 pt-4 text-xs leading-relaxed text-slate-500">

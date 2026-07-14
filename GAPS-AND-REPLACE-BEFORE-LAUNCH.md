@@ -42,16 +42,19 @@ fold in.
      Rakaposhi, Kalash Chitral town shows the fort, Naran town shows the Kunhar.
    - **Hero images.** The page heroes are not yet your own photography.
 
-4. **Real reviews.** The reviews block runs on staging placeholders, and review
-   schema stays off until real reviews are connected.
+4. **Real reviews.** The reviews section and social-proof strip stay hidden on
+   every page until real reviews are added in lib/reviews.ts, and review schema
+   stays off until then.
 
-5. **Accreditation and licence number.** IATA, DTS, or association numbers are
-   placeholders, no accreditation schema while placeholder.
+5. **Accreditation and licence number.** IATA, DTS, registration, and MORA
+   numbers are blank in lib/site.ts and hidden on every page until real values
+   are filled in, no accreditation schema until then.
 
 6. **Years in operation.** No specific year count is stated, since it is not
    confirmed. Send the founding year and we state it.
 
-7. **Consultant or agent name.** The named consultant is a staging placeholder.
+7. **Consultant or agent name.** The consultant line stays hidden until the
+   real name is set in lib/site.ts (site.founder.name).
 
 8. **Currency conversion rates.** Two grids carry an approximate rate, the Baku
    manat at about 165 PKR and the Singapore dollar at about 216 PKR, at your
@@ -118,9 +121,9 @@ page renders its own real airport or routing fact, none is a name swap.
 2. **City photos.** The city hero uses the shared Haram image, and the
    departure and service slots use branded motif panels captioned with the
    airport or the road. Real airport or office photos would lift them.
-3. **Reviews, accreditation, licence number, consultant name.** The same
-   staging placeholders as the rest of the site, gated, no schema while
-   placeholder.
+3. **Reviews, accreditation, licence number, consultant name.** Hidden across
+   the site until real values are set in lib/site.ts and lib/reviews.ts, no
+   schema until then.
 
 **Tier 3, not built, available to add as data:**
 

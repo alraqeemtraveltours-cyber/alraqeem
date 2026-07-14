@@ -28,7 +28,6 @@ import { getSettings } from "@/lib/settingsStore";
 import { waHref, telHref } from "@/lib/settings";
 import { site, mapsLink } from "@/lib/site";
 import { reviewData } from "@/lib/reviews";
-import { stagingCredentials, stagingFounder } from "@/lib/staging";
 import { packageDetailGraph } from "@/lib/schema";
 import {
   getDetail,
@@ -1114,17 +1113,16 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                         approved provider is the surest guard against Hajj fraud.
                       </span>
                     </p>
-                    <ul className="mt-5 space-y-2 border-t border-brand-orange/25 pt-5 text-sm text-brand-blue-deep">
-                      <li className="flex flex-wrap items-center gap-2">
-                        <span className="text-slate-500">Our operator number:</span>
-                        <span className="font-semibold">
-                          {stagingCredentials.moraLicence}
-                        </span>
-                        <span className="rounded bg-brand-blue-deep/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-brand-blue-deep">
-                          To add
-                        </span>
-                      </li>
-                    </ul>
+                    {site.credentials.moraLicence && (
+                      <ul className="mt-5 space-y-2 border-t border-brand-orange/25 pt-5 text-sm text-brand-blue-deep">
+                        <li className="flex flex-wrap items-center gap-2">
+                          <span className="text-slate-500">Our operator number:</span>
+                          <span className="font-semibold">
+                            {site.credentials.moraLicence}
+                          </span>
+                        </li>
+                      </ul>
+                    )}
                     <a
                       href="https://www.nusuk.sa"
                       target="_blank"
@@ -2912,28 +2910,28 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                   {site.sisterCompany}. WhatsApp support stays active from your
                   first inquiry to your safe return home.
                 </p>
-                <ul className="mt-5 space-y-2 border-t border-white/10 pt-5 text-sm text-slate-300">
-                  <li className="flex flex-wrap items-center gap-2">
-                    <span className="text-slate-400">Registration:</span>
-                    {stagingCredentials.registrationNumber}
-                    <span className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-300">
-                      To add
-                    </span>
-                  </li>
-                  <li className="flex flex-wrap items-center gap-2">
-                    <span className="text-slate-400">Your consultant:</span>
-                    {stagingFounder.name}, {stagingFounder.role}
-                    <span className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-300">
-                      To add
-                    </span>
-                    <Link
-                      href="/about"
-                      className="font-semibold text-brand-orange underline"
-                    >
-                      About us
-                    </Link>
-                  </li>
-                </ul>
+                {(site.credentials.companyNumber || site.founder.name) && (
+                  <ul className="mt-5 space-y-2 border-t border-white/10 pt-5 text-sm text-slate-300">
+                    {site.credentials.companyNumber && (
+                      <li className="flex flex-wrap items-center gap-2">
+                        <span className="text-slate-400">Registration:</span>
+                        {site.credentials.companyNumber}
+                      </li>
+                    )}
+                    {site.founder.name && (
+                      <li className="flex flex-wrap items-center gap-2">
+                        <span className="text-slate-400">Your consultant:</span>
+                        {site.founder.name}, {site.founder.role}
+                        <Link
+                          href="/about"
+                          className="font-semibold text-brand-orange underline"
+                        >
+                          About us
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                )}
                 <p className="mt-4 text-xs leading-relaxed text-slate-400">
                   Payment, refund, cancellation, and change terms are confirmed
                   in writing before you pay.{" "}

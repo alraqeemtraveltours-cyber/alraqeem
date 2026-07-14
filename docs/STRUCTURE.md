@@ -210,7 +210,7 @@ page types, so not a mismatch. Their combo sideways link falls back to
 | `components/packages/MobileActionBar.tsx` and `components/WhatsAppFloat.tsx` | The sticky mobile quote and WhatsApp bars |
 | `components/packages/PackagesExplorer.tsx` | The filterable package grid on the hubs |
 | `components/packages/TierCompare.tsx` | The Umrah tier comparison |
-| `components/Reviews.tsx` | Social proof, gated on staging placeholders |
+| `components/Reviews.tsx` | Social proof, hidden until real reviews exist |
 | `components/FaqAccordion.tsx` | The FAQ accordion on every page |
 | `components/LastUpdated.tsx` | The visible updated date |
 | `components/AirlineStrip.tsx` | The airline partners strip |
@@ -232,7 +232,7 @@ page types, so not a mismatch. Their combo sideways link falls back to
 | `lib/cities.ts` | The 7 `/areas` city agency pages |
 | `lib/tourImages.ts` and `lib/photoCredits.json` | The real licensed card photos and their attributions |
 | `lib/schema.ts` | The schema helpers, BreadcrumbList, ItemList, TravelAgency, TouristTrip, no price |
-| `lib/reviews.ts` and `lib/staging.ts` | Reviews and the staging placeholders, gated until launch |
+| `lib/reviews.ts` | Review data, section hidden until real reviews are added |
 | `lib/site.ts`, `lib/settings.ts`, `lib/settingsStore.ts` | NAP, WhatsApp, and site settings |
 | `app/sitemap.ts`, `app/robots.ts` | The sitemap and robots, both present |
 

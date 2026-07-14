@@ -1,8 +1,8 @@
 import { reviewData } from "@/lib/reviews";
 
-function Stars({ rating, muted = false }: { rating: number; muted?: boolean }) {
+function Stars({ rating }: { rating: number }) {
   const rounded = Math.round(rating);
-  const color = muted ? "#cbd5e1" : "#C5A253";
+  const color = "#C5A253";
   return (
     <span className="inline-flex" aria-hidden="true">
       {[0, 1, 2, 3, 4].map((i) => (
@@ -24,44 +24,28 @@ function Stars({ rating, muted = false }: { rating: number; muted?: boolean }) {
 }
 
 // Compact social-proof strip, placed near the hero CTA and after the itinerary.
-// Shows a real Google rating once reviews are connected; until then it renders
-// a clearly marked placeholder and carries no schema. `theme` sets the palette
-// for the dark hero versus a light content section.
+// Renders only once a real Google rating exists in lib/reviews.ts; until then
+// it stays hidden. `theme` sets the palette for the dark hero versus a light
+// content section.
 export default function SocialProof({
   theme = "light",
 }: {
   theme?: "light" | "dark";
 }) {
   const d = reviewData;
-  const real =
-    d.isPlaceholder !== true && d.ratingValue != null && d.reviewCount != null;
+  if (d.ratingValue == null || d.reviewCount == null) return null;
+
   const dark = theme === "dark";
-
-  if (real) {
-    return (
-      <div
-        className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm ${
-          dark ? "bg-white/10 text-white" : "bg-white text-slate-700 shadow-card"
-        }`}
-      >
-        <Stars rating={d.ratingValue as number} />
-        <span className="font-semibold">
-          {d.ratingValue} out of 5 from {d.reviewCount} Google reviews
-        </span>
-      </div>
-    );
-  }
-
   return (
     <div
-      className={`inline-flex items-center gap-2 rounded-full border border-dashed px-4 py-2 text-xs font-semibold ${
-        dark
-          ? "border-white/40 text-slate-200"
-          : "border-brand-orange/50 bg-brand-orange/10 text-brand-orange-dark"
+      className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm ${
+        dark ? "bg-white/10 text-white" : "bg-white text-slate-700 shadow-card"
       }`}
     >
-      <Stars rating={5} muted />
-      <span>Google reviews connecting soon. Sample, replace before launch.</span>
+      <Stars rating={d.ratingValue} />
+      <span className="font-semibold">
+        {d.ratingValue} out of 5 from {d.reviewCount} Google reviews
+      </span>
     </div>
   );
 }
