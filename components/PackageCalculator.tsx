@@ -5,6 +5,7 @@ import {
   calculatorCategories,
   categoryLabels,
   formatCalculatorPrice,
+  formatPkrPrice,
   roomTypeLabels,
   unitLabels,
   type CalculatorItem,
@@ -37,9 +38,11 @@ function nightsBetween(checkIn: string, checkOut: string) {
 export default function PackageCalculator({
   items,
   whatsapp,
+  sarToPkr,
 }: {
   items: CalculatorItem[];
   whatsapp: string;
+  sarToPkr: number;
 }) {
   const [travelers, setTravelers] = useState(1);
   const [values, setValues] = useState<Record<string, ItemValues>>({});
@@ -106,6 +109,7 @@ export default function PackageCalculator({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [items, values, travelers]
   );
+  const totalPkr = total * sarToPkr;
 
   const message = [
     "Assalam o Alaikum, I built this package estimate:",
@@ -127,6 +131,7 @@ export default function PackageCalculator({
       return `- ${item.name}${room}${details}: ${formatCalculatorPrice(itemTotal(item))}`;
     }),
     `Estimated total: ${formatCalculatorPrice(total)}`,
+    `Converted total: ${formatPkrPrice(totalPkr)} (1 SAR = PKR ${sarToPkr})`,
     "Please confirm availability and the final quote.",
   ].join("\n");
 
@@ -260,8 +265,17 @@ export default function PackageCalculator({
           {selected.length === 0 && <p className="text-sm text-slate-400">Select options to build your package.</p>}
         </div>
         <div className="mt-5 flex items-end justify-between gap-4">
-          <span className="text-sm text-slate-300">Estimated total</span>
+          <span className="text-sm text-slate-300">Total in SAR</span>
           <span className="font-display text-2xl text-brand-orange">{formatCalculatorPrice(total)}</span>
+        </div>
+        <div className="mt-3 rounded-xl bg-white/10 p-4">
+          <div className="flex items-end justify-between gap-4">
+            <span className="text-sm text-slate-300">Converted total</span>
+            <span className="font-display text-2xl text-white">{formatPkrPrice(totalPkr)}</span>
+          </div>
+          <p className="mt-2 text-right text-[11px] text-slate-400">
+            1 SAR = PKR {sarToPkr.toLocaleString("en-PK", { maximumFractionDigits: 4 })}
+          </p>
         </div>
         <a
           href={waHref(whatsapp, message)}

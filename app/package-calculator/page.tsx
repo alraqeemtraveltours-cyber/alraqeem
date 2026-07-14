@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import PackageCalculator from "@/components/PackageCalculator";
 import { getCalculatorItems } from "@/lib/calculatorItemsStore";
 import { getSettings } from "@/lib/settingsStore";
+import { getSarExchangeRate } from "@/lib/exchangeRateStore";
 
 export const dynamic = "force-dynamic";
 
@@ -12,9 +13,10 @@ export const metadata: Metadata = {
 };
 
 export default async function PackageCalculatorPage() {
-  const [items, settings] = await Promise.all([
+  const [items, settings, exchangeRate] = await Promise.all([
     getCalculatorItems(true),
     getSettings(),
+    getSarExchangeRate(),
   ]);
 
   return (
@@ -24,14 +26,18 @@ export default async function PackageCalculatorPage() {
           <p className="eyebrow text-brand-orange">Package calculator</p>
           <h1 className="mt-3 max-w-3xl text-4xl text-white sm:text-5xl">Build your own travel package</h1>
           <p className="mt-4 max-w-2xl leading-relaxed text-slate-200">
-            Choose hotels, visas, flights, transport, and extras to see an instant estimated package total in PKR.
+            Choose hotels, visas, flights, transport, and extras to see the package total in SAR and its daily PKR conversion.
           </p>
         </div>
       </section>
       <section className="bg-paper py-14 sm:py-20">
         <div className="container-site">
           {items.length > 0 ? (
-            <PackageCalculator items={items} whatsapp={settings.whatsapp} />
+            <PackageCalculator
+              items={items}
+              whatsapp={settings.whatsapp}
+              sarToPkr={exchangeRate.rate}
+            />
           ) : (
             <div className="rounded-3xl bg-white p-10 text-center shadow-card">
               <h2 className="text-2xl">Calculator prices are being updated</h2>

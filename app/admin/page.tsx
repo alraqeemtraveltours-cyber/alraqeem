@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getPackages, isSupabaseConfigured } from "@/lib/packagesStore";
 import { listMedia } from "@/lib/mediaStore";
 import { getInquiries } from "@/lib/inquiriesStore";
+import { getSarExchangeRate } from "@/lib/exchangeRateStore";
+import ExchangeRateForm from "@/components/admin/ExchangeRateForm";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +11,7 @@ export default async function AdminDashboard() {
   const packages = await getPackages();
   const media = await listMedia();
   const inquiries = await getInquiries();
+  const exchangeRate = await getSarExchangeRate();
 
   const featured = packages.filter((p) => p.featured).length;
   const expiringSoon = packages.filter((p) => {
@@ -38,6 +41,10 @@ export default async function AdminDashboard() {
           env) and run <code>supabase/schema.sql</code> to go live.
         </div>
       )}
+
+      <div className="mt-8 max-w-2xl">
+        <ExchangeRateForm initial={exchangeRate} />
+      </div>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
         {stats.map((s) => (

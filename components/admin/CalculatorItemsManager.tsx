@@ -381,7 +381,7 @@ export default function CalculatorItemsManager({
             <p className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Pricing rule</p>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="calc-price">Price (PKR)</label>
+                <label htmlFor="calc-price">Price (SAR)</label>
                 <input id="calc-price" type="number" min="0" value={form.price} onChange={(e) => update("price", e.target.value)} placeholder="0" required />
               </div>
               <div>
@@ -423,7 +423,7 @@ export default function CalculatorItemsManager({
                       <input id={`rate-to-${index}`} type="date" value={rate.endDate} onChange={(e) => updateDateRate(index, "endDate", e.target.value)} required />
                     </div>
                     <div>
-                      <label htmlFor={`rate-price-${index}`} className="text-xs">Price per night</label>
+                      <label htmlFor={`rate-price-${index}`} className="text-xs">Price per night (SAR)</label>
                       <input id={`rate-price-${index}`} type="number" min="0" value={rate.price} onChange={(e) => updateDateRate(index, "price", e.target.value)} required />
                     </div>
                     <div className="flex items-end justify-end">

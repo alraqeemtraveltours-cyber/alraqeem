@@ -69,5 +69,9 @@ export const unitLabels: Record<CalculatorUnit, string> = {
 };
 
 export function formatCalculatorPrice(price: number) {
-  return `PKR ${price.toLocaleString("en-PK")}`;
+  return `SAR ${price.toLocaleString("en-PK", { maximumFractionDigits: 2 })}`;
+}
+
+export function formatPkrPrice(price: number) {
+  return `PKR ${Math.round(price).toLocaleString("en-PK")}`;
 }
