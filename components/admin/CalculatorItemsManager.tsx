@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
+import SearchSelect from "@/components/admin/SearchSelect";
 import {
   calculatorCategories,
   calculatorUnits,
@@ -18,6 +19,7 @@ import {
   type RoomType,
   type CalculatorUnit,
 } from "@/lib/calculatorItems";
+import type { Hotel } from "@/lib/hotels";
 
 const blank = {
   name: "",
@@ -38,9 +40,11 @@ const blank = {
 
 export default function CalculatorItemsManager({
   initial,
+  hotels = [],
   configured,
 }: {
   initial: CalculatorItem[];
+  hotels?: Hotel[];
   configured: boolean;
 }) {
   const router = useRouter();
@@ -55,6 +59,38 @@ export default function CalculatorItemsManager({
 
   function update<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
     setForm((current) => ({ ...current, [key]: value }));
+    setError("");
+  }
+
+  // Hotels from the /admin/hotels directory, keyed by lowercase name, for auto-fill.
+  const knownHotels = useMemo(() => {
+    const map = new Map<string, Hotel>();
+    for (const hotel of hotels) {
+      map.set(hotel.name.trim().toLowerCase(), hotel);
+    }
+    return map;
+  }, [hotels]);
+
+  function changeHotelName(name: string) {
+    const known = knownHotels.get(name.trim().toLowerCase());
+    setForm((current) => ({
+      ...current,
+      name,
+      ...(known
+        ? {
+            location: known.location,
+            distanceFromHaram:
+              known.distanceFromHaram == null
+                ? current.distanceFromHaram
+                : String(known.distanceFromHaram),
+            haramAccess: known.haramAccess ?? current.haramAccess,
+            starRating:
+              known.starRating == null
+                ? current.starRating
+                : String(known.starRating),
+          }
+        : {}),
+    }));
     setError("");
   }
 
@@ -347,7 +383,22 @@ export default function CalculatorItemsManager({
               </div>
               <div>
                 <label htmlFor="calc-name">Item name <span className="text-red-600" aria-hidden="true">*</span></label>
-                <input id="calc-name" value={form.name} onChange={(e) => update("name", e.target.value)} placeholder="Makkah 4-star hotel" autoFocus />
+                {form.category === "hotel" ? (
+                  <>
+                    <SearchSelect
+                      id="calc-name"
+                      value={form.name}
+                      onChange={changeHotelName}
+                      options={hotels.map((hotel) => hotel.name)}
+                      placeholder="Search hotels from the Hotels page…"
+                    />
+                    <p className="mt-1 text-[11px] text-slate-500">
+                      Pick a hotel from the Hotels page to auto-fill its city, distance, stars, and access.
+                    </p>
+                  </>
+                ) : (
+                  <input id="calc-name" value={form.name} onChange={(e) => update("name", e.target.value)} placeholder="Item name" autoFocus />
+                )}
               </div>
               <div className="grid grid-cols-2 gap-4">
             <div>

@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { parseCalculatorItemBody } from "@/lib/calculatorItemInput";
-import {
-  deleteCalculatorItem,
-  updateCalculatorItem,
-} from "@/lib/calculatorItemsStore";
+import { parseHotelBody } from "@/lib/hotelInput";
+import { deleteHotel, updateHotel } from "@/lib/hotelsStore";
 
 export const dynamic = "force-dynamic";
 
@@ -19,18 +16,17 @@ export async function PUT(
   } catch {
     return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
   }
-  const parsed = parseCalculatorItemBody(body);
+  const parsed = parseHotelBody(body);
   if ("error" in parsed) {
     return NextResponse.json({ error: parsed.error }, { status: 400 });
   }
   try {
-    const item = await updateCalculatorItem(id, parsed.input);
-    revalidatePath("/admin/calculator");
+    const hotel = await updateHotel(id, parsed.input);
     revalidatePath("/admin/hotels");
-    revalidatePath("/package-calculator");
-    return NextResponse.json({ item });
+    revalidatePath("/admin/calculator");
+    return NextResponse.json({ hotel });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Failed to update item.";
+    const message = error instanceof Error ? error.message : "Failed to update hotel.";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
@@ -41,13 +37,12 @@ export async function DELETE(
 ) {
   const { id } = await params;
   try {
-    await deleteCalculatorItem(id);
-    revalidatePath("/admin/calculator");
+    await deleteHotel(id);
     revalidatePath("/admin/hotels");
-    revalidatePath("/package-calculator");
+    revalidatePath("/admin/calculator");
     return NextResponse.json({ ok: true });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Failed to delete item.";
+    const message = error instanceof Error ? error.message : "Failed to delete hotel.";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

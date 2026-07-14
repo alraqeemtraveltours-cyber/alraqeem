@@ -1,15 +1,12 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { parseCalculatorItemBody } from "@/lib/calculatorItemInput";
-import {
-  addCalculatorItem,
-  getCalculatorItems,
-} from "@/lib/calculatorItemsStore";
+import { parseHotelBody } from "@/lib/hotelInput";
+import { addHotel, getHotels } from "@/lib/hotelsStore";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  return NextResponse.json({ items: await getCalculatorItems(true) });
+  return NextResponse.json({ hotels: await getHotels() });
 }
 
 export async function POST(request: Request) {
@@ -19,18 +16,17 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
   }
-  const parsed = parseCalculatorItemBody(body);
+  const parsed = parseHotelBody(body);
   if ("error" in parsed) {
     return NextResponse.json({ error: parsed.error }, { status: 400 });
   }
   try {
-    const item = await addCalculatorItem(parsed.input);
-    revalidatePath("/admin/calculator");
+    const hotel = await addHotel(parsed.input);
     revalidatePath("/admin/hotels");
-    revalidatePath("/package-calculator");
-    return NextResponse.json({ item }, { status: 201 });
+    revalidatePath("/admin/calculator");
+    return NextResponse.json({ hotel }, { status: 201 });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Failed to add item.";
+    const message = error instanceof Error ? error.message : "Failed to add hotel.";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
