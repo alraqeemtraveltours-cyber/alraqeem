@@ -70,8 +70,21 @@ export async function getPackages(): Promise<TravelPackage[]> {
 export async function getPackage(
   slug: string
 ): Promise<TravelPackage | undefined> {
-  const all = await getPackages();
-  return all.find((p) => p.slug === slug);
+  // Resolve a single package against ALL rows (including expired) and fall back
+  // to the seed for that slug, so pillar/detail pages never 404 just because an
+  // offer lapsed or a seeded row was removed. Listings still hide expired
+  // offers via getPackages().
+  const supabase = getReadClient();
+  if (!supabase) return seedPackages.find((p) => p.slug === slug);
+
+  const { data, error } = await supabase
+    .from(PACKAGES_TABLE)
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (error || !data) return seedPackages.find((p) => p.slug === slug);
+  return rowToPackage(data as Row);
 }
 
 /**

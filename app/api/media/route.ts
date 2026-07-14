@@ -1,9 +1,17 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { listMedia, uploadMedia, deleteMedia } from "@/lib/mediaStore";
+import { verifySessionToken } from "@/lib/adminAuth";
 
 export const dynamic = "force-dynamic";
 
+// The media list is only consumed by the admin image pickers, so require a
+// valid admin session (mutations are already gated by middleware).
 export async function GET() {
+  const token = (await cookies()).get("admin_session")?.value;
+  if (!(await verifySessionToken(token))) {
+    return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+  }
   const media = await listMedia();
   return NextResponse.json({ media });
 }

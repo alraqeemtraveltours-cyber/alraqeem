@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPackages, isSupabaseConfigured } from "@/lib/packagesStore";
+import { getDbPackages, isSupabaseConfigured } from "@/lib/packagesStore";
 import { listMedia } from "@/lib/mediaStore";
 import { getInquiries } from "@/lib/inquiriesStore";
 import { getSarExchangeRate } from "@/lib/exchangeRateStore";
@@ -52,7 +52,7 @@ function formatInquiryDate(value: string) {
 
 export default async function AdminDashboard() {
   const [packages, media, inquiries, exchangeRate] = await Promise.all([
-    getPackages(),
+    getDbPackages(),
     listMedia(),
     getInquiries(),
     getSarExchangeRate(),

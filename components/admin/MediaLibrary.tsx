@@ -86,7 +86,7 @@ export default function MediaLibrary({
         <p className="mt-3 font-semibold text-brand-blue-deep">
           {uploading ? "Uploading…" : "Click to upload images"}
         </p>
-        <p className="mt-1 text-xs text-slate-500">PNG or JPG, up to 8 MB each</p>
+        <p className="mt-1 text-xs text-slate-500">PNG or JPG, up to 4 MB each</p>
         <input
           type="file"
           accept="image/*"

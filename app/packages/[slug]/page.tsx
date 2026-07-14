@@ -174,6 +174,8 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
             ? "Far East"
             : "trip");
   const quoteLabel = isTour ? `Get my ${tourName} quote` : "Get a quote";
+  const tourPriceText =
+    pkg.price !== null ? priceLabel(pkg) : "Price on inquiry";
   const itineraryHref = waHref(
     settings.whatsapp,
     `Assalam o Alaikum, please send the day by day itinerary for the "${displayTitle}" package.`
@@ -611,6 +613,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                   quoteHref={quoteHref}
                   quoteLabel={quoteLabel}
                   itineraryHref={itineraryHref}
+                  priceText={tourPriceText}
                   seasonalNote="Dubai peaks from November to March, when the weather is cool and the hotels book earliest. Message us for your dates."
                 />
               )}
@@ -697,6 +700,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                   quoteHref={quoteHref}
                   quoteLabel={quoteLabel}
                   itineraryHref={itineraryHref}
+                  priceText={tourPriceText}
                   seasonalNote="Spring and autumn book early in Turkey, when the weather is best and the Cappadocia balloons fly. Message us for your dates."
                 />
               )}
@@ -783,6 +787,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                   quoteHref={quoteHref}
                   quoteLabel={quoteLabel}
                   itineraryHref={itineraryHref}
+                  priceText={tourPriceText}
                   seasonalNote="Spring and autumn book earliest in Baku, when the weather is mild for the Old City and Gabala. Message us for your dates."
                 />
               )}
@@ -874,6 +879,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                   quoteHref={quoteHref}
                   quoteLabel={quoteLabel}
                   itineraryHref={itineraryHref}
+                  priceText={tourPriceText}
                   seasonalNote="The cool, dry months from November to February book earliest across Malaysia and Thailand. Message us for your dates."
                 />
               )}
@@ -973,6 +979,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                     quoteHref={quoteHref}
                     quoteLabel={quoteLabel}
                     itineraryHref={itineraryHref}
+                    priceText={tourPriceText}
                     seasonalNote={tour.seasonalNote}
                   />
                 </>
@@ -1949,6 +1956,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                     quoteHref={quoteHref}
                     quoteLabel={quoteLabel}
                     itineraryHref={itineraryHref}
+                    priceText={tourPriceText}
                     seasonalNote={seasonalNote}
                   />
                 </>

@@ -215,7 +215,6 @@ export default function PackageCalculator({
       const value = valueFor(item.id);
       const nights = nightsBetween(checkIn, checkOut).length;
       const usesNights =
-        item.category === "hotel" ||
         item.unit === "per_room_night" ||
         item.unit === "per_person_night";
       const details =
@@ -307,7 +306,7 @@ export default function PackageCalculator({
               </p>
               <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {items
-                  .filter((item) => item.category === "hotel" && item.location === currentStep.location)
+                  .filter((item) => item.category === "hotel" && normalizeCity(item.location) === currentStep.location)
                   .map((item) => {
                     const value = valueFor(item.id);
                     return (
@@ -419,7 +418,7 @@ export default function PackageCalculator({
                         </div>
                         <p className="shrink-0 font-semibold text-brand-blue-deep">{formatCalculatorPrice(itemTotal(item))}</p>
                       </div>
-                      {item.category === "hotel" && rateBreakdown(item).length > 1 && (
+                      {item.category === "hotel" && (item.unit === "per_room_night" || item.unit === "per_person_night") && rateBreakdown(item).length > 1 && (
                         <div className="mt-3 space-y-1.5 rounded-lg bg-paper p-3 text-xs text-slate-600">
                           <p className="font-bold uppercase tracking-wide text-brand-blue-deep">Different nightly rates</p>
                           {rateBreakdown(item).map((part) => (
@@ -474,7 +473,7 @@ export default function PackageCalculator({
                     <div className="min-w-0">
                       <p className="truncate font-semibold text-white">{item.name}</p>
                       <p className="mt-0.5 text-[11px] text-slate-400">{categoryLabels[item.category]}{item.roomType ? ` · ${roomTypeLabels[item.roomType]}` : ""}</p>
-                      {item.category === "hotel" && rateBreakdown(item).length > 1 && (
+                      {item.category === "hotel" && (item.unit === "per_room_night" || item.unit === "per_person_night") && rateBreakdown(item).length > 1 && (
                         <div className="mt-2 space-y-1 text-[11px] text-slate-300">
                           {rateBreakdown(item).map((part) => (
                             <p key={part.price}>

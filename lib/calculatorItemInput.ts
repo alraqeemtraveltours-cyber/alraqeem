@@ -84,8 +84,16 @@ export function parseCalculatorItemBody(
     return { error: "Price must be zero or a positive number." };
   }
 
+  // Date-based rates only apply to hotels and per-night units. For any other
+  // item, ignore whatever dateRates the client sent (a stale, half-filled row
+  // from a previous category choice must not fail the save).
+  const keepsDateRates =
+    category === "hotel" ||
+    unit === "per_room_night" ||
+    unit === "per_person_night";
+
   const dateRates: DateRate[] = [];
-  if (Array.isArray(body.dateRates)) {
+  if (keepsDateRates && Array.isArray(body.dateRates)) {
     for (const raw of body.dateRates) {
       if (!raw || typeof raw !== "object") continue;
       const rate = raw as Record<string, unknown>;

@@ -44,10 +44,14 @@ export async function getPosts(): Promise<Post[]> {
     .from(TABLE)
     .select("*")
     .order("date", { ascending: false });
-  // Fall back to seed content on error OR when the table is empty, so the
-  // blog (and sitemap) always have the starter posts until admins add their own.
-  if (error || !data || data.length === 0) return seedPosts;
-  return (data as Row[]).map(rowTo);
+  if (error || !data) return seedPosts;
+  const dbPosts = (data as Row[]).map(rowTo);
+  // Keep the starter guide posts available alongside any admin posts (unless an
+  // admin post overrides the same slug), because internal links point at those
+  // seed slugs — otherwise those links 404 the moment the first post is added.
+  const dbSlugs = new Set(dbPosts.map((p) => p.slug));
+  const merged = [...dbPosts, ...seedPosts.filter((p) => !dbSlugs.has(p.slug))];
+  return merged.sort((a, b) => b.date.localeCompare(a.date));
 }
 
 export async function getPost(slug: string): Promise<Post | undefined> {

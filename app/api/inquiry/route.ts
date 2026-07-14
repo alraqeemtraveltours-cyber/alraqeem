@@ -79,6 +79,8 @@ const recentByIp = new Map<string, number[]>();
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
+  // Bound memory: drop the whole map if it grows large (warm instance only).
+  if (recentByIp.size > 5000) recentByIp.clear();
   const hits = (recentByIp.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
   hits.push(now);
   recentByIp.set(ip, hits);
