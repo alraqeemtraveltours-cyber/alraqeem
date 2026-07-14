@@ -82,10 +82,10 @@ function Group({
   if (items.length === 0) return null;
   return (
     <div className="mt-14 first:mt-0">
-      <div className="mb-8 max-w-2xl">
+      <div className="mx-auto mb-8 max-w-2xl text-center">
         <p className="eyebrow">{eyebrow}</p>
         <h2 className="mt-2 text-3xl sm:text-4xl">{title}</h2>
-        <div className="gold-rule mt-5" />
+        <div className="gold-rule mx-auto mt-5" />
         <p className="mt-4 text-base leading-relaxed text-slate-600">{intro}</p>
       </div>
       <div
@@ -175,7 +175,7 @@ export default function PackagesExplorer({
       )}
 
       {intro && (
-        <p className="mb-12 max-w-3xl text-base leading-relaxed text-slate-700">
+        <p className="mb-12 w-full text-center text-base leading-relaxed text-slate-700">
           {intro}
         </p>
       )}

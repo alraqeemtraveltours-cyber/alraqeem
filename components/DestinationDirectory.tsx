@@ -63,8 +63,8 @@ export default function DestinationDirectory({
     <section className="bg-white py-16 sm:py-20">
       <div className="container-site">
         <JsonLd data={graph} />
-        <p className="eyebrow">{eyebrow}</p>
-        <h2 className="mt-2 font-display text-2xl text-brand-blue-deep sm:text-3xl">
+        <p className="eyebrow text-center">{eyebrow}</p>
+        <h2 className="mt-2 text-center font-display text-2xl text-brand-blue-deep sm:text-3xl">
           {heading}
         </h2>
         <div className="mt-8 grid gap-6 lg:grid-cols-2">

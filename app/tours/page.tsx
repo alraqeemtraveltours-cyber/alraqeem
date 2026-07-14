@@ -189,7 +189,7 @@ export default async function ToursPage() {
               "Every tour includes the visit visa, return flights, hotels with breakfast, and guided city tours, with departures from Karachi, Lahore, Islamabad, and Peshawar on the carrier with the best fare for your dates. Families, couples, and honeymooners each get a pace shaped around them, and our desk builds custom routes and combos on request. Rates update weekly, so we quote the current best price for your dates on WhatsApp. Message our Charsadda office, the sister company of Al Nafi Travels, to plan your trip abroad.",
             ]}
           />
-          <p className="mt-6 text-sm leading-relaxed text-slate-600">
+          <p className="mt-6 text-center text-sm leading-relaxed text-slate-600">
             See the full{" "}
             <Link
               href="/tours/international-tours"
@@ -199,7 +199,7 @@ export default async function ToursPage() {
             </Link>{" "}
             hub for every destination and how we plan a trip abroad.
           </p>
-          <p className="mt-4 rounded-2xl border border-black/5 bg-white p-5 text-sm leading-relaxed text-slate-600 shadow-card">
+          <p className="mt-4 rounded-2xl border border-black/5 bg-white p-5 text-center text-sm leading-relaxed text-slate-600 shadow-card">
             Planning a pilgrimage instead? See our{" "}
             <Link
               href="/umrah"
@@ -223,11 +223,11 @@ export default async function ToursPage() {
       {pakistanTours.length > 0 && (
         <section className="bg-paper py-16 sm:py-20">
           <div className="container-site">
-            <p className="eyebrow">Pakistan northern areas</p>
-            <h2 className="mt-2 font-display text-2xl text-brand-blue-deep sm:text-3xl">
+            <p className="eyebrow text-center">Pakistan northern areas</p>
+            <h2 className="mt-2 text-center font-display text-2xl text-brand-blue-deep sm:text-3xl">
               Pakistan tour packages, near our Charsadda base
             </h2>
-            <p className="mt-3 max-w-3xl text-base leading-relaxed text-slate-600">
+            <p className="mx-auto mt-3 max-w-3xl text-center text-base leading-relaxed text-slate-600">
               From our office in Charsadda, the northern areas of Khyber
               Pakhtunkhwa and Gilgit Baltistan are close to home, so our desk
               runs Swat, Kalam, and the mountain valleys with local knowledge and
@@ -265,7 +265,7 @@ export default async function ToursPage() {
                 </Link>
               ))}
             </div>
-            <p className="mt-6 max-w-3xl text-sm leading-relaxed text-slate-500">
+            <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-relaxed text-slate-500">
               See the full{" "}
               <Link
                 href="/tours/pakistan"
@@ -284,8 +284,8 @@ export default async function ToursPage() {
       {/* Travel your way, theme facets */}
       <section className="bg-white py-14 sm:py-20">
         <div className="container-site">
-          <p className="eyebrow">Travel your way</p>
-          <h2 className="mt-2 font-display text-2xl text-brand-blue-deep sm:text-3xl">
+          <p className="eyebrow text-center">Travel your way</p>
+          <h2 className="mt-2 text-center font-display text-2xl text-brand-blue-deep sm:text-3xl">
             Tours shaped around how you travel
           </h2>
           <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -293,36 +293,41 @@ export default async function ToursPage() {
               {
                 href: "/tours/muslim-friendly-tours",
                 title: "Muslim friendly and halal tours",
-                caption: "The Putra Mosque on the lake in Putrajaya",
+                caption: "A mosque at dusk for Muslim friendly travel",
                 icon: "moon",
+                image: images.mosque,
                 note: "Halal food, easy prayer, and Muslim majority destinations like Malaysia, Turkey, and Baku, planned for a family from Pakistan.",
               },
               {
                 href: "/tours/honeymoon-packages",
                 title: "Honeymoon tours",
-                caption: "Hot air balloons over Cappadocia at sunrise",
+                caption: "Istanbul at sunset for a honeymoon tour",
                 icon: "camera",
+                image: images.istanbul,
                 note: "Cappadocia balloons, the Baku Caspian, and the islands of Malaysia and Thailand, shaped for a couple.",
               },
               {
                 href: "/tours/family-packages",
                 title: "Family tours",
-                caption: "Universal Studios on Sentosa Island in Singapore",
+                caption: "The Dubai skyline for a family tour",
                 icon: "users",
+                image: images.dubai,
                 note: "Theme parks in Dubai and Singapore, Genting in Malaysia, and a steady pace for children and elders.",
               },
               {
                 href: "/tours/group-tours",
                 title: "Group tours",
-                caption: "A guided group tour at a city landmark",
+                caption: "European rooftops on a group city tour",
                 icon: "person",
+                image: images.europe,
                 note: "Group departures for families, offices, and communities, one booking and one quote for the whole group.",
               },
               {
                 href: "/tours/beach-and-adventure-tours",
                 title: "Beach and adventure tours",
-                caption: "Longtail boats at the Phi Phi Islands near Phuket",
+                caption: "A tropical beach for beach and adventure tours",
                 icon: "route",
+                image: images.beach,
                 note: "The islands of Thailand and Malaysia, the Baku mountains, and the Dubai desert safari.",
               },
             ].map((f) => (
@@ -332,6 +337,7 @@ export default async function ToursPage() {
                 className="group flex flex-col overflow-hidden rounded-3xl border border-black/5 bg-paper p-5 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lift"
               >
                 <CaptionedImage
+                  src={f.image}
                   caption={f.caption}
                   icon={f.icon}
                   aspect="aspect-[16/9]"
@@ -359,8 +365,8 @@ export default async function ToursPage() {
       <section className="bg-paper py-16 sm:py-24">
         <div className="container-site">
           <div className="mx-auto max-w-3xl rounded-3xl border border-black/5 bg-white p-7 shadow-card sm:p-8">
-            <p className="eyebrow">Why book with our desk</p>
-            <h2 className="mt-2 font-display text-2xl text-brand-blue-deep">
+            <p className="eyebrow text-center">Why book with our desk</p>
+            <h2 className="mt-2 text-center font-display text-2xl text-brand-blue-deep">
               A registered agency you visit in person
             </h2>
             <ul className="mt-5 space-y-3 text-sm text-slate-700">

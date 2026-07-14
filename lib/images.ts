@@ -5,6 +5,7 @@
 // =====================================================================
 
 const STOCK = "/photos/stock";
+const NORTH = "/photos/northern";
 
 // Named source photos
 const SRC = {
@@ -64,13 +65,13 @@ export const packageImages: Record<string, string> = {
   "turkey-7-days": SRC.istanbul,
   "baku-5-days": SRC.europe,
   "malaysia-thailand-8-days": SRC.beach,
-  swat: SRC.mountainsPanorama,
-  "kumrat-valley": SRC.mountainsSnow,
-  "kalash-valley": SRC.mountainsPanorama,
-  chitral: SRC.mountainsSnow,
-  hunza: SRC.mountainsPanorama,
-  skardu: SRC.mountainsSnow,
-  "naran-kaghan": SRC.mountainsPanorama,
+  swat: `${NORTH}/swat.jpg`,
+  "kumrat-valley": `${NORTH}/kumrat-valley.jpg`,
+  "kalash-valley": `${NORTH}/kalash-valley.jpg`,
+  chitral: `${NORTH}/chitral.jpg`,
+  hunza: `${NORTH}/hunza.jpg`,
+  skardu: `${NORTH}/skardu.jpg`,
+  "naran-kaghan": `${NORTH}/naran-kaghan.jpg`,
 };
 
 // Category fallbacks for packages without a specific image (e.g. admin-added).

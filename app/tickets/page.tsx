@@ -36,10 +36,17 @@ export default async function TicketsPage() {
 
       <div className="relative z-10 -mt-10 sm:-mt-14">
         <div className="container-site">
-          <div className="mx-auto max-w-3xl">
-            <SearchInquiryWidget />
-          </div>
+          <SearchInquiryWidget />
         </div>
+      </div>
+
+      {/* Fare disclaimer, airfares move daily so every price is indicative */}
+      <div className="container-site mt-10">
+        <p className="mx-auto max-w-3xl rounded-2xl border border-brand-orange/30 bg-brand-orange/10 px-5 py-4 text-center text-sm leading-relaxed text-slate-700">
+          Fares shown are starting prices in PKR and may change with airline
+          availability, season, and travel dates. Message us on WhatsApp to
+          confirm the current fare before booking.
+        </p>
       </div>
 
       {categories.map((cat, i) => {

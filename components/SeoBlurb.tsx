@@ -11,11 +11,11 @@ export default function SeoBlurb({
 }) {
   return (
     <div className="mt-10 rounded-3xl border border-black/5 bg-white p-7 shadow-card sm:p-9">
-      <p className="eyebrow">{eyebrow}</p>
-      <h2 className="mt-2 font-display text-2xl text-brand-blue-deep sm:text-3xl">
+      <p className="eyebrow text-center">{eyebrow}</p>
+      <h2 className="mt-2 text-center font-display text-2xl text-brand-blue-deep sm:text-3xl">
         {title}
       </h2>
-      <div className="gold-rule mt-4" />
+      <div className="gold-rule mx-auto mt-4" />
       <div className="mt-5 space-y-4 text-base leading-relaxed text-slate-700">
         {paragraphs.map((p, i) => (
           <p key={i}>{p}</p>
