@@ -25,7 +25,17 @@ export async function getSarExchangeRate(): Promise<SarExchangeRate> {
     .eq("currency", CURRENCY)
     .maybeSingle();
   if (error || !data) {
-    if (error) console.error("[exchange-rate] read failed:", error.message);
+    // Before the migration reaches PostgREST's schema cache, Supabase returns
+    // PGRST205. The calculator can safely use its fallback rate during that
+    // short window, so only unexpected read errors should reach the console.
+    const tableNotReady =
+      error?.code === "PGRST205" ||
+      /Could not find the table ['"]public\.exchange_rates/.test(
+        error?.message ?? ""
+      );
+    if (error && !tableNotReady) {
+      console.error("[exchange-rate] read failed:", error.message);
+    }
     return { rate: FALLBACK_RATE, updatedAt: null };
   }
   const row = data as Row;
