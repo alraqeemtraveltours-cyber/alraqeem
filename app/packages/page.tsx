@@ -5,8 +5,9 @@ import JsonLd from "@/components/JsonLd";
 import LastUpdated from "@/components/LastUpdated";
 import { getSettings } from "@/lib/settingsStore";
 import { mapsLink } from "@/lib/site";
-import { waHref, telHref } from "@/lib/settings";
+import { waHref } from "@/lib/settings";
 import { packagesHubGraph } from "@/lib/schema";
+import { images } from "@/lib/images";
 
 export const dynamic = "force-dynamic";
 
@@ -26,30 +27,35 @@ const silos = [
   {
     href: "/umrah",
     title: "Umrah Packages",
+    image: images.madinah,
     detail:
       "Economy, premium, and Ramadan Umrah, with hotels near the Haram, visa, flights, and guided Ziyarat.",
   },
   {
     href: "/hajj",
     title: "Hajj Package",
+    image: images.kaaba,
     detail:
       "A guided Hajj program with government MORA scheme registration, Maktab camps, and trained group leaders.",
   },
   {
     href: "/tours",
     title: "International Tours",
+    image: images.dubai,
     detail:
       "Dubai, Turkey, Baku, and the Far East, with the visa, flights, hotels, and sightseeing in one booking.",
   },
   {
     href: "/visa-services",
     title: "Visa Services",
+    image: images.visa,
     detail:
       "Saudi, UAE, and other visit visas, prepared and filed by our team so your file clears cleanly.",
   },
   {
     href: "/tickets",
     title: "Flight Deals",
+    image: images.istanbul,
     detail:
       "Return airfare on the carrier with the best fare and schedule for your dates, from Peshawar and Islamabad.",
   },
@@ -99,19 +105,30 @@ export default async function PackagesBrowsePage() {
               <Link
                 key={s.href}
                 href={s.href}
-                className="group flex flex-col rounded-3xl border border-black/5 bg-white p-7 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lift"
+                className="group flex flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lift"
               >
-                <h2 className="font-display text-xl text-brand-blue-deep">
-                  {s.title}
-                </h2>
-                <div className="gold-rule mt-3" />
-                <p className="mt-4 flex-1 text-sm leading-relaxed text-slate-600">
-                  {s.detail}
-                </p>
-                <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand-orange-dark">
-                  View
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                </span>
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={s.image}
+                    alt={s.title}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-deep/80 via-brand-blue-deep/10 to-transparent" />
+                  <h2 className="absolute inset-x-0 bottom-0 p-6 font-display text-xl text-white">
+                    {s.title}
+                  </h2>
+                </div>
+                <div className="flex flex-1 flex-col p-7">
+                  <div className="gold-rule" />
+                  <p className="mt-4 flex-1 text-sm leading-relaxed text-slate-600">
+                    {s.detail}
+                  </p>
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand-orange-dark">
+                    View
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                  </span>
+                </div>
               </Link>
             ))}
             <a
