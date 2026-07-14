@@ -222,28 +222,37 @@ export default function CalculatorItemsManager({
         setError("Enter a valid regular price before continuing.");
         return;
       }
-      const invalidPeriod = form.dateRates.some(
-        (rate) =>
-          !rate.startDate ||
-          !rate.endDate ||
-          rate.endDate < rate.startDate ||
-          rate.price === "" ||
-          Number(rate.price) < 0
-      );
-      if (invalidPeriod) {
-        setError("Complete every date-price period with valid dates and price.");
-        return;
-      }
-      const sortedPeriods = [...form.dateRates].sort((a, b) =>
-        a.startDate.localeCompare(b.startDate)
-      );
-      const overlaps = sortedPeriods.some(
-        (rate, index) =>
-          index > 0 && rate.startDate <= sortedPeriods[index - 1].endDate
-      );
-      if (overlaps) {
-        setError("Date-price periods cannot overlap.");
-        return;
+      // Only validate date-price periods when that section is actually shown
+      // (hotels and per-night units); otherwise a hidden, half-filled row from
+      // a previous category choice could block the step with nothing to fix.
+      const showsDateRates =
+        form.category === "hotel" ||
+        form.unit === "per_room_night" ||
+        form.unit === "per_person_night";
+      if (showsDateRates) {
+        const invalidPeriod = form.dateRates.some(
+          (rate) =>
+            !rate.startDate ||
+            !rate.endDate ||
+            rate.endDate < rate.startDate ||
+            rate.price === "" ||
+            Number(rate.price) < 0
+        );
+        if (invalidPeriod) {
+          setError("Complete every date-price period with valid dates and price.");
+          return;
+        }
+        const sortedPeriods = [...form.dateRates].sort((a, b) =>
+          a.startDate.localeCompare(b.startDate)
+        );
+        const overlaps = sortedPeriods.some(
+          (rate, index) =>
+            index > 0 && rate.startDate <= sortedPeriods[index - 1].endDate
+        );
+        if (overlaps) {
+          setError("Date-price periods cannot overlap.");
+          return;
+        }
       }
     }
     setStep((current) => Math.min(3, current + 1));

@@ -140,7 +140,10 @@ export default function TicketForm({
             value={form.category}
             onChange={(e) => update("category", e.target.value)}
           >
-            {categoryOptions.map((c) => (
+            {(form.category && !categoryOptions.includes(form.category)
+              ? [form.category, ...categoryOptions]
+              : categoryOptions
+            ).map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>

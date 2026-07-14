@@ -18,7 +18,11 @@ export function parsePostBody(body: Record<string, unknown>): ParseResult {
     ? dateRaw
     : new Date().toISOString().slice(0, 10);
 
-  const readMinutes = Number(body.readMinutes) || estimateReadMinutes(content);
+  const rawReadMinutes = Number(body.readMinutes);
+  const readMinutes =
+    Number.isFinite(rawReadMinutes) && rawReadMinutes > 0
+      ? Math.round(rawReadMinutes)
+      : estimateReadMinutes(content);
 
   return {
     input: {

@@ -27,8 +27,8 @@ export function parseTicketBody(body: Record<string, unknown>): ParseResult {
     rawFare === null || rawFare === "" || rawFare === undefined
       ? null
       : Number(rawFare);
-  if (fare !== null && Number.isNaN(fare)) {
-    return { error: "Fare must be a number." };
+  if (fare !== null && (Number.isNaN(fare) || fare < 0)) {
+    return { error: "Fare must be zero or a positive number." };
   }
 
   const image = body.image ? String(body.image).trim() : undefined;
