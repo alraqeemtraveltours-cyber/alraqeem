@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 type MediaItem = { name: string; path: string; url: string };
 
@@ -115,9 +117,11 @@ export default function MediaLibrary({
               <button
                 type="button"
                 onClick={() => handleDelete(m.path)}
-                className="absolute right-2 top-2 rounded-lg bg-black/60 px-2 py-1 text-xs font-semibold text-white opacity-0 transition group-hover:opacity-100 hover:bg-red-600"
+                aria-label={`Delete ${m.name}`}
+                title="Delete"
+                className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-lg bg-black/60 text-white opacity-0 transition group-hover:opacity-100 hover:bg-red-600"
               >
-                Delete
+                <FontAwesomeIcon icon={faTrash} className="h-3.5 w-3.5" />
               </button>
             </div>
             <button

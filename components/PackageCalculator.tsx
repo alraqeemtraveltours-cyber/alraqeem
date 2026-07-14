@@ -204,7 +204,7 @@ export default function PackageCalculator({
   ].join("\n");
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className={`mx-auto ${stepIndex >= 1 ? "max-w-7xl" : "max-w-5xl"}`}>
       <div className="mb-6 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex min-w-max items-center justify-center gap-2">
           {steps.map((step, index) => (
@@ -228,7 +228,8 @@ export default function PackageCalculator({
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-black/5 bg-white shadow-lift">
+      <div className={stepIndex >= 1 ? "grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]" : ""}>
+      <div className="min-w-0 overflow-hidden rounded-3xl border border-black/5 bg-white shadow-lift">
         <div className="border-b border-black/5 bg-brand-blue-deep px-6 py-6 text-white sm:px-8">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-orange">
             Step {stepIndex + 1} of {steps.length}
@@ -372,8 +373,7 @@ export default function PackageCalculator({
           )}
 
           {currentStep.id === "summary" && (
-            <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
-              <div>
+            <div>
                 <h3 className="text-xl">Review your package</h3>
                 <p className="mt-2 text-sm text-slate-500">{travelers} traveler{travelers === 1 ? "" : "s"} · {checkIn} to {checkOut}</p>
                 <div className="mt-5 divide-y divide-black/5 rounded-2xl border border-black/5">
@@ -394,19 +394,6 @@ export default function PackageCalculator({
                     </div>
                   ))}
                 </div>
-              </div>
-              <aside className="rounded-2xl bg-brand-blue-deep p-6 text-white">
-                <p className="text-sm text-slate-300">Total in SAR</p>
-                <p className="mt-1 font-display text-3xl text-brand-orange">{formatCalculatorPrice(total)}</p>
-                <div className="mt-5 rounded-xl bg-white/10 p-4">
-                  <p className="text-xs text-slate-300">Converted total</p>
-                  <p className="mt-1 font-display text-2xl text-white">{formatPkrPrice(totalPkr)}</p>
-                  <p className="mt-2 text-xs text-slate-400">1 SAR = PKR {sarToPkr}</p>
-                </div>
-                <a href={waHref(whatsapp, message)} target="_blank" rel="noopener noreferrer" className={`btn-orange mt-5 w-full ${!canConfirm ? "pointer-events-none opacity-50" : ""}`} aria-disabled={!canConfirm}>
-                  Confirm on WhatsApp
-                </a>
-              </aside>
             </div>
           )}
 
@@ -417,6 +404,64 @@ export default function PackageCalculator({
             {currentStep.id !== "summary" && <button type="button" onClick={goNext} className="btn-orange">Continue →</button>}
           </div>
         </div>
+      </div>
+
+      {stepIndex >= 1 && (
+        <aside className="rounded-3xl bg-brand-blue-deep p-6 text-white shadow-lift lg:sticky lg:top-28">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-orange">Live summary</p>
+          <h3 className="mt-2 text-2xl text-white">Your package</h3>
+
+          <div className="mt-5 space-y-3 rounded-xl bg-white/10 p-4 text-sm">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-slate-300">Travelers</span>
+              <span className="font-semibold">{positive(travelers)}</span>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-slate-300">Dates</span>
+              <span className="text-right text-xs font-semibold">{checkIn && checkOut ? `${checkIn} – ${checkOut}` : "Not selected"}</span>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-slate-300">Nights</span>
+              <span className="font-semibold">{nightsBetween(checkIn, checkOut).length}</span>
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Selected items</p>
+            {selected.length > 0 ? (
+              <div className="mt-2 divide-y divide-white/10">
+                {selected.map((item) => (
+                  <div key={item.id} className="flex items-start justify-between gap-3 py-3 text-sm">
+                    <div className="min-w-0">
+                      <p className="truncate font-semibold text-white">{item.name}</p>
+                      <p className="mt-0.5 text-[11px] text-slate-400">{categoryLabels[item.category]}{item.roomType ? ` · ${roomTypeLabels[item.roomType]}` : ""}</p>
+                    </div>
+                    <span className="shrink-0 text-xs font-semibold text-brand-orange">{formatCalculatorPrice(itemTotal(item))}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-3 text-sm text-slate-400">Your selections will appear here.</p>
+            )}
+          </div>
+
+          <div className="mt-5 border-t border-white/10 pt-5">
+            <p className="text-sm text-slate-300">Total in SAR</p>
+            <p className="mt-1 font-display text-3xl text-brand-orange">{formatCalculatorPrice(total)}</p>
+            <div className="mt-4 rounded-xl bg-white/10 p-4">
+              <p className="text-xs text-slate-300">Converted total</p>
+              <p className="mt-1 font-display text-2xl text-white">{formatPkrPrice(totalPkr)}</p>
+              <p className="mt-2 text-xs text-slate-400">1 SAR = PKR {sarToPkr}</p>
+            </div>
+          </div>
+
+          {currentStep.id === "summary" && (
+            <a href={waHref(whatsapp, message)} target="_blank" rel="noopener noreferrer" className={`btn-orange mt-5 w-full ${!canConfirm ? "pointer-events-none opacity-50" : ""}`} aria-disabled={!canConfirm}>
+              Confirm on WhatsApp
+            </a>
+          )}
+        </aside>
+      )}
       </div>
     </div>
   );

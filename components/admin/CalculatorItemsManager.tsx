@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import SearchSelect from "@/components/admin/SearchSelect";
 import {
   calculatorCategories,
@@ -528,7 +530,9 @@ export default function CalculatorItemsManager({
                       <input id={`rate-price-${index}`} type="number" min="0" value={rate.price} onChange={(e) => updateDateRate(index, "price", e.target.value)} required />
                     </div>
                     <div className="flex items-end justify-end">
-                      <button type="button" onClick={() => removeDateRate(index)} className="rounded-lg px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50">Remove</button>
+                      <button type="button" onClick={() => removeDateRate(index)} aria-label={`Delete date period ${index + 1}`} title="Delete date period" className="flex h-9 w-9 items-center justify-center rounded-lg text-red-600 hover:bg-red-50">
+                        <FontAwesomeIcon icon={faTrash} className="h-3.5 w-3.5" />
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -677,8 +681,12 @@ export default function CalculatorItemsManager({
               <div className="mt-5 flex items-center justify-between border-t border-black/5 pt-4">
                 <span className="text-[11px] font-medium text-slate-400">Sort order: {item.sortOrder}</span>
                 <div className="flex gap-2">
-                  <button type="button" onClick={() => edit(item)} className="rounded-lg bg-brand-blue-deep/10 px-3 py-2 text-xs font-semibold text-brand-blue-deep transition hover:bg-brand-blue-deep hover:text-white">Edit</button>
-                  <button type="button" onClick={() => remove(item)} disabled={!configured} className="rounded-lg px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50 disabled:opacity-40">Delete</button>
+                  <button type="button" onClick={() => edit(item)} aria-label={`Edit ${item.name}`} title="Edit" className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-blue-deep/10 text-brand-blue-deep transition hover:bg-brand-blue-deep hover:text-white">
+                    <FontAwesomeIcon icon={faPen} className="h-3.5 w-3.5" />
+                  </button>
+                  <button type="button" onClick={() => remove(item)} disabled={!configured} aria-label={`Delete ${item.name}`} title="Delete" className="flex h-9 w-9 items-center justify-center rounded-lg text-red-600 transition hover:bg-red-50 disabled:opacity-40">
+                    <FontAwesomeIcon icon={faTrash} className="h-3.5 w-3.5" />
+                  </button>
                 </div>
               </div>
             </article>

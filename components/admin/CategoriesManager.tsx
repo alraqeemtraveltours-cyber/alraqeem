@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import type { CategoryItem, CategoryType } from "@/lib/categories";
 
 export default function CategoriesManager({
@@ -119,9 +121,11 @@ export default function CategoriesManager({
                         type="button"
                         onClick={() => remove(c.id!, c.name)}
                         disabled={!configured}
-                        className="text-sm font-semibold text-red-600 hover:underline disabled:opacity-40"
+                        aria-label={`Delete ${c.name}`}
+                        title="Delete"
+                        className="flex h-9 w-9 items-center justify-center rounded-lg text-red-600 transition hover:bg-red-50 disabled:opacity-40"
                       >
-                        Delete
+                        <FontAwesomeIcon icon={faTrash} className="h-3.5 w-3.5" />
                       </button>
                     ) : (
                       <span className="text-xs text-slate-400">seed</span>

@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner, faTrash } from "@fortawesome/free-solid-svg-icons";
 import type { Inquiry } from "@/lib/inquiriesStore";
 
 function formatDate(value: string) {
@@ -144,11 +146,12 @@ export default function InquiriesTable({
                       disabled={!configured || busy === i.id}
                       className="rounded-lg p-2 text-red-600 transition hover:bg-red-50 disabled:opacity-40"
                       title="Delete"
+                      aria-label={`Delete inquiry from ${i.name}`}
                     >
                       {busy === i.id ? (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/></svg>
+                        <FontAwesomeIcon icon={faSpinner} spin className="h-4 w-4" />
                       ) : (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                        <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
                       )}
                     </button>
                   </div>
