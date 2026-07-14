@@ -1,4 +1,8 @@
-import { type Category, type TravelPackage } from "@/lib/packages";
+import {
+  decodeBasicEntities,
+  type Category,
+  type TravelPackage,
+} from "@/lib/packages";
 
 export type PackageInput = Omit<TravelPackage, "slug"> & { slug?: string };
 
@@ -9,7 +13,9 @@ export function parsePackageBody(body: Record<string, unknown>): ParseResult {
   const title = String(body.title ?? "").trim();
   const category = String(body.category ?? "") as Category;
   const duration = String(body.duration ?? "").trim();
-  const description = String(body.description ?? "").trim();
+  // Clean pasted-in HTML entities (e.g. &nbsp; between words) so descriptions
+  // store and render as plain text.
+  const description = decodeBasicEntities(String(body.description ?? "")).trim();
 
   if (!title || !duration || !description) {
     return { error: "Title, duration and description are required." };
@@ -23,8 +29,8 @@ export function parsePackageBody(body: Record<string, unknown>): ParseResult {
     rawPrice === null || rawPrice === "" || rawPrice === undefined
       ? null
       : Number(rawPrice);
-  if (price !== null && Number.isNaN(price)) {
-    return { error: "Price must be a number." };
+  if (price !== null && (Number.isNaN(price) || price < 0)) {
+    return { error: "Price must be zero or a positive number." };
   }
 
   if (

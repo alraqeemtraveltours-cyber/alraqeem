@@ -56,6 +56,7 @@ export default function CalculatorItemsManager({
   const [error, setError] = useState("");
   const [formOpen, setFormOpen] = useState(false);
   const [step, setStep] = useState(1);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<"all" | CalculatorCategory>("all");
 
@@ -64,11 +65,15 @@ export default function CalculatorItemsManager({
     setError("");
   }
 
-  // Hotels from the /admin/hotels directory, keyed by lowercase name, for auto-fill.
+  // Hotels from the /admin/hotels directory, keyed by their displayed
+  // "Hotel Name - Location" label (and by name for typed exact matches).
   const knownHotels = useMemo(() => {
     const map = new Map<string, Hotel>();
     for (const hotel of hotels) {
-      map.set(hotel.name.trim().toLowerCase(), hotel);
+      const name = hotel.name.trim();
+      const label = `${name} - ${hotel.location}`;
+      map.set(label.toLowerCase(), hotel);
+      if (!map.has(name.toLowerCase())) map.set(name.toLowerCase(), hotel);
     }
     return map;
   }, [hotels]);
@@ -77,7 +82,7 @@ export default function CalculatorItemsManager({
     const known = knownHotels.get(name.trim().toLowerCase());
     setForm((current) => ({
       ...current,
-      name,
+      name: known?.name ?? name,
       ...(known
         ? {
             location: known.location,
@@ -273,17 +278,25 @@ export default function CalculatorItemsManager({
   }
 
   async function remove(item: CalculatorItem) {
+    if (deletingId) return;
     if (!confirm(`Delete “${item.name}”?`)) return;
-    const response = await fetch(`/api/calculator-items/${item.id}`, {
-      method: "DELETE",
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      alert(data.error || "Failed to delete item.");
-      return;
+    setDeletingId(item.id);
+    try {
+      const response = await fetch(`/api/calculator-items/${item.id}`, {
+        method: "DELETE",
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        alert(data.error || "Failed to delete item.");
+        return;
+      }
+      if (editingId === item.id) reset();
+      router.refresh();
+    } catch {
+      alert("Network error while deleting. Please try again.");
+    } finally {
+      setDeletingId(null);
     }
-    if (editingId === item.id) reset();
-    router.refresh();
   }
 
   const filtered = useMemo(() => {
@@ -391,7 +404,7 @@ export default function CalculatorItemsManager({
                       id="calc-name"
                       value={form.name}
                       onChange={changeHotelName}
-                      options={hotels.map((hotel) => hotel.name)}
+                      options={hotels.map((hotel) => `${hotel.name} - ${hotel.location}`)}
                       placeholder="Search hotels from the Hotels page…"
                     />
                     <p className="mt-1 text-[11px] text-slate-500">
@@ -684,7 +697,7 @@ export default function CalculatorItemsManager({
                   <button type="button" onClick={() => edit(item)} aria-label={`Edit ${item.name}`} title="Edit" className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-blue-deep/10 text-brand-blue-deep transition hover:bg-brand-blue-deep hover:text-white">
                     <FontAwesomeIcon icon={faPen} className="h-3.5 w-3.5" />
                   </button>
-                  <button type="button" onClick={() => remove(item)} disabled={!configured} aria-label={`Delete ${item.name}`} title="Delete" className="flex h-9 w-9 items-center justify-center rounded-lg text-red-600 transition hover:bg-red-50 disabled:opacity-40">
+                  <button type="button" onClick={() => remove(item)} disabled={!configured || deletingId === item.id} aria-label={`Delete ${item.name}`} title="Delete" className="flex h-9 w-9 items-center justify-center rounded-lg text-red-600 transition hover:bg-red-50 disabled:opacity-40">
                     <FontAwesomeIcon icon={faTrash} className="h-3.5 w-3.5" />
                   </button>
                 </div>

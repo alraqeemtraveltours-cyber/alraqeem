@@ -41,11 +41,16 @@ export default function InquiriesTable({
       if (service !== "all" && i.service !== service) return false;
 
       if (range !== "all") {
-        const created = new Date(i.createdAt).getTime();
-        const days = (now - created) / 86400000;
-        if (range === "today" && days > 1) return false;
-        if (range === "7d" && days > 7) return false;
-        if (range === "30d" && days > 30) return false;
+        const created = new Date(i.createdAt);
+        if (range === "today") {
+          const todayStart = new Date();
+          todayStart.setHours(0, 0, 0, 0);
+          if (created.getTime() < todayStart.getTime()) return false;
+        } else {
+          const days = (now - created.getTime()) / 86400000;
+          if (range === "7d" && days > 7) return false;
+          if (range === "30d" && days > 30) return false;
+        }
       }
 
       if (!q) return true;

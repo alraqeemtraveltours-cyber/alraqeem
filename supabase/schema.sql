@@ -9,7 +9,7 @@ create table if not exists public.packages (
   id          uuid primary key default gen_random_uuid(),
   slug        text unique not null,
   title       text not null,
-  category    text not null check (category in ('Umrah & Hajj', 'International')),
+  category    text not null,   -- dynamic; managed via the categories table
   duration    text not null,
   price       integer,                 -- null = "Contact for price"
   price_type  text not null default 'from'

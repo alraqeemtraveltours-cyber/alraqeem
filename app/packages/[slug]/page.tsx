@@ -6,6 +6,7 @@ import {
   type TravelPackage,
   packageDisplayName,
   packageSilo,
+  priceLabel,
 } from "@/lib/packages";
 import { packageMetadata } from "@/lib/packageMeta";
 import { images, packageImage } from "@/lib/images";
@@ -2837,11 +2838,11 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                 </section>
               )}
 
-              {/* Price on inquiry, in flow twin of the sticky card */}
+              {/* Pricing, in flow twin of the sticky card */}
               <section>
                 <div className="rounded-3xl border border-brand-orange/30 bg-brand-orange/10 p-6 sm:p-8">
                   <p className="font-display text-2xl text-brand-blue-deep">
-                    Price on inquiry
+                    {pkg.price !== null ? priceLabel(pkg) : "Price on inquiry"}
                   </p>
                   <p className="mt-2 max-w-[65ch] text-sm leading-relaxed text-slate-600">
                     Rates update weekly with airfare and hotel availability, so
@@ -3130,6 +3131,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
                   trust={trust}
                   quoteLabel={quoteLabel}
                   seasonalNote={seasonalNote}
+                  priceText={pkg.price !== null ? priceLabel(pkg) : undefined}
                 />
               </div>
             </aside>
@@ -3187,6 +3189,7 @@ export async function PackageDetailView({ pkg }: { pkg: TravelPackage }) {
         quoteHref={quoteHref}
         telHref={callHref}
         quoteLabel={quoteLabel}
+        priceText={pkg.price !== null ? priceLabel(pkg) : "Price on inquiry"}
       />
     </>
   );

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { cookies } from "next/headers";
+import { Suspense } from "react";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import AdminLoginForm from "@/components/admin/AdminLoginForm";
+import { verifySessionToken } from "@/lib/adminAuth";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -15,8 +17,9 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-  const isAuthenticated =
-    cookieStore.get("admin_session")?.value === "authenticated";
+  const isAuthenticated = await verifySessionToken(
+    cookieStore.get("admin_session")?.value
+  );
 
   if (!isAuthenticated) {
     return (
@@ -32,7 +35,9 @@ export default async function AdminLayout({
               className="mx-auto h-20 w-20 object-contain"
             />
           </div>
-          <AdminLoginForm />
+          <Suspense fallback={null}>
+            <AdminLoginForm />
+          </Suspense>
         </div>
       </div>
     );

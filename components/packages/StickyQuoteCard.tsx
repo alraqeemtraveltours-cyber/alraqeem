@@ -4,7 +4,8 @@ type Fact = { icon: string; label: string; value: string };
 type Trust = { icon: string; text: string };
 
 // Desktop right column quote card. Pure CSS sticky, so it stays in view the
-// whole way down the main content. No price, inquiry model only.
+// whole way down the main content. Shows the package price when one is set,
+// otherwise the inquiry-only model.
 export default function StickyQuoteCard({
   facts,
   quoteHref,
@@ -12,6 +13,7 @@ export default function StickyQuoteCard({
   trust,
   quoteLabel = "Get a quote",
   seasonalNote,
+  priceText,
 }: {
   facts: Fact[];
   quoteHref: string;
@@ -19,7 +21,9 @@ export default function StickyQuoteCard({
   trust: Trust[];
   quoteLabel?: string;
   seasonalNote?: string;
+  priceText?: string;
 }) {
+  const hasPrice = Boolean(priceText);
   return (
     <div className="rounded-3xl border border-black/5 bg-white p-6 shadow-lift">
       <dl className="space-y-3.5">
@@ -46,10 +50,12 @@ export default function StickyQuoteCard({
         Pricing
       </p>
       <p className="font-display text-2xl text-brand-blue-deep">
-        Price on inquiry
+        {priceText ?? "Price on inquiry"}
       </p>
       <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
-        Rates update weekly. We quote the current best price for your dates.
+        {hasPrice
+          ? "Indicative rate. Message us to confirm availability and the final quote for your dates."
+          : "Rates update weekly. We quote the current best price for your dates."}
       </p>
 
       <div className="mt-4 flex flex-col gap-2">

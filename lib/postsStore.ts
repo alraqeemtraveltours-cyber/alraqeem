@@ -54,6 +54,26 @@ export async function getPost(slug: string): Promise<Post | undefined> {
   return (await getPosts()).find((p) => p.slug === slug);
 }
 
+/**
+ * Real DB posts only — no seed fallback. Used by the admin dashboard so it
+ * never lists starter posts that don't exist as rows (and therefore can't be
+ * edited or deleted). Public pages use getPosts(), which keeps the seeds.
+ */
+export async function getDbPosts(): Promise<Post[]> {
+  const supabase = getReadClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select("*")
+    .order("date", { ascending: false });
+  if (error || !data) return [];
+  return (data as Row[]).map(rowTo);
+}
+
+export async function getDbPost(slug: string): Promise<Post | undefined> {
+  return (await getDbPosts()).find((p) => p.slug === slug);
+}
+
 function toRow(input: PostInput) {
   return {
     title: input.title,

@@ -1,15 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { adminLogin } from "@/app/admin/actions";
 
 export default function AdminLoginForm() {
   const [showPasscode, setShowPasscode] = useState(false);
+  const hasError = useSearchParams().get("error");
 
   return (
     <form action={adminLogin} className="space-y-4">
+      {hasError && (
+        <p className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+          Incorrect passcode. Please try again.
+        </p>
+      )}
       <div className="relative">
         <input
           type={showPasscode ? "text" : "password"}

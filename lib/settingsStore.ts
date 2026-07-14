@@ -21,11 +21,13 @@ export async function getSettings(): Promise<SiteSettings> {
   if (error || !data) return defaultSettings;
 
   const row = data as Row;
-  // Merge: only non-empty DB values override defaults.
+  // Merge: any value the admin has saved (including an intentional blank)
+  // overrides the default. Only a null/undefined column — one the admin has
+  // never set — falls back to the default, so cleared fields stay cleared.
   const merged = { ...defaultSettings };
   (Object.keys(defaultSettings) as (keyof SiteSettings)[]).forEach((k) => {
     const v = row[k];
-    if (v !== null && v !== undefined && String(v).trim() !== "") {
+    if (v !== null && v !== undefined) {
       merged[k] = String(v);
     }
   });

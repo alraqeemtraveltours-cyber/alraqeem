@@ -9,10 +9,12 @@ export default function MobileActionBar({
   quoteHref,
   telHref,
   quoteLabel = "Get a quote",
+  priceText = "Price on inquiry",
 }: {
   quoteHref: string;
   telHref: string;
   quoteLabel?: string;
+  priceText?: string;
 }) {
   const [show, setShow] = useState(false);
 
@@ -46,7 +48,7 @@ export default function MobileActionBar({
             Pricing
           </p>
           <p className="font-display text-sm font-bold text-brand-blue-deep">
-            Price on inquiry
+            {priceText}
           </p>
         </div>
         <a

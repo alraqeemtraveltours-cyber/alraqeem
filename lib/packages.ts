@@ -396,6 +396,26 @@ export function formatPrice(price: number | null) {
   return `PKR ${price.toLocaleString("en-PK")}`;
 }
 
+/**
+ * Decode the HTML entities that leak in when text is pasted from Word or a web
+ * page (e.g. `&nbsp;` between every word), so descriptions read as plain text.
+ */
+export function decodeBasicEntities(value: string): string {
+  return value
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/&rsquo;/gi, "’")
+    .replace(/&lsquo;/gi, "‘")
+    .replace(/&ldquo;/gi, "“")
+    .replace(/&rdquo;/gi, "”")
+    .replace(/&mdash;/gi, "—")
+    .replace(/&ndash;/gi, "–");
+}
+
 /** Price as it reads on the site, honoring the package's price type. */
 export function priceLabel(pkg: Pick<TravelPackage, "price" | "priceType">) {
   if (pkg.price === null) return "Price on inquiry";

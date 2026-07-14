@@ -113,7 +113,7 @@ export default function PackageInquiryCard({
               {pkg.duration}
             </span>
             <p className="font-display text-lg text-brand-blue-deep">
-              Price on inquiry
+              {priceLabel(pkg)}
             </p>
           </div>
           <div className="mt-5 grid grid-cols-2 gap-2 border-t border-brand-blue-deep/10 pt-5">
@@ -235,7 +235,7 @@ export default function PackageInquiryCard({
               Pricing
             </p>
             <p className="font-display text-lg text-brand-blue-deep">
-              Price on inquiry
+              {priceLabel(pkg)}
             </p>
             <p className="mt-1 text-xs leading-relaxed text-slate-500">
               Rates update weekly. We quote the current best price for your dates.

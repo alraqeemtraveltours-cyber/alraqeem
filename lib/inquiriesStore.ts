@@ -58,7 +58,7 @@ export async function addInquiry(input: {
   message?: string;
 }): Promise<void> {
   const supabase = getAdminClient();
-  if (!supabase) return;
+  if (!supabase) throw new Error("Supabase admin is not configured.");
   const { error } = await supabase.from(TABLE).insert({
     name: input.name,
     phone: input.phone,

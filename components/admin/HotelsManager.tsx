@@ -32,6 +32,7 @@ export default function HotelsManager({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [formOpen, setFormOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [cityFilter, setCityFilter] = useState<"all" | "Makkah" | "Madina">("all");
 
@@ -116,15 +117,25 @@ export default function HotelsManager({
   }
 
   async function remove(hotel: Hotel) {
+    if (deletingId) return;
     if (!confirm(`Delete “${hotel.name}”?`)) return;
-    const response = await fetch(`/api/hotels/${hotel.id}`, { method: "DELETE" });
-    const data = await response.json();
-    if (!response.ok) {
-      alert(data.error || "Failed to delete hotel.");
-      return;
+    setDeletingId(hotel.id);
+    try {
+      const response = await fetch(`/api/hotels/${hotel.id}`, {
+        method: "DELETE",
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        alert(data.error || "Failed to delete hotel.");
+        return;
+      }
+      if (editingId === hotel.id) reset();
+      router.refresh();
+    } catch {
+      alert("Network error while deleting. Please try again.");
+    } finally {
+      setDeletingId(null);
     }
-    if (editingId === hotel.id) reset();
-    router.refresh();
   }
 
   const makkahCount = initial.filter((hotel) => hotel.location === "Makkah").length;
@@ -290,7 +301,7 @@ export default function HotelsManager({
                 <button type="button" onClick={() => edit(hotel)} aria-label={`Edit ${hotel.name}`} title="Edit" className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-blue-deep/10 text-sm text-brand-blue-deep transition hover:bg-brand-blue-deep hover:text-white">
                   <FontAwesomeIcon icon={faPen} className="h-3.5 w-3.5" />
                 </button>
-                <button type="button" onClick={() => remove(hotel)} disabled={!configured} aria-label={`Delete ${hotel.name}`} title="Delete" className="flex h-9 w-9 items-center justify-center rounded-lg text-sm text-red-600 transition hover:bg-red-50 disabled:opacity-40">
+                <button type="button" onClick={() => remove(hotel)} disabled={!configured || deletingId === hotel.id} aria-label={`Delete ${hotel.name}`} title="Delete" className="flex h-9 w-9 items-center justify-center rounded-lg text-sm text-red-600 transition hover:bg-red-50 disabled:opacity-40">
                   <FontAwesomeIcon icon={faTrash} className="h-3.5 w-3.5" />
                 </button>
               </div>

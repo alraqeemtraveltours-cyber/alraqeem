@@ -7,6 +7,7 @@ import {
   formatCalculatorPrice,
   formatPkrPrice,
   haramAccessLabels,
+  normalizeCity,
   roomTypeLabels,
   unitLabels,
   type CalculatorItem,
@@ -22,12 +23,16 @@ function positive(value: number, fallback = 1) {
   return Number.isFinite(value) && value > 0 ? Math.floor(value) : fallback;
 }
 
+// Cap the stay so a mistyped year (e.g. 9999) can't spin a multi-million
+// iteration loop and freeze the tab.
+const MAX_NIGHTS = 366;
+
 function nightsBetween(checkIn: string, checkOut: string) {
   if (!checkIn || !checkOut || checkOut <= checkIn) return [] as string[];
   const nights: string[] = [];
   const cursor = new Date(`${checkIn}T00:00:00Z`);
   const end = new Date(`${checkOut}T00:00:00Z`);
-  while (cursor < end) {
+  while (cursor < end && nights.length < MAX_NIGHTS) {
     nights.push(cursor.toISOString().slice(0, 10));
     cursor.setUTCDate(cursor.getUTCDate() + 1);
   }
@@ -68,7 +73,10 @@ export default function PackageCalculator({
     setValues((current) => {
       const next = { ...current };
       for (const hotel of items) {
-        if (hotel.category === "hotel" && hotel.location === item.location) {
+        if (
+          hotel.category === "hotel" &&
+          normalizeCity(hotel.location) === normalizeCity(item.location)
+        ) {
           next[hotel.id] = {
             selected: hotel.id === item.id,
             quantity: next[hotel.id]?.quantity ?? 1,
@@ -95,9 +103,9 @@ export default function PackageCalculator({
           }, 0)
         : item.price;
     if (item.unit === "per_person") {
-      return item.category === "hotel"
-        ? nightlySubtotal * positive(travelers)
-        : item.price * positive(travelers);
+      // Per person is a whole-stay charge — not multiplied by nights, even
+      // for hotels. Only the "…_night" units multiply across nights.
+      return item.price * positive(travelers);
     }
     if (item.unit === "per_person_night") {
       return nightlySubtotal * positive(travelers);
@@ -122,13 +130,37 @@ export default function PackageCalculator({
     return Array.from(counts, ([price, nights]) => ({ price, nights }));
   }
 
+  function ratePartTotal(item: CalculatorItem, price: number, nights: number) {
+    const value = valueFor(item.id);
+    if (item.unit === "per_room_night") {
+      return price * nights * positive(value.quantity);
+    }
+    if (
+      item.category === "hotel" &&
+      (item.unit === "per_person" || item.unit === "per_person_night")
+    ) {
+      return price * nights * positive(travelers);
+    }
+    return price * nights;
+  }
+
   const selected = items.filter((item) => valueFor(item.id).selected);
   const hasSelectedHotel = selected.some((item) => item.category === "hotel");
   const hotelDatesValid = nightsBetween(checkIn, checkOut).length > 0;
   const canConfirm =
     selected.length > 0 && (!hasSelectedHotel || hotelDatesValid);
-  const hotelLocations = ["Makkah", "Madina"].filter((location) =>
-    items.some((item) => item.category === "hotel" && item.location === location)
+  // Only ask for dates when the catalogue actually has date-driven items.
+  const needsDates = items.some(
+    (item) =>
+      item.category === "hotel" ||
+      item.unit === "per_room_night" ||
+      item.unit === "per_person_night"
+  );
+  const hotelLocations = (["Makkah", "Madina"] as const).filter((location) =>
+    items.some(
+      (item) =>
+        item.category === "hotel" && normalizeCity(item.location) === location
+    )
   );
   const serviceItems = items.filter((item) => item.category !== "hotel");
   const steps = [
@@ -145,7 +177,7 @@ export default function PackageCalculator({
 
   function goNext() {
     setFlowError("");
-    if (currentStep.id === "travel" && !hotelDatesValid) {
+    if (currentStep.id === "travel" && needsDates && !hotelDatesValid) {
       setFlowError("Select valid check-in and check-out dates to continue.");
       return;
     }
@@ -153,7 +185,8 @@ export default function PackageCalculator({
       "location" in currentStep &&
       !selected.some(
         (item) =>
-          item.category === "hotel" && item.location === currentStep.location
+          item.category === "hotel" &&
+          normalizeCity(item.location) === currentStep.location
       )
     ) {
       setFlowError(`Select one hotel in ${currentStep.location} to continue.`);
@@ -387,8 +420,14 @@ export default function PackageCalculator({
                         <p className="shrink-0 font-semibold text-brand-blue-deep">{formatCalculatorPrice(itemTotal(item))}</p>
                       </div>
                       {item.category === "hotel" && rateBreakdown(item).length > 1 && (
-                        <div className="mt-3 rounded-lg bg-paper p-3 text-xs text-slate-600">
-                          {rateBreakdown(item).map((part) => <p key={part.price}>{part.nights} night{part.nights === 1 ? "" : "s"} × {formatCalculatorPrice(part.price)}</p>)}
+                        <div className="mt-3 space-y-1.5 rounded-lg bg-paper p-3 text-xs text-slate-600">
+                          <p className="font-bold uppercase tracking-wide text-brand-blue-deep">Different nightly rates</p>
+                          {rateBreakdown(item).map((part) => (
+                            <p key={part.price} className="flex flex-wrap items-center justify-between gap-2">
+                              <span>{part.nights} night{part.nights === 1 ? "" : "s"} × {formatCalculatorPrice(part.price)} per night</span>
+                              <span className="font-semibold text-brand-blue-deep">{formatCalculatorPrice(ratePartTotal(item, part.price, part.nights))}</span>
+                            </p>
+                          ))}
                         </div>
                       )}
                     </div>
@@ -435,6 +474,15 @@ export default function PackageCalculator({
                     <div className="min-w-0">
                       <p className="truncate font-semibold text-white">{item.name}</p>
                       <p className="mt-0.5 text-[11px] text-slate-400">{categoryLabels[item.category]}{item.roomType ? ` · ${roomTypeLabels[item.roomType]}` : ""}</p>
+                      {item.category === "hotel" && rateBreakdown(item).length > 1 && (
+                        <div className="mt-2 space-y-1 text-[11px] text-slate-300">
+                          {rateBreakdown(item).map((part) => (
+                            <p key={part.price}>
+                              {part.nights} night{part.nights === 1 ? "" : "s"} × {formatCalculatorPrice(part.price)} = {formatCalculatorPrice(ratePartTotal(item, part.price, part.nights))}
+                            </p>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <span className="shrink-0 text-xs font-semibold text-brand-orange">{formatCalculatorPrice(itemTotal(item))}</span>
                   </div>

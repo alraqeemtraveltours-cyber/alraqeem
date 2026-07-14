@@ -5,6 +5,7 @@
 // Unknown slugs (admin added) fall back to derived content, never a crash.
 // =====================================================================
 import type { TravelPackage } from "@/lib/packages";
+import { decodeBasicEntities } from "@/lib/packages";
 
 export type Faq = { q: string; a: string };
 
@@ -4298,7 +4299,9 @@ export function getDetail(pkg: TravelPackage): DetailContent {
   const mapped = detailContent[pkg.slug];
   if (mapped) return mapped;
   const base = pkg.description
-    ? pkg.description.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
+    ? decodeBasicEntities(pkg.description.replace(/<[^>]*>/g, " "))
+        .replace(/\s+/g, " ")
+        .trim()
     : `${pkg.title} from Pakistan, arranged end to end by our team across ${pkg.duration}.`;
   return {
     overview: base,

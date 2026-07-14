@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { TravelPackage, packageHref } from "@/lib/packages";
+import { TravelPackage, packageHref, priceLabel } from "@/lib/packages";
 import { packageImage } from "@/lib/images";
 
 export default function PackageCard({
@@ -70,7 +70,7 @@ export default function PackageCard({
               Pricing
             </p>
             <p className="font-display text-lg text-brand-orange">
-              Price on inquiry
+              {priceLabel(pkg)}
             </p>
           </div>
           <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-white transition group-hover:text-brand-orange">

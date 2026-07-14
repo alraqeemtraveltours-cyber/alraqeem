@@ -52,8 +52,8 @@ export default function SearchSelect({
       />
       {open && filtered.length > 0 && (
         <ul className="absolute z-20 mt-1 max-h-56 w-full overflow-y-auto rounded-xl border border-black/10 bg-white py-1 shadow-lift">
-          {filtered.map((o) => (
-            <li key={o}>
+          {filtered.map((o, index) => (
+            <li key={`${o}-${index}`}>
               <button
                 type="button"
                 onMouseDown={(e) => {

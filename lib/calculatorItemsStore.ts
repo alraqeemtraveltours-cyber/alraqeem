@@ -110,7 +110,7 @@ export async function updateCalculatorItem(
   if (!supabase) throw new Error("Supabase admin is not configured.");
   const { data, error } = await supabase
     .from(TABLE)
-    .update(toRow(input))
+    .update({ ...toRow(input), updated_at: new Date().toISOString() })
     .eq("id", id)
     .select()
     .single();

@@ -23,6 +23,16 @@ export type CalculatorUnit = (typeof calculatorUnits)[number];
 export const roomTypes = ["sharing", "quad", "triple", "double"] as const;
 export type RoomType = (typeof roomTypes)[number];
 
+/**
+ * Canonicalise a hotel city so spelling variants all map to one value.
+ * "Madinah", "Medina", "Medinah" → "Madina"; everything else → "Makkah".
+ */
+export function normalizeCity(location: string): "Makkah" | "Madina" {
+  const value = location.trim().toLowerCase();
+  if (value.startsWith("mad") || value.startsWith("med")) return "Madina";
+  return "Makkah";
+}
+
 export type DateRate = {
   startDate: string;
   endDate: string;

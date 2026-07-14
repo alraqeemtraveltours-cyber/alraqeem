@@ -32,7 +32,9 @@ export const defaultSettings: SiteSettings = {
 };
 
 export function waHref(whatsapp: string, message: string) {
-  return `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
+  // wa.me requires digits only (no spaces, +, or dashes).
+  const number = whatsapp.replace(/\D/g, "");
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 
 export function telHref(phone: string) {

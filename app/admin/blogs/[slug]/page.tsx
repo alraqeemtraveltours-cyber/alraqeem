@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import PostForm from "@/components/admin/PostForm";
-import { getPost } from "@/lib/postsStore";
+import { getDbPost } from "@/lib/postsStore";
 import { isSupabaseConfigured } from "@/lib/packagesStore";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +11,7 @@ export default async function EditPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = await getDbPost(slug);
   if (!post) notFound();
 
   return (
