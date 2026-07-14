@@ -1,9 +1,11 @@
 import {
   calculatorCategories,
   calculatorUnits,
+  roomTypes,
   type CalculatorCategory,
   type CalculatorItem,
   type CalculatorUnit,
+  type RoomType,
 } from "@/lib/calculatorItems";
 
 export type CalculatorItemInput = Omit<CalculatorItem, "id">;
@@ -15,6 +17,7 @@ export function parseCalculatorItemBody(
   const name = String(body.name ?? "").trim();
   const category = String(body.category ?? "") as CalculatorCategory;
   const location = String(body.location ?? "").trim();
+  const requestedRoomType = String(body.roomType ?? "").toLowerCase() as RoomType;
   const unit = String(body.unit ?? "") as CalculatorUnit;
   const description = String(body.description ?? "").trim();
   const price = Number(body.price);
@@ -27,6 +30,15 @@ export function parseCalculatorItemBody(
   if (!calculatorUnits.includes(unit)) {
     return { error: "Choose a valid charging basis." };
   }
+  if (
+    category === "visa" &&
+    (unit === "per_person_night" || unit === "per_room_night")
+  ) {
+    return { error: "Visa prices cannot use a per-night charging basis." };
+  }
+  if (category === "hotel" && !roomTypes.includes(requestedRoomType)) {
+    return { error: "Choose Sharing, Quad, Triple, or Double room type." };
+  }
   if (!Number.isFinite(price) || price < 0) {
     return { error: "Price must be zero or a positive number." };
   }
@@ -35,7 +47,8 @@ export function parseCalculatorItemBody(
     input: {
       name,
       category,
-      location,
+      roomType: category === "hotel" ? requestedRoomType : null,
+      location: category === "visa" ? "" : location,
       price: Math.round(price),
       unit,
       description,

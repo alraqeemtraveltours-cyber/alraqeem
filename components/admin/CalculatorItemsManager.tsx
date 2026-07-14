@@ -7,16 +7,20 @@ import {
   calculatorUnits,
   categoryLabels,
   formatCalculatorPrice,
+  roomTypeLabels,
+  roomTypes,
   unitLabels,
   type CalculatorCategory,
   type CalculatorItem,
+  type RoomType,
   type CalculatorUnit,
 } from "@/lib/calculatorItems";
 
 const blank = {
   name: "",
   category: "hotel" as CalculatorCategory,
-  location: "",
+  roomType: "sharing" as RoomType,
+  location: "Makkah",
   price: "",
   unit: "per_room_night" as CalculatorUnit,
   description: "",
@@ -44,12 +48,37 @@ export default function CalculatorItemsManager({
     setError("");
   }
 
+  function changeCategory(category: CalculatorCategory) {
+    setForm((current) => ({
+      ...current,
+      category,
+      location:
+        category === "visa"
+          ? ""
+          : category === "hotel" && !["Makkah", "Madina"].includes(current.location)
+            ? "Makkah"
+            : current.location,
+      unit:
+        category === "visa" &&
+        (current.unit === "per_person_night" || current.unit === "per_room_night")
+          ? "per_person"
+          : current.unit,
+    }));
+    setError("");
+  }
+
   function edit(item: CalculatorItem) {
     setEditingId(item.id);
     setForm({
       name: item.name,
       category: item.category,
-      location: item.location,
+      roomType: item.roomType ?? "sharing",
+      location:
+        item.category === "hotel"
+          ? item.location === "Madina" || item.location === "Madinah"
+            ? "Madina"
+            : "Makkah"
+          : item.location,
       price: String(item.price),
       unit: item.unit,
       description: item.description,
@@ -152,15 +181,46 @@ export default function CalculatorItemsManager({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="calc-category">Category</label>
-              <select id="calc-category" value={form.category} onChange={(e) => update("category", e.target.value as CalculatorCategory)}>
+              <select id="calc-category" value={form.category} onChange={(e) => changeCategory(e.target.value as CalculatorCategory)}>
                 {calculatorCategories.map((category) => <option key={category} value={category}>{categoryLabels[category]}</option>)}
               </select>
             </div>
             <div>
               <label htmlFor="calc-location">Location</label>
-              <input id="calc-location" value={form.location} onChange={(e) => update("location", e.target.value)} placeholder="Makkah" />
+              {form.category === "visa" ? (
+                <div className="flex min-h-[46px] items-center rounded-xl border border-dashed border-slate-300 bg-paper px-3 text-xs text-slate-500">
+                  Not required for visas
+                </div>
+              ) : form.category === "hotel" ? (
+                <select
+                  id="calc-location"
+                  value={form.location}
+                  onChange={(e) => update("location", e.target.value)}
+                >
+                  <option value="Makkah">Makkah</option>
+                  <option value="Madina">Madina</option>
+                </select>
+              ) : (
+                <input id="calc-location" value={form.location} onChange={(e) => update("location", e.target.value)} placeholder="e.g. Islamabad → Jeddah" />
+              )}
             </div>
           </div>
+          {form.category === "hotel" && (
+            <div>
+              <label htmlFor="calc-room-type">Room type</label>
+              <select
+                id="calc-room-type"
+                value={form.roomType}
+                onChange={(e) => update("roomType", e.target.value as RoomType)}
+              >
+                {roomTypes.map((roomType) => (
+                  <option key={roomType} value={roomType}>
+                    {roomTypeLabels[roomType]}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
           <div className="rounded-2xl bg-paper p-4">
             <p className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Pricing rule</p>
             <div className="grid grid-cols-2 gap-4">
@@ -171,7 +231,13 @@ export default function CalculatorItemsManager({
               <div>
                 <label htmlFor="calc-unit">Charge by</label>
                 <select id="calc-unit" value={form.unit} onChange={(e) => update("unit", e.target.value as CalculatorUnit)}>
-                  {calculatorUnits.map((unit) => <option key={unit} value={unit}>{unitLabels[unit]}</option>)}
+                  {calculatorUnits
+                    .filter(
+                      (unit) =>
+                        form.category !== "visa" ||
+                        (unit !== "per_person_night" && unit !== "per_room_night")
+                    )
+                    .map((unit) => <option key={unit} value={unit}>{unitLabels[unit]}</option>)}
                 </select>
               </div>
             </div>
@@ -251,7 +317,10 @@ export default function CalculatorItemsManager({
                     <span className={`h-2 w-2 rounded-full ${item.active ? "bg-emerald-500" : "bg-slate-400"}`} title={item.active ? "Published" : "Hidden"} />
                   </div>
                   <h3 className="mt-3 truncate text-lg text-brand-blue-deep">{item.name}</h3>
-                  <p className="mt-1 text-xs text-slate-500">{item.location || "No location"}</p>
+                  <p className="mt-1 text-xs text-slate-500">
+                    {item.location || "No location"}
+                    {item.roomType ? ` · ${roomTypeLabels[item.roomType]} room` : ""}
+                  </p>
                 </div>
                 <div className="shrink-0 text-right">
                   <p className="font-display text-xl text-brand-orange-dark">{formatCalculatorPrice(item.price)}</p>

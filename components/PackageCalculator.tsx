@@ -5,6 +5,7 @@ import {
   calculatorCategories,
   categoryLabels,
   formatCalculatorPrice,
+  roomTypeLabels,
   unitLabels,
   type CalculatorItem,
 } from "@/lib/calculatorItems";
@@ -76,7 +77,8 @@ export default function PackageCalculator({
               : item.unit === "per_trip"
                 ? ` (${positive(value.quantity)} trip(s))`
                 : "";
-      return `- ${item.name}${details}: ${formatCalculatorPrice(itemTotal(item))}`;
+      const room = item.roomType ? ` [${roomTypeLabels[item.roomType]} room]` : "";
+      return `- ${item.name}${room}${details}: ${formatCalculatorPrice(itemTotal(item))}`;
     }),
     `Estimated total: ${formatCalculatorPrice(total)}`,
     "Please confirm availability and the final quote.",
@@ -129,6 +131,11 @@ export default function PackageCalculator({
                         <span className="min-w-0">
                           <span className="block font-semibold text-brand-blue-deep">{item.name}</span>
                           {item.location && <span className="mt-0.5 block text-xs text-slate-500">{item.location}</span>}
+                          {item.roomType && (
+                            <span className="mt-2 inline-flex rounded-full bg-brand-orange/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-brand-orange-dark">
+                              {roomTypeLabels[item.roomType]} room
+                            </span>
+                          )}
                         </span>
                       </label>
                       {item.description && <p className="mt-3 text-sm leading-relaxed text-slate-600">{item.description}</p>}

@@ -20,10 +20,21 @@ export const calculatorUnits = [
 
 export type CalculatorUnit = (typeof calculatorUnits)[number];
 
+export const roomTypes = ["sharing", "quad", "triple", "double"] as const;
+export type RoomType = (typeof roomTypes)[number];
+
+export const roomTypeLabels: Record<RoomType, string> = {
+  sharing: "Sharing",
+  quad: "Quad",
+  triple: "Triple",
+  double: "Double",
+};
+
 export type CalculatorItem = {
   id: string;
   name: string;
   category: CalculatorCategory;
+  roomType: RoomType | null;
   location: string;
   price: number;
   unit: CalculatorUnit;

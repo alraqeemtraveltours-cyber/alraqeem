@@ -313,6 +313,7 @@ create table if not exists public.calculator_items (
   id          uuid primary key default gen_random_uuid(),
   name        text not null,
   category    text not null check (category in ('hotel','flight','visa','transport','ziyarat','other')),
+  room_type   text check (room_type in ('sharing','quad','triple','double')),
   location    text,
   price       integer not null check (price >= 0),
   unit        text not null check (unit in ('per_person','per_person_night','per_room_night','per_vehicle','per_trip','flat')),
@@ -322,6 +323,47 @@ create table if not exists public.calculator_items (
   created_at  timestamptz not null default now(),
   updated_at  timestamptz not null default now()
 );
+alter table public.calculator_items add column if not exists room_type text;
+update public.calculator_items
+set room_type = 'sharing'
+where category = 'hotel' and room_type is null;
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint
+    where conname = 'calculator_items_room_type_check'
+      and conrelid = 'public.calculator_items'::regclass
+  ) then
+    alter table public.calculator_items
+      add constraint calculator_items_room_type_check
+      check (room_type in ('sharing','quad','triple','double'));
+  end if;
+end $$;
+update public.calculator_items
+set location = null,
+    unit = case
+      when unit in ('per_person_night', 'per_room_night') then 'per_person'
+      else unit
+    end
+where category = 'visa';
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint
+    where conname = 'calculator_items_visa_rules_check'
+      and conrelid = 'public.calculator_items'::regclass
+  ) then
+    alter table public.calculator_items
+      add constraint calculator_items_visa_rules_check
+      check (
+        category <> 'visa'
+        or (
+          coalesce(location, '') = ''
+          and unit not in ('per_person_night','per_room_night')
+        )
+      );
+  end if;
+end $$;
 alter table public.calculator_items enable row level security;
 drop policy if exists "Public can read active calculator items" on public.calculator_items;
 create policy "Public can read active calculator items"

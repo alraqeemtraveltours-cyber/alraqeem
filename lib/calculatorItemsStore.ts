@@ -5,6 +5,7 @@ import type {
   CalculatorCategory,
   CalculatorItem,
   CalculatorUnit,
+  RoomType,
 } from "@/lib/calculatorItems";
 
 const TABLE = "calculator_items";
@@ -13,6 +14,7 @@ type Row = {
   id: string;
   name: string;
   category: CalculatorCategory;
+  room_type: RoomType | null;
   location: string | null;
   price: number;
   unit: CalculatorUnit;
@@ -26,6 +28,7 @@ function rowToItem(row: Row): CalculatorItem {
     id: row.id,
     name: row.name,
     category: row.category,
+    roomType: row.room_type,
     location: row.location ?? "",
     price: row.price,
     unit: row.unit,
@@ -39,6 +42,7 @@ function toRow(input: CalculatorItemInput) {
   return {
     name: input.name,
     category: input.category,
+    room_type: input.roomType,
     location: input.location || null,
     price: input.price,
     unit: input.unit,

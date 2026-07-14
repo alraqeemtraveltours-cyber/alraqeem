@@ -2,6 +2,7 @@ create table if not exists public.calculator_items (
   id          uuid primary key default gen_random_uuid(),
   name        text not null,
   category    text not null check (category in ('hotel','flight','visa','transport','ziyarat','other')),
+  room_type   text check (room_type in ('sharing','quad','triple','double')),
   location    text,
   price       integer not null check (price >= 0),
   unit        text not null check (unit in ('per_person','per_person_night','per_room_night','per_vehicle','per_trip','flat')),
