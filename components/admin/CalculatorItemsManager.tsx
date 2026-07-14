@@ -41,6 +41,8 @@ export default function CalculatorItemsManager({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [formOpen, setFormOpen] = useState(false);
+  const [step, setStep] = useState(1);
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<"all" | CalculatorCategory>("all");
 
@@ -91,13 +93,24 @@ export default function CalculatorItemsManager({
       active: item.active,
       sortOrder: String(item.sortOrder),
     });
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setStep(1);
+    setFormOpen(true);
   }
 
   function reset() {
     setEditingId(null);
     setForm(blank);
     setError("");
+    setStep(1);
+    setFormOpen(false);
+  }
+
+  function openNew() {
+    setEditingId(null);
+    setForm(blank);
+    setError("");
+    setStep(1);
+    setFormOpen(true);
   }
 
   function addDateRate() {
@@ -131,8 +144,50 @@ export default function CalculatorItemsManager({
     }));
   }
 
+  function nextStep() {
+    setError("");
+    if (step === 1 && !form.name.trim()) {
+      setError("Enter an item name before continuing.");
+      return;
+    }
+    if (step === 2) {
+      if (form.price === "" || Number(form.price) < 0) {
+        setError("Enter a valid regular price before continuing.");
+        return;
+      }
+      const invalidPeriod = form.dateRates.some(
+        (rate) =>
+          !rate.startDate ||
+          !rate.endDate ||
+          rate.endDate < rate.startDate ||
+          rate.price === "" ||
+          Number(rate.price) < 0
+      );
+      if (invalidPeriod) {
+        setError("Complete every date-price period with valid dates and price.");
+        return;
+      }
+      const sortedPeriods = [...form.dateRates].sort((a, b) =>
+        a.startDate.localeCompare(b.startDate)
+      );
+      const overlaps = sortedPeriods.some(
+        (rate, index) =>
+          index > 0 && rate.startDate <= sortedPeriods[index - 1].endDate
+      );
+      if (overlaps) {
+        setError("Date-price periods cannot overlap.");
+        return;
+      }
+    }
+    setStep((current) => Math.min(3, current + 1));
+  }
+
   async function save(event: React.FormEvent) {
     event.preventDefault();
+    if (step < 3) {
+      nextStep();
+      return;
+    }
     setBusy(true);
     setError("");
     try {
@@ -184,24 +239,72 @@ export default function CalculatorItemsManager({
   }, [initial, query, categoryFilter]);
 
   return (
-    <div className="grid items-start gap-8 xl:grid-cols-[390px_minmax(0,1fr)]">
+    <div className="min-w-0">
+      {formOpen && (
+        <div
+          className="fixed inset-0 z-[200] flex items-end justify-center bg-black/60 p-0 backdrop-blur-sm sm:items-center sm:p-5"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget && !busy) reset();
+          }}
+        >
       <form
         onSubmit={save}
-        className="overflow-hidden rounded-3xl border border-black/5 bg-white shadow-card xl:sticky xl:top-8"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calculator-form-title"
+        className="max-h-[94vh] w-full max-w-2xl overflow-y-auto rounded-t-3xl border border-black/5 bg-white shadow-2xl sm:rounded-3xl"
       >
         <div className={`px-6 py-5 ${editingId ? "bg-brand-orange" : "bg-brand-blue-deep"}`}>
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 text-white">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
-            </span>
-            <div>
-              <p className={`text-xs font-bold uppercase tracking-widest ${editingId ? "text-brand-blue-deep/70" : "text-brand-orange"}`}>
-                {editingId ? "Editing item" : "New calculator item"}
-              </p>
-              <h2 className={`text-xl ${editingId ? "text-brand-blue-deep" : "text-white"}`}>
-                {editingId ? "Update price details" : "Add a new price"}
-              </h2>
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 text-white">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+              </span>
+              <div>
+                <p className={`text-xs font-bold uppercase tracking-widest ${editingId ? "text-brand-blue-deep/70" : "text-brand-orange"}`}>
+                  {editingId ? "Editing item" : "New calculator item"}
+                </p>
+                <h2 id="calculator-form-title" className={`text-xl ${editingId ? "text-brand-blue-deep" : "text-white"}`}>
+                  {editingId ? "Update price details" : "Add a new price"}
+                </h2>
+              </div>
             </div>
+            <button
+              type="button"
+              onClick={reset}
+              disabled={busy}
+              aria-label="Close form"
+              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition disabled:opacity-50 ${editingId ? "text-brand-blue-deep hover:bg-black/10" : "text-white/80 hover:bg-white/10 hover:text-white"}`}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+            </button>
+          </div>
+        </div>
+
+        <div className="border-b border-black/5 bg-white px-6 py-4">
+          <div className="flex items-center">
+            {[
+              { number: 1, label: "Item details" },
+              { number: 2, label: "Pricing" },
+              { number: 3, label: "Publish" },
+            ].map((item, index) => (
+              <div key={item.number} className={`flex items-center ${index < 2 ? "flex-1" : ""}`}>
+                <button
+                  type="button"
+                  onClick={() => item.number < step && setStep(item.number)}
+                  disabled={item.number > step}
+                  className="flex shrink-0 items-center gap-2 disabled:cursor-default"
+                >
+                  <span className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition ${step >= item.number ? "bg-brand-blue-deep text-white" : "bg-slate-100 text-slate-400"}`}>
+                    {step > item.number ? "✓" : item.number}
+                  </span>
+                  <span className={`hidden text-xs font-semibold sm:block ${step >= item.number ? "text-brand-blue-deep" : "text-slate-400"}`}>
+                    {item.label}
+                  </span>
+                </button>
+                {index < 2 && <div className={`mx-3 h-px flex-1 ${step > item.number ? "bg-brand-blue-deep" : "bg-slate-200"}`} />}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -211,11 +314,18 @@ export default function CalculatorItemsManager({
               Connect Supabase and run the calculator migration before adding prices.
             </p>
           )}
-          <div>
-            <label htmlFor="calc-name">Item name</label>
-            <input id="calc-name" value={form.name} onChange={(e) => update("name", e.target.value)} placeholder="Makkah 4-star hotel" required />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
+          {step === 1 && (
+            <div className="space-y-5">
+              <div>
+                <p className="eyebrow">Step 1 of 3</p>
+                <h3 className="mt-1 text-xl">What are you adding?</h3>
+                <p className="mt-1 text-sm text-slate-500">Choose the service and its customer-facing details.</p>
+              </div>
+              <div>
+                <label htmlFor="calc-name">Item name</label>
+                <input id="calc-name" value={form.name} onChange={(e) => update("name", e.target.value)} placeholder="Makkah 4-star hotel" autoFocus />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="calc-category">Category</label>
               <select id="calc-category" value={form.category} onChange={(e) => changeCategory(e.target.value as CalculatorCategory)}>
@@ -241,23 +351,32 @@ export default function CalculatorItemsManager({
                 <input id="calc-location" value={form.location} onChange={(e) => update("location", e.target.value)} placeholder="e.g. Islamabad → Jeddah" />
               )}
             </div>
-          </div>
-          {form.category === "hotel" && (
-            <div>
-              <label htmlFor="calc-room-type">Room type</label>
-              <select
-                id="calc-room-type"
-                value={form.roomType}
-                onChange={(e) => update("roomType", e.target.value as RoomType)}
-              >
-                {roomTypes.map((roomType) => (
-                  <option key={roomType} value={roomType}>
-                    {roomTypeLabels[roomType]}
-                  </option>
-                ))}
-              </select>
+              </div>
+              {form.category === "hotel" && (
+                <div>
+                  <label htmlFor="calc-room-type">Room type</label>
+                  <select
+                    id="calc-room-type"
+                    value={form.roomType}
+                    onChange={(e) => update("roomType", e.target.value as RoomType)}
+                  >
+                    {roomTypes.map((roomType) => (
+                      <option key={roomType} value={roomType}>
+                        {roomTypeLabels[roomType]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
           )}
+          {step === 2 && (
+            <div className="space-y-5">
+              <div>
+                <p className="eyebrow">Step 2 of 3</p>
+                <h3 className="mt-1 text-xl">Set the pricing</h3>
+                <p className="mt-1 text-sm text-slate-500">Add the regular rate and any date-based price changes.</p>
+              </div>
           <div className="rounded-2xl bg-paper p-4">
             <p className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Pricing rule</p>
             <div className="grid grid-cols-2 gap-4">
@@ -320,36 +439,68 @@ export default function CalculatorItemsManager({
               </div>
             </div>
           )}
-          <div>
-            <label htmlFor="calc-description">Customer description</label>
-            <textarea id="calc-description" rows={3} value={form.description} onChange={(e) => update("description", e.target.value)} placeholder="Room type, inclusions, restrictions…" />
-          </div>
-          <div className="grid grid-cols-[110px_1fr] gap-4">
-            <div>
-              <label htmlFor="calc-order">Order</label>
-              <input id="calc-order" type="number" value={form.sortOrder} onChange={(e) => update("sortOrder", e.target.value)} />
             </div>
-            <label className="flex cursor-pointer items-center justify-between gap-3 self-end rounded-xl border border-black/5 bg-white px-4 py-3 shadow-sm">
-              <span>
-                <span className="block text-sm font-semibold text-brand-blue-deep">Published</span>
-                <span className="block text-[11px] text-slate-500">Visible to customers</span>
-              </span>
-              <input type="checkbox" checked={form.active} onChange={(e) => update("active", e.target.checked)} className="h-5 w-5" />
-            </label>
-          </div>
+          )}
+          {step === 3 && (
+            <div className="space-y-5">
+              <div>
+                <p className="eyebrow">Step 3 of 3</p>
+                <h3 className="mt-1 text-xl">Review and publish</h3>
+                <p className="mt-1 text-sm text-slate-500">Add supporting details and choose whether customers can see it now.</p>
+              </div>
+              <div className="rounded-2xl bg-paper p-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-semibold text-brand-blue-deep">{form.name}</p>
+                    <p className="mt-1 text-xs text-slate-500">{categoryLabels[form.category]}{form.location ? ` · ${form.location}` : ""}</p>
+                  </div>
+                  <p className="shrink-0 font-display text-lg text-brand-orange-dark">
+                    {form.price === "" ? "No price" : formatCalculatorPrice(Number(form.price))}
+                  </p>
+                </div>
+              </div>
+              <div>
+                <label htmlFor="calc-description">Customer description</label>
+                <textarea id="calc-description" rows={3} value={form.description} onChange={(e) => update("description", e.target.value)} placeholder="Room type, inclusions, restrictions…" />
+              </div>
+              <div className="grid grid-cols-[110px_1fr] gap-4">
+                <div>
+                  <label htmlFor="calc-order">Order</label>
+                  <input id="calc-order" type="number" value={form.sortOrder} onChange={(e) => update("sortOrder", e.target.value)} />
+                </div>
+                <label className="flex cursor-pointer items-center justify-between gap-3 self-end rounded-xl border border-black/5 bg-white px-4 py-3 shadow-sm">
+                  <span>
+                    <span className="block text-sm font-semibold text-brand-blue-deep">Published</span>
+                    <span className="block text-[11px] text-slate-500">Visible to customers</span>
+                  </span>
+                  <input type="checkbox" checked={form.active} onChange={(e) => update("active", e.target.checked)} className="h-5 w-5" />
+                </label>
+              </div>
+            </div>
+          )}
           {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
-          <div className="grid grid-cols-2 gap-3">
-            <button type="submit" disabled={!configured || busy} className="btn-orange disabled:opacity-50">
-              {busy ? "Saving…" : editingId ? "Save Changes" : "Add Price"}
-            </button>
-            {editingId ? (
-              <button type="button" onClick={reset} className="btn-outline">Cancel Edit</button>
+          <div className="flex items-center justify-between gap-3 border-t border-black/5 pt-5">
+            {step > 1 ? (
+              <button type="button" onClick={() => { setError(""); setStep((current) => current - 1); }} className="btn-outline">
+                ← Back
+              </button>
             ) : (
-              <button type="button" onClick={() => setForm(blank)} className="btn-outline">Clear</button>
+              <button type="button" onClick={reset} className="btn-outline">Cancel</button>
+            )}
+            {step < 3 ? (
+              <button type="button" onClick={nextStep} className="btn-orange">
+                Continue →
+              </button>
+            ) : (
+              <button type="submit" disabled={!configured || busy} className="btn-orange disabled:opacity-50">
+                {busy ? "Saving…" : editingId ? "Save Changes" : "Add Price"}
+              </button>
             )}
           </div>
         </div>
       </form>
+        </div>
+      )}
 
       <div className="min-w-0">
         <div className="rounded-3xl border border-black/5 bg-white p-5 shadow-card sm:p-6">
@@ -360,9 +511,15 @@ export default function CalculatorItemsManager({
                 Showing {filtered.length} of {initial.length} items
               </p>
             </div>
-            <div className="relative min-w-0 lg:w-72">
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search prices…" className="!pl-10" aria-label="Search calculator prices" />
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <div className="relative min-w-0 sm:w-72">
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search prices…" className="!pl-10" aria-label="Search calculator prices" />
+              </div>
+              <button type="button" onClick={openNew} className="btn-orange shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                Add New Price
+              </button>
             </div>
           </div>
 
