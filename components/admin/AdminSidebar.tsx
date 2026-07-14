@@ -60,7 +60,7 @@ export default function AdminSidebar() {
               href={l.href}
               className={`group relative flex shrink-0 items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold transition lg:justify-start ${collapsed ? "lg:mx-auto lg:w-11 lg:justify-center lg:gap-0 lg:px-0" : ""} ${
                 active
-                  ? "bg-brand-blue text-white"
+                  ? "bg-brand-orange text-brand-blue-deep shadow-[0_8px_20px_rgba(197,162,83,0.18)]"
                   : "text-slate-300 hover:bg-white/10 hover:text-white"
               }`}
               title={collapsed ? l.label : undefined}
@@ -90,10 +90,10 @@ export default function AdminSidebar() {
         <form action={adminLogout} className="lg:mt-auto lg:pt-4">
           <button
             type="submit"
-            className={`group relative flex w-full shrink-0 items-center gap-3 rounded-xl bg-yellow-600 px-4 py-2.5 text-sm font-semibold text-black transition hover:bg-yellow-700 ${collapsed ? "lg:mx-auto lg:w-11 lg:justify-center lg:gap-0 lg:px-0" : ""}`}
+            className={`group relative flex w-full shrink-0 items-center gap-3 rounded-xl border border-white/10 px-4 py-2.5 text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white ${collapsed ? "lg:mx-auto lg:w-11 lg:justify-center lg:gap-0 lg:px-0" : ""}`}
             title={collapsed ? "Logout" : undefined}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />
             </svg>
             <span className={collapsed ? "lg:hidden" : ""}>Logout</span>
