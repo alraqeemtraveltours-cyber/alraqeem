@@ -301,8 +301,28 @@ create table if not exists public.inquiries (
   email      text,
   service    text not null,
   message    text,
+  admin_email_status text not null default 'unknown'
+             check (admin_email_status in ('unknown','pending','sent','failed','not_configured')),
+  admin_email_sent_at timestamptz,
+  admin_email_error text,
   created_at timestamptz not null default now()
 );
+alter table public.inquiries add column if not exists admin_email_status text not null default 'unknown';
+alter table public.inquiries add column if not exists admin_email_sent_at timestamptz;
+alter table public.inquiries add column if not exists admin_email_error text;
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint
+    where conname = 'inquiries_admin_email_status_check'
+      and conrelid = 'public.inquiries'::regclass
+  ) then
+    alter table public.inquiries
+      add constraint inquiries_admin_email_status_check
+      check (admin_email_status in ('unknown','pending','sent','failed','not_configured'));
+  end if;
+end $$;
 alter table public.inquiries enable row level security;
 
 -- =====================================================================

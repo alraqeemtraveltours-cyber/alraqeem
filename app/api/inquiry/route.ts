@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { revalidatePath } from "next/cache";
-import { addInquiry } from "@/lib/inquiriesStore";
+import { addInquiry, updateInquiryAdminEmailStatus } from "@/lib/inquiriesStore";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -121,8 +121,9 @@ export async function POST(request: Request) {
   // 1) Persist the lead FIRST so it is never lost, even if email is
   //    misconfigured or the mail server is down.
   let saved = false;
+  let inquiryId: string | null = null;
   try {
-    await addInquiry(payload);
+    inquiryId = await addInquiry(payload);
     saved = true;
     revalidatePath("/admin");
     revalidatePath("/admin/inquiries");
@@ -173,6 +174,14 @@ export async function POST(request: Request) {
       });
       emailed = true;
 
+      if (inquiryId) {
+        try {
+          await updateInquiryAdminEmailStatus(inquiryId, "sent");
+        } catch (error) {
+          console.error("[inquiry] email status update failed:", error);
+        }
+      }
+
       if (payload.email) {
         const safeName = escapeHtml(payload.name);
         const userText = [
@@ -212,6 +221,27 @@ export async function POST(request: Request) {
       }
     } catch (error) {
       console.error("[inquiry] notification email failed:", error);
+      if (inquiryId) {
+        try {
+          await updateInquiryAdminEmailStatus(
+            inquiryId,
+            "failed",
+            error instanceof Error ? error.message : "Mail server rejected the notification.",
+          );
+        } catch (statusError) {
+          console.error("[inquiry] email status update failed:", statusError);
+        }
+      }
+    }
+  } else if (inquiryId) {
+    try {
+      await updateInquiryAdminEmailStatus(
+        inquiryId,
+        "not_configured",
+        "SMTP settings are not configured.",
+      );
+    } catch (error) {
+      console.error("[inquiry] email status update failed:", error);
     }
   }
 

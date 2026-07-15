@@ -13,6 +13,34 @@ function formatDate(value: string) {
   });
 }
 
+const emailStatus = {
+  sent: {
+    label: "Sent to admin email",
+    description: "The mail server accepted this notification.",
+    classes: "border-emerald-200 bg-emerald-50 text-emerald-800",
+  },
+  failed: {
+    label: "Admin email failed",
+    description: "The lead was saved, but its email notification failed.",
+    classes: "border-red-200 bg-red-50 text-red-800",
+  },
+  pending: {
+    label: "Admin email pending",
+    description: "The email delivery result has not been recorded yet.",
+    classes: "border-amber-200 bg-amber-50 text-amber-800",
+  },
+  not_configured: {
+    label: "Admin email not sent",
+    description: "SMTP email settings were not configured when this lead arrived.",
+    classes: "border-red-200 bg-red-50 text-red-800",
+  },
+  unknown: {
+    label: "Email status unavailable",
+    description: "This lead was received before email tracking was enabled.",
+    classes: "border-slate-200 bg-slate-50 text-slate-700",
+  },
+} as const;
+
 type DateRange = "all" | "today" | "7d" | "30d";
 
 export default function InquiriesTable({
@@ -28,6 +56,7 @@ export default function InquiriesTable({
   const [range, setRange] = useState<DateRange>("all");
   const [busy, setBusy] = useState<string | null>(null);
   const [selected, setSelected] = useState<Inquiry | null>(null);
+  const selectedEmailStatus = selected ? emailStatus[selected.adminEmailStatus] : null;
 
   const services = useMemo(() => {
     return Array.from(new Set(inquiries.map((i) => i.service))).sort();
@@ -214,6 +243,28 @@ export default function InquiriesTable({
                 <p className="mt-1 text-slate-800">{selected.service}</p>
               </div>
             </div>
+
+            {selectedEmailStatus && (
+              <div className={`mt-4 flex items-start gap-3 rounded-xl border p-4 ${selectedEmailStatus.classes}`}>
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-current/10">
+                  {selected.adminEmailStatus === "sent" ? (
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
+                  ) : (
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 8v5m0 3h.01" /><circle cx="12" cy="12" r="9" /></svg>
+                  )}
+                </span>
+                <div>
+                  <p className="text-sm font-bold">{selectedEmailStatus.label}</p>
+                  <p className="mt-0.5 text-xs opacity-75">{selectedEmailStatus.description}</p>
+                  {selected.adminEmailSentAt && (
+                    <p className="mt-1.5 text-xs font-semibold">Sent {formatDate(selected.adminEmailSentAt)}</p>
+                  )}
+                  {selected.adminEmailError && selected.adminEmailStatus !== "sent" && (
+                    <p className="mt-1.5 text-xs">Reason: {selected.adminEmailError}</p>
+                  )}
+                </div>
+              </div>
+            )}
 
             <div className="mt-4 rounded-xl bg-paper/60 p-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Message</p>
