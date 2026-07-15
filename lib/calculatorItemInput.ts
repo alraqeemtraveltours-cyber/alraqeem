@@ -53,6 +53,15 @@ export function parseCalculatorItemBody(
   ) {
     return { error: "Visa prices cannot use a per-night charging basis." };
   }
+  if (
+    category === "hotel" &&
+    unit !== "per_person_night" &&
+    unit !== "per_room_night"
+  ) {
+    return {
+      error: "Hotel prices must be charged per person / night or per room / night.",
+    };
+  }
   if (category === "hotel" && !roomTypes.includes(requestedRoomType)) {
     return { error: "Choose Sharing, Quad, Triple, or Double room type." };
   }

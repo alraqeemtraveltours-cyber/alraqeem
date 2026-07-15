@@ -9,8 +9,10 @@ import {
   haramAccessLabels,
   normalizeCity,
   roomTypeLabels,
+  roomTypes,
   unitLabels,
   type CalculatorItem,
+  type RoomType,
 } from "@/lib/calculatorItems";
 import { waHref } from "@/lib/settings";
 
@@ -23,21 +25,9 @@ function positive(value: number, fallback = 1) {
   return Number.isFinite(value) && value > 0 ? Math.floor(value) : fallback;
 }
 
-// Cap the stay so a mistyped year (e.g. 9999) can't spin a multi-million
-// iteration loop and freeze the tab.
+// Cap the stay so a mistyped nights value can't spin a huge loop or produce
+// absurd totals.
 const MAX_NIGHTS = 366;
-
-function nightsBetween(checkIn: string, checkOut: string) {
-  if (!checkIn || !checkOut || checkOut <= checkIn) return [] as string[];
-  const nights: string[] = [];
-  const cursor = new Date(`${checkIn}T00:00:00Z`);
-  const end = new Date(`${checkOut}T00:00:00Z`);
-  while (cursor < end && nights.length < MAX_NIGHTS) {
-    nights.push(cursor.toISOString().slice(0, 10));
-    cursor.setUTCDate(cursor.getUTCDate() + 1);
-  }
-  return nights;
-}
 
 export default function PackageCalculator({
   items,
@@ -49,11 +39,40 @@ export default function PackageCalculator({
   sarToPkr: number;
 }) {
   const [travelers, setTravelers] = useState(1);
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
+  const [month, setMonth] = useState("");
+  const [roomType, setRoomType] = useState<"" | RoomType>("");
+  const [cityNights, setCityNights] = useState<Record<string, number>>({});
   const [values, setValues] = useState<Record<string, ItemValues>>({});
   const [stepIndex, setStepIndex] = useState(0);
   const [flowError, setFlowError] = useState("");
+
+  // Customers pick a travel month plus nights per city (asked on each hotel
+  // step). Seasonal hotel rates still need concrete dates, so stays are
+  // anchored to the 1st of the chosen month.
+  function nightDates(count: number) {
+    if (!month || count < 1) return [] as string[];
+    const dates: string[] = [];
+    const cursor = new Date(`${month}-01T00:00:00Z`);
+    const capped = Math.min(count, MAX_NIGHTS);
+    while (dates.length < capped) {
+      dates.push(cursor.toISOString().slice(0, 10));
+      cursor.setUTCDate(cursor.getUTCDate() + 1);
+    }
+    return dates;
+  }
+
+  const monthOptions = useMemo(() => {
+    const cursor = new Date();
+    cursor.setDate(1);
+    return Array.from({ length: 12 }, () => {
+      const value = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}`;
+      const label = cursor.toLocaleString("en-US", { month: "long", year: "numeric" });
+      cursor.setMonth(cursor.getMonth() + 1);
+      return { value, label };
+    });
+  }, []);
+  const monthLabel =
+    monthOptions.find((option) => option.value === month)?.label ?? "";
 
   function valueFor(id: string): ItemValues {
     return values[id] ?? {
@@ -67,6 +86,28 @@ export default function PackageCalculator({
       ...current,
       [id]: { ...valueFor(id), ...next },
     }));
+  }
+
+  // Changing the preferred room type deselects hotels that no longer match,
+  // so a stale pick can't linger in the price.
+  function changeRoomType(next: "" | RoomType) {
+    setRoomType(next);
+    setFlowError("");
+    if (!next) return;
+    setValues((current) => {
+      const updated = { ...current };
+      for (const hotel of items) {
+        if (
+          hotel.category === "hotel" &&
+          hotel.roomType &&
+          hotel.roomType !== next &&
+          updated[hotel.id]?.selected
+        ) {
+          updated[hotel.id] = { ...updated[hotel.id], selected: false };
+        }
+      }
+      return updated;
+    });
   }
 
   function selectHotel(item: CalculatorItem) {
@@ -88,14 +129,22 @@ export default function PackageCalculator({
     setFlowError("");
   }
 
+  function nightsFor(item: CalculatorItem) {
+    if (item.category === "hotel") {
+      return cityNights[normalizeCity(item.location)] ?? 0;
+    }
+    // Non-hotel per-night services span the whole trip.
+    return totalNights;
+  }
+
   function itemTotal(item: CalculatorItem) {
     const value = valueFor(item.id);
     if (!value.selected) return 0;
     const quantity = positive(value.quantity);
-    const nightDates = nightsBetween(checkIn, checkOut);
+    const stayDates = nightDates(nightsFor(item));
     const nightlySubtotal =
-      nightDates.length > 0
-        ? nightDates.reduce((sum, date) => {
+      stayDates.length > 0
+        ? stayDates.reduce((sum, date) => {
             const datedRate = item.dateRates.find(
               (rate) => date >= rate.startDate && date <= rate.endDate
             );
@@ -118,7 +167,7 @@ export default function PackageCalculator({
   }
 
   function rateBreakdown(item: CalculatorItem) {
-    const dates = nightsBetween(checkIn, checkOut);
+    const dates = nightDates(nightsFor(item));
     const counts = new Map<number, number>();
     for (const date of dates) {
       const rate =
@@ -146,11 +195,15 @@ export default function PackageCalculator({
 
   const selected = items.filter((item) => valueFor(item.id).selected);
   const hasSelectedHotel = selected.some((item) => item.category === "hotel");
-  const hotelDatesValid = nightsBetween(checkIn, checkOut).length > 0;
+  const monthSelected = month !== "";
+  const selectedHotelsReady = selected
+    .filter((item) => item.category === "hotel")
+    .every((item) => (cityNights[normalizeCity(item.location)] ?? 0) >= 1);
   const canConfirm =
-    selected.length > 0 && (!hasSelectedHotel || hotelDatesValid);
-  // Only ask for dates when the catalogue actually has date-driven items.
-  const needsDates = items.some(
+    selected.length > 0 &&
+    (!hasSelectedHotel || (monthSelected && selectedHotelsReady));
+  // Only ask for a travel month when the catalogue has date-driven items.
+  const needsMonth = items.some(
     (item) =>
       item.category === "hotel" ||
       item.unit === "per_room_night" ||
@@ -161,6 +214,21 @@ export default function PackageCalculator({
       (item) =>
         item.category === "hotel" && normalizeCity(item.location) === location
     )
+  );
+  const totalNights = hotelLocations.reduce(
+    (sum, location) => sum + (cityNights[location] ?? 0),
+    0
+  );
+  const nightsSummary = hotelLocations
+    .filter((location) => (cityNights[location] ?? 0) > 0)
+    .map(
+      (location) =>
+        `${location}: ${cityNights[location]} night${cityNights[location] === 1 ? "" : "s"}`
+    )
+    .join(" · ");
+  // Room types that actually exist in the hotel catalogue, in canonical order.
+  const availableRoomTypes = roomTypes.filter((type) =>
+    items.some((item) => item.category === "hotel" && item.roomType === type)
   );
   const serviceItems = items.filter((item) => item.category !== "hotel");
   const steps = [
@@ -174,23 +242,44 @@ export default function PackageCalculator({
     { id: "summary", label: "Summary" },
   ];
   const currentStep = steps[stepIndex] ?? steps[0];
+  // Hotels for the current city, filtered by the preferred room type. If
+  // nothing matches that room type, fall back to showing every hotel.
+  const cityHotels =
+    "location" in currentStep
+      ? items.filter(
+          (item) =>
+            item.category === "hotel" &&
+            normalizeCity(item.location) === currentStep.location
+        )
+      : [];
+  const matchingHotels = roomType
+    ? cityHotels.filter((item) => item.roomType === roomType)
+    : cityHotels;
+  const hotelsToShow = matchingHotels.length > 0 ? matchingHotels : cityHotels;
 
   function goNext() {
     setFlowError("");
-    if (currentStep.id === "travel" && needsDates && !hotelDatesValid) {
-      setFlowError("Select valid check-in and check-out dates to continue.");
+    if (currentStep.id === "travel" && needsMonth && !monthSelected) {
+      setFlowError("Select the month you want to travel to continue.");
       return;
     }
-    if (
-      "location" in currentStep &&
-      !selected.some(
-        (item) =>
-          item.category === "hotel" &&
-          normalizeCity(item.location) === currentStep.location
-      )
-    ) {
-      setFlowError(`Select one hotel in ${currentStep.location} to continue.`);
-      return;
+    if ("location" in currentStep) {
+      if (
+        !selected.some(
+          (item) =>
+            item.category === "hotel" &&
+            normalizeCity(item.location) === currentStep.location
+        )
+      ) {
+        setFlowError(`Select one hotel in ${currentStep.location} to continue.`);
+        return;
+      }
+      if ((cityNights[currentStep.location] ?? 0) < 1) {
+        setFlowError(
+          `Enter how many nights you want to stay in ${currentStep.location}.`
+        );
+        return;
+      }
     }
     setStepIndex((current) => Math.min(steps.length - 1, current + 1));
   }
@@ -203,17 +292,19 @@ export default function PackageCalculator({
     () => items.reduce((sum, item) => sum + itemTotal(item), 0),
     // values is the selection state; travelers changes all per-person totals.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items, values, travelers, checkIn, checkOut]
+    [items, values, travelers, month, cityNights]
   );
   const totalPkr = total * sarToPkr;
 
   const message = [
     "Assalam o Alaikum, I built this package estimate:",
     `Travelers: ${positive(travelers)}`,
-    ...(checkIn && checkOut ? [`Hotel dates: ${checkIn} to ${checkOut}`] : []),
+    ...(month ? [`Travel month: ${monthLabel}`] : []),
+    ...(roomType ? [`Preferred room type: ${roomTypeLabels[roomType]}`] : []),
+    ...(nightsSummary ? [`Nights: ${nightsSummary}`] : []),
     ...selected.map((item) => {
       const value = valueFor(item.id);
-      const nights = nightsBetween(checkIn, checkOut).length;
+      const nights = nightDates(nightsFor(item)).length;
       const usesNights =
         item.unit === "per_room_night" ||
         item.unit === "per_person_night";
@@ -274,7 +365,7 @@ export default function PackageCalculator({
             <div>
               <h3 className="text-xl">Tell us about your trip</h3>
               <p className="mt-2 text-sm text-slate-500">
-                Your travelers and dates are used for every hotel and per-person service.
+                Your travelers, travel month and room type are used for every hotel and per-person service. You will choose the nights for each city along with your hotel.
               </p>
               <div className="mt-6 grid gap-5 sm:grid-cols-3">
                 <div>
@@ -282,19 +373,26 @@ export default function PackageCalculator({
                   <input id="calculator-travelers" type="number" min="1" value={travelers} onChange={(event) => setTravelers(positive(Number(event.target.value)))} />
                 </div>
                 <div>
-                  <label htmlFor="calculator-check-in">Check-in</label>
-                  <input id="calculator-check-in" type="date" value={checkIn} onChange={(event) => { setCheckIn(event.target.value); setFlowError(""); }} />
+                  <label htmlFor="calculator-month">Which month do you want to go?</label>
+                  <select id="calculator-month" value={month} onChange={(event) => { setMonth(event.target.value); setFlowError(""); }}>
+                    <option value="">Select a month</option>
+                    {monthOptions.map((option) => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
+                    ))}
+                  </select>
                 </div>
-                <div>
-                  <label htmlFor="calculator-check-out">Check-out</label>
-                  <input id="calculator-check-out" type="date" min={checkIn || undefined} value={checkOut} onChange={(event) => { setCheckOut(event.target.value); setFlowError(""); }} />
-                </div>
+                {availableRoomTypes.length > 0 && (
+                  <div>
+                    <label htmlFor="calculator-room-type">Room type</label>
+                    <select id="calculator-room-type" value={roomType} onChange={(event) => changeRoomType(event.target.value as "" | RoomType)}>
+                      <option value="">Any room type</option>
+                      {availableRoomTypes.map((type) => (
+                        <option key={type} value={type}>{roomTypeLabels[type]}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
-              {hotelDatesValid && (
-                <p className="mt-5 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
-                  {nightsBetween(checkIn, checkOut).length} night{nightsBetween(checkIn, checkOut).length === 1 ? "" : "s"} selected
-                </p>
-              )}
             </div>
           )}
 
@@ -302,11 +400,35 @@ export default function PackageCalculator({
             <div>
               <h3 className="text-xl">Select one hotel in {currentStep.location}</h3>
               <p className="mt-2 text-sm text-slate-500">
-                Choose the hotel and room-sharing option that suits your group. Pricing is shown in the final summary.
+                {roomType ? `Showing ${roomTypeLabels[roomType]} room options. ` : "Choose the hotel and room-sharing option that suits your group. "}
+                Pricing is shown in the final summary.
               </p>
+              <div className="mt-5 max-w-xs">
+                <label htmlFor={`nights-${currentStep.location}`}>How many nights in {currentStep.location}?</label>
+                <input
+                  id={`nights-${currentStep.location}`}
+                  type="number"
+                  min="1"
+                  placeholder="e.g. 7"
+                  value={cityNights[currentStep.location] || ""}
+                  onChange={(event) => {
+                    const next = Math.floor(Number(event.target.value));
+                    const location = currentStep.location;
+                    setCityNights((current) => ({
+                      ...current,
+                      [location]: Number.isFinite(next) && next > 0 ? Math.min(next, MAX_NIGHTS) : 0,
+                    }));
+                    setFlowError("");
+                  }}
+                />
+              </div>
+              {roomType && matchingHotels.length === 0 && (
+                <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
+                  No {roomTypeLabels[roomType]} rooms are available in {currentStep.location} right now — showing all room types instead.
+                </p>
+              )}
               <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {items
-                  .filter((item) => item.category === "hotel" && normalizeCity(item.location) === currentStep.location)
+                {hotelsToShow
                   .map((item) => {
                     const value = valueFor(item.id);
                     return (
@@ -407,7 +529,7 @@ export default function PackageCalculator({
           {currentStep.id === "summary" && (
             <div>
                 <h3 className="text-xl">Review your package</h3>
-                <p className="mt-2 text-sm text-slate-500">{travelers} traveler{travelers === 1 ? "" : "s"} · {checkIn} to {checkOut}</p>
+                <p className="mt-2 text-sm text-slate-500">{travelers} traveler{travelers === 1 ? "" : "s"}{monthLabel ? ` · ${monthLabel}` : ""}{roomType ? ` · ${roomTypeLabels[roomType]} room` : ""}{nightsSummary ? ` · ${nightsSummary}` : ""}</p>
                 <div className="mt-5 divide-y divide-black/5 rounded-2xl border border-black/5">
                   {selected.map((item) => (
                     <div key={item.id} className="p-4">
@@ -455,13 +577,21 @@ export default function PackageCalculator({
               <span className="font-semibold">{positive(travelers)}</span>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <span className="text-slate-300">Dates</span>
-              <span className="text-right text-xs font-semibold">{checkIn && checkOut ? `${checkIn} – ${checkOut}` : "Not selected"}</span>
+              <span className="text-slate-300">Month</span>
+              <span className="text-right text-xs font-semibold">{monthLabel || "Not selected"}</span>
             </div>
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-slate-300">Nights</span>
-              <span className="font-semibold">{nightsBetween(checkIn, checkOut).length}</span>
-            </div>
+            {roomType && (
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-slate-300">Room type</span>
+                <span className="text-right text-xs font-semibold">{roomTypeLabels[roomType]}</span>
+              </div>
+            )}
+            {hotelLocations.map((location) => (
+              <div key={location} className="flex items-center justify-between gap-3">
+                <span className="text-slate-300">{location} nights</span>
+                <span className="font-semibold">{cityNights[location] || "—"}</span>
+              </div>
+            ))}
           </div>
 
           <div className="mt-5">

@@ -115,7 +115,11 @@ export default function CalculatorItemsManager({
         category === "visa" &&
         (current.unit === "per_person_night" || current.unit === "per_room_night")
           ? "per_person"
-          : current.unit,
+          : category === "hotel" &&
+              current.unit !== "per_person_night" &&
+              current.unit !== "per_room_night"
+            ? "per_person_night"
+            : current.unit,
     }));
     setError("");
   }
@@ -143,7 +147,14 @@ export default function CalculatorItemsManager({
         endDate: rate.endDate,
         price: String(rate.price),
       })),
-      unit: item.unit,
+      // Old hotel rows may carry a whole-stay unit; hotels must be per-night,
+      // so surface the corrected unit in the form for the next save.
+      unit:
+        item.category === "hotel" &&
+        item.unit !== "per_person_night" &&
+        item.unit !== "per_room_night"
+          ? "per_person_night"
+          : item.unit,
       description: item.description,
       active: item.active,
       sortOrder: String(item.sortOrder),
@@ -513,10 +524,11 @@ export default function CalculatorItemsManager({
                 <label htmlFor="calc-unit">Charge by <span className="text-red-600" aria-hidden="true">*</span></label>
                 <select id="calc-unit" value={form.unit} onChange={(e) => update("unit", e.target.value as CalculatorUnit)}>
                   {calculatorUnits
-                    .filter(
-                      (unit) =>
-                        form.category !== "visa" ||
-                        (unit !== "per_person_night" && unit !== "per_room_night")
+                    .filter((unit) =>
+                      form.category === "hotel"
+                        ? unit === "per_person_night" || unit === "per_room_night"
+                        : form.category !== "visa" ||
+                          (unit !== "per_person_night" && unit !== "per_room_night")
                     )
                     .map((unit) => <option key={unit} value={unit}>{unitLabels[unit]}</option>)}
                 </select>
