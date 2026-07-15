@@ -40,6 +40,9 @@ next-env.d.ts
 # Vercel
 .vercel
 
+# Supabase CLI local link metadata
+/supabase/.temp/
+
 # Testing
 /coverage
 
