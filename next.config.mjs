@@ -5,10 +5,40 @@ const nextConfig = {
   // sat bottom left over the footer copyright in dev. It is development only and
   // never rendered on the production site, so this just keeps the preview clean.
   devIndicators: false,
-  async redirects() {
-    // SILO migration. Every old flat /packages URL 301s to exactly one new
-    // silo URL, one hop, no chains. The old Dubai pillar URL also folds in.
+  async headers() {
     return [
+      {
+        // Content-hashed build assets (/_next/static/*) never change under the
+        // same URL, so they are safe to cache for a year and skip revalidation.
+        // Vercel already sets this, but declaring it here makes the immutable
+        // contract explicit and portable to any host, and keeps Googlebot from
+        // re-fetching JS/CSS it already has.
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      // Canonical host. The site is served from the bare apex
+      // (site.url = https://alraqeem.com.pk) and every page already emits a
+      // canonical to it, yet www still returned its own 200s, so Google saw two
+      // crawlable copies of the whole site. Fold every www request onto the
+      // apex with a single permanent 301 so only one host is ever crawled or
+      // indexed. Must stay first so it applies before the path redirects below.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.alraqeem.com.pk" }],
+        destination: "https://alraqeem.com.pk/:path*",
+        permanent: true,
+      },
+      // SILO migration. Every old flat /packages URL 301s to exactly one new
+      // silo URL, one hop, no chains. The old Dubai pillar URL also folds in.
       {
         source: "/packages/economy-umrah-15-days",
         destination: "/umrah/economy-15-days",

@@ -10,6 +10,29 @@ import { getPosts } from "@/lib/postsStore";
 
 type Freq = "weekly" | "monthly" | "yearly";
 
+// Honest freshness signal. The sitemap used to stamp every URL with the build
+// time (new Date()), so any deploy that changed no content still told Google
+// every page had just been modified — the opposite of what lastmod is for.
+// Blog posts carry their real per-post date (below). Every other page carries
+// the manually maintained content-review date from site.lastUpdated ("July
+// 2026"): a stable date that only advances when the content is actually
+// reviewed, never on a routine deploy. If a page later gains a real per-entity
+// timestamp (a DB updated_at or a git-derived date), swap it in per path here.
+const MONTHS = [
+  "january", "february", "march", "april", "may", "june",
+  "july", "august", "september", "october", "november", "december",
+];
+function contentReviewDate(): Date {
+  const [month, year] = site.lastUpdated.trim().toLowerCase().split(/\s+/);
+  const monthIndex = MONTHS.indexOf(month);
+  // Build the date in UTC so the lastmod is identical no matter which timezone
+  // the build server runs in. Never fall back to new Date(): that would
+  // reintroduce the build-time churn this fix exists to remove.
+  return monthIndex === -1 || !/^\d{4}$/.test(year ?? "")
+    ? new Date("2026-07-01T00:00:00Z")
+    : new Date(Date.UTC(Number(year), monthIndex, 1));
+}
+
 // Changefreq and priority by path, the pillars highest, driven by the path so
 // it stays consistent as pages are added from the data files.
 function meta(path: string): { changeFrequency: Freq; priority: number } {
@@ -51,6 +74,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/visa-services",
     "/tickets",
     "/packages",
+    "/package-calculator",
     "/about",
     "/blog",
     "/contact",
@@ -69,7 +93,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const umrahPlusPaths = liveUmrahPlus().map((c) => `/umrah/${c.slug}`);
   const seasonalPaths = liveSeasonalUmrah().map((s) => `/umrah/${s.slug}`);
 
-  const now = new Date();
+  const contentUpdated = contentReviewDate();
   const pages: MetadataRoute.Sitemap = [
     ...staticPaths,
     ...tourDestPaths,
@@ -79,7 +103,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...seasonalPaths,
   ].map((path) => ({
     url: `${site.url}${path}`,
-    lastModified: now,
+    lastModified: contentUpdated,
     ...meta(path),
   }));
 
