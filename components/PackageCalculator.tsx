@@ -27,6 +27,7 @@ import {
   type TransportStyle,
 } from "@/lib/transportConfig";
 import { waHref } from "@/lib/settings";
+import { site } from "@/lib/site";
 
 type ServiceValues = {
   selected: boolean;
@@ -666,6 +667,228 @@ export default function PackageCalculator({
   ].join("\n");
 
   // ---------------------------------------------------------------------
+  // PDF export — a branded copy of everything on the summary.
+  // ---------------------------------------------------------------------
+
+  const [downloading, setDownloading] = useState(false);
+
+  async function downloadPdf() {
+    if (downloading) return;
+    setDownloading(true);
+    try {
+      const [{ jsPDF }, autoTableModule] = await Promise.all([
+        import("jspdf"),
+        import("jspdf-autotable"),
+      ]);
+      const autoTable = autoTableModule.default;
+
+      const deep: [number, number, number] = [11, 44, 34]; // brand-blue-deep
+      const gold: [number, number, number] = [197, 162, 83]; // brand-orange
+      const slate: [number, number, number] = [100, 116, 139];
+      const paper: [number, number, number] = [245, 241, 232];
+
+      // Pull the brand mark in as a data URL so it embeds in the PDF.
+      const logoDataUrl = await fetch("/logo.png")
+        .then((res) => (res.ok ? res.blob() : null))
+        .then(
+          (blob) =>
+            blob &&
+            new Promise<string | null>((resolve) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve(reader.result as string);
+              reader.onerror = () => resolve(null);
+              reader.readAsDataURL(blob);
+            })
+        )
+        .catch(() => null);
+
+      const doc = new jsPDF({ unit: "mm", format: "a4" });
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 14;
+      const finalY = () =>
+        (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable
+          .finalY;
+
+      const pax = positive(adults);
+      const infantCount = nonNegative(infants);
+
+      // Branded header band with the logo mark.
+      const headerH = 34;
+      doc.setFillColor(deep[0], deep[1], deep[2]);
+      doc.rect(0, 0, pageWidth, headerH, "F");
+      let brandX = margin;
+      if (logoDataUrl) {
+        const logoSize = 20;
+        doc.addImage(logoDataUrl, "PNG", margin, (headerH - logoSize) / 2, logoSize, logoSize);
+        brandX = margin + logoSize + 5;
+      }
+      doc.setTextColor(255, 255, 255);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(18);
+      doc.text(site.name, brandX, 14);
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(8.5);
+      doc.setTextColor(210, 210, 210);
+      doc.text(site.tagline, brandX, 20);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(10.5);
+      doc.setTextColor(gold[0], gold[1], gold[2]);
+      doc.text("UMRAH PACKAGE ESTIMATE", brandX, 27);
+      const dateStr = new Date().toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.5);
+      doc.setTextColor(200, 200, 200);
+      doc.text(`Generated ${dateStr}`, pageWidth - margin, 27, { align: "right" });
+
+      // Trip details
+      const detailRows: string[][] = [
+        [
+          "Travelers",
+          `${pax} adult${pax === 1 ? "" : "s"}${infantCount > 0 ? ` + ${infantCount} infant${infantCount === 1 ? "" : "s"}` : ""}`,
+        ],
+      ];
+      if (monthLabel) detailRows.push(["Travel month", monthLabel]);
+      if (route) detailRows.push(["Route", route.summary]);
+      if (style) detailRows.push(["Transport", transportStyleLabels[style]]);
+      if (roomType) detailRows.push(["Room type", roomTypeLabels[roomType]]);
+      if (nightsSummary) detailRows.push(["Nights", nightsSummary]);
+
+      // Reserve room at the foot of every page for the branded contact strip.
+      const footerH = 18;
+      const contentBottom = pageHeight - footerH - 3;
+
+      autoTable(doc, {
+        startY: 42,
+        head: [["Trip details", ""]],
+        body: detailRows,
+        theme: "plain",
+        styles: { fontSize: 10, cellPadding: 2 },
+        headStyles: { fontStyle: "bold", textColor: deep, fontSize: 11 },
+        columnStyles: {
+          0: { fontStyle: "bold", cellWidth: 42, textColor: slate },
+          1: { textColor: [30, 30, 30] },
+        },
+        margin: { left: margin, right: margin, top: margin, bottom: footerH + 3 },
+      });
+
+      // Estimate line items
+      const bodyRows = estimate.map((line) => [
+        line.label,
+        line.detail ?? "",
+        line.amount !== null ? formatCalculatorPrice(line.amount) : "At inquiry",
+      ]);
+
+      autoTable(doc, {
+        startY: finalY() + 5,
+        head: [["Item", "Details", "Amount"]],
+        body: bodyRows,
+        theme: "striped",
+        styles: { fontSize: 9.5, cellPadding: 3, valign: "middle" },
+        headStyles: {
+          fillColor: deep,
+          textColor: [255, 255, 255],
+          fontStyle: "bold",
+          fontSize: 10,
+        },
+        alternateRowStyles: { fillColor: paper },
+        columnStyles: {
+          0: { cellWidth: 76, fontStyle: "bold", textColor: deep },
+          1: { textColor: slate, fontSize: 9 },
+          2: { halign: "right", cellWidth: 34, fontStyle: "bold", textColor: deep },
+        },
+        margin: { left: margin, right: margin, top: margin, bottom: footerH + 3 },
+      });
+
+      // Totals band — keep it on the current page or start a fresh one.
+      let y = finalY() + 8;
+      if (y + 24 > contentBottom) {
+        doc.addPage();
+        y = margin;
+      }
+      doc.setFillColor(deep[0], deep[1], deep[2]);
+      doc.roundedRect(margin, y, pageWidth - margin * 2, 24, 2, 2, "F");
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.setTextColor(220, 220, 220);
+      doc.text("Estimated total", margin + 6, y + 9);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(15);
+      doc.setTextColor(gold[0], gold[1], gold[2]);
+      doc.text(formatCalculatorPrice(total), pageWidth - margin - 6, y + 9, {
+        align: "right",
+      });
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.setTextColor(200, 200, 200);
+      doc.text(`Converted total  (1 SAR = PKR ${sarToPkr})`, margin + 6, y + 18);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(12);
+      doc.setTextColor(255, 255, 255);
+      doc.text(formatPkrPrice(totalPkr), pageWidth - margin - 6, y + 18, {
+        align: "right",
+      });
+      y += 32;
+
+      // Notes
+      const noteWidth = pageWidth - margin * 2;
+      const addNote = (text: string) => {
+        const lines = doc.splitTextToSize(text, noteWidth) as string[];
+        const blockHeight = lines.length * 4.5 + 3;
+        if (y + blockHeight > contentBottom) {
+          doc.addPage();
+          y = margin;
+        }
+        doc.text(lines, margin, y);
+        y += blockHeight;
+      };
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.5);
+      doc.setTextColor(slate[0], slate[1], slate[2]);
+      if (inquiryLines.length > 0) {
+        addNote(
+          'Items marked "At inquiry" are not included in the total above — our team confirms them with your final quote.'
+        );
+      }
+      addNote(
+        `Cancellation: visa cancellation ${formatCalculatorPrice(fees.visaCancellation)} per visa - non-travelling charge ${formatCalculatorPrice(fees.nonTravelling)} per person. Final availability and prices are confirmed by our team.`
+      );
+
+      // Branded contact footer on every page.
+      const website = site.url.replace(/^https?:\/\//, "");
+      const contactLine = `${site.phone}  ·  WhatsApp ${site.whatsapp}  ·  ${site.email}  ·  ${website}`;
+      const pageCount = doc.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i += 1) {
+        doc.setPage(i);
+        const lineY = pageHeight - footerH;
+        doc.setDrawColor(gold[0], gold[1], gold[2]);
+        doc.setLineWidth(0.5);
+        doc.line(margin, lineY, pageWidth - margin, lineY);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(8);
+        doc.setTextColor(deep[0], deep[1], deep[2]);
+        doc.text(contactLine, margin, lineY + 5);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(7);
+        doc.setTextColor(slate[0], slate[1], slate[2]);
+        doc.text(site.address, margin, lineY + 9.5);
+        doc.text(`Page ${i} of ${pageCount}`, pageWidth - margin, lineY + 5, {
+          align: "right",
+        });
+      }
+
+      const slug = (monthLabel || "estimate").replace(/\s+/g, "-").toLowerCase();
+      doc.save(`al-raqeem-package-estimate-${slug}.pdf`);
+    } finally {
+      setDownloading(false);
+    }
+  }
+
+  // ---------------------------------------------------------------------
   // Render
   // ---------------------------------------------------------------------
 
@@ -1257,6 +1480,14 @@ export default function PackageCalculator({
               <p className="mt-4 text-xs text-slate-500">
                 Cancellation: visa cancellation {formatCalculatorPrice(fees.visaCancellation)} per visa · non-travelling charge {formatCalculatorPrice(fees.nonTravelling)} per person. Final availability and prices are confirmed by our team.
               </p>
+              <button
+                type="button"
+                onClick={downloadPdf}
+                disabled={downloading}
+                className="btn-outline mt-6 w-full sm:w-auto disabled:opacity-50"
+              >
+                {downloading ? "Preparing PDF…" : "⬇ Download estimate as PDF"}
+              </button>
             </div>
           )}
 
@@ -1347,9 +1578,19 @@ export default function PackageCalculator({
           </div>
 
           {currentStep.id === "summary" && (
-            <a href={waHref(whatsapp, message)} target="_blank" rel="noopener noreferrer" className={`btn-orange mt-5 w-full ${!canConfirm ? "pointer-events-none opacity-50" : ""}`} aria-disabled={!canConfirm}>
-              Confirm on WhatsApp
-            </a>
+            <>
+              <a href={waHref(whatsapp, message)} target="_blank" rel="noopener noreferrer" className={`btn-orange mt-5 w-full ${!canConfirm ? "pointer-events-none opacity-50" : ""}`} aria-disabled={!canConfirm}>
+                Confirm on WhatsApp
+              </a>
+              <button
+                type="button"
+                onClick={downloadPdf}
+                disabled={downloading}
+                className="btn mt-3 w-full border border-white/40 text-white transition hover:bg-white hover:text-brand-blue-deep disabled:opacity-50"
+              >
+                {downloading ? "Preparing PDF…" : "⬇ Download PDF"}
+              </button>
+            </>
           )}
         </aside>
       )}
