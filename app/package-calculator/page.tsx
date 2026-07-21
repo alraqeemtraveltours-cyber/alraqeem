@@ -3,6 +3,7 @@ import PackageCalculator from "@/components/PackageCalculator";
 import { getCalculatorItems } from "@/lib/calculatorItemsStore";
 import { getSettings } from "@/lib/settingsStore";
 import { getSarExchangeRate } from "@/lib/exchangeRateStore";
+import { getTransportConfig } from "@/lib/transportConfigStore";
 
 export const dynamic = "force-dynamic";
 
@@ -13,10 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default async function PackageCalculatorPage() {
-  const [items, settings, exchangeRate] = await Promise.all([
+  const [items, settings, exchangeRate, transport] = await Promise.all([
     getCalculatorItems(true),
     getSettings(),
     getSarExchangeRate(),
+    getTransportConfig(),
   ]);
 
   return (
@@ -37,6 +39,7 @@ export default async function PackageCalculatorPage() {
               items={items}
               whatsapp={settings.whatsapp}
               sarToPkr={exchangeRate.rate}
+              transport={transport}
             />
           ) : (
             <div className="rounded-3xl bg-white p-10 text-center shadow-card">

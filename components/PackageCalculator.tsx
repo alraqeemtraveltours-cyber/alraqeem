@@ -14,52 +14,100 @@ import {
   type CalculatorItem,
   type RoomType,
 } from "@/lib/calculatorItems";
+import {
+  routeOptions,
+  sectorLabel,
+  sectorsForLeg,
+  sharingVisaPrice,
+  transportStyleLabels,
+  transportStyles,
+  type StayCity,
+  type TransportConfig,
+  type TransportSector,
+  type TransportStyle,
+} from "@/lib/transportConfig";
 import { waHref } from "@/lib/settings";
 
-type ItemValues = {
+type ServiceValues = {
   selected: boolean;
   quantity: number;
+};
+
+type LegChoice = {
+  mode: "private" | "bus";
+  sectorId: string;
+  vehicleId: string;
+};
+
+type ZiyaratPick = {
+  selected: boolean;
+  vehicleId: string;
+  trips: number;
+};
+
+/** One line of the estimate. amount null = priced at inquiry. */
+type EstimateLine = {
+  key: string;
+  label: string;
+  detail?: string;
+  amount: number | null;
 };
 
 function positive(value: number, fallback = 1) {
   return Number.isFinite(value) && value > 0 ? Math.floor(value) : fallback;
 }
 
+function nonNegative(value: number) {
+  return Number.isFinite(value) && value > 0 ? Math.floor(value) : 0;
+}
+
 // Cap the stay so a mistyped nights value can't spin a huge loop or produce
 // absurd totals.
 const MAX_NIGHTS = 366;
+
+const SELF_HOTEL = "self";
 
 export default function PackageCalculator({
   items,
   whatsapp,
   sarToPkr,
+  transport,
 }: {
   items: CalculatorItem[];
   whatsapp: string;
   sarToPkr: number;
+  transport: TransportConfig;
 }) {
-  const [travelers, setTravelers] = useState(1);
+  const [adults, setAdults] = useState(1);
+  const [infants, setInfants] = useState(0);
   const [month, setMonth] = useState("");
   const [roomType, setRoomType] = useState<"" | RoomType>("");
-  const [cityNights, setCityNights] = useState<Record<string, number>>({});
-  const [values, setValues] = useState<Record<string, ItemValues>>({});
+  const [style, setStyle] = useState<"" | TransportStyle>("");
+  const [routeId, setRouteId] = useState("");
+  // Per-stay state, indexed by the stay's position in the route.
+  const [stayHotels, setStayHotels] = useState<Record<number, string>>({});
+  const [stayNights, setStayNights] = useState<Record<number, number>>({});
+  const [stayRooms, setStayRooms] = useState<Record<number, number>>({});
+  const [stayNusuk, setStayNusuk] = useState<Record<number, boolean>>({});
+  // Per-leg transport choices, indexed by the leg's position in the route.
+  const [legChoices, setLegChoices] = useState<Record<number, Partial<LegChoice>>>({});
+  const [ziyarat, setZiyarat] = useState<Record<string, ZiyaratPick>>({});
+  const [services, setServices] = useState<Record<string, ServiceValues>>({});
   const [stepIndex, setStepIndex] = useState(0);
   const [flowError, setFlowError] = useState("");
 
-  // Customers pick a travel month plus nights per city (asked on each hotel
-  // step). Seasonal hotel rates still need concrete dates, so stays are
-  // anchored to the 1st of the chosen month.
-  function nightDates(count: number) {
-    if (!month || count < 1) return [] as string[];
-    const dates: string[] = [];
-    const cursor = new Date(`${month}-01T00:00:00Z`);
-    const capped = Math.min(count, MAX_NIGHTS);
-    while (dates.length < capped) {
-      dates.push(cursor.toISOString().slice(0, 10));
-      cursor.setUTCDate(cursor.getUTCDate() + 1);
-    }
-    return dates;
-  }
+  const fees = transport.fees;
+  const route = routeOptions.find((r) => r.id === routeId) ?? null;
+  const activeVehicles = transport.vehicles.filter((v) => v.active);
+  const ziyaratSectors = transport.sectors.filter(
+    (s) => s.active && s.kind === "ziyarat"
+  );
+
+  // ---------------------------------------------------------------------
+  // Travel month + stay dates. Stays run back to back from the 1st of the
+  // chosen month, in journey order, so seasonal hotel rates land on the
+  // right nights for each stay.
+  // ---------------------------------------------------------------------
 
   const monthOptions = useMemo(() => {
     const cursor = new Date();
@@ -74,100 +122,151 @@ export default function PackageCalculator({
   const monthLabel =
     monthOptions.find((option) => option.value === month)?.label ?? "";
 
-  function valueFor(id: string): ItemValues {
-    return values[id] ?? {
-      selected: false,
-      quantity: 1,
+  function nightDates(offsetNights: number, count: number) {
+    if (!month || count < 1) return [] as string[];
+    const dates: string[] = [];
+    const cursor = new Date(`${month}-01T00:00:00Z`);
+    cursor.setUTCDate(cursor.getUTCDate() + Math.min(offsetNights, MAX_NIGHTS));
+    const capped = Math.min(count, MAX_NIGHTS);
+    while (dates.length < capped) {
+      dates.push(cursor.toISOString().slice(0, 10));
+      cursor.setUTCDate(cursor.getUTCDate() + 1);
+    }
+    return dates;
+  }
+
+  const stays = route ? route.stays : [];
+  const nightsAt = (index: number) => nonNegative(stayNights[index] ?? 0);
+  const stayOffset = (index: number) => {
+    let offset = 0;
+    for (let i = 0; i < index; i += 1) offset += nightsAt(i);
+    return offset;
+  };
+  const totalNights = stays.reduce((sum, _s, index) => sum + nightsAt(index), 0);
+
+  /**
+   * The hotel chosen for a stay. A repeated city (the return stay on a
+   * multiple route) defaults to the hotel picked for the earlier stay in the
+   * same city until the customer changes it.
+   */
+  function hotelIdFor(index: number): string | null {
+    if (stayHotels[index]) return stayHotels[index];
+    const city = stays[index];
+    for (let i = 0; i < index; i += 1) {
+      if (stays[i] === city && stayHotels[i]) return stayHotels[i];
+    }
+    return null;
+  }
+
+  function hotelItem(id: string | null): CalculatorItem | null {
+    if (!id || id === SELF_HOTEL) return null;
+    return items.find((item) => item.id === id) ?? null;
+  }
+
+  // ---------------------------------------------------------------------
+  // Steps
+  // ---------------------------------------------------------------------
+
+  type Step =
+    | { id: "travel"; label: string }
+    | { id: "journey"; label: string }
+    | { id: string; label: string; stayIndex: number; city: StayCity }
+    | { id: "transport"; label: string }
+    | { id: "services"; label: string }
+    | { id: "summary"; label: string };
+
+  const serviceItems = items.filter(
+    (item) =>
+      item.category !== "hotel" &&
+      item.category !== "visa" &&
+      item.category !== "transport"
+  );
+  const cityCounts: Record<string, number> = {};
+  const staySteps = stays.map((city, index) => {
+    cityCounts[city] = (cityCounts[city] ?? 0) + 1;
+    const repeat = cityCounts[city] > 1;
+    return {
+      id: `stay-${index}`,
+      label: repeat ? `${city} hotel (return)` : `${city} hotel`,
+      stayIndex: index,
+      city,
+    };
+  });
+  const showTransportStep =
+    style === "full-private" ||
+    style === "partial-private" ||
+    ziyaratSectors.length > 0;
+  const steps: Step[] = [
+    { id: "travel", label: "Travel details" },
+    { id: "journey", label: "Route & transport" },
+    ...staySteps,
+    ...(route && showTransportStep
+      ? [{ id: "transport", label: "Vehicles & ziyarat" } as Step]
+      : []),
+    ...(serviceItems.length > 0 ? [{ id: "services", label: "Services" } as Step] : []),
+    { id: "summary", label: "Summary" },
+  ];
+  const currentStep = steps[Math.min(stepIndex, steps.length - 1)];
+
+  // ---------------------------------------------------------------------
+  // Transport legs
+  // ---------------------------------------------------------------------
+
+  const legs = route ? route.legs : [];
+
+  function defaultLegMode(legIndex: number): "private" | "bus" {
+    if (style === "full-private") return "private";
+    // Partial private: airport transfers ride the shared bus by default,
+    // the inter-city hop goes private. The customer can flip each leg.
+    const leg = legs[legIndex];
+    const options = leg ? sectorsForLeg(transport.sectors, leg) : [];
+    const kind = options[0]?.kind ?? "airport";
+    return kind === "intercity" ? "private" : "bus";
+  }
+
+  function legChoice(legIndex: number): LegChoice {
+    const stored = legChoices[legIndex] ?? {};
+    const leg = legs[legIndex];
+    const options = leg ? sectorsForLeg(transport.sectors, leg) : [];
+    return {
+      mode:
+        style === "full-private"
+          ? "private"
+          : stored.mode ?? defaultLegMode(legIndex),
+      sectorId: stored.sectorId ?? options[0]?.id ?? "",
+      vehicleId: stored.vehicleId ?? "",
     };
   }
 
-  function patch(id: string, next: Partial<ItemValues>) {
-    setValues((current) => ({
+  function patchLeg(legIndex: number, next: Partial<LegChoice>) {
+    setLegChoices((current) => ({
       ...current,
-      [id]: { ...valueFor(id), ...next },
+      [legIndex]: { ...current[legIndex], ...next },
     }));
-  }
-
-  // Changing the preferred room type deselects hotels that no longer match,
-  // so a stale pick can't linger in the price.
-  function changeRoomType(next: "" | RoomType) {
-    setRoomType(next);
-    setFlowError("");
-    if (!next) return;
-    setValues((current) => {
-      const updated = { ...current };
-      for (const hotel of items) {
-        if (
-          hotel.category === "hotel" &&
-          hotel.roomType &&
-          hotel.roomType !== next &&
-          updated[hotel.id]?.selected
-        ) {
-          updated[hotel.id] = { ...updated[hotel.id], selected: false };
-        }
-      }
-      return updated;
-    });
-  }
-
-  function selectHotel(item: CalculatorItem) {
-    setValues((current) => {
-      const next = { ...current };
-      for (const hotel of items) {
-        if (
-          hotel.category === "hotel" &&
-          normalizeCity(hotel.location) === normalizeCity(item.location)
-        ) {
-          next[hotel.id] = {
-            selected: hotel.id === item.id,
-            quantity: next[hotel.id]?.quantity ?? 1,
-          };
-        }
-      }
-      return next;
-    });
     setFlowError("");
   }
 
-  function nightsFor(item: CalculatorItem) {
-    if (item.category === "hotel") {
-      return cityNights[normalizeCity(item.location)] ?? 0;
-    }
-    // Non-hotel per-night services span the whole trip.
-    return totalNights;
+  function vehicleCountFor(seats: number) {
+    return Math.max(1, Math.ceil(positive(adults) / Math.max(1, seats)));
   }
 
-  function itemTotal(item: CalculatorItem) {
-    const value = valueFor(item.id);
-    if (!value.selected) return 0;
-    const quantity = positive(value.quantity);
-    const stayDates = nightDates(nightsFor(item));
-    const nightlySubtotal =
-      stayDates.length > 0
-        ? stayDates.reduce((sum, date) => {
-            const datedRate = item.dateRates.find(
-              (rate) => date >= rate.startDate && date <= rate.endDate
-            );
-            return sum + (datedRate?.price ?? item.price);
-          }, 0)
-        : item.price;
-    if (item.unit === "per_person") {
-      // Per person is a whole-stay charge — not multiplied by nights, even
-      // for hotels. Only the "…_night" units multiply across nights.
-      return item.price * positive(travelers);
-    }
-    if (item.unit === "per_person_night") {
-      return nightlySubtotal * positive(travelers);
-    }
-    if (item.unit === "per_room_night") return nightlySubtotal * quantity;
-    if (item.unit === "per_vehicle" || item.unit === "per_trip") {
-      return item.price * quantity;
-    }
-    return item.price;
+  function sectorById(id: string): TransportSector | null {
+    return transport.sectors.find((s) => s.id === id) ?? null;
   }
 
-  function rateBreakdown(item: CalculatorItem) {
-    const dates = nightDates(nightsFor(item));
+  const legNeedsVehicle = (legIndex: number) =>
+    (style === "full-private" || style === "partial-private") &&
+    legChoice(legIndex).mode === "private" &&
+    sectorsForLeg(transport.sectors, legs[legIndex]).length > 0;
+
+  // ---------------------------------------------------------------------
+  // Hotel + service pricing (per stay, sequential dates)
+  // ---------------------------------------------------------------------
+
+  function stayHotelTotal(index: number): { amount: number; detail: string } {
+    const item = hotelItem(hotelIdFor(index));
+    if (!item) return { amount: 0, detail: "" };
+    const dates = nightDates(stayOffset(index), nightsAt(index));
     const counts = new Map<number, number>();
     for (const date of dates) {
       const rate =
@@ -176,109 +275,345 @@ export default function PackageCalculator({
         )?.price ?? item.price;
       counts.set(rate, (counts.get(rate) ?? 0) + 1);
     }
-    return Array.from(counts, ([price, nights]) => ({ price, nights }));
+    const parts = Array.from(counts, ([price, nights]) => ({ price, nights }));
+    const nightly = parts.reduce((sum, p) => sum + p.price * p.nights, 0);
+    const rooms = positive(stayRooms[index] ?? 1);
+    let amount = item.price;
+    if (item.unit === "per_person") amount = item.price * positive(adults);
+    else if (item.unit === "per_person_night") amount = nightly * positive(adults);
+    else if (item.unit === "per_room_night") amount = nightly * rooms;
+    const detail =
+      parts.length > 1
+        ? parts
+            .map((p) => `${p.nights} night${p.nights === 1 ? "" : "s"} × ${formatCalculatorPrice(p.price)}`)
+            .join(" + ")
+        : "";
+    return { amount, detail };
   }
 
-  function ratePartTotal(item: CalculatorItem, price: number, nights: number) {
-    const value = valueFor(item.id);
-    if (item.unit === "per_room_night") {
-      return price * nights * positive(value.quantity);
-    }
-    if (
-      item.category === "hotel" &&
-      (item.unit === "per_person" || item.unit === "per_person_night")
-    ) {
-      return price * nights * positive(travelers);
-    }
-    return price * nights;
+  function serviceValue(id: string): ServiceValues {
+    return services[id] ?? { selected: false, quantity: 1 };
   }
 
-  const selected = items.filter((item) => valueFor(item.id).selected);
-  const hasSelectedHotel = selected.some((item) => item.category === "hotel");
-  const monthSelected = month !== "";
-  const selectedHotelsReady = selected
-    .filter((item) => item.category === "hotel")
-    .every((item) => (cityNights[normalizeCity(item.location)] ?? 0) >= 1);
-  const canConfirm =
-    selected.length > 0 &&
-    (!hasSelectedHotel || (monthSelected && selectedHotelsReady));
-  // Only ask for a travel month when the catalogue has date-driven items.
-  const needsMonth = items.some(
-    (item) =>
-      item.category === "hotel" ||
-      item.unit === "per_room_night" ||
-      item.unit === "per_person_night"
-  );
-  const hotelLocations = (["Makkah", "Madina"] as const).filter((location) =>
-    items.some(
-      (item) =>
-        item.category === "hotel" && normalizeCity(item.location) === location
-    )
-  );
-  const totalNights = hotelLocations.reduce(
-    (sum, location) => sum + (cityNights[location] ?? 0),
-    0
-  );
-  const nightsSummary = hotelLocations
-    .filter((location) => (cityNights[location] ?? 0) > 0)
-    .map(
-      (location) =>
-        `${location}: ${cityNights[location]} night${cityNights[location] === 1 ? "" : "s"}`
-    )
-    .join(" · ");
-  // Room types that actually exist in the hotel catalogue, in canonical order.
-  const availableRoomTypes = roomTypes.filter((type) =>
-    items.some((item) => item.category === "hotel" && item.roomType === type)
-  );
-  const serviceItems = items.filter((item) => item.category !== "hotel");
-  const steps = [
-    { id: "travel", label: "Travel details" },
-    ...hotelLocations.map((location) => ({
-      id: `hotel-${location}`,
-      label: `${location} hotel`,
-      location,
-    })),
-    ...(serviceItems.length > 0 ? [{ id: "services", label: "Services" }] : []),
-    { id: "summary", label: "Summary" },
-  ];
-  const currentStep = steps[stepIndex] ?? steps[0];
-  // Hotels for the current city, filtered by the preferred room type. If
-  // nothing matches that room type, fall back to showing every hotel.
-  const cityHotels =
-    "location" in currentStep
-      ? items.filter(
-          (item) =>
-            item.category === "hotel" &&
-            normalizeCity(item.location) === currentStep.location
-        )
-      : [];
-  const matchingHotels = roomType
-    ? cityHotels.filter((item) => item.roomType === roomType)
-    : cityHotels;
-  const hotelsToShow = matchingHotels.length > 0 ? matchingHotels : cityHotels;
+  function patchService(id: string, next: Partial<ServiceValues>) {
+    setServices((current) => ({
+      ...current,
+      [id]: { ...serviceValue(id), ...next },
+    }));
+  }
+
+  function serviceTotal(item: CalculatorItem) {
+    const value = serviceValue(item.id);
+    if (!value.selected) return 0;
+    const quantity = positive(value.quantity);
+    const dates = nightDates(0, totalNights);
+    const nightly =
+      dates.length > 0
+        ? dates.reduce((sum, date) => {
+            const rate = item.dateRates.find(
+              (period) => date >= period.startDate && date <= period.endDate
+            );
+            return sum + (rate?.price ?? item.price);
+          }, 0)
+        : item.price;
+    if (item.unit === "per_person") return item.price * positive(adults);
+    if (item.unit === "per_person_night") return nightly * positive(adults);
+    if (item.unit === "per_room_night") return nightly * quantity;
+    if (item.unit === "per_vehicle" || item.unit === "per_trip") {
+      return item.price * quantity;
+    }
+    return item.price;
+  }
+
+  // ---------------------------------------------------------------------
+  // The estimate: every priced line in one list.
+  // ---------------------------------------------------------------------
+
+  function buildEstimate(): EstimateLine[] {
+    const lines: EstimateLine[] = [];
+    const pax = positive(adults);
+    const infantCount = nonNegative(infants);
+
+    // Visa
+    if (style === "sharing") {
+      const perPerson = sharingVisaPrice(transport.visaTiers, pax);
+      lines.push({
+        key: "visa",
+        label: `Umrah visa · sharing bus · ${pax} adult${pax === 1 ? "" : "s"}`,
+        detail:
+          perPerson !== null
+            ? `${pax} × ${formatCalculatorPrice(perPerson)} per person`
+            : "Group size outside the price bands",
+        amount: perPerson !== null ? perPerson * pax : null,
+      });
+      lines.push({
+        key: "transport-included",
+        label: "Ground transport by sharing bus",
+        detail: "Included with the visa",
+        amount: 0,
+      });
+    } else if (style === "full-private" || style === "partial-private") {
+      const perPerson =
+        style === "full-private" ? fees.fullPrivateVisa : fees.partialPrivateVisa;
+      lines.push({
+        key: "visa",
+        label: `Umrah visa · ${transportStyleLabels[style]} · ${pax} adult${pax === 1 ? "" : "s"}`,
+        detail: `${pax} × ${formatCalculatorPrice(perPerson)} per person`,
+        amount: perPerson * pax,
+      });
+    }
+
+    if (infantCount > 0) {
+      lines.push({
+        key: "infants",
+        label: `Infant visa · ${infantCount} infant${infantCount === 1 ? "" : "s"}`,
+        detail: `${infantCount} × ${formatCalculatorPrice(fees.infantVisa)}`,
+        amount: fees.infantVisa * infantCount,
+      });
+    }
+
+    // Long-stay fee
+    if (totalNights > fees.longStayAfterDays) {
+      const heads = pax + infantCount;
+      if (totalNights <= fees.longStayMaxDays) {
+        lines.push({
+          key: "long-stay",
+          label: `Extended stay fee · over ${fees.longStayAfterDays} days`,
+          detail: `${heads} × ${formatCalculatorPrice(fees.longStayFee)}`,
+          amount: fees.longStayFee * heads,
+        });
+      } else {
+        lines.push({
+          key: "long-stay",
+          label: `Stay over ${fees.longStayMaxDays} days`,
+          detail: "Our team will confirm the visa terms",
+          amount: null,
+        });
+      }
+    }
+
+    // Transport legs (private styles)
+    if ((style === "full-private" || style === "partial-private") && route) {
+      legs.forEach((leg, legIndex) => {
+        const options = sectorsForLeg(transport.sectors, leg);
+        const choice = legChoice(legIndex);
+        if (options.length === 0) {
+          lines.push({
+            key: `leg-${legIndex}`,
+            label: `Transport leg ${legIndex + 1}`,
+            detail: "Arranged at inquiry",
+            amount: null,
+          });
+          return;
+        }
+        const sector = sectorById(choice.sectorId) ?? options[0];
+        if (choice.mode === "bus") {
+          const intercity = sector.kind === "intercity";
+          lines.push({
+            key: `leg-${legIndex}`,
+            label: `${sectorLabel(sector)} · shared bus`,
+            detail: intercity
+              ? `${pax} × ${formatCalculatorPrice(fees.busPerPersonSector)} per person`
+              : "Included with the visa",
+            amount: intercity ? fees.busPerPersonSector * pax : 0,
+          });
+          return;
+        }
+        const vehicle = activeVehicles.find((v) => v.id === choice.vehicleId);
+        if (!vehicle) {
+          lines.push({
+            key: `leg-${legIndex}`,
+            label: sectorLabel(sector),
+            detail: "Choose a vehicle",
+            amount: null,
+          });
+          return;
+        }
+        const count = vehicleCountFor(vehicle.seats);
+        const price = sector.prices[vehicle.id];
+        lines.push({
+          key: `leg-${legIndex}`,
+          label: `${sectorLabel(sector)} · ${count} × ${vehicle.name}`,
+          detail:
+            price != null
+              ? count > 1
+                ? `${count} × ${formatCalculatorPrice(price)}`
+                : undefined
+              : "Price confirmed at inquiry",
+          amount: price != null ? price * count : null,
+        });
+      });
+    }
+
+    // Ziyarat add-ons
+    for (const sector of ziyaratSectors) {
+      const pick = ziyarat[sector.id];
+      if (!pick?.selected) continue;
+      const vehicle = activeVehicles.find((v) => v.id === pick.vehicleId);
+      const trips = positive(pick.trips);
+      if (!vehicle) {
+        lines.push({
+          key: `ziyarat-${sector.id}`,
+          label: sectorLabel(sector),
+          detail: "Choose a vehicle",
+          amount: null,
+        });
+        continue;
+      }
+      const count = vehicleCountFor(vehicle.seats);
+      const price = sector.prices[vehicle.id];
+      lines.push({
+        key: `ziyarat-${sector.id}`,
+        label: `${sectorLabel(sector)} · ${count} × ${vehicle.name}${trips > 1 ? ` × ${trips} trips` : ""}`,
+        detail:
+          price != null
+            ? `${count * trips} × ${formatCalculatorPrice(price)}`
+            : "Price confirmed at inquiry",
+        amount: price != null ? price * count * trips : null,
+      });
+    }
+
+    // Hotels per stay
+    let selfHotel = false;
+    stays.forEach((city, index) => {
+      const id = hotelIdFor(index);
+      const nights = nightsAt(index);
+      if (id === SELF_HOTEL) {
+        selfHotel = true;
+        if (stayNusuk[index] && nights > 0) {
+          lines.push({
+            key: `nusuk-${index}`,
+            label: `Nusuk registration · ${city} · ${nights} night${nights === 1 ? "" : "s"}`,
+            detail: `${pax} × ${nights} × ${formatCalculatorPrice(fees.nusukPerPersonNight)}`,
+            amount: fees.nusukPerPersonNight * pax * nights,
+          });
+        }
+        return;
+      }
+      const item = hotelItem(id);
+      if (!item || nights < 1) return;
+      const { amount, detail } = stayHotelTotal(index);
+      lines.push({
+        key: `hotel-${index}`,
+        label: `${item.name} · ${nights} night${nights === 1 ? "" : "s"}`,
+        detail: detail || undefined,
+        amount,
+      });
+    });
+
+    if (selfHotel) {
+      lines.push({
+        key: "self-hotel",
+        label: "Self hotel fee",
+        detail: `${pax} × ${formatCalculatorPrice(fees.selfHotelFee)}`,
+        amount: fees.selfHotelFee * pax,
+      });
+    }
+
+    // Extra services
+    for (const item of serviceItems) {
+      if (!serviceValue(item.id).selected) continue;
+      lines.push({
+        key: `service-${item.id}`,
+        label: item.name,
+        detail: unitLabels[item.unit],
+        amount: serviceTotal(item),
+      });
+    }
+
+    return lines;
+  }
+
+  const estimate = buildEstimate();
+  const total = estimate.reduce((sum, line) => sum + (line.amount ?? 0), 0);
+  const totalPkr = total * sarToPkr;
+  const inquiryLines = estimate.filter((line) => line.amount === null);
+
+  // ---------------------------------------------------------------------
+  // Step navigation
+  // ---------------------------------------------------------------------
+
+  function changeRoomType(next: "" | RoomType) {
+    setRoomType(next);
+    setFlowError("");
+    if (!next) return;
+    // Deselect stay hotels that no longer match the preferred room type.
+    setStayHotels((current) => {
+      const updated: Record<number, string> = {};
+      for (const [key, id] of Object.entries(current)) {
+        const item = items.find((i) => i.id === id);
+        if (id === SELF_HOTEL || !item?.roomType || item.roomType === next) {
+          updated[Number(key)] = id;
+        }
+      }
+      return updated;
+    });
+  }
+
+  function chooseRoute(id: string) {
+    setRouteId(id);
+    setStayHotels({});
+    setStayNights({});
+    setStayRooms({});
+    setStayNusuk({});
+    setLegChoices({});
+    setFlowError("");
+  }
+
+  function chooseStyle(next: TransportStyle) {
+    setStyle(next);
+    setLegChoices({});
+    setFlowError("");
+  }
 
   function goNext() {
     setFlowError("");
-    if (currentStep.id === "travel" && needsMonth && !monthSelected) {
-      setFlowError("Select the month you want to travel to continue.");
-      return;
-    }
-    if ("location" in currentStep) {
-      if (
-        !selected.some(
-          (item) =>
-            item.category === "hotel" &&
-            normalizeCity(item.location) === currentStep.location
-        )
-      ) {
-        setFlowError(`Select one hotel in ${currentStep.location} to continue.`);
+    if (currentStep.id === "travel") {
+      if (!month) {
+        setFlowError("Select the month you want to travel to continue.");
         return;
       }
-      if ((cityNights[currentStep.location] ?? 0) < 1) {
-        setFlowError(
-          `Enter how many nights you want to stay in ${currentStep.location}.`
-        );
+    }
+    if (currentStep.id === "journey") {
+      if (!style) {
+        setFlowError("Choose how you want to travel on the ground.");
         return;
+      }
+      if (!route) {
+        setFlowError("Choose your route to continue.");
+        return;
+      }
+    }
+    if ("stayIndex" in currentStep) {
+      const index = currentStep.stayIndex;
+      const id = hotelIdFor(index);
+      if (!id) {
+        setFlowError(`Select a hotel in ${currentStep.city} to continue.`);
+        return;
+      }
+      if (nightsAt(index) < 1) {
+        setFlowError(`Enter how many nights for this ${currentStep.city} stay.`);
+        return;
+      }
+      // Persist the inherited default so the summary reflects it even if the
+      // customer never touched the radio.
+      if (!stayHotels[index]) {
+        setStayHotels((current) => ({ ...current, [index]: id }));
+      }
+    }
+    if (currentStep.id === "transport") {
+      for (let i = 0; i < legs.length; i += 1) {
+        if (legNeedsVehicle(i) && !legChoice(i).vehicleId) {
+          setFlowError("Choose a vehicle for every private transport leg.");
+          return;
+        }
+      }
+      for (const sector of ziyaratSectors) {
+        const pick = ziyarat[sector.id];
+        if (pick?.selected && !pick.vehicleId) {
+          setFlowError("Choose a vehicle for every selected ziyarat trip.");
+          return;
+        }
       }
     }
     setStepIndex((current) => Math.min(steps.length - 1, current + 1));
@@ -288,46 +623,56 @@ export default function PackageCalculator({
     setFlowError("");
     setStepIndex((current) => Math.max(0, current - 1));
   }
-  const total = useMemo(
-    () => items.reduce((sum, item) => sum + itemTotal(item), 0),
-    // values is the selection state; travelers changes all per-person totals.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items, values, travelers, month, cityNights]
+
+  const canConfirm =
+    Boolean(route && style && month) &&
+    stays.every((_c, index) => Boolean(hotelIdFor(index)) && nightsAt(index) >= 1);
+
+  // Room types that actually exist in the hotel catalogue, in canonical order.
+  const availableRoomTypes = roomTypes.filter((type) =>
+    items.some((item) => item.category === "hotel" && item.roomType === type)
   );
-  const totalPkr = total * sarToPkr;
+
+  const nightsSummary = stays
+    .map((city, index) =>
+      nightsAt(index) > 0 ? `${city}: ${nightsAt(index)} night${nightsAt(index) === 1 ? "" : "s"}` : null
+    )
+    .filter(Boolean)
+    .join(" · ");
+
+  // ---------------------------------------------------------------------
+  // WhatsApp message
+  // ---------------------------------------------------------------------
 
   const message = [
     "Assalam o Alaikum, I built this package estimate:",
-    `Travelers: ${positive(travelers)}`,
+    `Adults: ${positive(adults)}${nonNegative(infants) > 0 ? ` · Infants: ${nonNegative(infants)}` : ""}`,
     ...(month ? [`Travel month: ${monthLabel}`] : []),
+    ...(route ? [`Route: ${route.summary}`] : []),
+    ...(style ? [`Transport: ${transportStyleLabels[style]}`] : []),
     ...(roomType ? [`Preferred room type: ${roomTypeLabels[roomType]}`] : []),
     ...(nightsSummary ? [`Nights: ${nightsSummary}`] : []),
-    ...selected.map((item) => {
-      const value = valueFor(item.id);
-      const nights = nightDates(nightsFor(item)).length;
-      const usesNights =
-        item.unit === "per_room_night" ||
-        item.unit === "per_person_night";
-      const details =
-        item.unit === "per_room_night"
-          ? ` (${positive(value.quantity)} room(s), ${nights || 1} night(s))`
-          : usesNights
-            ? ` (${nights || 1} night(s))`
-            : item.unit === "per_vehicle"
-              ? ` (${positive(value.quantity)} vehicle(s))`
-              : item.unit === "per_trip"
-                ? ` (${positive(value.quantity)} trip(s))`
-                : "";
-      const room = item.roomType ? ` [${roomTypeLabels[item.roomType]} room]` : "";
-      return `- ${item.name}${room}${details}: ${formatCalculatorPrice(itemTotal(item))}`;
-    }),
+    ...estimate.map((line) =>
+      line.amount !== null
+        ? `- ${line.label}: ${formatCalculatorPrice(line.amount)}`
+        : `- ${line.label}: at inquiry${line.detail ? ` (${line.detail})` : ""}`
+    ),
     `Estimated total: ${formatCalculatorPrice(total)}`,
     `Converted total: ${formatPkrPrice(totalPkr)} (1 SAR = PKR ${sarToPkr})`,
+    ...(inquiryLines.length > 0
+      ? ["Some items are priced at inquiry and not in the total above."]
+      : []),
     "Please confirm availability and the final quote.",
   ].join("\n");
 
+  // ---------------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------------
+
+  const showAside = stepIndex >= 1;
+
   return (
-    <div className={`mx-auto ${stepIndex >= 1 ? "max-w-7xl" : "max-w-5xl"}`}>
+    <div className={`mx-auto ${showAside ? "max-w-7xl" : "max-w-5xl"}`}>
       <div className="mb-6 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex min-w-max items-center justify-center gap-2">
           {steps.map((step, index) => (
@@ -351,7 +696,7 @@ export default function PackageCalculator({
         </div>
       </div>
 
-      <div className={stepIndex >= 1 ? "grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]" : ""}>
+      <div className={showAside ? "grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]" : ""}>
       <div className="min-w-0 overflow-hidden rounded-3xl border border-black/5 bg-white shadow-lift">
         <div className="border-b border-black/5 bg-brand-blue-deep px-6 py-6 text-white sm:px-8">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-orange">
@@ -365,12 +710,16 @@ export default function PackageCalculator({
             <div>
               <h3 className="text-xl">Tell us about your trip</h3>
               <p className="mt-2 text-sm text-slate-500">
-                Your travelers, travel month and room type are used for every hotel and per-person service. You will choose the nights for each city along with your hotel.
+                Travelers, travel month and room type are used for the visa, every hotel and per-person service. You will choose your route next.
               </p>
-              <div className="mt-6 grid gap-5 sm:grid-cols-3">
+              <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 <div>
-                  <label htmlFor="calculator-travelers">How many travelers?</label>
-                  <input id="calculator-travelers" type="number" min="1" value={travelers} onChange={(event) => setTravelers(positive(Number(event.target.value)))} />
+                  <label htmlFor="calculator-adults">Adults</label>
+                  <input id="calculator-adults" type="number" min="1" value={adults} onChange={(event) => setAdults(positive(Number(event.target.value)))} />
+                </div>
+                <div>
+                  <label htmlFor="calculator-infants">Infants (under 2)</label>
+                  <input id="calculator-infants" type="number" min="0" value={infants} onChange={(event) => setInfants(nonNegative(Number(event.target.value)))} />
                 </div>
                 <div>
                   <label htmlFor="calculator-month">Which month do you want to go?</label>
@@ -396,92 +745,438 @@ export default function PackageCalculator({
             </div>
           )}
 
-          {"location" in currentStep && (
-            <div>
-              <h3 className="text-xl">Select one hotel in {currentStep.location}</h3>
-              <p className="mt-2 text-sm text-slate-500">
-                {roomType ? `Showing ${roomTypeLabels[roomType]} room options. ` : "Choose the hotel and room-sharing option that suits your group. "}
-                Pricing is shown in the final summary.
-              </p>
-              <div className="mt-5 max-w-xs">
-                <label htmlFor={`nights-${currentStep.location}`}>How many nights in {currentStep.location}?</label>
-                <input
-                  id={`nights-${currentStep.location}`}
-                  type="number"
-                  min="1"
-                  placeholder="e.g. 7"
-                  value={cityNights[currentStep.location] || ""}
-                  onChange={(event) => {
-                    const next = Math.floor(Number(event.target.value));
-                    const location = currentStep.location;
-                    setCityNights((current) => ({
-                      ...current,
-                      [location]: Number.isFinite(next) && next > 0 ? Math.min(next, MAX_NIGHTS) : 0,
-                    }));
-                    setFlowError("");
-                  }}
-                />
+          {currentStep.id === "journey" && (
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-xl">How do you want to travel on the ground?</h3>
+                <p className="mt-2 text-sm text-slate-500">
+                  The visa price depends on this choice. Sharing bus is the most economical; private transport gives your group its own vehicle.
+                </p>
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  {transportStyles.map((option) => {
+                    const active = style === option;
+                    const pax = positive(adults);
+                    const sharingRate = sharingVisaPrice(transport.visaTiers, pax);
+                    const priceNote =
+                      option === "sharing"
+                        ? sharingRate !== null
+                          ? `Visa ${formatCalculatorPrice(sharingRate)} per person`
+                          : "Visa priced at inquiry"
+                        : option === "full-private"
+                          ? `Visa ${formatCalculatorPrice(fees.fullPrivateVisa)} per person`
+                          : `Visa ${formatCalculatorPrice(fees.partialPrivateVisa)} per person`;
+                    return (
+                      <button
+                        key={option}
+                        type="button"
+                        onClick={() => chooseStyle(option)}
+                        className={`rounded-2xl border p-5 text-left transition ${active ? "border-brand-orange bg-brand-orange/5 shadow-card ring-1 ring-brand-orange/30" : "border-black/10 hover:border-brand-blue/30"}`}
+                      >
+                        <p className="font-display text-lg text-brand-blue-deep">{transportStyleLabels[option]}</p>
+                        <p className="mt-1 text-xs text-slate-500">
+                          {option === "sharing"
+                            ? "All ground transport by shared bus, included with the visa."
+                            : option === "full-private"
+                              ? "Every leg in your own vehicle. You choose the vehicle per leg."
+                              : "Airport transfers by shared bus, city-to-city legs in your own vehicle."}
+                        </p>
+                        <p className="mt-3 text-sm font-semibold text-brand-orange-dark">{priceNote}</p>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-              {roomType && matchingHotels.length === 0 && (
-                <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
-                  No {roomTypeLabels[roomType]} rooms are available in {currentStep.location} right now — showing all room types instead.
+
+              <div>
+                <h3 className="text-xl">Choose your route</h3>
+                <p className="mt-2 text-sm text-slate-500">
+                  Single routes travel one way through both cities. Multiple routes return to your first city before flying home.
+                </p>
+                <div className="mt-5 space-y-3">
+                  {routeOptions.map((option) => {
+                    const active = routeId === option.id;
+                    return (
+                      <label
+                        key={option.id}
+                        className={`flex cursor-pointer items-start gap-4 rounded-2xl border p-4 transition sm:px-6 ${active ? "border-brand-orange bg-brand-orange/5 shadow-card ring-1 ring-brand-orange/30" : "border-black/10 hover:border-brand-blue/30"}`}
+                      >
+                        <input
+                          type="radio"
+                          name="calculator-route"
+                          checked={active}
+                          onChange={() => chooseRoute(option.id)}
+                          className="mt-1 h-5 w-5 shrink-0"
+                        />
+                        <span>
+                          <span className="block font-semibold text-brand-blue-deep">{option.label}</span>
+                          <span className="mt-1 block text-sm text-slate-500">{option.summary}</span>
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {"stayIndex" in currentStep && (() => {
+            const index = currentStep.stayIndex;
+            const city = currentStep.city;
+            const cityHotels = items.filter(
+              (item) =>
+                item.category === "hotel" && normalizeCity(item.location) === city
+            );
+            const matching = roomType
+              ? cityHotels.filter((item) => item.roomType === roomType)
+              : cityHotels;
+            const hotelsToShow = matching.length > 0 ? matching : cityHotels;
+            const chosenId = hotelIdFor(index);
+            const inherited = !stayHotels[index] && Boolean(chosenId);
+            return (
+              <div>
+                <h3 className="text-xl">
+                  {currentStep.label.includes("return")
+                    ? `Your return stay in ${city}`
+                    : `Select one hotel in ${city}`}
+                </h3>
+                <p className="mt-2 text-sm text-slate-500">
+                  {inherited
+                    ? `We pre-selected the hotel from your first ${city} stay — keep it or pick a different one for this stay. `
+                    : roomType
+                      ? `Showing ${roomTypeLabels[roomType]} room options. `
+                      : "Choose the hotel and room-sharing option that suits your group. "}
+                  Pricing is shown in the final summary.
+                </p>
+                <div className="mt-5 max-w-xs">
+                  <label htmlFor={`nights-${index}`}>How many nights in {city}{currentStep.label.includes("return") ? " (return stay)" : ""}?</label>
+                  <input
+                    id={`nights-${index}`}
+                    type="number"
+                    min="1"
+                    placeholder="e.g. 7"
+                    value={stayNights[index] || ""}
+                    onChange={(event) => {
+                      const next = Math.floor(Number(event.target.value));
+                      setStayNights((current) => ({
+                        ...current,
+                        [index]: Number.isFinite(next) && next > 0 ? Math.min(next, MAX_NIGHTS) : 0,
+                      }));
+                      setFlowError("");
+                    }}
+                  />
+                </div>
+                {roomType && matching.length === 0 && (
+                  <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
+                    No {roomTypeLabels[roomType]} rooms are available in {city} right now — showing all room types instead.
+                  </p>
+                )}
+                <div className="mt-6 space-y-3">
+                  {hotelsToShow.map((item) => {
+                    const selected = chosenId === item.id;
+                    return (
+                      <label key={item.id} className={`flex cursor-pointer flex-wrap items-center gap-x-6 gap-y-3 rounded-2xl border p-4 transition sm:px-6 ${selected ? "border-brand-orange bg-brand-orange/5 shadow-card ring-1 ring-brand-orange/30" : "border-black/10 hover:border-brand-blue/30"}`}>
+                        <input
+                          type="radio"
+                          name={`hotel-stay-${index}`}
+                          checked={selected}
+                          onChange={() => {
+                            setStayHotels((current) => ({ ...current, [index]: item.id }));
+                            setFlowError("");
+                          }}
+                          className="h-5 w-5 shrink-0"
+                        />
+                        <div className="min-w-[160px] flex-1">
+                          <h4 className="font-display text-lg leading-snug text-brand-blue-deep">
+                            {item.name}
+                            {item.starRating ? (
+                              <span className="ml-2 whitespace-nowrap align-middle text-sm tracking-widest text-brand-blue" aria-label={`${item.starRating} star hotel`}>
+                                {"★".repeat(item.starRating)}
+                              </span>
+                            ) : null}
+                          </h4>
+                          {item.roomType && (
+                            <span className="mt-1.5 inline-flex items-center gap-1.5 rounded-md border border-brand-orange/40 bg-brand-orange/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-brand-orange-dark">
+                              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor" aria-hidden="true">
+                                <path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z" />
+                              </svg>
+                              {roomTypeLabels[item.roomType]} room
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
+                          <div>
+                            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Distance from Haram</p>
+                            <p className="text-sm font-semibold text-brand-blue-deep">
+                              {item.distanceFromHaram == null
+                                ? "Confirm with our team"
+                                : `${item.distanceFromHaram.toLocaleString("en-PK")} metres`}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Haram access</p>
+                            <p className="text-sm font-semibold text-brand-blue-deep">
+                              {item.haramAccess ? haramAccessLabels[item.haramAccess] : "Confirm with our team"}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Meal plan</p>
+                            <p className="text-sm font-semibold text-brand-blue-deep">{item.mealPlan || "Room only"}</p>
+                          </div>
+                        </div>
+                        {selected && item.unit === "per_room_night" && (
+                          <div className="flex shrink-0 items-center gap-2">
+                            <label htmlFor={`rooms-${index}`} className="mb-0 text-xs">Rooms</label>
+                            <input
+                              id={`rooms-${index}`}
+                              type="number"
+                              min="1"
+                              value={stayRooms[index] ?? 1}
+                              onChange={(event) =>
+                                setStayRooms((current) => ({
+                                  ...current,
+                                  [index]: positive(Number(event.target.value)),
+                                }))
+                              }
+                              onClick={(event) => event.stopPropagation()}
+                              className="w-20"
+                            />
+                          </div>
+                        )}
+                        {item.description && <p className="basis-full text-sm leading-relaxed text-slate-600">{item.description}</p>}
+                      </label>
+                    );
+                  })}
+
+                  {/* Self-arranged hotel */}
+                  <label className={`flex cursor-pointer flex-wrap items-center gap-x-6 gap-y-3 rounded-2xl border border-dashed p-4 transition sm:px-6 ${chosenId === SELF_HOTEL ? "border-brand-orange bg-brand-orange/5 shadow-card ring-1 ring-brand-orange/30" : "border-black/20 hover:border-brand-blue/30"}`}>
+                    <input
+                      type="radio"
+                      name={`hotel-stay-${index}`}
+                      checked={chosenId === SELF_HOTEL}
+                      onChange={() => {
+                        setStayHotels((current) => ({ ...current, [index]: SELF_HOTEL }));
+                        setFlowError("");
+                      }}
+                      className="h-5 w-5 shrink-0"
+                    />
+                    <div className="min-w-[160px] flex-1">
+                      <h4 className="font-display text-lg leading-snug text-brand-blue-deep">
+                        I&apos;ll arrange my own hotel in {city}
+                      </h4>
+                      <p className="mt-1 text-sm text-slate-500">
+                        A self-hotel fee of {formatCalculatorPrice(fees.selfHotelFee)} per person applies once per booking.
+                      </p>
+                    </div>
+                    {chosenId === SELF_HOTEL && (
+                      <label className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-slate-600">
+                        <input
+                          type="checkbox"
+                          checked={stayNusuk[index] ?? true}
+                          onChange={(event) =>
+                            setStayNusuk((current) => ({
+                              ...current,
+                              [index]: event.target.checked,
+                            }))
+                          }
+                          className="h-4 w-4"
+                        />
+                        Nusuk registration needed ({formatCalculatorPrice(fees.nusukPerPersonNight)} / person / night)
+                      </label>
+                    )}
+                  </label>
+                </div>
+              </div>
+            );
+          })()}
+
+          {currentStep.id === "transport" && route && (
+            <div className="space-y-8">
+              {(style === "full-private" || style === "partial-private") && (
+                <div>
+                  <h3 className="text-xl">Choose your vehicles</h3>
+                  <p className="mt-2 text-sm text-slate-500">
+                    {style === "partial-private"
+                      ? "Each leg can ride the shared bus or go private. Pick a vehicle for the private legs — larger groups get more than one vehicle automatically."
+                      : "Pick a vehicle for each leg of your journey — larger groups get more than one vehicle automatically."}
+                  </p>
+                  <div className="mt-5 space-y-4">
+                    {legs.map((leg, legIndex) => {
+                      const options = sectorsForLeg(transport.sectors, leg);
+                      const choice = legChoice(legIndex);
+                      if (options.length === 0) {
+                        return (
+                          <div key={legIndex} className="rounded-2xl border border-dashed border-black/20 p-4 text-sm text-slate-500">
+                            Leg {legIndex + 1}: this transfer is arranged by our team at inquiry.
+                          </div>
+                        );
+                      }
+                      const sector = sectorById(choice.sectorId) ?? options[0];
+                      return (
+                        <div key={legIndex} className="rounded-2xl border border-black/10 p-4 sm:px-6">
+                          <div className="flex flex-wrap items-center justify-between gap-3">
+                            <p className="font-semibold text-brand-blue-deep">
+                              <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-brand-blue-deep text-xs font-bold text-white">{legIndex + 1}</span>
+                              {sectorLabel(sector)}
+                            </p>
+                            {style === "partial-private" && (
+                              <div className="flex overflow-hidden rounded-full border border-black/10 text-xs font-semibold">
+                                <button
+                                  type="button"
+                                  onClick={() => patchLeg(legIndex, { mode: "bus" })}
+                                  className={`px-4 py-1.5 transition ${choice.mode === "bus" ? "bg-brand-blue-deep text-white" : "bg-white text-slate-500 hover:text-brand-blue-deep"}`}
+                                >
+                                  Shared bus
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => patchLeg(legIndex, { mode: "private" })}
+                                  className={`px-4 py-1.5 transition ${choice.mode === "private" ? "bg-brand-blue-deep text-white" : "bg-white text-slate-500 hover:text-brand-blue-deep"}`}
+                                >
+                                  Private
+                                </button>
+                              </div>
+                            )}
+                          </div>
+
+                          {choice.mode === "bus" ? (
+                            <p className="mt-3 text-sm text-slate-500">
+                              {sector.kind === "intercity"
+                                ? `Shared bus · ${formatCalculatorPrice(fees.busPerPersonSector)} per person`
+                                : "Shared bus · included with the visa"}
+                            </p>
+                          ) : (
+                            <>
+                              {options.length > 1 && (
+                                <div className="mt-3 max-w-sm">
+                                  <label htmlFor={`leg-sector-${legIndex}`} className="text-xs">Route option</label>
+                                  <select
+                                    id={`leg-sector-${legIndex}`}
+                                    value={sector.id}
+                                    onChange={(event) => patchLeg(legIndex, { sectorId: event.target.value })}
+                                  >
+                                    {options.map((option) => (
+                                      <option key={option.id} value={option.id}>
+                                        {option.via ? `${sectorLabel(option)}` : "Direct"}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                                {activeVehicles.map((vehicle) => {
+                                  const price = sector.prices[vehicle.id];
+                                  const count = vehicleCountFor(vehicle.seats);
+                                  const selected = choice.vehicleId === vehicle.id;
+                                  return (
+                                    <label
+                                      key={vehicle.id}
+                                      className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition ${selected ? "border-brand-orange bg-brand-orange/5 ring-1 ring-brand-orange/30" : "border-black/10 hover:border-brand-blue/30"}`}
+                                    >
+                                      <input
+                                        type="radio"
+                                        name={`leg-vehicle-${legIndex}`}
+                                        checked={selected}
+                                        onChange={() => patchLeg(legIndex, { vehicleId: vehicle.id })}
+                                        className="h-4 w-4 shrink-0"
+                                      />
+                                      <span className="min-w-0 flex-1">
+                                        <span className="block text-sm font-semibold text-brand-blue-deep">
+                                          {count > 1 ? `${count} × ` : ""}{vehicle.name}
+                                        </span>
+                                        <span className="block text-xs text-slate-500">
+                                          Up to {vehicle.seats} travelers each
+                                        </span>
+                                      </span>
+                                      <span className="shrink-0 text-sm font-semibold text-brand-orange-dark">
+                                        {price != null ? formatCalculatorPrice(price * count) : "At inquiry"}
+                                      </span>
+                                    </label>
+                                  );
+                                })}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {style === "sharing" && (
+                <p className="rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
+                  All route transport travels by shared bus and is included with your visa.
                 </p>
               )}
-              <div className="mt-6 space-y-3">
-                {hotelsToShow.map((item) => {
-                  const value = valueFor(item.id);
-                  return (
-                    <label key={item.id} className={`flex cursor-pointer flex-wrap items-center gap-x-6 gap-y-3 rounded-2xl border p-4 transition sm:px-6 ${value.selected ? "border-brand-orange bg-brand-orange/5 shadow-card ring-1 ring-brand-orange/30" : "border-black/10 hover:border-brand-blue/30"}`}>
-                      <input type="radio" name={`hotel-${currentStep.location}`} checked={value.selected} onChange={() => selectHotel(item)} className="h-5 w-5 shrink-0" />
-                      <div className="min-w-[160px] flex-1">
-                        <h4 className="font-display text-lg leading-snug text-brand-blue-deep">
-                          {item.name}
-                          {item.starRating ? (
-                            <span className="ml-2 whitespace-nowrap align-middle text-sm tracking-widest text-brand-blue" aria-label={`${item.starRating} star hotel`}>
-                              {"★".repeat(item.starRating)}
-                            </span>
-                          ) : null}
-                        </h4>
-                        {item.roomType && (
-                          <span className="mt-1.5 inline-flex items-center gap-1.5 rounded-md border border-brand-orange/40 bg-brand-orange/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-brand-orange-dark">
-                            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor" aria-hidden="true">
-                              <path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z" />
-                            </svg>
-                            {roomTypeLabels[item.roomType]} room
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
-                        <div>
-                          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Distance from Haram</p>
-                          <p className="text-sm font-semibold text-brand-blue-deep">
-                            {item.distanceFromHaram == null
-                              ? "Confirm with our team"
-                              : `${item.distanceFromHaram.toLocaleString("en-PK")} metres`}
-                          </p>
+
+              {ziyaratSectors.length > 0 && (
+                <div>
+                  <h3 className="text-xl">Add ziyarat trips</h3>
+                  <p className="mt-2 text-sm text-slate-500">
+                    Optional guided visits to the historical sites, priced per vehicle.
+                  </p>
+                  <div className="mt-5 space-y-3">
+                    {ziyaratSectors.map((sector) => {
+                      const pick = ziyarat[sector.id] ?? { selected: false, vehicleId: "", trips: 1 };
+                      return (
+                        <div key={sector.id} className={`rounded-2xl border p-4 sm:px-6 ${pick.selected ? "border-brand-orange bg-brand-orange/5" : "border-black/10"}`}>
+                          <label className="flex cursor-pointer items-center gap-3">
+                            <input
+                              type="checkbox"
+                              checked={pick.selected}
+                              onChange={(event) =>
+                                setZiyarat((current) => ({
+                                  ...current,
+                                  [sector.id]: { ...pick, selected: event.target.checked },
+                                }))
+                              }
+                              className="h-5 w-5"
+                            />
+                            <span className="font-semibold text-brand-blue-deep">{sectorLabel(sector)}</span>
+                          </label>
+                          {pick.selected && (
+                            <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                              {activeVehicles.map((vehicle) => {
+                                const price = sector.prices[vehicle.id];
+                                const count = vehicleCountFor(vehicle.seats);
+                                const selected = pick.vehicleId === vehicle.id;
+                                return (
+                                  <label
+                                    key={vehicle.id}
+                                    className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition ${selected ? "border-brand-orange bg-white ring-1 ring-brand-orange/30" : "border-black/10 bg-white hover:border-brand-blue/30"}`}
+                                  >
+                                    <input
+                                      type="radio"
+                                      name={`ziyarat-vehicle-${sector.id}`}
+                                      checked={selected}
+                                      onChange={() =>
+                                        setZiyarat((current) => ({
+                                          ...current,
+                                          [sector.id]: { ...pick, vehicleId: vehicle.id },
+                                        }))
+                                      }
+                                      className="h-4 w-4 shrink-0"
+                                    />
+                                    <span className="min-w-0 flex-1">
+                                      <span className="block text-sm font-semibold text-brand-blue-deep">
+                                        {count > 1 ? `${count} × ` : ""}{vehicle.name}
+                                      </span>
+                                      <span className="block text-xs text-slate-500">Up to {vehicle.seats} travelers each</span>
+                                    </span>
+                                    <span className="shrink-0 text-sm font-semibold text-brand-orange-dark">
+                                      {price != null ? formatCalculatorPrice(price * count) : "At inquiry"}
+                                    </span>
+                                  </label>
+                                );
+                              })}
+                            </div>
+                          )}
                         </div>
-                        <div>
-                          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Haram access</p>
-                          <p className="text-sm font-semibold text-brand-blue-deep">
-                            {item.haramAccess ? haramAccessLabels[item.haramAccess] : "Confirm with our team"}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Meal plan</p>
-                          <p className="text-sm font-semibold text-brand-blue-deep">{item.mealPlan || "Room only"}</p>
-                        </div>
-                      </div>
-                      {value.selected && item.unit === "per_room_night" && (
-                        <div className="flex shrink-0 items-center gap-2">
-                          <label htmlFor={`rooms-${item.id}`} className="mb-0 text-xs">Rooms</label>
-                          <input id={`rooms-${item.id}`} type="number" min="1" value={value.quantity} onChange={(event) => patch(item.id, { quantity: positive(Number(event.target.value)) })} onClick={(event) => event.stopPropagation()} className="w-20" />
-                        </div>
-                      )}
-                      {item.description && <p className="basis-full text-sm leading-relaxed text-slate-600">{item.description}</p>}
-                    </label>
-                  );
-                })}
-              </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -490,7 +1185,7 @@ export default function PackageCalculator({
               <h3 className="text-xl">Add services to your package</h3>
               <p className="mt-2 text-sm text-slate-500">These options are optional. Select as many as you need.</p>
               <div className="mt-6 space-y-8">
-                {calculatorCategories.filter((category) => category !== "hotel").map((category) => {
+                {calculatorCategories.filter((category) => category !== "hotel" && category !== "visa" && category !== "transport").map((category) => {
                   const group = serviceItems.filter((item) => item.category === category);
                   if (group.length === 0) return null;
                   return (
@@ -498,11 +1193,11 @@ export default function PackageCalculator({
                       <h4 className="font-display text-lg text-brand-blue-deep">{categoryLabels[category]}</h4>
                       <div className="mt-3 grid gap-3 sm:grid-cols-2">
                         {group.map((item) => {
-                          const value = valueFor(item.id);
+                          const value = serviceValue(item.id);
                           return (
                             <div key={item.id} className={`rounded-2xl border p-4 ${value.selected ? "border-brand-orange bg-brand-orange/5" : "border-black/10"}`}>
                               <label className="flex cursor-pointer items-start gap-3">
-                                <input type="checkbox" checked={value.selected} onChange={(event) => patch(item.id, { selected: event.target.checked })} className="mt-1 h-5 w-5" />
+                                <input type="checkbox" checked={value.selected} onChange={(event) => patchService(item.id, { selected: event.target.checked })} className="mt-1 h-5 w-5" />
                                 <span className="flex-1">
                                   <span className="block font-semibold text-brand-blue-deep">{item.name}</span>
                                   <span className="mt-1 block text-sm text-brand-orange-dark">{formatCalculatorPrice(item.price)} · {unitLabels[item.unit]}</span>
@@ -511,7 +1206,7 @@ export default function PackageCalculator({
                               {value.selected && (item.unit === "per_vehicle" || item.unit === "per_trip") && (
                                 <div className="mt-3">
                                   <label htmlFor={`service-quantity-${item.id}`} className="text-xs">{item.unit === "per_vehicle" ? "Vehicles" : "Trips"}</label>
-                                  <input id={`service-quantity-${item.id}`} type="number" min="1" value={value.quantity} onChange={(event) => patch(item.id, { quantity: positive(Number(event.target.value)) })} />
+                                  <input id={`service-quantity-${item.id}`} type="number" min="1" value={value.quantity} onChange={(event) => patchService(item.id, { quantity: positive(Number(event.target.value)) })} />
                                 </div>
                               )}
                             </div>
@@ -527,32 +1222,41 @@ export default function PackageCalculator({
 
           {currentStep.id === "summary" && (
             <div>
-                <h3 className="text-xl">Review your package</h3>
-                <p className="mt-2 text-sm text-slate-500">{travelers} traveler{travelers === 1 ? "" : "s"}{monthLabel ? ` · ${monthLabel}` : ""}{roomType ? ` · ${roomTypeLabels[roomType]} room` : ""}{nightsSummary ? ` · ${nightsSummary}` : ""}</p>
-                <div className="mt-5 divide-y divide-black/5 rounded-2xl border border-black/5">
-                  {selected.map((item) => (
-                    <div key={item.id} className="p-4">
-                      <div className="flex justify-between gap-4">
-                        <div>
-                          <p className="font-semibold text-brand-blue-deep">{item.name}</p>
-                          <p className="mt-1 text-xs text-slate-500">{categoryLabels[item.category]}{item.roomType ? ` · ${roomTypeLabels[item.roomType]} room` : ""}</p>
-                        </div>
-                        <p className="shrink-0 font-semibold text-brand-blue-deep">{formatCalculatorPrice(itemTotal(item))}</p>
-                      </div>
-                      {item.category === "hotel" && (item.unit === "per_room_night" || item.unit === "per_person_night") && rateBreakdown(item).length > 1 && (
-                        <div className="mt-3 space-y-1.5 rounded-lg bg-paper p-3 text-xs text-slate-600">
-                          <p className="font-bold uppercase tracking-wide text-brand-blue-deep">Different nightly rates</p>
-                          {rateBreakdown(item).map((part) => (
-                            <p key={part.price} className="flex flex-wrap items-center justify-between gap-2">
-                              <span>{part.nights} night{part.nights === 1 ? "" : "s"} × {formatCalculatorPrice(part.price)} per night</span>
-                              <span className="font-semibold text-brand-blue-deep">{formatCalculatorPrice(ratePartTotal(item, part.price, part.nights))}</span>
-                            </p>
-                          ))}
-                        </div>
-                      )}
+              <h3 className="text-xl">Review your package</h3>
+              <p className="mt-2 text-sm text-slate-500">
+                {positive(adults)} adult{positive(adults) === 1 ? "" : "s"}
+                {nonNegative(infants) > 0 ? ` · ${nonNegative(infants)} infant${nonNegative(infants) === 1 ? "" : "s"}` : ""}
+                {monthLabel ? ` · ${monthLabel}` : ""}
+                {roomType ? ` · ${roomTypeLabels[roomType]} room` : ""}
+              </p>
+              {route && (
+                <p className="mt-3 rounded-xl bg-paper px-4 py-3 text-sm font-medium text-brand-blue-deep">
+                  {route.summary}
+                  {style ? ` · ${transportStyleLabels[style]}` : ""}
+                  {nightsSummary ? ` · ${nightsSummary}` : ""}
+                </p>
+              )}
+              <div className="mt-5 divide-y divide-black/5 rounded-2xl border border-black/5">
+                {estimate.map((line) => (
+                  <div key={line.key} className="flex justify-between gap-4 p-4">
+                    <div>
+                      <p className="font-semibold text-brand-blue-deep">{line.label}</p>
+                      {line.detail && <p className="mt-1 text-xs text-slate-500">{line.detail}</p>}
                     </div>
-                  ))}
-                </div>
+                    <p className="shrink-0 font-semibold text-brand-blue-deep">
+                      {line.amount !== null ? formatCalculatorPrice(line.amount) : "At inquiry"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              {inquiryLines.length > 0 && (
+                <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
+                  Items marked &quot;at inquiry&quot; are not in the total — our team confirms them with your final quote.
+                </p>
+              )}
+              <p className="mt-4 text-xs text-slate-500">
+                Cancellation: visa cancellation {formatCalculatorPrice(fees.visaCancellation)} per visa · non-travelling charge {formatCalculatorPrice(fees.nonTravelling)} per person. Final availability and prices are confirmed by our team.
+              </p>
             </div>
           )}
 
@@ -565,7 +1269,7 @@ export default function PackageCalculator({
         </div>
       </div>
 
-      {stepIndex >= 1 && (
+      {showAside && (
         <aside className="rounded-3xl bg-brand-blue-deep p-6 text-white shadow-lift lg:sticky lg:top-28">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-orange">Live summary</p>
           <h3 className="mt-2 text-2xl text-white">Your package</h3>
@@ -573,46 +1277,57 @@ export default function PackageCalculator({
           <div className="mt-5 space-y-3 rounded-xl bg-white/10 p-4 text-sm">
             <div className="flex items-center justify-between gap-3">
               <span className="text-slate-300">Travelers</span>
-              <span className="font-semibold">{positive(travelers)}</span>
+              <span className="font-semibold">
+                {positive(adults)}{nonNegative(infants) > 0 ? ` + ${nonNegative(infants)} infant${nonNegative(infants) === 1 ? "" : "s"}` : ""}
+              </span>
             </div>
             <div className="flex items-center justify-between gap-3">
               <span className="text-slate-300">Month</span>
               <span className="text-right text-xs font-semibold">{monthLabel || "Not selected"}</span>
             </div>
+            {style && (
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-slate-300">Transport</span>
+                <span className="text-right text-xs font-semibold">{transportStyleLabels[style]}</span>
+              </div>
+            )}
+            {route && (
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-slate-300">Route</span>
+                <span className="text-right text-xs font-semibold">
+                  {route.stays.join(" → ")}
+                </span>
+              </div>
+            )}
             {roomType && (
               <div className="flex items-center justify-between gap-3">
                 <span className="text-slate-300">Room type</span>
                 <span className="text-right text-xs font-semibold">{roomTypeLabels[roomType]}</span>
               </div>
             )}
-            {hotelLocations.map((location) => (
-              <div key={location} className="flex items-center justify-between gap-3">
-                <span className="text-slate-300">{location} nights</span>
-                <span className="font-semibold">{cityNights[location] || "—"}</span>
+            {stays.map((city, index) => (
+              <div key={index} className="flex items-center justify-between gap-3">
+                <span className="text-slate-300">
+                  {city} nights{stays.slice(0, index).includes(city) ? " (return)" : ""}
+                </span>
+                <span className="font-semibold">{stayNights[index] || "—"}</span>
               </div>
             ))}
           </div>
 
           <div className="mt-5">
-            <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Selected items</p>
-            {selected.length > 0 ? (
+            <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Estimate</p>
+            {estimate.length > 0 ? (
               <div className="mt-2 divide-y divide-white/10">
-                {selected.map((item) => (
-                  <div key={item.id} className="flex items-start justify-between gap-3 py-3 text-sm">
+                {estimate.map((line) => (
+                  <div key={line.key} className="flex items-start justify-between gap-3 py-3 text-sm">
                     <div className="min-w-0">
-                      <p className="truncate font-semibold text-white">{item.name}</p>
-                      <p className="mt-0.5 text-[11px] text-slate-400">{categoryLabels[item.category]}{item.roomType ? ` · ${roomTypeLabels[item.roomType]}` : ""}</p>
-                      {item.category === "hotel" && (item.unit === "per_room_night" || item.unit === "per_person_night") && rateBreakdown(item).length > 1 && (
-                        <div className="mt-2 space-y-1 text-[11px] text-slate-300">
-                          {rateBreakdown(item).map((part) => (
-                            <p key={part.price}>
-                              {part.nights} night{part.nights === 1 ? "" : "s"} × {formatCalculatorPrice(part.price)} = {formatCalculatorPrice(ratePartTotal(item, part.price, part.nights))}
-                            </p>
-                          ))}
-                        </div>
-                      )}
+                      <p className="font-semibold text-white">{line.label}</p>
+                      {line.detail && <p className="mt-0.5 text-[11px] text-slate-400">{line.detail}</p>}
                     </div>
-                    <span className="shrink-0 text-xs font-semibold text-brand-orange">{formatCalculatorPrice(itemTotal(item))}</span>
+                    <span className="shrink-0 text-xs font-semibold text-brand-orange">
+                      {line.amount !== null ? formatCalculatorPrice(line.amount) : "At inquiry"}
+                    </span>
                   </div>
                 ))}
               </div>
